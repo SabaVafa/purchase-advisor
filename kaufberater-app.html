@@ -1,0 +1,491 @@
+<title>Metzler Sprechanlagen-Kaufberater</title>
+<style>
+  :root{
+    --font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --teal:#015253; --teal-600:#014A4B; --teal-700:#01292A;
+    --teal-5:rgba(1,82,83,0.05); --teal-10:rgba(1,82,83,0.10); --teal-100:#E6EEEE;
+    --schwarz:#1A171B; --green:#009951; --status-warning:#B4610A;
+    --white:#FFFFFF; --paper-white:#F5F6FA;
+    --graphite-100:#F0F0F0; --graphite-300:#DADADA; --graphite-500:#A1A1A1;
+    --line:var(--graphite-300); --ink-60:rgba(0,0,0,0.6); --ink-72:rgba(0,0,0,0.72);
+    --text-h4:1.125rem; --text-body:1rem; --text-body-sm:0.875rem; --text-caption:0.75rem;
+    --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px;
+    --r-m:4px; --r-l:8px; --r-pill:9999px;
+    --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 12px 32px rgba(0,0,0,0.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper-white);color:var(--ink-72);font-family:var(--font-family);
+    line-height:1.55;font-size:var(--text-body);-webkit-font-smoothing:antialiased}
+  .container{max-width:64rem;margin:0 auto;padding:24px 20px 72px}
+  a{color:var(--teal)}
+  button{font-family:inherit;cursor:pointer}
+  h1,h2,h3{margin:0;color:var(--schwarz);line-height:1.3}
+
+  /* Page framing (stands in for the category-page header on this standalone preview) */
+  .page-head{display:flex;align-items:center;gap:10px;padding-bottom:16px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+  .page-head svg{width:30px;height:30px;display:block;flex:none}
+  .page-head .wm{font-weight:800;letter-spacing:.14em;font-size:1.0625rem;color:var(--schwarz)}
+  .page-head .ct{font-size:var(--text-body-sm);color:var(--ink-60);padding-left:10px;margin-left:2px;border-left:1px solid var(--graphite-300)}
+  .plp-note{font-size:var(--text-caption);color:var(--ink-60);text-align:center;margin-top:28px;line-height:1.6}
+
+  /* ── Advisor (ported from Metzler PLP plp.css) ── */
+  .advisor{padding-block:var(--sp-4)}
+  .advisor__bar{
+    width:100%;display:flex;align-items:center;gap:var(--sp-4);text-align:left;
+    padding:var(--sp-5) var(--sp-6);border:1px solid var(--teal-10);border-radius:var(--r-l);
+    background:linear-gradient(135deg,var(--teal-5) 0%,#EDF3F3 100%);
+    box-shadow:inset 0 0 0 1px var(--teal-10);transition:border-color .2s,box-shadow .2s}
+  .advisor__bar:hover{border-color:rgba(1,82,83,0.25);box-shadow:var(--shadow-md)}
+  .advisor__bar:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__bar-txt{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
+  .advisor__bar-head{display:flex;align-items:center;gap:var(--sp-3)}
+  .advisor__bar-title{font-size:var(--text-body);font-weight:700;color:var(--schwarz);line-height:1.3}
+  .advisor__bar-sub{font-size:var(--text-body-sm);color:var(--ink-60)}
+  .advisor__bar-cta{margin-left:auto;display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
+    font-size:var(--text-body-sm);font-weight:700;color:var(--teal)}
+  .advisor__bar-cta svg{width:24px;height:24px;transform:rotate(90deg)}
+
+  .advisor:not(.is-open) .advisor__card{display:none}
+  .advisor.is-open .advisor__bar{display:none}
+
+  .advisor__card{
+    position:relative;padding:clamp(20px,2.4vw,28px);border-radius:var(--r-l);
+    background:linear-gradient(135deg,var(--teal-5) 0%,#EDF3F3 100%);
+    box-shadow:inset 0 0 0 1px var(--teal-10),0 1px 3px rgba(26,23,27,.05)}
+  .advisor__collapse{position:absolute;top:14px;right:14px;width:32px;height:32px;display:grid;place-items:center;
+    background:none;border:0;color:var(--teal);border-radius:var(--r-m)}
+  .advisor__collapse:hover{color:var(--teal-700)}
+  .advisor__collapse:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__collapse svg{width:24px;height:24px;transform:rotate(-90deg)}
+
+  /* Chips (PILL RULE: text-only, Teal-100 fill on the teal card, Teal-700 label, no icon) */
+  .advisor__chip{display:inline-flex;align-items:center;font-family:inherit;font-size:var(--text-body-sm);
+    font-weight:700;letter-spacing:.02em;color:var(--teal-700);background:var(--teal-100);
+    border:1px solid var(--teal-10);border-radius:var(--r-pill);padding:4px 11px;line-height:1.3}
+  button.advisor__chip{cursor:pointer;transition:box-shadow .15s,border-color .15s}
+  button.advisor__chip:hover{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal-10)}
+  button.advisor__chip:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__chip small{font-weight:400;color:var(--teal-700);opacity:.7;margin-right:5px}
+
+  /* Progress */
+  .advisor__progress{display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-4)}
+  .advisor__progress-dots{display:inline-flex;gap:6px}
+  .advisor__progress-dots span{width:26px;height:3px;border-radius:var(--r-pill);background:var(--graphite-300);transition:background .3s ease}
+  .advisor__progress-dots span.is-done,.advisor__progress-dots span.is-current{background:var(--teal)}
+  .advisor__progress-dots span.is-current{opacity:.55}
+  .advisor__progress-label{font-size:var(--text-body-sm);font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-60)}
+
+  /* Step */
+  .advisor__step{opacity:0;transform:translateY(10px);transition:opacity .32s ease,transform .32s ease}
+  .advisor__step.is-in{opacity:1;transform:none}
+  .advisor__q{margin:0 0 var(--sp-4);font-size:var(--text-h4);font-weight:700;line-height:1.375;color:var(--schwarz)}
+  .advisor__q .en{display:block;font-size:var(--text-body-sm);font-weight:400;font-style:italic;color:var(--ink-60);margin-top:3px}
+  .advisor__help{margin:-8px 0 var(--sp-4);font-size:var(--text-body-sm);color:var(--ink-60);max-width:60ch}
+
+  .advisor__opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--sp-3)}
+  .advisor__opt{
+    display:flex;flex-flow:column nowrap;align-items:flex-start;gap:3px;text-align:left;
+    padding:12px 14px;border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white);
+    transition:border-color .15s,background .15s,box-shadow .15s}
+  .advisor__opt:hover{border-color:var(--teal)}
+  .advisor__opt:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5);box-shadow:inset 0 0 0 1px var(--teal)}
+  .advisor__opt-label{font-size:var(--text-body-sm);font-weight:500;color:var(--schwarz)}
+  .advisor__opt-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4}
+
+  /* Nav */
+  .advisor__nav{display:flex;align-items:center;justify-content:space-between;margin-top:var(--sp-5);gap:12px}
+  .advisor__back,.advisor__forward{display:inline-flex;align-items:center;gap:6px;background:none;border:0;
+    font-size:var(--text-body-sm);font-weight:600;line-height:1.2;padding:6px 2px}
+  .advisor__back{color:var(--ink-60)} .advisor__back:hover{color:var(--teal)}
+  .advisor__forward{color:var(--teal)} .advisor__forward:hover{color:var(--teal-700)}
+  .advisor__forward--cta{background:var(--teal);color:#fff;border-radius:var(--r-m);padding:.7rem 1.2rem;font-weight:500}
+  .advisor__forward--cta:hover{background:var(--teal-600);color:#fff}
+  .advisor__forward[disabled]{opacity:.4;cursor:not-allowed}
+  .advisor__back svg,.advisor__forward svg{width:1.3em;height:1.3em;flex:0 0 auto}
+  .advisor__back svg{transform:rotate(180deg)}
+
+  /* Results */
+  .advisor__results[hidden]{display:none}
+  .advisor.is-result .advisor__quiz{display:none}
+  .advisor__result{display:flex;flex-direction:column;gap:var(--sp-4);opacity:0;transform:translateY(10px);
+    transition:opacity .4s ease,transform .4s ease}
+  .advisor__result.is-in{opacity:1;transform:none}
+  .advisor__result-title{margin:0;font-size:var(--text-h4);font-weight:700;color:var(--schwarz)}
+  .advisor__recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-4);align-items:stretch}
+  .advisor__rec{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
+    border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s}
+  .advisor__rec:hover{border-color:var(--teal);box-shadow:var(--shadow-md)}
+  .advisor__rec.is-best{border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+  .advisor__rec-top{display:flex;align-items:flex-start;gap:var(--sp-3)}
+  .advisor__rec-thumb{flex:0 0 auto;width:64px;height:64px;border-radius:var(--r-m);background:var(--teal-5);
+    color:var(--teal);display:grid;place-items:center}
+  .advisor__rec-thumb svg{width:32px;height:32px}
+  .advisor__rec-head{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:5px}
+  .advisor__rec-badges{display:flex;flex-wrap:wrap;gap:5px}
+  .advisor__rec-sys{font-size:var(--text-caption);font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--teal-700);background:var(--teal-100);border:1px solid var(--teal-10);border-radius:var(--r-pill);padding:2px 8px}
+  .advisor__rec-best{font-size:var(--text-caption);font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+    color:#fff;background:var(--teal);border-radius:var(--r-pill);padding:2px 8px}
+  .advisor__rec-name{font-size:var(--text-body-sm);font-weight:700;line-height:1.375;color:var(--schwarz)}
+  .advisor__rec-price{font-size:var(--text-body);font-weight:700;color:var(--schwarz);white-space:nowrap}
+  .advisor__rec-price small{font-weight:400;color:var(--ink-60);font-size:var(--text-caption)}
+  .advisor__rec-features{list-style:none;margin:0;padding:var(--sp-3) 0 0;border-top:1px solid var(--line);
+    display:flex;flex-direction:column;gap:8px}
+  .advisor__rec-features li{position:relative;padding-left:24px;font-size:var(--text-body-sm);line-height:1.45;color:var(--ink-72)}
+  .advisor__rec-features li::before{content:"";position:absolute;left:6px;top:3px;width:6px;height:11px;
+    border:solid var(--teal);border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .advisor__rec-go{display:inline-flex;align-items:center;gap:5px;margin-top:2px;font-size:var(--text-body-sm);font-weight:600;color:var(--teal)}
+  .advisor__rec-go svg{width:18px;height:18px}
+
+  /* Summary + actions */
+  .advisor__summary{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .advisor__summary-hint{width:100%;font-size:var(--text-caption);color:var(--ink-60);margin:2px 0 0}
+  .advisor__actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-4);margin-top:var(--sp-2)}
+  .advisor__view{display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;padding:.7rem 1.2rem;
+    border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;font-size:var(--text-body);font-weight:500;line-height:1.2;transition:background .15s}
+  .advisor__view:hover{background:var(--teal-600)} .advisor__view:active{background:var(--teal-700)}
+  .advisor__reset{min-height:2.625rem;padding:.7rem 0;border:0;background:none;color:var(--teal);font-size:var(--text-body);
+    font-weight:600;text-decoration:underline;text-underline-offset:3px}
+  .advisor__reset:hover{color:var(--teal-700)}
+
+  /* ⚑ confirmation note + support */
+  .advisor__note{border:1px solid rgba(230,126,0,.34);background:rgba(230,126,0,.08);border-radius:var(--r-l);
+    padding:14px 16px;margin-top:var(--sp-2)}
+  .advisor__note h4{margin:0 0 6px;font-size:var(--text-body-sm);font-weight:700;color:var(--status-warning)}
+  .advisor__note ul{margin:0;padding-left:18px;font-size:var(--text-body-sm);color:var(--ink-72)}
+  .advisor__note li{margin:3px 0}
+  .advisor__support{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;justify-content:space-between;
+    margin-top:var(--sp-2);padding:16px 18px;border-radius:var(--r-l);background:var(--teal-700);color:#fff}
+  .advisor__support .st{font-weight:700;font-size:var(--text-body)}
+  .advisor__support .ss{font-size:var(--text-body-sm);color:rgba(255,255,255,.75);margin-top:1px}
+  .advisor__support-btns{display:flex;gap:8px;flex-wrap:wrap}
+  .advisor__support a{display:inline-flex;align-items:center;height:2.5rem;padding:0 14px;border-radius:var(--r-m);
+    font-size:var(--text-body-sm);font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,.45);color:#fff}
+  .advisor__support a.solid{background:#fff;color:var(--teal-700);border-color:#fff}
+
+  .advisor__empty{display:flex;gap:var(--sp-3);align-items:flex-start;padding:var(--sp-4);border:1px solid var(--graphite-300);
+    border-radius:var(--r-l);background:var(--white)}
+  .advisor__empty svg{flex:0 0 auto;width:24px;height:24px;color:var(--teal);margin-top:2px}
+  .advisor__empty p{margin:4px 0 0;font-size:var(--text-body-sm);color:var(--ink-72)}
+  .advisor__empty strong{color:var(--schwarz)}
+
+  @media (max-width:760px){
+    .advisor__bar{flex-direction:column;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-4)}
+    .advisor__bar-cta{margin-left:0;align-self:flex-end}
+    .advisor__support{flex-direction:column;align-items:flex-start}
+  }
+  @media (prefers-reduced-motion:reduce){.advisor__step,.advisor__result{transition:none}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol></svg>
+
+<div class="container">
+  <div class="page-head">
+    <svg viewBox="0 0 184.3 184.3" aria-hidden="true"><rect width="184.3" height="184.3" rx="5.75" fill="#D42924"/><path fill="#fff" d="M70.19,34.81l19.04,32.98-9.58,16.57-28.59-49.55h19.13ZM70.28,108.58h0l-23.45-40.64v85.89h-16.57V34.81h16.57l33.02,57.21L123.92,15.65h19.13l-63.22,109.52-9.58-16.57.02-.02ZM153.14,153.83h-16.57v-85.87l-33,57.14h-19.13l52.11-90.28h16.57v119.02l.02-.02Z"/></svg>
+    <span class="wm">METZLER</span>
+    <span class="ct">Türsprechanlagen</span>
+  </div>
+
+  <section class="advisor" id="advisor">
+    <button type="button" class="advisor__bar" data-ai-toggle aria-expanded="false" aria-controls="advisorPanel">
+      <span class="advisor__bar-txt">
+        <span class="advisor__bar-head">
+          <span class="advisor__bar-title">Finden statt Suchen</span>
+          <span class="advisor__chip">KI-Kaufberater</span>
+        </span>
+        <span class="advisor__bar-sub">Beantworten Sie ein paar kurze Fragen – der Berater empfiehlt Ihnen die passende Türsprechanlage.</span>
+      </span>
+      <span class="advisor__bar-cta">Kaufberater<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></span>
+    </button>
+    <div class="advisor__card" id="advisorPanel">
+      <button type="button" class="advisor__collapse" data-ai-toggle aria-label="Berater schließen"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+      <div class="advisor__quiz" id="quiz"></div>
+      <div class="advisor__results" id="results" aria-live="polite" hidden></div>
+    </div>
+  </section>
+
+  <p class="plp-note">Vorschau des Kaufberaters im PLP-Layout · Datenstand 2026-07-13 · Produktbilder werden in der Live-Integration aus <code>Product Image/Sprechanlage/</code> geladen. Mit ⚑ markierte Punkte vor Bestellung bestätigen.</p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var BASE="https://edelstahl-tuerklingel.de/";
+  var CHEV='<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg>';
+
+  /* ---------- PRODUCT DATA (feature analysis, 2026-07-13) ---------- */
+  var PRODUCTS=[
+    {id:"kian",name:"VDM10 2.0 · Kian",series:"IP",url:"metzler-vdm10-20-video-tuersprechanlage-1-klingeltaster-kian",media:"video",systems:["ip-lan","ip-2draht"],bmax:3,flex:false,price:679,access:["app"],sip:true,nameplate:false,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["2 MP FullHD · 146° Weitwinkel","IR-Nachtsicht bis 10 m","SIP & FRITZ!Box","App abofrei"]},
+    {id:"colson",name:"VDM10 2.0 · Colson",series:"IP",url:"metzler-vdm10-20-video-tuersprechanlage-1-klingeltaster-colson",media:"video",systems:["ip-lan","ip-2draht"],bmax:7,flex:false,price:699,access:["app"],sip:true,nameplate:false,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["2 MP FullHD · 146°","1–7 Klingeltaster","IP65 / IK09","Wunschgravur"]},
+    {id:"neo",name:"VDM10 2.0 · Neo",series:"IP",url:"metzler-vdm10-20-video-tuersprechanlage-mit-austauschbarem-namensschild-1-klingeltaster-neo",media:"video",systems:["ip-lan","ip-2draht"],bmax:6,flex:false,price:649,access:["app"],sip:true,nameplate:true,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Austauschbares, beleuchtetes Namensschild","2 MP FullHD · 146°","ideal bei Mieterwechsel"]},
+    {id:"niko",name:"VDM10 2.0 · Niko",series:"IP",url:"metzler-vdm10-20-video-tuersprechanlage-mit-fingerprint-1-klingeltaster-niko",media:"video",systems:["ip-lan","ip-2draht"],bmax:3,flex:false,price:849,access:["app","rfid","fingerprint"],sip:true,nameplate:false,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Fingerabdruck (1000 Finger, <0,5 s)","RFID-Zutritt","8-Farben-LED-Taster"]},
+    {id:"horizon",name:"VDM10 2.0 · Horizon",series:"IP",url:"metzler-vdm10-20-modulare-video-tuersprechanlage-ein-und-mehrfamilien-horizon",media:"video",systems:["ip-lan","ip-2draht"],bmax:500,flex:true,price:999,access:["app","rfid","pin"],sip:true,nameplate:true,led:false,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Modular · 1–500 Parteien","4\" Touch-Display + RFID","PIN je Wohnung","digitale Klingelschilder"]},
+    {id:"sdm10x",name:"SDM10X · Gesichtserkennung",series:"IP",url:"metzler-tuersprechanlage-mit-kamera-gesichtserkennung-touch-display-live-hd-video-ein-und-mehrfamilien-sdm10x",media:"video",systems:["ip-lan","ip-2draht"],bmax:500,flex:true,price:1490,access:["app","rfid","pin","qr","face"],sip:true,nameplate:false,led:false,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Gesichtserkennung in 200 ms","8\" Touch-Display","RFID · PIN · QR · Gesicht","1–500 Parteien"]},
+    {id:"sdm10h",name:"SDM10H · beleuchtete Hausnummer",series:"IP",url:"metzler-tuersprechanlage-mit-kamera-gesichtserkennung-touch-display-hausnummer-beleuchtet-live-hd-video-ein-und-mehrfamilien-sdm10h",media:"video",systems:["ip-lan","ip-2draht"],bmax:500,flex:true,price:1590,access:["app","rfid","pin","qr","face"],sip:true,nameplate:false,led:false,wunsch:true,mount:["aufputz","unterputz"],house:true,hl:["Beleuchtete Hausnummer","Gesichtserkennung in 200 ms","RFID · PIN · QR · Gesicht"]},
+    {id:"sdm10s",name:"SDM10S · Klingelstele",series:"IP",url:"metzler-video-tuersprechsaeule-klingelstele-mit-gesichtserkennung-farbe-waehlbar-ein-mehrfamilienhaus-personalisierbar-sdm10s",media:"video",systems:["ip-lan","ip-2draht"],bmax:500,flex:true,price:2599,access:["app","rfid","pin","qr","face"],sip:true,nameplate:false,led:false,wunsch:true,mount:["stele"],house:false,hl:["Freistehende Stele (1,60 m)","Wunschfarbe RAL ohne Aufpreis","Gesichtserkennung · RFID · PIN"]},
+    {id:"dominik",name:"ADM10 · Dominik",series:"IP-Audio",url:"metzler-adm10-audio-tuersprechanlage-1-klingeltaster-ral-7016-anthrazit-dominik",media:"audio",systems:["ip-lan","ip-2draht"],bmax:1,flex:false,price:499,access:["app"],sip:true,nameplate:false,led:true,wunsch:false,mount:["aufputz","unterputz"],house:false,hl:["Audio-Sprechanlage (ohne Kamera)","SIP & FRITZ!Box","RAL 7016 Anthrazit"]},
+    {id:"kai",name:"ADM10 · Kai",series:"IP-Audio",url:"metzler-adm10-audio-tuersprechanlage-1-klingeltaster-mit-austauschbarem-namensschild-kai",media:"audio",systems:["ip-lan","ip-2draht"],bmax:6,flex:false,price:499,access:["app"],sip:true,nameplate:true,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Audio-Sprechanlage (ohne Kamera)","Austauschbares Namensschild","1–6 Klingeltaster"]},
+    {id:"maxior",name:"XDM10 · Maxior",series:"2-Draht-BUS",url:"metzler-xdm10-video-tuersprechanlage-mit-austauschbarem-namensschild-2-draht-bus-1-klingeltaster-maxior",media:"video",systems:["bus"],bmax:3,flex:false,price:899,access:["app","rfid"],sip:false,nameplate:true,led:false,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Nachrüstung über 2-Draht-Bestandsleitung","3 MP Kamera · 133°","ohne Neuverkabelung","IP65 / IK10"]}
+  ];
+  var INNEN={
+    ip:[{n:"Innenstation Home 7\"",d:"Einstieg · 2-Draht oder LAN/PoE",p:"199 €",u:"metzler-intercom-innenstation-home-7-zoll-touchscreen-weiss"},
+        {n:"Innenstation Pro 7\" IPS",d:"Aluminium · nur LAN/PoE",p:"439 €",u:"metzler-intercom-innenstation-pro-7-zoll-ips-touchscreen-lan-poe-schwarz-grau"},
+        {n:"Innenstation Ultra 10\"",d:"Großes Display · nur LAN/PoE",p:"449 €",u:"metzler-intercom-innenstation-ultra-10-zoll-touchscreen-lan-poe-schwarz"}],
+    bus:[{n:"Innenstation XDM10 7\"",d:"2-Draht-BUS · Hik-Connect",p:"279 €",u:"metzler-innenstation-xdm10-7-zoll-touchscreen-2-draht-bus-weiss"},
+        {n:"2-Draht-Verteiler + Trafo",d:"Pflicht-Zentrale · bis 4 Innenstationen",p:"162 €",u:"metzler-2-draht-video-audio-verteiler-transformator-4-anschluesse-fuer-die-xdm10-serie"}],
+    audio:[{n:"ADM10 Innenstation Home 7\"",d:"Audio · 2-Draht oder LAN/PoE",p:"149 €",u:"metzler-adm10-innenstation-home-7-zoll-touchscreen-weiss"}]
+  };
+
+  /* ---------- QUIZ ---------- */
+  var STEPS={
+    bau:{q:"Neubau oder Nachrüstung im Bestand?",en:"New build vs. retrofit — this decides the whole system.",help:"Die Verkabelung entscheidet, welche Serie passt. Wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"neubau",ol:"Neubau / Sanierung",od:"Ich verlege neue Kabel (Netzwerk/CAT)"},
+      {v:"altbau",ol:"Nachrüstung im Bestand",od:"Es liegen bereits Leitungen (Altbau)"},
+      {v:"unsure",ol:"Weiß ich nicht",od:"Verkabelung ist mir unklar"}]},
+    leitung:{q:"Welche Leitung liegt bereits?",en:"What cabling exists? → IP vs. 2-Draht-BUS.",type:"single",req:true,vis:function(a){return a.bau==="altbau"||a.bau==="unsure";},opts:[
+      {v:"bell",ol:"Alte Gegensprech-/Klingelanlage",od:"2-Draht-Klingelleitung → 2-Draht-BUS"},
+      {v:"fernmelde",ol:"Geschirmtes Fernmeldekabel",od:"sternförmig → IP (2-Draht-IP)"},
+      {v:"cat",ol:"Netzwerkkabel (CAT/LAN)",od:"→ IP-Serie (LAN/PoE)"},
+      {v:"unsure",ol:"Weiß ich nicht",od:"vor Ort prüfen lassen"}]},
+    media:{q:"Möchten Sie sehen, wer klingelt?",en:"Video or audio only?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"video",ol:"Video-Sprechanlage",od:"Mit Kamera – Besucher sehen"},
+      {v:"audio",ol:"Audio genügt",od:"Nur Sprechen & Hören"}]},
+    parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",help:"Die genaue Taster-Anzahl wählen Sie später im Konfigurator.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},{v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
+      {v:"3",ol:"3 Parteien",od:""},{v:"4",ol:"4–7 Parteien",od:"Mehrfamilienhaus"},
+      {v:"many",ol:"8+ / flexibel",od:"Großobjekt, wachsend"}]},
+    access:{q:"Wie möchten Sie schlüssellos öffnen?",en:"Keyless entry — multiple choice. App is always included.",help:"Mehrfachauswahl. Die App-Steuerung ist bei allen Modellen dabei.",type:"multi",vis:function(){return true;},opts:[
+      {v:"rfid",ol:"RFID-Karte / -Chip",od:"Transponder"},
+      {v:"pin",ol:"PIN-Code",od:"Zahlencode am Gerät",media:"video"},
+      {v:"fingerprint",ol:"Fingerabdruck",od:"nur Niko",media:"video"},
+      {v:"face",ol:"Gesichtserkennung",od:"SDM10",media:"video"},
+      {v:"none",ol:"Nur App / noch offen",od:"keine besondere Zutrittsart",solo:true}]},
+    integration:{q:"Besondere Anforderungen an die Technik?",en:"Special requirements — multiple choice.",type:"multi",vis:function(){return true;},opts:[
+      {v:"sip",ol:"FRITZ!Box / SIP-Telefon",od:"Klingel aufs FRITZ!Fon"},
+      {v:"nvr",ol:"Als Überwachungskamera",od:"Einbindung in NVR",media:"video"},
+      {v:"secmod",ol:"Sicherer Türöffner",od:"Sicherheitsmodul"},
+      {v:"none",ol:"Keine besonderen",od:"Standard genügt",solo:true}]},
+    mounting:{q:"Wie soll montiert werden?",en:"Mounting type.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"},{v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
+      {v:"stele",ol:"Freistehende Stele",od:"kein Wandmontageort"},{v:"open",ol:"Noch offen",od:"weiß ich noch nicht"}]},
+    design:{q:"Was ist Ihnen bei der Optik wichtig?",en:"Aesthetic preferences — optional.",type:"multi",vis:function(){return true;},opts:[
+      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell, pulverbeschichtet"},
+      {v:"nameplate",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel"},
+      {v:"led",ol:"Beleuchteter Klingeltaster",od:"LED-Farbe wählbar"},
+      {v:"none",ol:"Standard reicht",od:"keine besonderen Wünsche",solo:true}]},
+    set:{q:"Fertiges Set oder Einzelkomponenten?",en:"Plug & Play set vs. components.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"set",ol:"Komplettset (Plug & Play)",od:"vorkonfiguriert, nur anschließen"},
+      {v:"single",ol:"Einzelkomponenten",od:"selbst zusammenstellen"},
+      {v:"either",ol:"Egal / beraten lassen",od:""}]}
+  };
+  var ORDER=["bau","leitung","media","parties","access","integration","mounting","design","set"];
+
+  var state={a:{},id:null,edit:false};
+  function deriveSystem(a){ if(a.bau==="neubau")return"ip-lan"; if(a.leitung==="bell")return"bus"; if(a.leitung==="fernmelde")return"ip-2draht"; if(a.leitung==="cat")return"ip-lan"; return null; }
+  function grp(sys){ return sys==="bus"?"bus":(sys?"ip":null); }
+  function accessSel(a){ return (a.access||[]).filter(function(x){return x!=="none";}); }
+  function matches(p,a){
+    var sys=deriveSystem(a);
+    if(sys&&p.systems.indexOf(sys)===-1)return false;
+    if(a.media&&p.media!==a.media)return false;
+    if(a.parties){ if(a.parties==="many"){if(!p.flex)return false;} else {var n=+a.parties; if(!(p.flex||p.bmax>=n))return false;} }
+    var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
+    if((a.integration||[]).indexOf("sip")>-1&&!p.sip)return false;
+    if(a.mounting&&a.mounting!=="open"){ if(p.mount.indexOf(a.mounting)===-1)return false; }
+    return true;
+  }
+  function score(p,a){ var s=0,d=a.design||[]; if(d.indexOf("wunsch")>-1&&p.wunsch)s++; if(d.indexOf("nameplate")>-1&&p.nameplate)s++; if(d.indexOf("led")>-1&&p.led)s++; if((a.integration||[]).indexOf("nvr")>-1&&p.media==="video"&&p.series!=="2-Draht-BUS")s++; return s; }
+  function isAnswered(id){ var v=state.a[id]; return STEPS[id].type==="multi"?(Array.isArray(v)&&v.length>0):(v!=null); }
+  function visibleSteps(a){ return ORDER.filter(function(id){return STEPS[id].vis(a);}); }
+
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+
+  var root=document.getElementById("advisor");
+  var quizEl=document.getElementById("quiz");
+  var resEl=document.getElementById("results");
+
+  /* toggle open/close */
+  Array.prototype.forEach.call(root.querySelectorAll("[data-ai-toggle]"),function(b){
+    b.addEventListener("click",function(){
+      var open=root.classList.toggle("is-open");
+      root.querySelector(".advisor__bar").setAttribute("aria-expanded",open?"true":"false");
+      if(open && !state.id){ goTo(visibleSteps(state.a)[0]); }
+    });
+  });
+
+  function optHTML(o,selected){
+    return '<button type="button" class="advisor__opt'+(selected?' is-active':'')+'" data-v="'+o.v+'" aria-pressed="'+(selected?'true':'false')+'">'
+      +'<span class="advisor__opt-label">'+esc(o.ol)+'</span>'
+      +(o.od?'<span class="advisor__opt-sub">'+esc(o.od)+'</span>':'')+'</button>';
+  }
+
+  function renderStep(id){
+    root.classList.remove("is-result"); resEl.hidden=true;
+    state.id=id;
+    var st=STEPS[id],a=state.a,vs=visibleSteps(a),pos=vs.indexOf(id),total=vs.length;
+    var multi=st.type==="multi", cur=a[id];
+    var opts=st.opts.filter(function(o){return !(o.media&&o.media!==a.media);}).map(function(o){
+      var sel=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v);
+      return optHTML(o,sel);
+    }).join("");
+    var dots=""; for(var d=0;d<total;d++) dots+='<span class="'+(d<pos?"is-done":(d===pos?"is-current":""))+'"></span>';
+    var isLast=pos===total-1;
+    var canNext = multi ? true : (st.req ? cur!=null : true);
+    quizEl.innerHTML=''
+      +'<div class="advisor__step">'
+      +'<div class="advisor__progress"><span class="advisor__progress-dots">'+dots+'</span>'
+        +'<span class="advisor__progress-label">Schritt '+(pos+1)+' von '+total+'</span></div>'
+      +'<h3 class="advisor__q">'+esc(st.q)+'<span class="en">'+esc(st.en)+'</span></h3>'
+      +(st.help?'<p class="advisor__help">'+esc(st.help)+'</p>':'')
+      +'<div class="advisor__opts" role="group" aria-label="'+esc(st.q)+'">'+opts+'</div>'
+      +'<div class="advisor__nav">'
+        +(pos>0?'<button type="button" class="advisor__back" data-back>'+CHEV+'Zurück</button>':'<span></span>')
+        +'<button type="button" class="advisor__forward'+(isLast?' advisor__forward--cta':'')+'" data-next'+(canNext?'':' disabled')+'>'+(isLast?'Empfehlung anzeigen':'Weiter')+CHEV+'</button>'
+      +'</div>'
+      +'</div>';
+    wireStep(id);
+    var stepEl=quizEl.querySelector(".advisor__step");
+    requestAnimationFrame(function(){ stepEl.classList.add("is-in"); });
+  }
+
+  function wireStep(id){
+    var st=STEPS[id],a=state.a,multi=st.type==="multi";
+    Array.prototype.forEach.call(quizEl.querySelectorAll(".advisor__opt"),function(btn){
+      btn.addEventListener("click",function(){
+        var v=btn.getAttribute("data-v");
+        if(multi){
+          var arr=(a[id]||[]).slice(), o=null;
+          st.opts.forEach(function(x){if(x.v===v)o=x;});
+          if(o&&o.solo){ arr=[v]; }
+          else { var i=arr.indexOf(v); if(i>-1)arr.splice(i,1); else {arr.push(v); arr=arr.filter(function(x){return x!=="none";});} }
+          a[id]=arr; renderStep(id);
+        } else {
+          a[id]=v; if(id==="bau"&&v==="neubau") delete a.leitung;
+          advance(id);
+        }
+      });
+    });
+    var nb=quizEl.querySelector("[data-next]"); if(nb) nb.addEventListener("click",function(){ if(!nb.hasAttribute("disabled")) advance(id); });
+    var bb=quizEl.querySelector("[data-back]"); if(bb) bb.addEventListener("click",function(){ goBack(id); });
+  }
+
+  function advance(id){
+    if(state.edit){ var ve=visibleSteps(state.a),gap=null; for(var i=0;i<ve.length;i++){ if(!isAnswered(ve[i])){gap=ve[i];break;} } if(gap){goTo(gap);}else{renderResult();} return; }
+    var vs=visibleSteps(state.a),pos=vs.indexOf(id);
+    if(pos<0||pos+1>=vs.length) renderResult(); else goTo(vs[pos+1]);
+  }
+  function goBack(id){ var vs=visibleSteps(state.a),pos=vs.indexOf(id); if(pos<=0){/*back to bar*/ collapse();} else goTo(vs[pos-1]); }
+  function goTo(id){ state.id=id; renderStep(id); }
+  function collapse(){ root.classList.remove("is-open"); root.querySelector(".advisor__bar").setAttribute("aria-expanded","false"); }
+
+  /* ---------- summary chips ---------- */
+  function summaryChips(a){
+    var out=[],sys=deriveSystem(a);
+    if(a.bau)out.push(["Vorhaben",{neubau:"Neubau",altbau:"Nachrüstung",unsure:"unklar"}[a.bau],"bau"]);
+    if(sys)out.push(["System",{"ip-lan":"IP · LAN/PoE","ip-2draht":"IP · 2-Draht","bus":"2-Draht-BUS"}[sys],STEPS.leitung.vis(a)?"leitung":"bau"]);
+    if(a.media)out.push(["Typ",a.media==="video"?"Video":"Audio","media"]);
+    if(a.parties)out.push(["Parteien",a.parties==="many"?"8+":a.parties,"parties"]);
+    var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
+    if(a.mounting&&a.mounting!=="open")out.push(["Montage",{unterputz:"Unterputz",aufputz:"Aufputz",stele:"Stele"}[a.mounting],"mounting"]);
+    var integ=(a.integration||[]).filter(function(x){return x!=="none";}); if(integ.length)out.push(["Technik",integ.map(function(x){return{sip:"FRITZ!/SIP",nvr:"Überwachung",secmod:"Sicherheitsmodul"}[x];}).join(", "),"integration"]);
+    if(a.set)out.push(["Umfang",{set:"Komplettset",single:"Einzelteile",either:"offen"}[a.set],"set"]);
+    return out.map(function(o){return '<button type="button" class="advisor__chip" data-step="'+o[2]+'" title="Angabe ändern"><small>'+esc(o[0])+'</small>'+esc(o[1])+'</button>';}).join("");
+  }
+
+  /* ---------- result ---------- */
+  var THUMB='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><circle cx="12" cy="8" r="2.2"/><line x1="10" y1="13" x2="14" y2="13"/><line x1="10" y1="16" x2="14" y2="16"/></svg>';
+  function whyList(p,a){
+    var w=[],sys=deriveSystem(a);
+    if(sys)w.push({"ip-lan":"Passt zu IP-Verkabelung (LAN/PoE)","ip-2draht":"Passt zu vorhandenem Fernmeldekabel","bus":"Nachrüstbar über 2-Draht-Bestandsleitung"}[sys]);
+    w.push(p.media==="video"?"Video mit Kamera":"Audio-Sprechanlage");
+    if(a.parties)w.push(p.flex?"Skaliert bis 500 Parteien":"Bis "+p.bmax+" Klingeltaster");
+    accessSel(a).forEach(function(x){ if(p.access.indexOf(x)>-1)w.push({rfid:"RFID-Zutritt",pin:"PIN-Code",fingerprint:"Fingerabdruck",face:"Gesichtserkennung"}[x]); });
+    if((a.integration||[]).indexOf("sip")>-1&&p.sip)w.push("FRITZ!Box / SIP-fähig");
+    if(w.length<3)p.hl.forEach(function(h){if(w.length<4)w.push(h);});
+    return w.slice(0,4);
+  }
+  function recHTML(p,a,best){
+    var feats=whyList(p,a).map(function(t){return '<li>'+esc(t)+'</li>';}).join("");
+    return '<a class="advisor__rec'+(best?' is-best':'')+'" href="'+BASE+p.url+'" target="_blank" rel="noopener">'
+      +'<div class="advisor__rec-top"><span class="advisor__rec-thumb">'+THUMB+'</span>'
+        +'<span class="advisor__rec-head">'
+          +'<span class="advisor__rec-badges"><span class="advisor__rec-sys">'+esc(p.series)+'</span>'+(best?'<span class="advisor__rec-best">Beste Empfehlung</span>':'')+'</span>'
+          +'<span class="advisor__rec-name">'+esc(p.name)+'</span>'
+          +'<span class="advisor__rec-price">ab '+p.price+' € <small>inkl. MwSt.</small></span>'
+        +'</span></div>'
+      +'<ul class="advisor__rec-features">'+feats+'</ul>'
+      +'<span class="advisor__rec-go">Zum Produkt & konfigurieren'+CHEV+'</span>'
+    +'</a>';
+  }
+  function extrasHTML(a){
+    var sys=deriveSystem(a),g=a.media==="audio"?"audio":(grp(sys)==="bus"?"bus":"ip");
+    var items=(INNEN[g]||[]).slice();
+    if((a.integration||[]).indexOf("secmod")>-1) items.push({n:"Sicherheitsmodul",d:"manipulationssicherer Türöffner",p:"129,99 €",u:"metzler-sicherheitsmodul-mit-hutschienenhalter"});
+    if(!items.length) return "";
+    var cards=items.map(function(x){
+      return '<a class="advisor__rec" href="'+BASE+x.u+'" target="_blank" rel="noopener"><div class="advisor__rec-top"><span class="advisor__rec-thumb">'+THUMB+'</span>'
+        +'<span class="advisor__rec-head"><span class="advisor__rec-name">'+esc(x.n)+'</span>'
+        +'<span class="advisor__rec-price" style="font-weight:700">'+esc(x.p)+'</span>'
+        +'<span class="advisor__opt-sub">'+esc(x.d)+'</span></span></div>'
+        +'<span class="advisor__rec-go">Ansehen'+CHEV+'</span></a>';
+    }).join("");
+    return '<h3 class="advisor__result-title">Dazu passend</h3><div class="advisor__recs">'+cards+'</div>'
+      +'<p class="advisor__summary-hint">Faustregel: eine Innenstation pro Wohneinheit. Die genaue Taster-Anzahl wählen Sie im Konfigurator.</p>';
+  }
+  function noteHTML(a,sys,list){
+    var f=[];
+    if(!sys)f.push("Verkabelung noch offen – passendes System (IP oder 2-Draht-BUS) vor Bestellung vor Ort prüfen.");
+    var hasBus=list.some(function(p){return p.series==="2-Draht-BUS";})||sys==="bus";
+    if(hasBus){ f.push("XDM10 (2-Draht-BUS): Kompatibilität mit Ihrer Altanlage (Siedle, Ritto, Gira, TCS …) im Support bestätigen."); f.push("XDM10: maximale Anzahl der Innenstationen im Support klären."); }
+    if(accessSel(a).indexOf("rfid")>-1&&a.media==="audio")f.push("RFID bei der ADM10-Audioserie ist modellabhängig – bitte bestätigen.");
+    if(accessSel(a).indexOf("face")>-1)f.push("Gesichtserkennung (SDM10): Datenschutz-/DSGVO-Hinweise beachten.");
+    if(a.set==="set")f.push("Genauer Lieferumfang der Sets (PoE-Switch/Netzteil) im Support bestätigen.");
+    if(!f.length)return"";
+    return '<div class="advisor__note"><h4>⚑ Vor der Bestellung kurz klären</h4><ul>'+f.map(function(t){return '<li>'+esc(t)+'</li>';}).join("")+'</ul></div>';
+  }
+  function emptyHTML(a,sys){
+    var hint="Passen Sie einzelne Angaben an oder lassen Sie sich persönlich beraten.";
+    if(sys==="bus"&&a.media==="audio")hint="Für die 2-Draht-BUS-Nachrüstung gibt es aktuell nur Video (XDM10). Audio-only ist nur als IP-Variante (ADM10) verfügbar – dafür wäre eine IP-Verkabelung nötig.";
+    else if(sys==="bus"&&(accessSel(a).indexOf("face")>-1||accessSel(a).indexOf("pin")>-1||accessSel(a).indexOf("fingerprint")>-1))hint="Gesichtserkennung, PIN und Fingerabdruck sind der IP-Serie vorbehalten. Über die 2-Draht-Leitung (XDM10) ist RFID die schlüssellose Option.";
+    else if(sys==="bus"&&(a.parties==="4"||a.parties==="many"))hint="Die 2-Draht-BUS-Anlage (XDM10) gibt es mit bis zu 3 Klingeltastern. Für mehr Parteien empfehlen wir die IP-Serie (Horizon oder SDM10).";
+    else if(a.media==="audio"&&(accessSel(a).indexOf("face")>-1||accessSel(a).indexOf("pin")>-1||accessSel(a).indexOf("fingerprint")>-1))hint="Gesichtserkennung, PIN und Fingerabdruck gibt es nur bei Video-Türstationen. Für Audio ist die App-Steuerung die passende Wahl.";
+    return '<div class="advisor__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+      +'<div><strong>Mit dieser Kombination haben wir kein exaktes Modell gefunden.</strong><p>'+esc(hint)+'</p></div></div>';
+  }
+
+  function renderResult(){
+    state.id="__result__"; state.edit=false;
+    var a=state.a,sys=deriveSystem(a),list=PRODUCTS.filter(function(p){return matches(p,a);});
+    list.sort(function(x,y){var d=score(y,a)-score(x,a);return d!==0?d:x.price-y.price;});
+    var exact=list.length;
+    if(list.length<2){ var extra=PRODUCTS.filter(function(p){var b={bau:a.bau,leitung:a.leitung,media:a.media,parties:a.parties};return matches(p,b)&&list.indexOf(p)===-1;}).sort(function(x,y){return x.price-y.price;}); list=list.concat(extra).slice(0,2); }
+    else list=list.slice(0,3);
+
+    var title = exact>=2 ? '<strong>'+exact+'</strong> passende Türsprechanlagen' : (exact===1?'Unsere Top-Empfehlung':'Am ehesten passend');
+    var recs = list.length ? '<div class="advisor__recs">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&exact>=1);}).join("")+'</div>' : "";
+    var body = list.length ? ('<h3 class="advisor__result-title">'+title+'</h3>'+recs) : emptyHTML(a,sys);
+
+    resEl.innerHTML='<div class="advisor__result">'
+      +'<div class="advisor__summary">'+summaryChips(a)+'<span class="advisor__summary-hint">Zum Ändern auf eine Angabe tippen.</span></div>'
+      +body
+      +extrasHTML(a)
+      +noteHTML(a,sys,PRODUCTS.filter(function(p){return matches(p,a);}))
+      +'<div class="advisor__actions">'
+        +(list.length?'<a class="advisor__view" href="'+BASE+'tuersprechanlagen" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
+        +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
+      +'</div>'
+      +'<div class="advisor__support"><div><div class="st">Unsicher bei der Auswahl?</div><div class="ss">Unsere Sprechanlagen-Experten beraten Sie kostenlos – auch zur Verkabelung vor Ort.</div></div>'
+        +'<div class="advisor__support-btns"><a class="solid" href="https://calendly.com/kaufberatung" target="_blank" rel="noopener">Beratungstermin</a>'
+        +'<a href="'+BASE+'sprechanlagen-online-support-termin" target="_blank" rel="noopener">Technischer Support</a></div></div>'
+    +'</div>';
+    root.classList.add("is-result"); resEl.hidden=false;
+    wireResult();
+    var r=resEl.querySelector(".advisor__result"); requestAnimationFrame(function(){ r.classList.add("is-in"); });
+  }
+  function wireResult(){
+    Array.prototype.forEach.call(resEl.querySelectorAll(".advisor__chip[data-step]"),function(b){ b.addEventListener("click",function(){ state.edit=true; root.classList.remove("is-result"); resEl.hidden=true; goTo(b.getAttribute("data-step")); }); });
+    var rs=resEl.querySelector("[data-reset]"); if(rs) rs.addEventListener("click",function(){ state.a={}; state.id=null; state.edit=false; root.classList.remove("is-result"); resEl.hidden=true; goTo(visibleSteps(state.a)[0]); });
+  }
+})();
+</script>

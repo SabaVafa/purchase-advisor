@@ -1,0 +1,518 @@
+<title>Sprechanlagen Kaufberater — Datengrundlage</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eef1f4; --ink:#1a1f26; --ink-2:#4a545f;
+    --muted:#79838f; --border:#dde2e8; --border-2:#c8cfd7;
+    --accent:#2b6b7a; --accent-ink:#1f4f5b; --accent-soft:#e4eef0;
+    --yes:#2f7d57; --yes-bg:#e6f3ec; --likely:#a86412; --likely-bg:#faf0dd; --na:#9aa4ad; --na-bg:#f0f2f4;
+    --flag:#c14a24; --flag-bg:#fbeae2; --flag-border:#eab99f;
+    --hard:#7a3aa8; --hard-bg:#f0e8f7;
+    --radius:10px; --maxw:1080px;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#12151a; --surface:#1a1e24; --surface-2:#222831; --ink:#e9edf1; --ink-2:#aeb8c2;
+      --muted:#7f8b96; --border:#2b323b; --border-2:#3a434e;
+      --accent:#5aa9ba; --accent-ink:#8fcedb; --accent-soft:#17323a;
+      --yes:#5cbf8e; --yes-bg:#15302340; --likely:#d69a3f; --likely-bg:#3a2c1040; --na:#69737d; --na-bg:#232830;
+      --flag:#e88b5f; --flag-bg:#39221740; --flag-border:#5c3a29;
+      --hard:#c19ae0; --hard-bg:#2a1e3840;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eef1f4; --ink:#1a1f26; --ink-2:#4a545f;
+    --muted:#79838f; --border:#dde2e8; --border-2:#c8cfd7;
+    --accent:#2b6b7a; --accent-ink:#1f4f5b; --accent-soft:#e4eef0;
+    --yes:#2f7d57; --yes-bg:#e6f3ec; --likely:#a86412; --likely-bg:#faf0dd; --na:#9aa4ad; --na-bg:#f0f2f4;
+    --flag:#c14a24; --flag-bg:#fbeae2; --flag-border:#eab99f; --hard:#7a3aa8; --hard-bg:#f0e8f7;
+  }
+  :root[data-theme="dark"]{
+    --bg:#12151a; --surface:#1a1e24; --surface-2:#222831; --ink:#e9edf1; --ink-2:#aeb8c2;
+    --muted:#7f8b96; --border:#2b323b; --border-2:#3a434e;
+    --accent:#5aa9ba; --accent-ink:#8fcedb; --accent-soft:#17323a;
+    --yes:#5cbf8e; --yes-bg:#15302340; --likely:#d69a3f; --likely-bg:#3a2c1040; --na:#69737d; --na-bg:#232830;
+    --flag:#e88b5f; --flag-bg:#39221740; --flag-border:#5c3a29; --hard:#c19ae0; --hard-bg:#2a1e3840;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;
+    font-size:16px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px 96px}
+  .prose{max-width:74ch}
+  a{color:var(--accent-ink);text-underline-offset:2px}
+  h1,h2,h3,h4{line-height:1.2;text-wrap:balance;margin:0}
+  code,.mono{font-family:var(--mono);font-size:.86em}
+
+  /* Header */
+  header.hero{border-bottom:1px solid var(--border);background:
+     linear-gradient(180deg,var(--surface),var(--bg));}
+  .hero-inner{max-width:var(--maxw);margin:0 auto;padding:44px 20px 30px}
+  .eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+    font-weight:600;display:flex;gap:10px;align-items:center}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--accent);display:inline-block}
+  h1.title{font-size:clamp(1.7rem,4vw,2.5rem);font-weight:700;letter-spacing:-.02em;margin:14px 0 8px}
+  .subtitle{color:var(--ink-2);font-size:1.05rem;max-width:70ch}
+  .meta-row{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font-size:.83rem;color:var(--muted)}
+  .meta-row b{color:var(--ink-2);font-weight:600}
+
+  /* Nav */
+  nav.toc{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--surface) 88%,transparent);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--border);margin-bottom:34px}
+  .toc-inner{max-width:var(--maxw);margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;gap:6px}
+  .toc a{font-size:.8rem;color:var(--ink-2);text-decoration:none;padding:6px 11px;border-radius:99px;
+    border:1px solid transparent;white-space:nowrap}
+  .toc a:hover{background:var(--surface-2);border-color:var(--border);color:var(--ink)}
+
+  section{margin-top:14px;padding-top:26px;scroll-margin-top:60px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+  .sec-kicker{font-family:var(--mono);font-size:.8rem;color:var(--accent);font-weight:600}
+  h2{font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
+  h3{font-size:1.08rem;font-weight:650;margin:26px 0 8px;color:var(--ink)}
+  h4{font-size:.95rem;font-weight:650;margin:16px 0 6px;color:var(--ink-2)}
+  p{margin:8px 0}
+  .lead{color:var(--ink-2)}
+
+  /* Callout */
+  .note{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius);
+    padding:14px 16px;margin:16px 0;font-size:.92rem}
+  .note.warn{border-color:var(--flag-border);background:var(--flag-bg)}
+  .note .nh{font-weight:700;color:var(--flag);display:flex;gap:8px;align-items:center;margin-bottom:4px}
+
+  /* Tables */
+  .twrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin:14px 0;
+    background:var(--surface)}
+  table{border-collapse:collapse;width:100%;font-size:.85rem}
+  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--border);vertical-align:top}
+  thead th{background:var(--surface-2);font-weight:650;color:var(--ink-2);position:sticky;top:0;
+    font-size:.76rem;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--surface-2)}
+  td.mono,.id{font-family:var(--mono);font-size:.8rem;color:var(--accent-ink);white-space:nowrap}
+  .src{color:var(--muted);font-size:.92em}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  /* Matrix */
+  table.matrix{font-size:.82rem}
+  table.matrix th.rot{white-space:nowrap;text-transform:none;letter-spacing:0}
+  table.matrix td:first-child,table.matrix th:first-child{position:sticky;left:0;background:var(--surface);
+    font-weight:600;min-width:150px;border-right:1px solid var(--border-2);z-index:1}
+  table.matrix thead th:first-child{background:var(--surface-2);z-index:3}
+  .cell{text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+  .c-yes{color:var(--yes);background:var(--yes-bg)}
+  .c-likely{color:var(--likely);background:var(--likely-bg)}
+  .c-na{color:var(--na);background:var(--na-bg);font-weight:500}
+  .c-flag{position:relative}
+  .c-flag::after{content:"⚑";position:absolute;top:1px;right:3px;font-size:.6rem;color:var(--flag)}
+
+  /* Badges & legend */
+  .badge{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.04em;padding:2px 7px;
+    border-radius:5px;text-transform:uppercase;white-space:nowrap}
+  .b-hard{color:var(--hard);background:var(--hard-bg)}
+  .b-pref{color:var(--accent-ink);background:var(--accent-soft)}
+  .b-flag{color:var(--flag);background:var(--flag-bg)}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.8rem;color:var(--ink-2);margin:10px 0}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:15px;height:15px;border-radius:4px;display:inline-block}
+
+  /* Question flow */
+  .q{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:16px 18px;margin:12px 0}
+  .q .qtag{font-family:var(--mono);font-size:.75rem;font-weight:700;color:var(--accent);
+    background:var(--accent-soft);padding:3px 8px;border-radius:6px}
+  .q h3{margin:10px 0 4px;font-size:1.05rem}
+  .q .en{color:var(--muted);font-style:italic;font-size:.88rem;margin:0 0 8px}
+  .q ul{margin:8px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+  .q li{padding-left:20px;position:relative;font-size:.9rem}
+  .q li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:700}
+  .q .filt{margin-top:10px;font-size:.8rem;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px}
+  .pill{display:inline-block;background:var(--surface-2);border:1px solid var(--border);border-radius:99px;
+    padding:1px 8px;font-size:.78rem;margin:1px 2px}
+  .flagline{color:var(--flag);font-weight:600}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
+  .card{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:13px 15px}
+  .card h4{margin:0 0 6px;color:var(--accent-ink)}
+  .card ul{margin:0;padding-left:18px;font-size:.86rem;color:var(--ink-2)}
+  .card li{margin:3px 0}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem}
+  .kicker-num{color:var(--accent);font-family:var(--mono)}
+  ol.confirm{counter-reset:c;list-style:none;padding:0;margin:10px 0;display:flex;flex-direction:column;gap:8px}
+  ol.confirm li{counter-increment:c;padding:10px 12px 10px 44px;position:relative;background:var(--surface);
+    border:1px solid var(--flag-border);border-radius:8px;font-size:.9rem}
+  ol.confirm li::before{content:counter(c);position:absolute;left:12px;top:9px;width:22px;height:22px;
+    background:var(--flag);color:#fff;border-radius:50%;display:grid;place-items:center;font-size:.78rem;font-weight:700}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Metzler Kaufberater · Datengrundlage</div>
+    <h1 class="title">Türsprechanlagen — Feature-Analyse &amp; Beraterlogik</h1>
+    <p class="subtitle">Feature-Mining aus Produktbeschreibungen und Konfiguratoren der gesamten Sprechanlagen-Kategorie.
+      Grundlage für den Kaufberater-Chatbot — und Prüfvorlage für die Produktverantwortlichen.</p>
+    <div class="meta-row">
+      <span><b>Quelle:</b> edelstahl-tuerklingel.de/tuersprechanlagen</span>
+      <span><b>Datenstand:</b> 2026-07-13</span>
+      <span><b>Umfang:</b> 11 Modelle · 5 Innenstationen · Zubehör</span>
+      <span><b>Methode:</b> Beschreibung + Konfigurator (nicht Facetten)</span>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Inhalt">
+  <div class="toc-inner">
+    <a href="#warnung">Datenlage</a>
+    <a href="#confirm">⚑ Zu bestätigen</a>
+    <a href="#karte">Produkt-Landkarte</a>
+    <a href="#d1">1 · Feature-Inventar</a>
+    <a href="#d2">2 · Gap-Matrix</a>
+    <a href="#punch">Punch-Listen</a>
+    <a href="#d3">3 · Fragenlogik</a>
+    <a href="#legacy">Altsysteme</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- Data warning -->
+  <section id="warnung">
+    <div class="note warn">
+      <div class="nh">⚠ Wichtiger Hinweis zur Datenlage</div>
+      <p style="margin:0">Die <b>Filter-Facetten und Merkmale-Tabellen des Shops sind unvollständig und veraltet</b> und wurden
+      <b>nicht</b> als Quelle verwendet. Alle Features stammen aus dem Fließtext der Produktbeschreibungen und den Konfiguratoren;
+      jede Aussage ist mit Quell-URL hinterlegt. Der Lieferumfang steht überall nur im Fließtext (PoE-Switch/Netzteil nie ausgewiesen).
+      Mehrere Kennzahlen widersprechen sich zwischen den Seiten — diese sind mit <b class="flagline">⚑</b> markiert und
+      müssen vor dem Live-Betrieb von Metzler bestätigt werden.</p>
+    </div>
+  </section>
+
+  <!-- Confirmations -->
+  <section id="confirm">
+    <div class="sec-head"><span class="sec-kicker">GATE</span><h2>⚑ Vor Freigabe von Metzler zu bestätigen</h2></div>
+    <p class="lead">Diese Punkte sind aus den Produktseiten <b>nicht eindeutig</b> ableitbar oder widersprüchlich.
+      Sie bleiben aus dem Live-Chatbot ausgeschlossen, bis sie bestätigt sind — hier nicht raten.</p>
+    <ol class="confirm">
+      <li><b>XDM10 max. Innenstationen:</b> Produktseite nennt „99", Innenstationsseite „4 pro Gebäude", der Verteiler „2 Kanäle für Innenstationen". Widersprüchlich.</li>
+      <li><b>XDM10 Adressierung:</b> „6-stelliger DIP-Schalter" vs. „Drehschalter" vs. „mechanische Drehregler" — drei Quellen, drei Aussagen.</li>
+      <li><b>XDM10 Kompatibilität je Altsystem:</b> Die Siedle/Ritto/Gira/TCS-Liste steht nur auf <span class="mono">/sprechanlagen-info</span>, nie produktseitig verifiziert.</li>
+      <li><b>ADM10 RFID:</b> „modellabhängig" — welche ADM10-Variante kann RFID?</li>
+      <li><b>Lieferumfang:</b> Ist ein PoE-Switch / Netzteil enthalten? Auf allen Seiten nur Fließtext, nie als Liste.</li>
+      <li><b>DSGVO-Hinweis Gesichtserkennung (SDM10):</b> Umgang mit biometrischen Daten fehlt online.</li>
+      <li><b>2-Draht-IP-Fähigkeit je IP-Modell:</b> bestätigt für Colson/SDM10S, für übrige nur per Analogie („~") angenommen.</li>
+    </ol>
+  </section>
+
+  <!-- Product map -->
+  <section id="karte">
+    <div class="sec-head"><span class="sec-kicker">ÜBERBLICK</span><h2>Produkt-Landkarte (Serien)</h2></div>
+    <div class="twrap">
+      <table>
+        <thead><tr><th>Serie</th><th>Verkabelung</th><th>Typ</th><th>Modelle</th><th class="tnum">Preis ab</th></tr></thead>
+        <tbody>
+          <tr><td><b>VDM10 2.0</b> <span class="badge b-pref">IP</span></td><td>LAN/PoE <i>oder</i> 2-Draht-IP</td><td>Video 2 MP / 146°</td><td>Colson, Kian, Neo, Niko, Horizon</td><td class="tnum">649 €</td></tr>
+          <tr><td><b>SDM10</b> <span class="badge b-pref">IP</span></td><td>LAN/PoE <i>oder</i> 2-Draht-IP</td><td>Video 2 MP + Gesichtserkennung</td><td>SDM10X, SDM10H, SDM10S</td><td class="tnum">1.490 €</td></tr>
+          <tr><td><b>ADM10</b> <span class="badge b-pref">IP</span></td><td>LAN/PoE <i>oder</i> 2-Draht-IP</td><td><b>Audio</b> (keine Kamera)</td><td>Dominik, Kai</td><td class="tnum">499 €</td></tr>
+          <tr><td><b>XDM10</b> <span class="badge b-hard">BUS</span></td><td>2-Draht-BUS (Bestandsleitung)</td><td>Video 3 MP / 133°</td><td>Maxior</td><td class="tnum">899 €</td></tr>
+          <tr><td><b>Innenstationen</b></td><td>je nach Serie</td><td>7"/10" Touch</td><td>Home, Pro, Ultra, XDM10, ADM10</td><td class="tnum">149 €</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Deliverable 1 -->
+  <section id="d1">
+    <div class="sec-head"><span class="sec-kicker">DELIVERABLE 1</span><h2>Union Feature-Inventar</h2></div>
+    <p class="lead">Jedes im Sortiment gefundene Feature. <span class="badge b-hard">Hard</span> = harte Eignungs-/Kompatibilitätsbedingung (bestimmt, welche Serie passt) · <span class="badge b-pref">Pref</span> = Präferenz/Ausstattung.</p>
+
+    <h3>A · System &amp; Verkabelung <span class="badge b-hard">Entscheidungsachse</span></h3>
+    <div class="twrap"><table>
+      <thead><tr><th>Feature</th><th>EN</th><th>Werte</th><th>Gilt für</th><th>Typ</th><th>Quelle</th></tr></thead>
+      <tbody>
+        <tr><td>System / Serie</td><td>System family</td><td>IP-Serie (VDM10/SDM10/ADM10) · 2-Draht-BUS (XDM10)</td><td>alle</td><td><span class="badge b-hard">Hard</span></td><td class="src">/sprechanlagen-info</td></tr>
+        <tr><td>IP-Verkabelung LAN/PoE</td><td>LAN/PoE wiring</td><td>CAT 5e–8 + PoE (802.3af)</td><td>VDM10, SDM10, ADM10</td><td><span class="badge b-hard">Hard</span></td><td class="src">/sprechanlagen-info</td></tr>
+        <tr><td>IP-Verkabelung 2-Draht-IP</td><td>2-wire IP</td><td>geschirmte Fernmeldekabel (J-Y(ST)Y) + 24 V Trafo, Stern</td><td>IP-Serie</td><td><span class="badge b-hard">Hard</span></td><td class="src">/sprechanlagen-info</td></tr>
+        <tr><td>2-Draht-BUS</td><td>2-wire BUS</td><td>vorhandene Klingelleitung, Daisy-Chain</td><td>XDM10</td><td><span class="badge b-hard">Hard</span></td><td class="src">XDM10 Maxior</td></tr>
+        <tr><td>Nachrüstung</td><td>Retrofit</td><td>ohne Neuverkabelung (BUS + 2-Draht-IP)</td><td>XDM10, IP-2-Draht</td><td><span class="badge b-hard">Hard</span></td><td class="src">/sprechanlagen-info</td></tr>
+        <tr><td>Legacy-Kompatibilität <span class="badge b-flag">⚑</span></td><td>Legacy compat</td><td>Siedle, Gira, Ritto, TCS, Bticino … (s. Anhang)</td><td>XDM10</td><td><span class="badge b-hard">Hard</span></td><td class="src">/sprechanlagen-info</td></tr>
+        <tr><td>Verteiler + Trafo (BUS)</td><td>BUS distributor</td><td>4 Anschl. (162 €) / 8-Kanal 48 V (368 €, RJ45-Uplink)</td><td>XDM10</td><td><span class="badge b-hard">Hard</span></td><td class="src">…verteiler-8/-4</td></tr>
+        <tr><td>2-Draht-Ethernet-PoE-Konverter</td><td>2-wire-over-Ethernet</td><td>Konverter + Netzteil 52 V/1 A</td><td>IP-Serie</td><td><span class="badge b-hard">Hard</span></td><td class="src">/…netzteil-52v-1a…</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>B · Kamera &amp; Video</h3>
+    <div class="twrap"><table>
+      <thead><tr><th>Feature</th><th>Werte</th><th>Gilt für</th><th>Typ</th><th>Quelle</th></tr></thead>
+      <tbody>
+        <tr><td>Video vorhanden</td><td>ja / <b>nein bei ADM10</b></td><td>Video: VDM10/SDM10/XDM10</td><td><span class="badge b-hard">Hard</span></td><td class="src">ADM10 „Audio-only"</td></tr>
+        <tr><td>Kameraauflösung</td><td>2 MP (IP) · <b>3 MP</b> (XDM10)</td><td>je Serie</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson / XDM10</td></tr>
+        <tr><td>Blickwinkel</td><td>146° (IP) · 133° (XDM10) · 88° (SDM10 Dual-Lens)</td><td>je Modell</td><td><span class="badge b-pref">Pref</span></td><td class="src">Produktbeschr.</td></tr>
+        <tr><td>IR-Nachtsicht</td><td>bis 10 m, Lichtsensor auto Tag/Nacht</td><td>alle Video</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson</td></tr>
+        <tr><td>WDR / DNR / BLC</td><td>WDR 120 dB</td><td>Video</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson</td></tr>
+        <tr><td>RTSP-Streams / NVR</td><td>2 Streams, als Überwachungskamera nutzbar</td><td>VDM10/SDM10</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson</td></tr>
+        <tr><td>Anti-Spoofing (Gesicht)</td><td>duale Kamera + NIR</td><td>SDM10</td><td><span class="badge b-pref">Pref</span></td><td class="src">SDM10</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>C · Audio</h3>
+    <div class="twrap"><table>
+      <thead><tr><th>Feature</th><th>Werte</th><th>Gilt für</th><th>Typ</th><th>Quelle</th></tr></thead>
+      <tbody>
+        <tr><td>Gegensprechen</td><td>Full-Duplex 2-Wege, omnidir. Mikrofon, Echo-/Geräuschunterdr.</td><td>alle</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson/ADM10</td></tr>
+        <tr><td>Sprachnachrichten</td><td>optional</td><td>VDM10, ADM10</td><td><span class="badge b-pref">Pref</span></td><td class="src">ADM10</td></tr>
+        <tr><td>Melodien / Nicht-stören <span class="badge b-flag">⚑</span></td><td>6 + 4 eigene · Nicht-stören-Modus</td><td>Außenstation-Prosa</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson (fehlt auf Innenst.)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>D · Zutritt &amp; Sicherheit</h3>
+    <div class="twrap"><table>
+      <thead><tr><th>Feature</th><th>Werte</th><th>Gilt für</th><th>Typ</th><th>Quelle</th></tr></thead>
+      <tbody>
+        <tr><td>RFID</td><td>Mifare, Master-Karten-Anlernung ohne PC</td><td>Niko, Horizon, SDM10, ADM10?</td><td><span class="badge b-pref">Pref</span></td><td class="src">/…rfid-karte; SDM10</td></tr>
+        <tr><td>PIN-Code</td><td>je Türöffner/Wohnung separat</td><td>Horizon, SDM10</td><td><span class="badge b-pref">Pref</span></td><td class="src">Horizon</td></tr>
+        <tr><td>QR-Code</td><td>Zutritt per QR</td><td>SDM10</td><td><span class="badge b-pref">Pref</span></td><td class="src">SDM10 Konfig.</td></tr>
+        <tr><td>Fingerprint</td><td>1000 Abdrücke, &lt; 0,5 s</td><td>Niko (opt. Kombis)</td><td><span class="badge b-pref">Pref</span></td><td class="src">Niko</td></tr>
+        <tr><td>Gesichtserkennung</td><td>200 ms, bis 20.000 Scans, Anti-Spoofing</td><td>SDM10 (X/H/S)</td><td><span class="badge b-pref">Pref</span></td><td class="src">SDM10</td></tr>
+        <tr><td>Manipulationsalarm</td><td>&gt; 85 dB, deaktivierbar</td><td>alle IP</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson</td></tr>
+        <tr><td>Sicherheitsmodul</td><td>RS-485, AES-128, Türöffner getrennt</td><td>alle (optional)</td><td><span class="badge b-pref">Pref</span></td><td class="src">/…sicherheitsmodul…</td></tr>
+        <tr><td>Türöffner-Anzahl</td><td>IP: 2 Anschlüsse · XDM10: 1 Relais + 1 Impuls</td><td>je Serie</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson / XDM10</td></tr>
+        <tr><td>Schutzklasse</td><td>IP65 durchgängig; IK07–IK10 modellabhängig</td><td>alle</td><td><span class="badge b-pref">Pref</span></td><td class="src">Produktbeschr.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>E · App, Netzwerk &amp; Integration</h3>
+    <div class="twrap"><table>
+      <thead><tr><th>Feature</th><th>Werte</th><th>Gilt für</th><th>Typ</th><th>Quelle</th></tr></thead>
+      <tbody>
+        <tr><td>Smartphone-App</td><td>kostenlos &amp; <b>abofrei</b>, Android/iOS (Hik-Connect); Live-Video, Push, Türöffnen</td><td>alle</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson; /…info</td></tr>
+        <tr><td>SIP / PBX / FRITZ!</td><td>SIP-Modul; FRITZ!Box &amp; FRITZ!Fon als Gegenstelle</td><td>VDM10/SDM10/ADM10 · <b>NICHT XDM10</b></td><td><span class="badge b-hard">Hard*</span></td><td class="src">Colson; XDM10 (keine)</td></tr>
+        <tr><td>PC/Mac als Innenstation</td><td>zeitplangesteuert, inkl. Türöffnen</td><td>VDM10/SDM10/ADM10</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson</td></tr>
+        <tr><td>IP-Kameras einbindbar</td><td>ONVIF; ADM10-Kai: HiLook/Hikvision-PoE-Kamera als Klingelruf-Kamera</td><td>IP-Serie</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson; Kai UI-3.0</td></tr>
+        <tr><td>LAN-Uplink für BUS</td><td>RJ45 am 8-Kanal-Verteiler → App + PC-Config</td><td>XDM10</td><td><span class="badge b-pref">Pref</span></td><td class="src">Verteiler-8</td></tr>
+      </tbody>
+    </table></div>
+    <p class="src">* SIP/FRITZ! wird zur harten Bedingung, wenn der Kunde FRITZ!-Integration zwingend will → XDM10 scheidet aus.</p>
+
+    <h3>F · Innenstationen · G · Ästhetik · H · Skalierung · I · Strom · J · Set/Kombi</h3>
+    <div class="twrap"><table>
+      <thead><tr><th>Feature</th><th>Werte</th><th>Gilt für</th><th>Typ</th><th>Quelle</th></tr></thead>
+      <tbody>
+        <tr><td>Innenstation Anschluss</td><td>Home/ADM10: 2-Draht <i>oder</i> LAN/PoE · Pro/Ultra: nur LAN/PoE · XDM10: nur BUS</td><td>Innenst.</td><td><span class="badge b-hard">Hard</span></td><td class="src">Pro; XDM10-IS</td></tr>
+        <tr><td>Innenstation Serienbindung</td><td>Home/Pro/Ultra→IP · XDM10-IS→BUS · ADM10-IS→Audio</td><td>Innenst.</td><td><span class="badge b-hard">Hard</span></td><td class="src">XDM10-IS „nicht mit VDM10"</td></tr>
+        <tr><td>Display</td><td>7" (Home/Pro/XDM10/ADM10) · 10,1" (Ultra); IPS bei Pro</td><td>Innenst.</td><td><span class="badge b-pref">Pref</span></td><td class="src">Innenst.-Seiten</td></tr>
+        <tr><td>Standardfarbe</td><td>Schwarz/Edelstahl/Grau/Eisenglimmer/Anthrazit/Weiß (Braun nur Kian)</td><td>je Modell</td><td><span class="badge b-pref">Pref</span></td><td class="src">Konfigurator</td></tr>
+        <tr><td>Wunschfarbe / RAL</td><td>frei wählbar, pulverbeschichtet (SDM10S ohne Aufpreis)</td><td>fast alle</td><td><span class="badge b-pref">Pref</span></td><td class="src">SDM10S</td></tr>
+        <tr><td>Material / Oberfläche</td><td>V2A/V4A; pulverbeschichtet / geschliffen / PVD; Glas (XDM10)</td><td>je Serie</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson</td></tr>
+        <tr><td>Austauschbares Namensschild</td><td>magnetisch / selbstklebend / RFID / digital; beleuchtet</td><td>Neo, Kai, XDM10, Horizon</td><td><span class="badge b-pref">Pref</span></td><td class="src">Neo; /ersatz-namensschilder</td></tr>
+        <tr><td>Beleuchteter Taster / LED-Farbe</td><td>8 Farben; V4A-Taster</td><td>VDM10 (Niko explizit)</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson</td></tr>
+        <tr><td>Beleuchtete Hausnummer <span class="badge b-flag">⚑</span></td><td>ja (Alleinstellung)</td><td><b>SDM10H</b></td><td><span class="badge b-pref">Pref</span></td><td class="src">nur Titel (Prosa fehlt)</td></tr>
+        <tr><td>Montageart</td><td>Aufputz &amp; Unterputz (Universal-Kasten, WDVS); Stele (SDM10S)</td><td>alle</td><td><span class="badge b-pref">Pref</span></td><td class="src">Colson; SDM10S</td></tr>
+        <tr><td>Anzahl Klingeltaster / Parteien</td><td>1–7 physisch; „Flexibel 1–500" (Horizon/SDM10)</td><td>je Modell</td><td><span class="badge b-hard">Hard</span></td><td class="src">Konfig.; Horizon</td></tr>
+        <tr><td>Digitale Klingelschilder</td><td>pro Partei über Innenstation änderbar (Mieterwechsel)</td><td>Horizon</td><td><span class="badge b-pref">Pref</span></td><td class="src">Horizon</td></tr>
+        <tr><td>Stromversorgung</td><td>12 VDC/PoE · 24 VDC 2-Draht · XDM10: 48 V via Verteiler</td><td>je Serie</td><td><span class="badge b-pref">Pref</span></td><td class="src">Merkmale-Tab.</td></tr>
+        <tr><td>Komplettset / Plug&amp;Play</td><td>vorprogrammiert, beschriftet, passwortgeschützt</td><td>Neo-Set, XDM10-Set</td><td><span class="badge b-pref">Pref</span></td><td class="src">Neo-Set</td></tr>
+        <tr><td>Briefkasten-/Paketbox-Kombi</td><td>Wand-/Standbriefkasten, Paketbox; opt. Fingerprint+RFID, Gravur</td><td>Kombi-Produkte</td><td><span class="badge b-pref">Pref</span></td><td class="src">/…briefkasten…, /…paketbox…</td></tr>
+        <tr><td>Lieferumfang <span class="badge b-flag">⚑</span></td><td>nur Prosa; PoE-Switch/Netzteil nicht ausgewiesen</td><td>alle</td><td><span class="badge b-pref">Pref</span></td><td class="src">alle Seiten</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- Deliverable 2 -->
+  <section id="d2">
+    <div class="sec-head"><span class="sec-kicker">DELIVERABLE 2</span><h2>Per-Product Gap-Matrix</h2></div>
+    <div class="legend">
+      <span><span class="swatch c-yes" style="display:grid;place-items:center;font-size:.7rem">✓</span> im eigenen Text belegt</span>
+      <span><span class="swatch c-likely" style="display:grid;place-items:center;font-size:.7rem">~</span> wahrscheinlich (bei Geschwistern vorhanden → Metzler ergänzen)</span>
+      <span><span class="swatch c-na" style="display:grid;place-items:center;font-size:.6rem">–</span> nicht zutreffend</span>
+      <span class="flagline">⚑ zu bestätigen</span>
+    </div>
+
+    <h4>Außenstationen</h4>
+    <div class="twrap"><table class="matrix">
+      <thead><tr>
+        <th>Feature</th><th class="rot">Colson</th><th class="rot">Kian</th><th class="rot">Neo</th><th class="rot">Niko</th><th class="rot">Horizon</th><th class="rot">SDM10X</th><th class="rot">SDM10H</th><th class="rot">SDM10S</th><th class="rot">ADM10 D.</th><th class="rot">ADM10 Kai</th><th class="rot">XDM10</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>IP LAN/PoE</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td></tr>
+        <tr><td>IP 2-Draht-IP</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td></tr>
+        <tr><td>2-Draht-BUS</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>Video-Kamera</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>IR-Nachtsicht</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>WDR 120 dB</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>RTSP / NVR</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-likely">~</td></tr>
+        <tr><td>Manipulationsalarm</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td></tr>
+        <tr><td>App (abofrei)</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>SIP / FRITZ!</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td></tr>
+        <tr><td>RFID</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely c-flag">~</td><td class="cell c-likely c-flag">~</td><td class="cell c-likely">~</td></tr>
+        <tr><td>PIN-Code</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td></tr>
+        <tr><td>QR-Code</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td></tr>
+        <tr><td>Fingerprint</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td></tr>
+        <tr><td>Gesichtserkennung</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td></tr>
+        <tr><td>Sicherheitsmodul</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>Austauschb. Namensschild</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>Beleucht. Taster/LED</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-na">–</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td></tr>
+        <tr><td>Wunschfarbe / RAL</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>Aufputz + Unterputz</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-na">–</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>MFH-Skalierung &gt; 2</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td><td class="cell c-yes">✓</td></tr>
+      </tbody>
+    </table></div>
+
+    <h4>Innenstationen</h4>
+    <div class="twrap"><table class="matrix">
+      <thead><tr><th>Feature</th><th class="rot">Home 7"</th><th class="rot">Pro 7" IPS</th><th class="rot">Ultra 10"</th><th class="rot">XDM10 7"</th><th class="rot">ADM10 7"</th></tr></thead>
+      <tbody>
+        <tr><td>2-Draht <i>oder</i> LAN/PoE</td><td class="cell c-yes">✓</td><td class="cell c-na">nur PoE</td><td class="cell c-na">nur PoE</td><td class="cell c-na">nur BUS</td><td class="cell c-yes">✓</td></tr>
+        <tr><td>WLAN</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td></tr>
+        <tr><td>Kopplungskapazität genannt</td><td class="cell c-yes">10</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-yes c-flag">4</td><td class="cell c-likely">~</td></tr>
+        <tr><td>Panel-Typ genannt</td><td class="cell c-yes">LCD</td><td class="cell c-yes">IPS</td><td class="cell c-likely">~</td><td class="cell c-yes">LCD</td><td class="cell c-likely">~</td></tr>
+        <tr><td>Melodien-Anzahl</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td></tr>
+        <tr><td>Nicht-stören-Modus</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td></tr>
+        <tr><td>ONVIF-Kameras</td><td class="cell c-yes">✓</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-na">–</td><td class="cell c-likely">~</td></tr>
+        <tr><td>Netzteil enthalten</td><td class="cell c-likely">~</td><td class="cell c-yes">nein</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td><td class="cell c-likely">~</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- Punch lists -->
+  <section id="punch">
+    <div class="sec-head"><span class="sec-kicker">AKTION</span><h2>Punch-Listen „Merkmale ergänzen" (an Metzler)</h2></div>
+    <p class="lead">Aus allen „~"-Zellen abgeleitet. Wird die <b>Quellseite</b> korrigiert, profitieren Berater, Facetten und SEO gleichzeitig.</p>
+    <div class="grid2">
+      <div class="card"><h4>VDM10 · Neo</h4><ul><li>IR-Nachtsicht, WDR, RTSP/NVR, SIP/FRITZ! als eigene Abschnitte (Prosa lässt sie weg, Tabelle bestätigt)</li></ul></div>
+      <div class="card"><h4>VDM10 · Kian / Niko / Horizon</h4><ul><li>Sicherheitsmodul-Kompatibilität explizit</li><li>Horizon/Niko: QR-Code-Zutritt klären</li><li>WDR/RTSP im Fließtext bestätigen</li></ul></div>
+      <div class="card"><h4>SDM10H <span class="badge b-flag">⚑</span></h4><ul><li><b>Beleuchtete Hausnummer</b> nur im Titel — im Beschreibungstext komplett ungenannt (Alleinstellungsmerkmal!)</li><li>Blickwinkel, IR, WDR, 2. Türöffner aus SDM10X übernehmen</li></ul></div>
+      <div class="card"><h4>ADM10 (Dominik &amp; Kai) <span class="badge b-flag">⚑</span></h4><ul><li>RFID „modellabhängig" konkret angeben</li><li>beleuchteter Taster; (Kai) Sicherheitsmodul</li></ul></div>
+      <div class="card"><h4>XDM10 · Maxior <span class="badge b-flag">⚑</span></h4><ul><li>Legacy-Kompatibilität auf Produktseite spiegeln (steht nur auf /sprechanlagen-info)</li><li>max. Innenstationen widerspruchsfrei (99 vs 4)</li><li>RTSP, Manipulationsalarm</li></ul></div>
+      <div class="card"><h4>Innenstationen (alle)</h4><ul><li>Melodien-Anzahl &amp; Nicht-stören-Modus</li><li>WLAN je Modell; Pro/Ultra: Kopplung &amp; Panel-Typ</li><li>ONVIF-Support &amp; Netzteil-Lieferumfang je Modell</li></ul></div>
+      <div class="card"><h4>Alle Produkte</h4><ul><li>Strukturierter <b>Lieferumfang</b> inkl. PoE-Switch/Netzteil/Kabel (aktuell nur Prosa)</li></ul></div>
+    </div>
+  </section>
+
+  <!-- Deliverable 3 -->
+  <section id="d3">
+    <div class="sec-head"><span class="sec-kicker">DELIVERABLE 3</span><h2>Kaufberater-Fragenlogik</h2></div>
+    <p class="lead">Reihenfolge nach Filterwirkung: erst harte Kompatibilität, zuletzt Ästhetik. Jede Frage mit deutschem Kundentext,
+      englischer Kurzform, Optionen und Verzweigung.</p>
+
+    <div class="q">
+      <span class="qtag">F1 · Verkabelung · HARD</span>
+      <h3>„Neubau/Sanierung mit neuer Verkabelung — oder Nachrüstung im Bestand?"</h3>
+      <p class="en">New build / rewire vs. retrofit in existing building?</p>
+      <ul>
+        <li><b>Neubau, neue Kabel</b> → CAT-Netzwerk möglich → <b>IP-Serie (LAN/PoE)</b> → F1b</li>
+        <li><b>Altbau, vorhandene Leitung</b> → F1a</li>
+        <li><b>Weiß nicht</b> → <span class="flagline">⚑ Techniker-Rückfrage / Online-Support-Termin</span></li>
+      </ul>
+      <div class="filt">Filtert <span class="pill">System</span><span class="pill">Verkabelung</span>. Bei „Neubau" entfallen die BUS-Zweige.</div>
+    </div>
+
+    <div class="q">
+      <span class="qtag">F1a · Vorhandene Leitung · HARD</span>
+      <h3>„Welche Leitung liegt bereits?"</h3>
+      <p class="en">What cabling exists?</p>
+      <ul>
+        <li><b>2-Draht-Klingelleitung / alte Gegensprechanlage</b> → <b>2-Draht-BUS (XDM10 Maxior)</b> → F1c</li>
+        <li><b>geschirmtes Fernmeldekabel, sternförmig</b> → <b>IP 2-Draht-IP</b> + 24 V-Trafo → F2</li>
+        <li><b>CAT-Netzwerkkabel</b> → <b>IP LAN/PoE</b> → F2</li>
+      </ul>
+      <div class="filt">Entscheidet IP vs. BUS. Wählt Verteiler bzw. PoE-Konverter.</div>
+    </div>
+
+    <div class="q">
+      <span class="qtag">F1c · Altsystem · HARD ⚑</span>
+      <h3>„Von welchem Hersteller ist Ihre alte Anlage?"</h3>
+      <p class="en">Which legacy system? (Siedle, Gira, Ritto, Busch-Jaeger, TCS, Bticino …)</p>
+      <ul><li>Auswahl aus Liste (Anhang) → „XDM10 geeignet zur Umrüstung"</li></ul>
+      <div class="filt flagline">⚑ Konkrete Modell-Kompatibilität nur auf /sprechanlagen-info — vor verbindlicher Zusage von Metzler bestätigen lassen.</div>
+    </div>
+
+    <div class="q">
+      <span class="qtag">F2 · Video/Audio · HARD</span>
+      <h3>„Möchten Sie sehen, wer klingelt (Video) — oder reicht Sprechen/Hören (Audio)?"</h3>
+      <p class="en">Video or audio only?</p>
+      <ul>
+        <li><b>Video</b> → VDM10/SDM10 (IP) bzw. XDM10 (BUS)</li>
+        <li><b>Audio genügt</b> → <b>ADM10</b> (nur IP-Verkabelung). Alle Kamera-Fragen entfallen.</li>
+      </ul>
+    </div>
+
+    <div class="q">
+      <span class="qtag">F3 · Wohneinheiten · HARD</span>
+      <h3>„Für wie viele Parteien / Klingelknöpfe?"</h3>
+      <p class="en">How many parties / call buttons?</p>
+      <ul>
+        <li><b>1</b> → EFH-Modelle (Colson/Kian/Neo/Niko, ADM10, XDM10 — 1 Taster)</li>
+        <li><b>2–7</b> → Mehrfamilien-Varianten (Taster im Konfigurator)</li>
+        <li><b>&gt; 7 / flexibel wachsend</b> → <b>Horizon</b> oder <b>SDM10</b> (1–500, digitale Klingelschilder)</li>
+      </ul>
+      <div class="filt flagline">⚑ XDM10 max. Parteien unklar (99 vs 4) → Metzler.</div>
+    </div>
+
+    <div class="q">
+      <span class="qtag">F4 · Zutritt · PREF</span>
+      <h3>„Wie möchten Sie schlüssellos öffnen?" (Mehrfachauswahl)</h3>
+      <p class="en">Keyless entry methods?</p>
+      <ul>
+        <li><b>nur App</b> → jedes Modell · <b>RFID</b> → Niko/Horizon/SDM10 (ADM10 ⚑)</li>
+        <li><b>PIN</b> → Horizon/SDM10 · <b>Fingerprint</b> → Niko · <b>Gesichtserkennung</b> → SDM10</li>
+      </ul>
+      <div class="filt flagline">⚑ Bei Gesichtserkennung: DSGVO-Hinweis von Metzler bestätigen lassen.</div>
+    </div>
+
+    <div class="grid2">
+      <div class="q" style="margin:0">
+        <span class="qtag">F5 · Montage · PREF</span>
+        <h3>Aufputz / Unterputz / Stele?</h3>
+        <ul><li>Universal-Kasten deckt AP+UP ab (WDVS-Dichtung)</li><li>Kein Wandort → SDM10S Stele</li></ul>
+      </div>
+      <div class="q" style="margin:0">
+        <span class="qtag">F6 · Integration · PREF</span>
+        <h3>FRITZ!/SIP · NVR · Sicherheitsmodul?</h3>
+        <ul><li class="flagline">FRITZ!/SIP → nur IP (XDM10 kann es NICHT)</li><li>NVR → VDM10/SDM10</li></ul>
+      </div>
+      <div class="q" style="margin:0">
+        <span class="qtag">F7 · Innenstation · PREF</span>
+        <h3>Anzahl &amp; Modell (Home/Pro/Ultra)?</h3>
+        <ul><li>Pro/Ultra nur bei LAN/PoE · BUS → XDM10-IS · Audio → ADM10-IS</li><li>Hinweis: Pro ohne Netzteil</li></ul>
+      </div>
+      <div class="q" style="margin:0">
+        <span class="qtag">F8 · Ästhetik · PREF</span>
+        <h3>Farbe/RAL · Namensschild · LED · Gravur?</h3>
+        <ul><li>Braun nur Kian; Neo ohne Weiß/Braun</li><li>Namensschild → Neo/Kai/XDM10/Horizon</li></ul>
+      </div>
+      <div class="q" style="margin:0">
+        <span class="qtag">F9 · Kombi/Set · PREF</span>
+        <h3>Briefkasten/Paketbox · Komplettset?</h3>
+        <ul><li>Briefkasten (Wand/Stand), Paketbox (opt. Fingerprint+RFID)</li><li class="flagline">⚑ Set-Lieferumfang von Metzler bestätigen</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Legacy -->
+  <section id="legacy">
+    <div class="sec-head"><span class="sec-kicker">ANHANG</span><h2>Altsysteme (XDM10-Umrüstung)</h2></div>
+    <p class="lead">Quelle: <span class="mono">/sprechanlagen-info</span> — <span class="flagline">⚑ produktseitig nicht verifiziert.</span></p>
+    <div class="twrap"><table>
+      <thead><tr><th>Hersteller</th><th>Modelle (Auszug)</th></tr></thead>
+      <tbody>
+        <tr><td>Siedle</td><td>511 / 611 (611-basiert), TLM 511-0x / TLM 611-0x</td></tr>
+        <tr><td>Gira</td><td>Türstation TX_44, System 106 Türstationsmodule</td></tr>
+        <tr><td>Busch-Jaeger</td><td>Busch-Welcome® Audio (1–15 Taster), Video A21381…/H81381…</td></tr>
+        <tr><td>Ritto</td><td>Entravox (18401xx/18404xx), Portier / Acero</td></tr>
+        <tr><td>Grothe</td><td>MIKRA (SET 1122/31), MIKRA 2</td></tr>
+        <tr><td>Elcom (Hager)</td><td>ELCOM.ONE, .ESTA, .STABILA, TAP-1/1, TAP-2/1, REQ001Y</td></tr>
+        <tr><td>TCS</td><td>TCS:BUS®, PUK-Serie (PUK02/1-EN, PUK08/2-ES…), PAK</td></tr>
+        <tr><td>Bticino</td><td>Linea 3000 Audio (343071), Video (343091)</td></tr>
+        <tr><td>SKS-Kinkel</td><td>Basic Line (BL2012), Edelstahl-Serie</td></tr>
+        <tr><td>Comelit</td><td>Quadra, Ciao</td></tr>
+        <tr><td>STR Elektronik</td><td>Softline, Varoflex</td></tr>
+        <tr><td>Balter</td><td>EVO-HD, EVIDA</td></tr>
+        <tr><td>Goliath</td><td>AV-VTA, Basic Line</td></tr>
+        <tr><td>Balcom Electronic</td><td>BHT 9800, ETL 290</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer>
+    <p>Metzler Kaufberater — Datengrundlage Türsprechanlagen · Datenstand 2026-07-13 · Feature-Mining aus Beschreibung &amp; Konfigurator.
+    Vollversion mit allen Quell-URLs: <span class="mono">Sprechanlagen-Kaufberater.md</span>. Vor Live-Freigabe: alle <span class="flagline">⚑</span>-Punkte bestätigen.</p>
+  </footer>
+</div>
