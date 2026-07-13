@@ -103,6 +103,9 @@
   .advisor__forward--cta:hover{background:var(--teal-600);color:#fff}
   .advisor__forward[disabled]{opacity:.4;cursor:not-allowed}
   .advisor__back svg,.advisor__forward svg{width:1.3em;height:1.3em;flex:0 0 auto}
+  .advisor__count{margin:var(--sp-4) 0 0;font-size:var(--text-body-sm);color:var(--ink-60)}
+  .advisor__count b{color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums}
+  .advisor__count.is-none{color:var(--status-warning)} .advisor__count.is-none b{color:var(--status-warning)}
   .advisor__back svg{transform:rotate(180deg)}
 
   /* Results */
@@ -282,6 +285,9 @@
   var ORDER=["bau","leitung","media","parties","access","integration","mounting","design","set"];
 
   var state={a:{},id:null,edit:false};
+  var TOTAL=PRODUCTS.length;
+  /* Live count: how many models still match the choices so far (updates every step). */
+  function liveCount(a){ return PRODUCTS.filter(function(p){return matches(p,a);}).length; }
   function deriveSystem(a){ if(a.bau==="neubau")return"ip-lan"; if(a.leitung==="bell")return"bus"; if(a.leitung==="fernmelde")return"ip-2draht"; if(a.leitung==="cat")return"ip-lan"; return null; }
   function grp(sys){ return sys==="bus"?"bus":(sys?"ip":null); }
   function accessSel(a){ return (a.access||[]).filter(function(x){return x!=="none";}); }
@@ -332,13 +338,15 @@
     var dots=""; for(var d=0;d<total;d++) dots+='<span class="'+(d<pos?"is-done":(d===pos?"is-current":""))+'"></span>';
     var isLast=pos===total-1;
     var canNext = multi ? true : (st.req ? cur!=null : true);
+    var lc=liveCount(a);
     quizEl.innerHTML=''
       +'<div class="advisor__step">'
       +'<div class="advisor__progress"><span class="advisor__progress-dots">'+dots+'</span>'
         +'<span class="advisor__progress-label">Schritt '+(pos+1)+' von '+total+'</span></div>'
-      +'<h3 class="advisor__q">'+esc(st.q)+'<span class="en">'+esc(st.en)+'</span></h3>'
+      +'<h3 class="advisor__q">'+esc(st.q)+'</h3>'
       +(st.help?'<p class="advisor__help">'+esc(st.help)+'</p>':'')
       +'<div class="advisor__opts" role="group" aria-label="'+esc(st.q)+'">'+opts+'</div>'
+      +'<p class="advisor__count'+(lc===0?' is-none':'')+'">'+(lc===0?'Diese Kombination ergibt derzeit <b>kein</b> passendes Modell – passen Sie eine Angabe an.':'Aktuell passen <b>'+lc+'</b> von '+TOTAL+' Türsprechanlagen zu Ihrer Auswahl.')+'</p>'
       +'<div class="advisor__nav">'
         +(pos>0?'<button type="button" class="advisor__back" data-back>'+CHEV+'Zurück</button>':'<span></span>')
         +'<button type="button" class="advisor__forward'+(isLast?' advisor__forward--cta':'')+'" data-next'+(canNext?'':' disabled')+'>'+(isLast?'Empfehlung anzeigen':'Weiter')+CHEV+'</button>'
@@ -362,7 +370,7 @@
           a[id]=arr; renderStep(id);
         } else {
           a[id]=v; if(id==="bau"&&v==="neubau") delete a.leitung;
-          advance(id);
+          renderStep(id);   /* reflect the choice; advance only when the user presses Weiter (no auto-advance) */
         }
       });
     });
