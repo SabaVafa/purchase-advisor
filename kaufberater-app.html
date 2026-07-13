@@ -246,15 +246,15 @@
 
   /* ---------- QUIZ ---------- */
   var STEPS={
-    bau:{q:"Neubau oder Nachrüstung im Bestand?",en:"New build vs. retrofit — this decides the whole system.",help:"Die Verkabelung entscheidet, welche Serie passt. Wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"neubau",ol:"Neubau / Sanierung",od:"Ich verlege neue Kabel (Netzwerk/CAT)"},
-      {v:"altbau",ol:"Nachrüstung im Bestand",od:"Es liegen bereits Leitungen (Altbau)"},
-      {v:"unsure",ol:"Weiß ich nicht",od:"Verkabelung ist mir unklar"}]},
-    leitung:{q:"Welche Leitung liegt bereits?",en:"What cabling exists? → IP vs. 2-Draht-BUS.",type:"single",req:true,vis:function(a){return a.bau==="altbau"||a.bau==="unsure";},opts:[
-      {v:"bell",ol:"Alte Gegensprech-/Klingelanlage",od:"2-Draht-Klingelleitung → 2-Draht-BUS"},
-      {v:"fernmelde",ol:"Geschirmtes Fernmeldekabel",od:"sternförmig → IP (2-Draht-IP)"},
-      {v:"cat",ol:"Netzwerkkabel (CAT/LAN)",od:"→ IP-Serie (LAN/PoE)"},
-      {v:"unsure",ol:"Weiß ich nicht",od:"vor Ort prüfen lassen"}]},
+    bau:{q:"Planen Sie einen Neubau oder eine Modernisierung?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt – die wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"neubau",ol:"Neubau und Neuverkabelung",od:"Ideal für Neubauten – neue LAN- oder Sternverkabelung · IP-System"},
+      {v:"altbau",ol:"Modernisierung und bestehende Verkabelung",od:"Perfekt zum Modernisieren – nutzt die vorhandene Leitung"},
+      {v:"unsure",ol:"Weiß ich nicht",od:"wir empfehlen passende Modelle für beide Systeme"}]},
+    leitung:{q:"Welche Leitung ist bereits vorhanden?",en:"",help:"Die vorhandene Leitung entscheidet über das passende System.",type:"single",req:true,vis:function(a){return a.bau==="altbau"||a.bau==="unsure";},opts:[
+      {v:"bell",ol:"Alte 2-Draht-Klingelleitung",od:"Nutzt die vorhandene 2-Draht-Leitung · BUS-System"},
+      {v:"fernmelde",ol:"Geschirmtes Fernmeldekabel (sternförmig)",od:"IP-Signal über 2 Draht · IP-System (2-Draht-IP)"},
+      {v:"cat",ol:"Netzwerk-/CAT-Kabel",od:"LAN mit PoE-Stromversorgung · IP-System (LAN/PoE)"},
+      {v:"unsure",ol:"Weiß ich nicht",od:"wir empfehlen passende Modelle für beide Systeme"}]},
     media:{q:"Möchten Sie sehen, wer klingelt?",en:"Video or audio only?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"video",ol:"Video-Sprechanlage",od:"Mit Kamera – Besucher sehen"},
       {v:"audio",ol:"Audio genügt",od:"Nur Sprechen & Hören"}]},
