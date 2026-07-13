@@ -1498,6 +1498,11 @@
 .advisor__chip-x svg { width: 10px; height: 10px; }
 .advisor__note { margin: 0; font-size: var(--text-body-sm); color: var(--ink-60); }   /* KI flow floor: 14px min */
 .advisor__note em { font-style: normal; font-weight: 600; color: var(--schwarz); }
+/* Subtle, data-driven caveats on the result (only shown when a pick warrants it —
+   e.g. a BUS retrofit or a Gesichtserkennung model). Teal info tone, not an alarm. */
+.advisor__caveat { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.advisor__caveat p { display: flex; align-items: flex-start; gap: 8px; margin: 0; font-size: var(--text-body-sm); color: var(--ink-60); line-height: 1.45; }
+.advisor__caveat svg { flex: 0 0 auto; width: 16px; height: 16px; margin-top: 2px; color: var(--teal); stroke-width: 1.8; }
 /* Summary row: chips on the left, action buttons on the right — one horizontal line */
 .advisor__summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3) var(--sp-4); }
 .advisor__summary .advisor__chips { flex: 1 1 auto; }   /* fill the row so the buttons sit at the right edge */

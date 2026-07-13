@@ -1107,6 +1107,18 @@
       var note = res.dropped.length
         ? '<p class="advisor__note">Kein exakter Treffer – wir zeigen Ihnen die besten Alternativen.</p>'
         : '';
+      /* Data-driven caveats — only surfaced when a recommended model actually warrants it.
+         Retrofit compatibility & biometrics are not captured in the product facets, so we flag
+         them honestly rather than implying a guarantee. Kept subtle (teal info, not an alarm). */
+      var infoSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11.5v4.5"/><path d="M12 7.7h.01"/></svg>';
+      var caveats = [];
+      if (top.some(function (t) { return t.p && t.p.system === 'bus'; }))
+        caveats.push('2-Draht-Nachrüstung: Wir prüfen die Kompatibilität mit Ihrer vorhandenen Anlage gern kurz mit Ihnen im Support.');
+      if (top.some(function (t) { return t.p && (t.p.tuer || []).indexOf('gesicht') !== -1; }))
+        caveats.push('Die Gesichtserkennung verarbeitet biometrische Daten – bitte beachten Sie die Datenschutzhinweise.');
+      var caveat = caveats.length
+        ? '<div class="advisor__caveat">' + caveats.map(function (c) { return '<p>' + infoSvg + '<span>' + c + '</span></p>'; }).join('') + '</div>'
+        : '';
       var capture =
         '<div class="advisor__capture" data-result-capture>' +
           '<p class="advisor__capture-q">Empfehlung per E-Mail erhalten?</p>' +
@@ -1142,6 +1154,7 @@
             '</div>' +
           '</div>' +
           note +
+          caveat +
         '</div>' +
         capture +
         '</div>';
