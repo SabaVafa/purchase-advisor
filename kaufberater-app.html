@@ -95,7 +95,7 @@
     transition:border-color .15s,background .15s,box-shadow .15s}
   .advisor__opt:hover{border-color:var(--teal)}
   .advisor__opt:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-10)}
-  .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5);box-shadow:inset 0 0 0 1px var(--teal)}
+  .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5)}
   .advisor__opt-label{font-size:var(--text-body-sm);font-weight:500;color:var(--schwarz)}
   .advisor__opt-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4}
   .advisor__opt.is-off{opacity:.6;cursor:default;background:var(--white)}
@@ -146,8 +146,8 @@
   .advisor__rec-badges{display:flex;flex-wrap:wrap;gap:5px}
   .advisor__rec-sys{font-size:var(--text-caption);font-weight:700;text-transform:uppercase;letter-spacing:.04em;
     color:var(--teal-700);background:var(--teal-100);border:1px solid var(--teal-10);border-radius:var(--r-pill);padding:2px 8px}
-  .advisor__rec-best{font-size:var(--text-caption);font-weight:700;text-transform:uppercase;letter-spacing:.04em;
-    color:#fff;background:var(--teal);border-radius:var(--r-pill);padding:2px 8px}
+  .advisor__rec-best{font-size:var(--text-caption);font-weight:600;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--teal);background:none;padding:2px 0}
   .advisor__rec-name{font-size:var(--text-body-sm);font-weight:700;line-height:1.375;color:var(--schwarz)}
   .advisor__rec-price{font-size:var(--text-body);font-weight:700;color:var(--schwarz);white-space:nowrap}
   .advisor__rec-price small{font-weight:400;color:var(--ink-60);font-size:var(--text-caption)}
@@ -164,7 +164,7 @@
   .advisor__summary-hint{width:100%;font-size:var(--text-caption);color:var(--ink-60);margin:2px 0 0}
   .advisor__actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-4);margin-top:var(--sp-2)}
   .advisor__view{display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;padding:.7rem 1.2rem;
-    border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;font-size:var(--text-body);font-weight:500;line-height:1.2;transition:background .15s}
+    border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;font-size:var(--text-body);font-weight:500;line-height:1.2;text-decoration:none;transition:background .15s}
   .advisor__view:hover{background:var(--teal-600)} .advisor__view:active{background:var(--teal-700)}
   .advisor__reset{min-height:2.625rem;padding:.7rem 0;border:0;background:none;color:var(--teal);font-size:var(--text-body);
     font-weight:600;text-decoration:underline;text-underline-offset:3px}
@@ -252,11 +252,9 @@
   /* ---------- QUIZ ---------- */
   var STEPS={
     bau:{q:"Wie sieht die Verkabelung bei Ihnen aus?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt – die wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"neubau",ol:"Neubau / Kernsanierung",od:"neue Kabel werden verlegt"},
-      {v:"bell",ol:"Alte 2-Draht-Klingelleitung liegt schon",od:"vorhandene Klingelleitung genügt"},
-      {v:"cat",ol:"Netzwerk-/CAT-Kabel liegt",od:"LAN mit PoE"},
-      {v:"fernmelde",ol:"Geschirmtes Telefonkabel, sternförmig",od:"IP über 2 Draht"},
-      {v:"unsure",ol:"Weiß ich nicht",od:"wir zeigen Modelle für beide Systeme + kostenlose Verkabelungs-Beratung"}]},
+      {v:"ip",ol:"Neubau oder Netzwerk-/Telefonkabel",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"},
+      {v:"bus",ol:"Nur alte 2-Draht-Klingelleitung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"},
+      {v:"unsure",ol:"Weiß ich nicht",od:"wir zeigen beide Systeme + kostenlose Verkabelungs-Beratung"}]},
     media:{q:"Möchten Sie sehen, wer klingelt?",en:"Video or audio only?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"video",ol:"Video-Sprechanlage",od:"Mit Kamera – Besucher sehen"},
       {v:"audio",ol:"Audio genügt",od:"Nur Sprechen & Hören"}]},
@@ -294,7 +292,7 @@
   var TOTAL=PRODUCTS.length;
   /* Live count: how many models still match the choices so far (updates every step). */
   function liveCount(a){ return PRODUCTS.filter(function(p){return matches(p,a);}).length; }
-  function deriveSystem(a){ if(a.bau==="neubau")return"ip-lan"; if(a.bau==="bell")return"bus"; if(a.bau==="fernmelde")return"ip-2draht"; if(a.bau==="cat")return"ip-lan"; return null; }
+  function deriveSystem(a){ if(a.bau==="ip")return"ip-lan"; if(a.bau==="bus")return"bus"; return null; }
   function grp(sys){ return sys==="bus"?"bus":(sys?"ip":null); }
   function accessSel(a){ return (a.access||[]).filter(function(x){return x!=="none";}); }
   /* Hypothetical answer set: what `a` becomes if option o of step id is applied. */
@@ -312,7 +310,7 @@
   }
   function stepHint(id,a){ if(id==="access"&&deriveSystem(a)==="bus") return "Über die 2-Draht-Leitung (XDM10) ist RFID die schlüssellose Option – PIN, Fingerabdruck und Gesichtserkennung bietet die IP-Serie."; return ""; }
   /* Upsell: leaving BUS for the IP series means proper/new cabling – send the user back to reconsider it. */
-  function switchToIP(){ state.flash="Für PIN, Fingerabdruck oder Gesichtserkennung ist die IP-Serie nötig – dafür braucht es eine IP-Verkabelung (Neubau, CAT- oder Fernmeldekabel), also ggf. neue Leitungen. Wählen Sie hier die passende Verkabelung."; goTo("bau"); }
+  function switchToIP(){ state.flash="Für PIN, Fingerabdruck oder Gesichtserkennung ist die IP-Serie nötig – wählen Sie hier die IP-Option (Neubau oder Netzwerk-/Telefonkabel). Hinweis: dafür ist eine IP-Verkabelung nötig, ggf. neue Leitungen."; goTo("bau"); }
   function matches(p,a){
     var sys=deriveSystem(a);
     if(sys&&p.systems.indexOf(sys)===-1)return false;
@@ -426,8 +424,8 @@
   /* ---------- summary chips ---------- */
   function summaryChips(a){
     var out=[],sys=deriveSystem(a);
-    if(a.bau)out.push(["Verkabelung",{neubau:"Neubau",bell:"2-Draht-Klingelleitung",cat:"CAT-/Netzwerk",fernmelde:"Telefonkabel",unsure:"unklar"}[a.bau],"bau"]);
-    if(sys)out.push(["System",{"ip-lan":"IP · LAN/PoE","ip-2draht":"IP · 2-Draht","bus":"2-Draht-BUS"}[sys],"bau"]);
+    if(sys)out.push(["System",{"ip-lan":"IP-System","ip-2draht":"IP-System","bus":"2-Draht-BUS"}[sys],"bau"]);
+    else if(a.bau==="unsure")out.push(["System","beide / offen","bau"]);
     if(a.media)out.push(["Typ",a.media==="video"?"Video":"Audio","media"]);
     if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":a.parties,"parties"]);
     var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
@@ -440,13 +438,13 @@
   /* ---------- result ---------- */
   var THUMB='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><circle cx="12" cy="8" r="2.2"/><line x1="10" y1="13" x2="14" y2="13"/><line x1="10" y1="16" x2="14" y2="16"/></svg>';
   /* Placeholder product images (local folder). Live integration swaps these for shop CDN images. */
-  var IMG="Kaufbrater Images/", IMG_PLACEHOLDER="T"+String.fromCharCode(252)+"rklingel.png"; /* ü, ASCII-safe */
+  var IMG="Kaufbrater Images/", IMG_PLACEHOLDER="metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild.webp"; /* generic Sprechanlage placeholder */
   function imgSrc(f){ return encodeURI(IMG+f); }
   function thumbImg(p){ var ph=imgSrc(IMG_PLACEHOLDER);
     return '<img src="'+imgSrc(p.img||IMG_PLACEHOLDER)+'" alt="'+esc(p.name||"")+'" onerror="this.onerror=null;this.src=\''+ph+'\'">'; }
   function whyList(p,a){
     var w=[],sys=deriveSystem(a);
-    if(sys)w.push({"ip-lan":"Passt zu IP-Verkabelung (LAN/PoE)","ip-2draht":"Passt zu vorhandenem Fernmeldekabel","bus":"Nachrüstbar über 2-Draht-Bestandsleitung"}[sys]);
+    if(sys)w.push({"ip-lan":"Passt zu Ihrer IP-Verkabelung","ip-2draht":"Passt zu Ihrer IP-Verkabelung","bus":"Nachrüstbar über 2-Draht-Bestandsleitung"}[sys]);
     w.push(p.media==="video"?"Video mit Kamera":"Audio-Sprechanlage");
     if(a.parties)w.push(p.flex?"Skaliert bis 500 Parteien":"Bis "+p.bmax+" Klingeltaster");
     accessSel(a).forEach(function(x){ if(p.access.indexOf(x)>-1)w.push({rfid:"RFID-Zutritt",pin:"PIN-Code",fingerprint:"Fingerabdruck",face:"Gesichtserkennung"}[x]); });
