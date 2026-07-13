@@ -12,11 +12,15 @@
     --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px;
     --r-m:4px; --r-l:8px; --r-pill:9999px;
     --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 12px 32px rgba(0,0,0,0.12);
+    --container:1380px;   /* matches Metzler design-system .container (styles-v2.css) */
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper-white);color:var(--ink-72);font-family:var(--font-family);
     line-height:1.55;font-size:var(--text-body);-webkit-font-smoothing:antialiased}
-  .container{max-width:64rem;margin:0 auto;padding:24px 20px 72px}
+  .container{width:100%;max-width:var(--container);margin:0 auto;padding:24px clamp(24px,4vw,56px) 72px}
+  @media (min-width:1440px){:root{--container:1560px} .container{padding-left:clamp(92px,5vw,116px);padding-right:clamp(92px,5vw,116px)}}
+  @media (min-width:1920px){:root{--container:1760px} .container{padding-left:clamp(92px,5vw,140px);padding-right:clamp(92px,5vw,140px)}}
+  @media (min-width:2560px){:root{--container:2040px}}
   a{color:var(--teal)}
   button{font-family:inherit;cursor:pointer}
   h1,h2,h3{margin:0;color:var(--schwarz);line-height:1.3}
