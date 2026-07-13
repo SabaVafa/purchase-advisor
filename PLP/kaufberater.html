@@ -397,9 +397,15 @@
         { key:"type", type:"single", match:satMatch,
           q:"Möchten Sie sehen, wer vor der Tür steht?",
           opts:[ {v:"video",label:"Mit Kamera (Video)",sub:"Live-HD-Bild der Besucher",chip:"Video",sat:p=>p.type==="video",when:a=>spAvail(a,"type","video")}, {v:"audio",label:"Audio-only",sub:"nur sprechen, ohne Kamera",chip:"Audio",sat:p=>p.type==="audio",when:a=>spAvail(a,"type","audio")} ] },
-        { key:"system", type:"single", match:satMatch,
-          q:"Planen Sie einen Neubau oder eine Modernisierung?",
-          opts:[ {v:"ip",label:"Neubau und Neuverkabelung",sub:"Ideal für Neubauten – LAN- oder 2-Draht-Sternverkabelung · IP-System",chip:"IP-System",sat:p=>p.system==="ip",when:a=>spAvail(a,"system","ip")}, {v:"bus",label:"Modernisierung und bestehende Verkabelung",sub:"Perfekt zum Modernisieren – nutzt die vorhandene 2-Draht-Leitung · BUS-System",chip:"2-Draht-BUS",sat:p=>p.system==="bus",when:a=>spAvail(a,"system","bus")}, {v:"weiss",label:"Weiß ich nicht",sub:"wir empfehlen passende Modelle für beide Systeme",neutral:true,when:a=>spAvail(a,"system","ip")&&spAvail(a,"system","bus")} ] },
+        /* System = EXISTING/PLANNED CABLING (Metzler /sprechanlagen-info: "Wahl basierend auf
+           vorhandener Verkabelung"), NOT new-vs-old. Old 2-wire bell line -> 2-Draht-BUS; star
+           Fernmeldekabel or new CAT/LAN -> IP-Serie (which runs LAN/PoE OR 2-Draht-IP). The two IP
+           options share system==="ip" (distinct keys ip/ip2 so each keeps its own chip). Step-level
+           when(): only a real decision when BOTH systems remain; else skip (Audio/Flexibel = IP-only,
+           so the two IP options would be a fake choice). */
+        { key:"system", type:"single", match:satMatch, when:a=>spAvail(a,"system","ip")&&spAvail(a,"system","bus"),
+          q:"Welche Verkabelung ist vorhanden oder geplant?",
+          opts:[ {v:"ip",label:"Neubau / neues Netzwerkkabel",sub:"CAT-/LAN-Kabel mit PoE · IP-Serie (LAN/PoE)",chip:"IP-System · LAN/PoE",sat:p=>p.system==="ip",when:a=>spAvail(a,"system","ip")}, {v:"ip2",label:"Vorhandenes Fernmeldekabel",sub:"sternförmig zum Verteiler · IP-Serie (2-Draht-IP)",chip:"IP-System · 2-Draht-IP",sat:p=>p.system==="ip",when:a=>spAvail(a,"system","ip2")}, {v:"bus",label:"Alte 2-Draht-Klingelleitung",sub:"durchgeschleift, weiternutzen · 2-Draht-BUS",chip:"2-Draht-BUS",sat:p=>p.system==="bus",when:a=>spAvail(a,"system","bus")}, {v:"weiss",label:"Weiß ich nicht",sub:"wir empfehlen passende Modelle für beide Systeme",neutral:true,when:a=>spAvail(a,"system","ip")&&spAvail(a,"system","bus")} ] },
         /* Step-level rule straight from the live shop: the BUS-Serie and Audio
            categories carry no "Türöffner Bedienung" facet at all → the whole
            Zutritt step disappears for them. Within the step the methods AND-gate
@@ -1093,6 +1099,14 @@
       const cards = top.map(({p})=>recCardHTML(p, single)).join("");
       const chips = buildChips().map(c=>'<span class="advisor__chip">'+c.text+'<button type="button" class="advisor__chip-x" data-chip="'+c.key+'" aria-label="Filter '+c.text+' entfernen"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg></button></span>').join("");
       const note = exact ? "" : '<p class="advisor__note">Kein exakter Treffer – wir zeigen Ihnen die besten Alternativen.</p>';
+      /* Data-driven caveats — only when a recommended model warrants it (retrofit compatibility &
+         biometrics aren't captured in the facets, so we flag them honestly). Sprechanlage-specific
+         conditions; harmless elsewhere (other categories' products carry no system/tuer). */
+      const cvInfo = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11.5v4.5"/><path d="M12 7.7h.01"/></svg>';
+      const cvs = [];
+      if (top.some(({p})=>p.system==="bus")) cvs.push("2-Draht-Nachrüstung: Wir prüfen die Kompatibilität mit Ihrer vorhandenen Anlage gern kurz mit Ihnen im Support.");
+      if (top.some(({p})=>(p.tuer||[]).includes("gesicht"))) cvs.push("Die Gesichtserkennung verarbeitet biometrische Daten – bitte beachten Sie die Datenschutzhinweise.");
+      const caveat = cvs.length ? '<div class="advisor__caveat">'+cvs.map(c=>'<p>'+cvInfo+'<span>'+c+'</span></p>').join('')+'</div>' : '';
       const viewLabel = total===1 ? "Das Modell ansehen" : "Alle "+total+" Modelle ansehen";
       /* Briefkasten + Mehrfamilien → offer the Briefkastenanlagen-Konfigurator */
       const konfig = (root.getAttribute("data-ai")==="briefkasten" && answers.wohnsituation==="mf")
@@ -1140,6 +1154,7 @@
             '</div>'+
           '</div>'+
           note+
+          caveat+
         '</div>'+
         capture+
       '</div>';
