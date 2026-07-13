@@ -2,3 +2,9 @@
 Thumbs.db
 .DS_Store
 scratchpad/
+
+# internal working docs — kept locally, not published
+Feature-Dictionary.md
+Kaufberater-Playbook.md
+Sprechanlagen-Kaufberater.md
+sprechanlagen-kaufberater.html
