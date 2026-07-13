@@ -94,7 +94,8 @@
   .advisor__opt-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4}
 
   /* Nav */
-  .advisor__nav{display:flex;align-items:center;justify-content:space-between;margin-top:var(--sp-5);gap:12px}
+  .advisor__nav{display:flex;align-items:center;justify-content:space-between;margin-top:var(--sp-5);gap:12px 16px;flex-wrap:wrap}
+  .advisor__nav-left{display:flex;align-items:center;gap:var(--sp-4);flex-wrap:wrap;min-width:0}
   .advisor__back,.advisor__forward{display:inline-flex;align-items:center;gap:6px;background:none;border:0;
     font-size:var(--text-body-sm);font-weight:600;line-height:1.2;padding:6px 2px}
   .advisor__back{color:var(--ink-60)} .advisor__back:hover{color:var(--teal)}
@@ -103,7 +104,7 @@
   .advisor__forward--cta:hover{background:var(--teal-600);color:#fff}
   .advisor__forward[disabled]{opacity:.4;cursor:not-allowed}
   .advisor__back svg,.advisor__forward svg{width:1.3em;height:1.3em;flex:0 0 auto}
-  .advisor__count{margin:var(--sp-4) 0 0;font-size:var(--text-body-sm);color:var(--ink-60)}
+  .advisor__count{margin:0;font-size:var(--text-body-sm);color:var(--ink-60)}
   .advisor__count b{color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums}
   .advisor__count.is-none{color:var(--status-warning)} .advisor__count.is-none b{color:var(--status-warning)}
   .advisor__back svg{transform:rotate(180deg)}
@@ -346,9 +347,11 @@
       +'<h3 class="advisor__q">'+esc(st.q)+'</h3>'
       +(st.help?'<p class="advisor__help">'+esc(st.help)+'</p>':'')
       +'<div class="advisor__opts" role="group" aria-label="'+esc(st.q)+'">'+opts+'</div>'
-      +'<p class="advisor__count'+(lc===0?' is-none':'')+'">'+(lc===0?'Diese Kombination ergibt derzeit <b>kein</b> passendes Modell – passen Sie eine Angabe an.':'Aktuell passen <b>'+lc+'</b> von '+TOTAL+' Türsprechanlagen zu Ihrer Auswahl.')+'</p>'
       +'<div class="advisor__nav">'
-        +(pos>0?'<button type="button" class="advisor__back" data-back>'+CHEV+'Zurück</button>':'<span></span>')
+        +'<div class="advisor__nav-left">'
+          +(pos>0?'<button type="button" class="advisor__back" data-back>'+CHEV+'Zurück</button>':'')
+          +'<span class="advisor__count'+(lc===0?' is-none':'')+'">'+(lc===0?'Diese Kombination ergibt derzeit <b>kein</b> passendes Modell – passen Sie eine Angabe an.':'Aktuell passen <b>'+lc+'</b> von '+TOTAL+' Türsprechanlagen zu Ihrer Auswahl.')+'</span>'
+        +'</div>'
         +'<button type="button" class="advisor__forward'+(isLast?' advisor__forward--cta':'')+'" data-next'+(canNext?'':' disabled')+'>'+(isLast?'Empfehlung anzeigen':'Weiter')+CHEV+'</button>'
       +'</div>'
       +'</div>';
