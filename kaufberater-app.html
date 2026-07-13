@@ -98,7 +98,7 @@
   .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5)}
   .advisor__opt-label{font-size:var(--text-body-sm);font-weight:500;color:var(--schwarz)}
   .advisor__opt-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4}
-  .advisor__opt.is-off{opacity:.6;cursor:default;background:var(--white)}
+  .advisor__opt.is-off{cursor:default;background:var(--graphite-100)}
   .advisor__opt.is-off:hover{border-color:var(--graphite-300);box-shadow:none}
   .advisor__opt.is-off .advisor__opt-label{color:var(--ink-60)}
   .advisor__opt-note{font-size:var(--text-body-sm);color:var(--status-warning);line-height:1.4}
@@ -135,12 +135,19 @@
   .advisor__rec{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
     border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s}
   .advisor__rec:hover{border-color:var(--teal);box-shadow:var(--shadow-md)}
-  .advisor__rec.is-best{border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+  .advisor__rec.is-best{border-color:var(--teal)}
+  /* single-match spotlight: one lone card would stretch full-width and look broken */
+  .advisor__recs--solo{display:block}
+  .advisor__rec--solo{flex-direction:row;align-items:flex-start;gap:var(--sp-5);max-width:760px}
+  .advisor__rec--solo .advisor__rec-thumb--img{width:150px;height:150px}
+  .advisor__rec-solo-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:6px}
+  .advisor__rec--solo .advisor__rec-features{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;margin:2px 0 2px}
+  @media (max-width:560px){.advisor__rec--solo{flex-direction:column}.advisor__rec--solo .advisor__rec-features{grid-template-columns:1fr}}
   .advisor__rec-top{display:flex;align-items:flex-start;gap:var(--sp-3)}
   .advisor__rec-thumb{flex:0 0 auto;width:64px;height:64px;border-radius:var(--r-m);background:var(--teal-5);
     color:var(--teal);display:grid;place-items:center}
   .advisor__rec-thumb svg{width:32px;height:32px}
-  .advisor__rec-thumb--img{background:#fff;border:1px solid var(--graphite-300);overflow:hidden}
+  .advisor__rec-thumb--img{background:#fff;overflow:hidden}
   .advisor__rec-thumb--img img{width:100%;height:100%;object-fit:contain;display:block}
   .advisor__rec-head{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:5px}
   .advisor__rec-badges{display:flex;flex-wrap:wrap;gap:5px}
@@ -170,20 +177,60 @@
     font-weight:600;text-decoration:underline;text-underline-offset:3px}
   .advisor__reset:hover{color:var(--teal-700)}
 
-  /* ⚑ confirmation note + support */
-  .advisor__note{border:1px solid rgba(230,126,0,.34);background:rgba(230,126,0,.08);border-radius:var(--r-l);
-    padding:14px 16px;margin-top:var(--sp-2)}
-  .advisor__note h4{margin:0 0 6px;font-size:var(--text-body-sm);font-weight:700;color:var(--status-warning)}
-  .advisor__note ul{margin:0;padding-left:18px;font-size:var(--text-body-sm);color:var(--ink-72)}
-  .advisor__note li{margin:3px 0}
+  /* support */
   .advisor__support{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;justify-content:space-between;
-    margin-top:var(--sp-2);padding:16px 18px;border-radius:var(--r-l);background:var(--teal-700);color:#fff}
+    margin-top:var(--sp-2);padding:16px 18px;border-radius:var(--r-l);background:var(--teal-5);border:1px solid var(--graphite-300);color:var(--schwarz)}
   .advisor__support .st{font-weight:700;font-size:var(--text-body)}
-  .advisor__support .ss{font-size:var(--text-body-sm);color:rgba(255,255,255,.75);margin-top:1px}
+  .advisor__support .ss{font-size:var(--text-body-sm);color:var(--ink-60);margin-top:1px}
   .advisor__support-btns{display:flex;gap:8px;flex-wrap:wrap}
   .advisor__support a{display:inline-flex;align-items:center;height:2.5rem;padding:0 14px;border-radius:var(--r-m);
-    font-size:var(--text-body-sm);font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,.45);color:#fff}
-  .advisor__support a.solid{background:#fff;color:var(--teal-700);border-color:#fff}
+    font-size:var(--text-body-sm);font-weight:600;text-decoration:none;border:1px solid var(--teal);color:var(--teal);background:none}
+  .advisor__support a.solid{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+  /* e-mail capture (result screen) */
+  .advisor__capture{display:flex;flex-direction:column;gap:var(--sp-3);margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid var(--graphite-300)}
+  .advisor__capture-q{margin:0;font-size:var(--text-body-sm);font-weight:700;color:var(--schwarz)}
+  .advisor__capture-row{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;gap:var(--sp-4)}
+  .advisor__capture-row .advisor__field,.advisor__capture-row .advisor__optin,.advisor__capture-row .advisor__send{min-height:3rem}
+  .advisor__capture-row>.advisor__field{min-width:0}
+  .advisor__field{display:flex;align-items:center;gap:var(--sp-3);padding:0 .9375rem;background:var(--white);border:1px solid var(--graphite-300);border-radius:var(--r-m);transition:border-color .15s ease}
+  .advisor__field:focus-within{border-color:var(--teal)}
+  .advisor__field-ico{width:20px;height:20px;flex:0 0 auto}
+  .advisor__field-ico--mail{fill:none;stroke:var(--teal);stroke-width:1.8}
+  .advisor__input{flex:1 1 auto;min-width:0;border:0;outline:0;background:transparent;padding:.7rem 0;font-family:inherit;font-size:var(--text-body);color:var(--schwarz)}
+  .advisor__input::placeholder{color:var(--graphite-500)}
+  .advisor__capture-end{min-width:0;display:flex;align-items:stretch;gap:var(--sp-3)}
+  .advisor__capture-end .advisor__optin{flex:1 1 auto;min-width:0}
+  .advisor__capture-end .advisor__send{flex:0 0 auto}
+  .advisor__optin{display:flex;align-items:center;gap:.5625rem;padding:12px 16px;border-radius:var(--r-m);cursor:pointer;
+    background:var(--white);border:1px solid var(--graphite-300);color:var(--schwarz);font-size:var(--text-body-sm);transition:background .15s ease,border-color .15s ease}
+  .advisor__optin.is-on{border-color:var(--teal)}
+  .advisor__optin input{position:absolute;opacity:0;width:0;height:0}
+  .advisor__optin-box{flex:0 0 auto;width:1.125rem;height:1.125rem;border-radius:.1875rem;border:1px solid var(--graphite-300);background:var(--white);display:grid;place-items:center;transition:background .12s ease,border-color .12s ease}
+  .advisor__optin.is-on .advisor__optin-box{background:var(--teal);border-color:var(--teal)}
+  .advisor__optin.is-on .advisor__optin-box::after{content:"";width:.34rem;height:.6rem;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+  .advisor__optin input:focus-visible + .advisor__optin-box{box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__send{flex:0 0 auto;align-self:stretch;display:grid;place-items:center;width:48px;border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;cursor:pointer;transition:background .15s ease}
+  .advisor__send:hover{background:var(--teal-600)}
+  .advisor__send svg{width:20px;height:20px}
+  .advisor__send-label{display:none}
+  .advisor__optin-info{display:none;align-items:flex-start;gap:8px;margin:0;padding:10px 14px;border-radius:var(--r-m);background:#E6F1FB;color:#185FA5;font-size:var(--text-body-sm);line-height:1.5}
+  .advisor__optin-info.is-shown{display:flex}
+  .advisor__optin-info svg{flex:0 0 auto;width:18px;height:18px;margin-top:1px}
+  .advisor__legal{margin:0;font-size:var(--text-body-sm);color:var(--ink-60)}
+  .advisor__legal a{color:var(--teal)}
+  .advisor__sent{display:inline-flex;align-items:center;gap:var(--sp-2);align-self:flex-start;width:fit-content;max-width:100%;margin:0;padding:12px 16px;border-radius:var(--r-m);background:rgba(0,153,81,.08);border:1px solid rgba(0,153,81,.30)}
+  .advisor__sent-ico{flex:0 0 auto;width:20px;height:20px;color:var(--green)}
+  .advisor__sent-text{margin:0;font-size:var(--text-body-sm);color:var(--schwarz)}
+  .advisor__sent-text strong{font-weight:700;color:var(--schwarz)}
+  @media (max-width:760px){
+    .advisor__capture-row{grid-template-columns:1fr;gap:var(--sp-3)}
+    .advisor__capture-end{flex-direction:column;gap:var(--sp-3)}
+    .advisor__capture-row .advisor__optin{flex:1 1 auto}
+    .advisor__capture-row .advisor__send{flex:0 0 auto;width:100%;min-height:2.625rem;padding:.7rem 1.2rem;display:flex;align-items:center;justify-content:center}
+    .advisor__capture-row .advisor__send svg{display:none}
+    .advisor__send-label{display:inline;font-size:var(--text-body);font-weight:500;line-height:1.2}
+  }
 
   .advisor__empty{display:flex;gap:var(--sp-3);align-items:flex-start;padding:var(--sp-4);border:1px solid var(--graphite-300);
     border-radius:var(--r-l);background:var(--white)}
@@ -289,6 +336,7 @@
   var ORDER=["bau","media","parties","access","integration","mounting","design","set"];
 
   var state={a:{},id:null,edit:false};
+  var lead={email:"",news:false};
   var TOTAL=PRODUCTS.length;
   /* Live count: how many models still match the choices so far (updates every step). */
   function liveCount(a){ return PRODUCTS.filter(function(p){return matches(p,a);}).length; }
@@ -308,7 +356,6 @@
     if(a.media==="audio"){ var bV=applyAns(id,o,a); delete bV.media; if(liveCount(bV)>0) return {off:true,note:"nur mit Video-Sprechanlage"}; }
     return {off:true,note:"derzeit kein passendes Modell"};
   }
-  function stepHint(id,a){ if(id==="access"&&deriveSystem(a)==="bus") return "Über die 2-Draht-Leitung (XDM10) ist RFID die schlüssellose Option – PIN, Fingerabdruck und Gesichtserkennung bietet die IP-Serie."; return ""; }
   /* Upsell: leaving BUS for the IP series means proper/new cabling – send the user back to reconsider it. */
   function switchToIP(){ state.flash="Für PIN, Fingerabdruck oder Gesichtserkennung ist die IP-Serie nötig – wählen Sie hier die IP-Option (Neubau oder Netzwerk-/Telefonkabel). Hinweis: dafür ist eine IP-Verkabelung nötig, ggf. neue Leitungen."; goTo("bau"); }
   function matches(p,a){
@@ -365,7 +412,6 @@
     var isLast=pos===total-1;
     var canNext = multi ? true : (st.req ? cur!=null : true);
     var lc=liveCount(a);
-    var hint=stepHint(id,a);
     var flash=(id==="bau")?state.flash:""; if(id==="bau") state.flash=null;
     quizEl.innerHTML=''
       +'<div class="advisor__step">'
@@ -374,7 +420,6 @@
       +'<h3 class="advisor__q">'+esc(st.q)+'</h3>'
       +(st.help?'<p class="advisor__help">'+esc(st.help)+'</p>':'')
       +(flash?'<p class="advisor__hint advisor__flash">'+esc(flash)+'</p>':'')
-      +(hint?'<p class="advisor__hint">'+esc(hint)+'</p>':'')
       +'<div class="advisor__opts" role="group" aria-label="'+esc(st.q)+'">'+opts+'</div>'
       +'<div class="advisor__nav">'
         +'<div class="advisor__nav-left">'
@@ -452,29 +497,24 @@
     if(w.length<3)p.hl.forEach(function(h){if(w.length<4)w.push(h);});
     return w.slice(0,4);
   }
-  function recHTML(p,a,best){
+  function recHTML(p,a,best,solo){
     var feats=whyList(p,a).map(function(t){return '<li>'+esc(t)+'</li>';}).join("");
+    var badges='<span class="advisor__rec-badges"><span class="advisor__rec-sys">'+esc(p.series)+'</span>'+(best?'<span class="advisor__rec-best">Beste Empfehlung</span>':'')+'</span>';
+    var name='<span class="advisor__rec-name">'+esc(p.name)+'</span>';
+    var price='<span class="advisor__rec-price">ab '+p.price+' € <small>inkl. MwSt.</small></span>';
+    var go='<span class="advisor__rec-go">Zum Produkt & konfigurieren'+CHEV+'</span>';
+    if(solo){
+      return '<a class="advisor__rec advisor__rec--solo" href="'+BASE+p.url+'" target="_blank" rel="noopener">'
+        +'<span class="advisor__rec-thumb advisor__rec-thumb--img">'+thumbImg(p)+'</span>'
+        +'<span class="advisor__rec-solo-body">'+badges+name+price
+          +'<ul class="advisor__rec-features">'+feats+'</ul>'+go
+        +'</span></a>';
+    }
     return '<a class="advisor__rec'+(best?' is-best':'')+'" href="'+BASE+p.url+'" target="_blank" rel="noopener">'
       +'<div class="advisor__rec-top"><span class="advisor__rec-thumb advisor__rec-thumb--img">'+thumbImg(p)+'</span>'
-        +'<span class="advisor__rec-head">'
-          +'<span class="advisor__rec-badges"><span class="advisor__rec-sys">'+esc(p.series)+'</span>'+(best?'<span class="advisor__rec-best">Beste Empfehlung</span>':'')+'</span>'
-          +'<span class="advisor__rec-name">'+esc(p.name)+'</span>'
-          +'<span class="advisor__rec-price">ab '+p.price+' € <small>inkl. MwSt.</small></span>'
-        +'</span></div>'
-      +'<ul class="advisor__rec-features">'+feats+'</ul>'
-      +'<span class="advisor__rec-go">Zum Produkt & konfigurieren'+CHEV+'</span>'
+        +'<span class="advisor__rec-head">'+badges+name+price+'</span></div>'
+      +'<ul class="advisor__rec-features">'+feats+'</ul>'+go
     +'</a>';
-  }
-  function noteHTML(a,sys,list){
-    var f=[];
-    if(!sys)f.push("Verkabelung noch offen – passendes System (IP oder 2-Draht-BUS) vor Bestellung vor Ort prüfen.");
-    var hasBus=list.some(function(p){return p.series==="2-Draht-BUS";})||sys==="bus";
-    if(hasBus){ f.push("XDM10 (2-Draht-BUS): Kompatibilität mit Ihrer Altanlage (Siedle, Ritto, Gira, TCS …) im Support bestätigen."); f.push("XDM10: maximale Anzahl der Innenstationen im Support klären."); }
-    if(accessSel(a).indexOf("rfid")>-1&&a.media==="audio")f.push("RFID bei der ADM10-Audioserie ist modellabhängig – bitte bestätigen.");
-    if(accessSel(a).indexOf("face")>-1)f.push("Gesichtserkennung (SDM10): Datenschutz-/DSGVO-Hinweise beachten.");
-    if(a.set==="set")f.push("Genauer Lieferumfang der Sets (PoE-Switch/Netzteil) im Support bestätigen.");
-    if(!f.length)return"";
-    return '<div class="advisor__note"><h4>⚑ Vor der Bestellung kurz klären</h4><ul>'+f.map(function(t){return '<li>'+esc(t)+'</li>';}).join("")+'</ul></div>';
   }
   function emptyHTML(a,sys){
     var hint="Passen Sie einzelne Angaben an oder lassen Sie sich persönlich beraten.";
@@ -495,17 +535,18 @@
     else list=list.slice(0,3);
 
     var title = exact>=2 ? '<strong>'+exact+'</strong> passende Türsprechanlagen' : (exact===1?'Unsere Top-Empfehlung':'Am ehesten passend');
-    var recs = list.length ? '<div class="advisor__recs">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&exact>=1);}).join("")+'</div>' : "";
+    var solo = list.length===1;
+    var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&exact>=1,solo);}).join("")+'</div>' : "";
     var body = list.length ? ('<h3 class="advisor__result-title">'+title+'</h3>'+recs) : emptyHTML(a,sys);
 
     resEl.innerHTML='<div class="advisor__result">'
       +'<div class="advisor__summary">'+summaryChips(a)+'<span class="advisor__summary-hint">Zum Ändern auf eine Angabe tippen.</span></div>'
       +body
-      +noteHTML(a,sys,PRODUCTS.filter(function(p){return matches(p,a);}))
       +'<div class="advisor__actions">'
         +(list.length?'<a class="advisor__view" href="'+BASE+'tuersprechanlagen" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
         +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
       +'</div>'
+      +captureHTML()
       +'<div class="advisor__support"><div><div class="st">Unsicher bei der Auswahl?</div><div class="ss">Unsere Sprechanlagen-Experten beraten Sie kostenlos – auch zur Verkabelung vor Ort.</div></div>'
         +'<div class="advisor__support-btns"><a class="solid" href="https://calendly.com/kaufberatung" target="_blank" rel="noopener">Beratungstermin</a>'
         +'<a href="'+BASE+'sprechanlagen-online-support-termin" target="_blank" rel="noopener">Technischer Support</a></div></div>'
@@ -517,6 +558,49 @@
   function wireResult(){
     Array.prototype.forEach.call(resEl.querySelectorAll(".advisor__chip[data-step]"),function(b){ b.addEventListener("click",function(){ state.edit=true; root.classList.remove("is-result"); resEl.hidden=true; goTo(b.getAttribute("data-step")); }); });
     var rs=resEl.querySelector("[data-reset]"); if(rs) rs.addEventListener("click",function(){ state.a={}; state.id=null; state.edit=false; root.classList.remove("is-result"); resEl.hidden=true; goTo(visibleSteps(state.a)[0]); });
+    wireCapture();
+  }
+  /* ---------- e-mail capture (front-end mock; wire to backend at go-live) ---------- */
+  function captureHTML(){
+    return '<div class="advisor__capture" data-result-capture>'
+      +'<p class="advisor__capture-q">Empfehlung per E-Mail erhalten?</p>'
+      +'<div class="advisor__capture-row">'
+        +'<div class="advisor__field">'
+          +'<svg class="advisor__field-ico advisor__field-ico--mail" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>'
+          +'<input type="email" class="advisor__input" data-email autocomplete="email" placeholder="E-Mail-Adresse eingeben" aria-label="E-Mail-Adresse">'
+        +'</div>'
+        +'<div class="advisor__capture-end">'
+          +'<label class="advisor__optin"><input type="checkbox" data-optin><span class="advisor__optin-box" aria-hidden="true"></span><span>Schicken Sie mir Metzler News &amp; Angebote.</span></label>'
+          +'<button type="button" class="advisor__send" data-email-send aria-label="Absenden"><span class="advisor__send-label">Absenden</span>'+CHEV+'</button>'
+        +'</div>'
+      +'</div>'
+      +'<p class="advisor__optin-info" data-optin-info role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11.5v4.5"/><path d="M12 7.7h.01"/></svg><span>Wir senden Ihnen eine E-Mail mit einem Freischalt-Link für den Erhalt unseres Newsletters. Die Abmeldung ist jederzeit möglich.</span></p>'
+      +'<p class="advisor__legal">Hinweise zum Datenschutz finden Sie <a href="'+BASE+'datenschutz" target="_blank" rel="noopener">hier</a>.</p>'
+    +'</div>';
+  }
+  function wireCapture(){
+    var cap=resEl.querySelector("[data-result-capture]");
+    if(!cap) return;
+    var pristine=cap.innerHTML;
+    var email=cap.querySelector("[data-email]");
+    var optin=cap.querySelector("[data-optin]");
+    var optinLabel=cap.querySelector(".advisor__optin");
+    var optinInfo=cap.querySelector("[data-optin-info]");
+    var revertTimer;
+    optin.addEventListener("change",function(){
+      optinLabel.classList.toggle("is-on",optin.checked);
+      optinInfo.classList.toggle("is-shown",optin.checked);
+    });
+    function submit(){
+      var v=email.value.trim();
+      if(!v){ email.focus(); return; }
+      lead.email=v; lead.news=optin.checked;
+      cap.innerHTML='<div class="advisor__sent" role="status"><svg class="advisor__sent-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.4 12.3l2.4 2.4 4.8-5.4"/></svg><p class="advisor__sent-text">Ihre Empfehlung wird an <strong>'+esc(v)+'</strong> gesendet'+(lead.news?" – inkl. News &amp; Angebote":"")+'.'+(lead.news?" Bitte bestätigen Sie die E-Mail in Ihrem Postfach.":"")+'</p></div>';
+      clearTimeout(revertTimer);
+      revertTimer=setTimeout(function(){ cap.innerHTML=pristine; wireCapture(); },4000);
+    }
+    email.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); submit(); } });
+    cap.querySelector("[data-email-send]").addEventListener("click",submit);
   }
 })();
 </script>
