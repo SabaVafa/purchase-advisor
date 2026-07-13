@@ -702,9 +702,14 @@
         { label: 'Mit Kamera (Video)', sub: 'Live-HD-Bild der Besucher', group: 'type', value: 'video', chip: 'Video', hideWhen: gateHide },
         { label: 'Audio-only',         sub: 'nur sprechen, ohne Kamera',  group: 'type', value: 'audio', chip: 'Audio', hideWhen: gateHide }
       ]},
-      { q: 'Planen Sie einen Neubau oder eine Modernisierung?', opts: [
-        { label: 'Neubau und Neuverkabelung', sub: 'Ideal für Neubauten – LAN- oder 2-Draht-Sternverkabelung · IP-System', group: 'system', value: 'ip',  chip: 'IP-System', hideWhen: gateHide },
-        { label: 'Modernisierung und bestehende Verkabelung', sub: 'Perfekt zum Modernisieren – nutzt die vorhandene 2-Draht-Leitung · BUS-System', group: 'system', value: 'bus', chip: '2-Draht-BUS', hideWhen: gateHide },
+      /* System is decided by the EXISTING/PLANNED CABLING (Metzler /sprechanlagen-info: "Wählen Sie
+         basierend auf Ihrer vorhandenen Verkabelung"), NOT by new-build vs. modernisation. Old 2-wire
+         bell line → 2-Draht-BUS; sternförmiges Fernmeldekabel or new CAT/LAN → IP-Serie (which itself
+         runs LAN/PoE OR 2-Draht-IP). So a modernisation with star Fernmeldekabel correctly stays IP. */
+      { q: 'Welche Verkabelung ist vorhanden oder geplant?', opts: [
+        { label: 'Neubau / neues Netzwerkkabel', sub: 'CAT-/LAN-Kabel mit PoE · IP-Serie (LAN/PoE)', group: 'system', value: 'ip', chip: 'IP-System · LAN/PoE', hideWhen: gateHide },
+        { label: 'Vorhandenes Fernmeldekabel', sub: 'sternförmig zum Verteiler · IP-Serie (2-Draht-IP)', group: 'system', value: 'ip', chip: 'IP-System · 2-Draht-IP', hideWhen: gateHide },
+        { label: 'Alte 2-Draht-Klingelleitung', sub: 'durchgeschleift, weiternutzen · 2-Draht-BUS', group: 'system', value: 'bus', chip: '2-Draht-BUS', hideWhen: gateHide },
         { label: 'Weiß ich nicht', sub: 'wir empfehlen passende Modelle für beide Systeme',             neutral: true, hideWhen: function () { var pool = poolBefore(stepOfOpt(this)); return !(pool.some(function (p) { return p.system === 'ip'; }) && pool.some(function (p) { return p.system === 'bus'; })); } }   /* nur zeigen, wenn wirklich beide Systeme möglich sind — sonst bleibt nur eine echte Option und der Schritt wird übersprungen */
       ]},
       /* Zutritt methods are gated per option: only the methods a product consistent
@@ -817,6 +822,14 @@
       /* Optik is a per-product config (Farbe/Edelstahl/Wunschfarbe), not a differentiator —
          once only one product remains there is nothing to choose (e.g. Audio + Papiereinleger). */
       if (i === IDX_OPTIK && IDX_OPTIK !== -1 && (busChosen() || poolBefore(i).length <= 1)) return true;   /* BUS (XDM10) has no Optik choice → color step redundant */
+      /* Verkabelungs-Schritt: zwei der Optionen führen beide zur IP-Serie (LAN/PoE bzw. 2-Draht-IP).
+         Ist die BUS-Option datenbedingt ausgeblendet, bleibt nur EIN echtes System (IP) → kein
+         Systemwahl-Entscheid mehr, Schritt überspringen (verhindert eine Schein-Auswahl). */
+      if (i === IDX_SYSTEM && IDX_SYSTEM !== -1) {
+        var sysSeen = {};
+        QUIZ[i].opts.forEach(function (o) { if (o.group === 'system' && optVisible(o)) sysSeen[o.value] = 1; });
+        if (Object.keys(sysSeen).length <= 1) return true;
+      }
       /* Generic rule (live-shop parity): a step left with ≤1 real option offers
          no choice → skip it. */
       var n = 0;
