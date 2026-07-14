@@ -384,15 +384,17 @@
      (or only one is reachable), skip it — the question can't change anything. */
   function discriminates(id,a){
     var st=STEPS[id];
-    if(st.noskip||st.type!=="single") return true;
-    var avail=0;
+    if(st.noskip) return true;
+    /* single-select is forced, so it needs >=2 real options to be a genuine choice;
+       multi-select is optional, so even 1 addable option makes it worth showing. */
+    var need=st.type==="multi"?1:2, avail=0;
     for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
       if(o.media&&o.media!==a.media) continue;
       if(o.solo||o.v==="open"||o.v==="unsure") continue; /* pass-through / "weiß nicht" options aren't real discriminators */
-      if(PRODUCTS.some(function(p){return matches(p,applyAns(id,o,a));})){ if(++avail>=2) return true; }
+      if(PRODUCTS.some(function(p){return matches(p,applyAns(id,o,a));})){ if(++avail>=need) return true; }
       else if(optState(id,o,a,false).swap) return true; /* a dead option that offers a "wechseln?" redirect is worth showing */
     }
-    return false; /* ≤1 real available option and no redirect → the question can't change anything */
+    return false; /* not enough reachable options and no redirect → the question can't change anything */
   }
   function visibleSteps(a){ return ORDER.filter(function(id){return STEPS[id].vis(a)&&discriminates(id,a);}); }
 
