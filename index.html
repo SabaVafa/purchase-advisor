@@ -336,7 +336,7 @@
       {v:"nameplate",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel"},
       {v:"led",ol:"Beleuchteter Klingeltaster",od:"LED-Farbe wählbar"},
       {v:"none",ol:"Standard reicht",od:"keine besonderen Wünsche",solo:true}]},
-    set:{q:"Fertiges Set oder Einzelkomponenten?",en:"Plug & Play set vs. components.",type:"single",req:true,vis:function(){return true;},opts:[
+    set:{q:"Fertiges Set oder Einzelkomponenten?",en:"Plug & Play set vs. components.",type:"single",req:true,noskip:true,vis:function(){return true;},opts:[
       {v:"set",ol:"Komplettset (Plug & Play)",od:"vorkonfiguriert, nur anschließen"},
       {v:"single",ol:"Einzelkomponenten",od:"selbst zusammenstellen"},
       {v:"either",ol:"Egal / beraten lassen",od:""}]}
@@ -379,7 +379,22 @@
   }
   function score(p,a){ var s=0,d=a.design||[]; if(d.indexOf("wunsch")>-1&&p.wunsch)s++; if(d.indexOf("nameplate")>-1&&p.nameplate)s++; if(d.indexOf("led")>-1&&p.led)s++; if((a.integration||[]).indexOf("nvr")>-1&&p.media==="video"&&p.series!=="2-Draht-BUS")s++; return s; }
   function isAnswered(id){ var v=state.a[id]; return STEPS[id].type==="multi"?(Array.isArray(v)&&v.length>0):(v!=null); }
-  function visibleSteps(a){ return ORDER.filter(function(id){return STEPS[id].vis(a);}); }
+  /* A single-select filter step is only worth asking if its options can still lead
+     to different results. If every reachable option yields the same set of products
+     (or only one is reachable), skip it — the question can't change anything. */
+  function discriminates(id,a){
+    var st=STEPS[id];
+    if(st.noskip||st.type!=="single") return true;
+    var avail=0;
+    for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
+      if(o.media&&o.media!==a.media) continue;
+      if(o.solo||o.v==="open"||o.v==="unsure") continue; /* pass-through / "weiß nicht" options aren't real discriminators */
+      if(PRODUCTS.some(function(p){return matches(p,applyAns(id,o,a));})){ if(++avail>=2) return true; }
+      else if(optState(id,o,a,false).swap) return true; /* a dead option that offers a "wechseln?" redirect is worth showing */
+    }
+    return false; /* ≤1 real available option and no redirect → the question can't change anything */
+  }
+  function visibleSteps(a){ return ORDER.filter(function(id){return STEPS[id].vis(a)&&discriminates(id,a);}); }
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 
