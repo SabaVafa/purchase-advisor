@@ -336,7 +336,7 @@
     mounting:{q:"Wie soll montiert werden?",en:"Mounting type.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"},{v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
       {v:"stele",ol:"Freistehende Stele",od:"kein Wandmontageort"},{v:"open",ol:"Noch offen",od:"weiß ich noch nicht"}]},
-    design:{q:"Was ist Ihnen bei der Optik wichtig?",en:"Aesthetic preferences — optional.",type:"multi",vis:function(){return true;},opts:[
+    design:{q:"Was ist Ihnen bei der Optik wichtig?",en:"Aesthetic preferences — optional.",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell, pulverbeschichtet",attr:"wunsch"},
       {v:"nameplate",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel",attr:"nameplate"},
       {v:"led",ol:"Beleuchteter Klingeltaster",od:"LED-Farbe wählbar",attr:"led"},
@@ -580,6 +580,17 @@
   function discriminates(id,a){
     var st=ST(id);
     if(st.noskip) return true;
+    /* soft (ranking-only) step: worth asking only if it can actually re-rank the result —
+       i.e. >=2 products still match AND at least one shown preference separates them. */
+    if(st.soft){
+      var ms=CAT.products.filter(function(p){return matches(p,a);});
+      if(ms.length<2) return false;
+      return st.opts.some(function(o){
+        if(!o.attr||(o.media&&o.media!==a.media)) return false;
+        var t=0,f=0; for(var j=0;j<ms.length;j++){ ms[j][o.attr]?t++:f++; }
+        return t>0&&f>0;
+      });
+    }
     /* single-select is forced, so it needs >=2 real options to be a genuine choice;
        multi-select is optional, so even 1 addable option makes it worth showing. */
     var need=st.type==="multi"?1:2, avail=0;
