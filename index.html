@@ -337,10 +337,10 @@
       {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"},{v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
       {v:"stele",ol:"Freistehende Stele",od:"kein Wandmontageort"},{v:"open",ol:"Noch offen",od:"weiß ich noch nicht"}]},
     design:{q:"Was ist Ihnen bei der Optik wichtig?",en:"Aesthetic preferences — optional.",type:"multi",vis:function(){return true;},opts:[
-      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell, pulverbeschichtet"},
-      {v:"nameplate",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel"},
-      {v:"led",ol:"Beleuchteter Klingeltaster",od:"LED-Farbe wählbar"},
-      {v:"display",ol:"Touch-Display",od:"digitales Bedienfeld statt Klingeltaster (SDM10)"},
+      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell, pulverbeschichtet",attr:"wunsch"},
+      {v:"nameplate",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel",attr:"nameplate"},
+      {v:"led",ol:"Beleuchteter Klingeltaster",od:"LED-Farbe wählbar",attr:"led"},
+      {v:"display",ol:"Touch-Display",od:"digitales Bedienfeld statt Klingeltaster (SDM10)",attr:"display"},
       {v:"none",ol:"Standard reicht",od:"keine besonderen Wünsche",solo:true}]}
   };
   var SP_ORDER=["bau","combo","media","parties","access","mounting","design"];
@@ -624,7 +624,12 @@
     state.id=id;
     var st=ST(id),a=state.a,vs=visibleSteps(a),pos=vs.indexOf(id),total=vs.length;
     var multi=st.type==="multi", cur=a[id];
-    var opts=st.opts.filter(function(o){return !(o.media&&o.media!==a.media);}).map(function(o){
+    var opts=st.opts.filter(function(o){
+      if(o.media&&o.media!==a.media) return false;
+      /* soft-pref option: only offer it if a still-matching product actually has that attribute */
+      if(o.attr && !CAT.products.some(function(p){return matches(p,a)&&p[o.attr];})) return false;
+      return true;
+    }).map(function(o){
       var sel=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v);
       var stt=optState(id,o,a,sel); if(!multi) delete stt.count;
       return optHTML(o,sel,stt);
