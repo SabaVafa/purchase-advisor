@@ -1,4 +1,5 @@
-<title>Metzler Sprechanlagen-Kaufberater</title>
+<meta charset="utf-8">
+<title>Metzler Kaufberater</title>
 <style>
   :root{
     --font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -31,6 +32,12 @@
   .page-head .wm{font-weight:800;letter-spacing:.14em;font-size:1.0625rem;color:var(--schwarz)}
   .page-head .ct{font-size:var(--text-body-sm);color:var(--ink-60);padding-left:10px;margin-left:2px;border-left:1px solid var(--graphite-300)}
   .plp-note{font-size:var(--text-caption);color:var(--ink-60);text-align:center;margin-top:28px;line-height:1.6}
+  /* Category switcher (standalone preview only; hidden when the embedding page already sets the category) */
+  .cat-switch{margin-left:auto;display:inline-flex;gap:4px;padding:3px;background:var(--graphite-100);border-radius:var(--r-pill)}
+  .cat-switch[hidden]{display:none}
+  .cat-switch button{border:0;background:none;color:var(--ink-60);font-family:inherit;font-size:var(--text-body-sm);
+    font-weight:600;padding:5px 14px;border-radius:var(--r-pill);line-height:1.2}
+  .cat-switch button.is-on{background:var(--white);color:var(--teal);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 
   /* ── Advisor (ported from Metzler PLP plp.css) ── */
   .advisor{padding-block:var(--sp-4)}
@@ -255,6 +262,7 @@
     <svg viewBox="0 0 184.3 184.3" aria-hidden="true"><rect width="184.3" height="184.3" rx="5.75" fill="#D42924"/><path fill="#fff" d="M70.19,34.81l19.04,32.98-9.58,16.57-28.59-49.55h19.13ZM70.28,108.58h0l-23.45-40.64v85.89h-16.57V34.81h16.57l33.02,57.21L123.92,15.65h19.13l-63.22,109.52-9.58-16.57.02-.02ZM153.14,153.83h-16.57v-85.87l-33,57.14h-19.13l52.11-90.28h16.57v119.02l.02-.02Z"/></svg>
     <span class="wm">METZLER</span>
     <span class="ct">Türsprechanlagen</span>
+    <div class="cat-switch" id="catSwitch" role="group" aria-label="Kategorie wählen" hidden></div>
   </div>
 
   <section class="advisor" id="advisor">
@@ -283,8 +291,8 @@
   var CHEV='<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg>';
   var PENCIL='<svg class="advisor__chip-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 
-  /* ---------- PRODUCT DATA (feature analysis, 2026-07-13) ---------- */
-  var PRODUCTS=[
+  /* ---------- SPRECHANLAGE PRODUCT DATA (feature analysis, 2026-07-13) ---------- */
+  var SP_PRODUCTS=[
     {id:"kian",name:"Metzler VDM10 2.0 Video-Türsprechanlage | 1 Klingeltaster | Kian",series:"IP",url:"metzler-vdm10-20-video-tuersprechanlage-1-klingeltaster-kian",media:"video",systems:["ip-lan","ip-2draht"],bmax:3,flex:false,price:679,access:["app"],sip:true,nameplate:false,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["2 MP FullHD · 146° Weitwinkel","IR-Nachtsicht bis 10 m","SIP & FRITZ!Box","App abofrei"]},
     {id:"colson",name:"Metzler VDM10 2.0 Video-Türsprechanlage | 1 Klingeltaster | Colson",series:"IP",url:"metzler-vdm10-20-video-tuersprechanlage-1-klingeltaster-colson",img:"metzler-vdm10-20-video-tuersprechanlage-1-klingeltaster-ral-7016-anthrazitgrau-colson.webp",media:"video",systems:["ip-lan","ip-2draht"],bmax:7,flex:false,price:699,access:["app"],sip:true,nameplate:false,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["2 MP FullHD · 146°","1–7 Klingeltaster","IP65 / IK09","Wunschgravur"]},
     {id:"neo",name:"Metzler VDM10 2.0 Video-Türsprechanlage mit austauschbarem Namensschild | 1 Klingeltaster | Neo",series:"IP",url:"metzler-vdm10-20-video-tuersprechanlage-mit-austauschbarem-namensschild-1-klingeltaster-neo",media:"video",systems:["ip-lan","ip-2draht"],bmax:6,flex:false,price:649,access:["app"],sip:true,nameplate:true,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Austauschbares, beleuchtetes Namensschild","2 MP FullHD · 146°","ideal bei Mieterwechsel"]},
@@ -302,8 +310,8 @@
     {id:"pbcombo",name:"Metzler Video-Türsprechanlage mit Paketbox | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild",series:"IP",combo:"paketbox",url:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild",img:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild.webp",media:"video",systems:["ip-lan","ip-2draht"],bmax:1,flex:false,price:1199,access:["app"],sip:true,nameplate:true,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Türstation + Paketbox in einem","Pakete kontaktlos & sicher empfangen","RAL 7016 · personalisierbar"]}
   ];
 
-  /* ---------- QUIZ ---------- */
-  var STEPS={
+  /* ---------- SPRECHANLAGE QUIZ ---------- */
+  var SP_STEPS={
     bau:{q:"Wie sieht die Verkabelung bei Ihnen aus?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt – die wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"ip",ol:"Neubau und Neuverkabelung",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"},
       {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"},
@@ -344,32 +352,109 @@
       {v:"single",ol:"Einzelkomponenten",od:"selbst zusammenstellen"},
       {v:"either",ol:"Egal / beraten lassen",od:""}]}
   };
-  var ORDER=["bau","combo","media","parties","access","integration","mounting","design","set"];
+  var SP_ORDER=["bau","combo","media","parties","access","integration","mounting","design","set"];
 
-  var state={a:{},id:null,edit:false};
-  var lead={email:"",news:false};
-  var TOTAL=PRODUCTS.length;
-  /* Live count: how many models still match the choices so far (updates every step). */
-  function liveCount(a){ return PRODUCTS.filter(function(p){return matches(p,a);}).length; }
-  function deriveSystem(a){ if(a.bau==="ip")return"ip-lan"; if(a.bau==="bus")return"bus"; return null; }
-  function grp(sys){ return sys==="bus"?"bus":(sys?"ip":null); }
+  /* ================= TÜRKLINGEL PRODUCT DATA (crawl 2026-07-15; prose+configurator) =================
+     conn: wired|funk · pmax: max Wohneinheiten/Klingeltaster · label: name-presentation modes ·
+     ledbtn: illuminated push-button available · ledname: back-lit nameplate available ·
+     hausnr: integrated illuminated house number · optik: soft style tags · finish/mount: hard filters */
+  var TK_PRODUCTS=[
+    {id:"stella",name:"Metzler Türklingel mit Gravur + LED-Taster optional | Stella",url:"metzler-tuerklingel-mit-gravur-led-taster-optional-stella",price:24.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz","unterputz"]},
+    {id:"stellaM2",name:"Metzler Türklingel Zweifamilienhaus Anthrazit Gravur + LED-Taster | Stella M2",url:"metzler-tuerklingel-zweifamilienhaus-anthrazit-gravur-led-taster-stella-m2",price:69.99,conn:"wired",pmax:2,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["anthrazit"],mount:["unterputz"]},
+    {id:"vitus",name:"Metzler Aufputz Türklingel | personalisiert mit Gravur | Edelstahl-Taster mit LED | Vitus",url:"metzler-aufputz-tuerklingel-personalisiert-mit-gravur-edelstahl-taster-mit-led-vitus",price:59.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"vitusFunk",name:"Metzler Funkklingel kabellos Edelstahl V2A | Aufputz Türklingel IP67 | 150m Reichweite | Vitus",url:"metzler-funkklingel-kabellos-edelstahl-v2a-aufputz-tuerklingel-ip67-150m-reichweite-vitus",price:79.99,conn:"funk",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"parisa",name:"Metzler Aufputz Türklingel austauschbares Namensschild | Parisa",url:"metzler-aufputz-tuerklingel-austauschbares-namensschild-parisa",price:39.99,conn:"wired",pmax:1,label:["schild"],ledbtn:true,ledname:true,optik:["schlicht","quadratisch"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"parisaFunk",name:"Metzler Funkklingel Aufputz austauschbares Namensschild | Parisa",url:"metzler-funkklingel-aufputz-austauschbares-namensschild-parisa",price:59.99,conn:"funk",pmax:1,label:["schild"],ledbtn:true,ledname:true,optik:["schlicht","quadratisch"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"otis",name:"Metzler Türklingel Aufputz austauschbare Namensschilder | Serie Otis",url:"metzler-tuerklingel-aufputz-anthrazit-austauschbare-namensschilder-serie-otis",price:34.99,conn:"wired",pmax:7,label:["schild"],ledbtn:true,ledname:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
+    {id:"alanFunk",name:"Metzler Funkklingel für Einfamilienhaus | personalisiert mit Gravur | Alan",url:"metzler-funkklingel-fuer-einfamilienhaus-personalisiert-mit-gravur-alan",price:89.99,conn:"funk",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"alanM2",name:"Metzler Türklingel Aufputz Zweifamilienhaus | Gravur optional | Alan M2",url:"metzler-tuerklingel-aufputz-zweifamilienhaus-gravur-optional-alan-m2",price:79.99,conn:"wired",pmax:2,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"alanM3",name:"Metzler Türklingel Aufputz Mehrfamilienhaus | Gravur optional | Alan M3",url:"metzler-tuerklingel-aufputz-mehrfamilienhaus-gravur-optional-alan-m3",price:89.99,conn:"wired",pmax:3,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"alanSlim",name:"Metzler Türklingel Anthrazit Gravur LED-Taster | Alan Slim",url:"metzler-tuerklingel-anthrazit-gravur-led-taster-alan-slim",price:69.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht","design"],finish:["anthrazit"],mount:["unterputz"]},
+    {id:"heidi",name:"Metzler Türklingel aus Edelstahl | Klingeltaster LED optional | wählbare Größen | Heidi",url:"metzler-tuerklingel-edelstahl-klingeltaster-led-optional-waehlbare-groessen-heidi",price:39.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz","unterputz"]},
+    {id:"tara",name:"Metzler Funkklingel mit austauschbarem Namensschild | Tara",url:"metzler-funkklingel-mit-austauschbarem-namensschild-tara",price:99.99,conn:"funk",pmax:1,label:["schild"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
+    {id:"taraM6",name:"Metzler Klingel Aufputz | 6 Klingeltaster | austauschbare Namensschilder | Tara M6",url:"metzler-klingel-aufputz-6-klingeltaster-austauschbare-namensschilder-tara-m6",price:139.00,conn:"wired",pmax:6,label:["schild"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
+    {id:"otto",name:"Metzler Türklingel mit LED 3D-Namensschild | Otto",url:"metzler-tuerklingel-mit-led-3d-namensschild-otto",price:49.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,ledname:true,optik:["design"],finish:["edelstahl","anthrazit"],mount:["aufputz","unterputz"]},
+    {id:"ottoSlim",name:"Metzler Türklingel austauschbares Namensschild + Gravur | Otto Slim",url:"metzler-tuerklingel-weiss-austauschbares-namensschild-gravur-otto-slim",price:39.99,conn:"wired",pmax:1,label:["schild","gravur"],ledbtn:true,optik:["design","schlicht"],finish:["edelstahl"],mount:["aufputz","unterputz"]},
+    {id:"vera",name:"Metzler Türklingel Aufputz Gravur + LED-Taster | Vera",url:"metzler-tuerklingel-aufputz-gravur-led-taster-vera",price:49.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["quadratisch"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
+    {id:"toviM2",name:"Metzler Türklingel Aufputz Namensschilder | Tovi M2",url:"metzler-tuerklingel-aufputz-namensschilder-tovi-m2",price:59.99,conn:"wired",pmax:2,label:["schild"],ledbtn:true,ledname:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"sora",name:"Metzler Türklingel aus Edelstahl LED-3D-Namensschild | Sora",url:"metzler-tuerklingel-aus-edelstahl-led-3d-namensschild-sora",price:49.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,ledname:true,optik:["design"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz","unterputz"]},
+    {id:"theo",name:"Metzler Türklingel inklusive LED-Beleuchtung | Theo",url:"metzler-tuerklingel-inklusive-led-beleuchtung-theo",price:179.00,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,ledname:true,hausnr:true,optik:["design","xl"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
+    {id:"ari",name:"Metzler Türklingel aus Edelstahl mit Gravur + LED-Taster optional | Ari",url:"metzler-tuerklingel-aus-edelstahl-mit-gravur-led-taster-optional-ari",price:39.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht","quadratisch"],finish:["edelstahl","anthrazit"],mount:["aufputz","unterputz"]},
+    {id:"selmaFunk",name:"Metzler Funkklingel Edelstahl mit Gravur | Selma",url:"metzler-funkklingel-edelstahl-mit-gravur-selma",price:119.00,conn:"funk",pmax:1,label:["gravur","schild"],ledbtn:true,optik:["schlicht"],finish:["anthrazit","andere"],mount:["aufputz"]},
+    {id:"selmaSlim",name:"Metzler Klingel Edelstahl Schwarz | Selma Slim",url:"metzler-klingel-edelstahl-schwarz-selma-slim",price:99.99,conn:"wired",pmax:1,label:["gravur","schild"],ledbtn:true,optik:["design","schlicht"],finish:["andere"],mount:["unterputz"]},
+    {id:"abakos",name:"Metzler Türklingel Aufputz mit austauschbarem Namensschild | Abakos",url:"metzler-tuerklingel-aufputz-mit-austauschbarem-namensschild-abakos",price:49.99,conn:"wired",pmax:1,label:["schild"],ledbtn:true,ledname:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"kasaFunk",name:"Metzler Funkklingel Aufputz | Gravur optional | Kasa",url:"metzler-funkklingel-aufputz-gravur-optional-kasa",price:69.99,conn:"funk",pmax:1,label:["gravur","schild"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz"]},
+    {id:"magneto",name:"Metzler Türklingel mit austauschbaren Namensschildern mit optionaler Gravur | Magneto",url:"metzler-tuerklingel-mit-austauschbaren-namensschildern-mit-optionaler-gravur-magneto",price:49.99,conn:"wired",pmax:1,label:["schild","gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit","andere"],mount:["unterputz"]},
+    {id:"magnetoM2",name:"Metzler Türklingel Anthrazit Zweifamilienhaus Gravur | Magneto M2",url:"metzler-tuerklingel-anthrazit-zweifamilienhaus-gravur-magneto-m2",price:89.99,conn:"wired",pmax:2,label:["schild","gravur"],ledbtn:true,optik:["schlicht"],finish:["anthrazit"],mount:["unterputz"]},
+    {id:"gala",name:"Metzler Türklingel Aufputz mit Gravur 3D-LED-Hausnummer | Gala",url:"metzler-tuerklingel-aufputz-mit-gravur-3d-led-hausnummer-gala",price:129.00,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,hausnr:true,optik:["design","xl"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
+    {id:"friesen",name:"Metzler Klingelschild Anthrazit LED-Taster + Gravur | Friesen",url:"metzler-klingelschild-anthrazit-led-taster-gravur-friesen",price:29.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["aufputz","unterputz"]},
+    {id:"alvin",name:"Metzler Klingelschild Edelstahl mit zwei LED-Tastern | Gravur optional | Alvin",url:"metzler-klingelschild-edelstahl-mit-zwei-led-tastern-gravur-optional-alvin",price:89.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["unterputz"]},
+    {id:"avaSlim",name:"Metzler Design Türklingel mit Gravur | Ava Slim",url:"metzler-design-tuerklingel-mit-gravur-ava-slim",price:119.00,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["design"],finish:["edelstahl","anthrazit","andere"],mount:["aufputz","unterputz"]},
+    {id:"dora",name:"Metzler Funkklingel Einfamilien | geschwungen | hohe Reichweite | Dora",url:"metzler-funkklingel-einfamilien-geschwungen-hohe-reichweite-dora",price:89.99,conn:"funk",pmax:1,label:["gravur"],ledbtn:false,optik:["design"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
+    {id:"ares",name:"Metzler quadratische Türklingel mit optionaler Gravur | Ares",url:"metzler-quadratische-tuerklingel-mit-optionaler-gravur-ares",price:69.99,conn:"wired",pmax:1,label:["gravur","schild"],ledbtn:true,optik:["quadratisch","design"],finish:["edelstahl","anthrazit"],mount:["unterputz"]},
+    {id:"aresBell",name:"Metzler quadratische Türklingel Edelstahl beleuchtetes Klingelsymbol | Ares Bell",url:"metzler-quadratische-tuerklingel-edelstahl-beleuchtetes-klingelsymbol-ares-bell",price:69.99,conn:"wired",pmax:1,label:["symbol"],ledbtn:true,optik:["quadratisch","design"],finish:["edelstahl"],mount:["unterputz"]},
+    {id:"palomaFunk",name:"Metzler Funkklingel Anthrazit Gravur | Paloma",url:"metzler-funkklingel-anthrazit-gravur-paloma",price:109.00,conn:"funk",pmax:1,label:["gravur","schild"],ledbtn:true,smart:true,optik:["schlicht"],finish:["anthrazit"],mount:["aufputz"]},
+    {id:"wester",name:"Metzler Türklingel Edelstahl austauschbares Namensschild + Gravur | Wester",url:"metzler-tuerklingel-edelstahl-austauschbares-namensschild-gravur-wester",price:69.99,conn:"wired",pmax:1,label:["schild","gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["unterputz"]},
+    {id:"westerM3",name:"Metzler Türklingel Edelstahl Mehrfamilienhaus Gravur optional | Wester M3",url:"metzler-tuerklingel-edelstahl-mehrfamilienhaus-gravur-optional-wester-m3",price:79.99,conn:"wired",pmax:3,label:["schild","gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["unterputz"]},
+    {id:"sena",name:"Metzler Türklingel Edelstahl Weiß Lasergravur + LED-Taster | Sena",url:"metzler-tuerklingel-edelstahl-weiss-lasergravur-led-taster-sena",price:39.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","andere"],mount:["unterputz"]},
+    {id:"senaXL",name:"Metzler Türklingel Edelstahl Anthrazit mit 3D-Gravur + LED-Taster | Sena XL",url:"metzler-tuerklingel-edelstahl-anthrazit-mit-3d-gravur-led-taster-sena-xl",price:79.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,ledname:true,optik:["design","xl"],finish:["edelstahl","anthrazit"],mount:["unterputz"]},
+    {id:"senaM2",name:"Metzler Türklingel für Zweifamilienhaus mit verschiedenen Optionen | Sena M2",url:"metzler-tuerklingel-fuer-zweifamilienhaus-mit-verschiedenen-optionen-sena-m2",price:89.99,conn:"wired",pmax:2,label:["gravur"],ledbtn:true,ledname:true,optik:["design"],finish:["edelstahl","anthrazit","andere"],mount:["unterputz"]},
+    {id:"erikM2",name:"Metzler Türklingel Aufputz Mehrfamilienhaus mit Gravur und 3D-LED-Hausnummer | Erik M2",url:"metzler-tuerklingel-aufputz-mehrfamilienhaus-mit-gravur-und-3d-led-hausnummer-erik-m2",price:149.00,conn:"wired",pmax:2,label:["gravur"],ledbtn:true,hausnr:true,optik:["design","xl"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
+    {id:"adam",name:"Metzler Türklingel Zweifamilienhaus Gravur optional | Adam",url:"metzler-tuerklingel-zweifamilienhaus-gravur-optional-adam",price:69.99,conn:"wired",pmax:2,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["aufputz","unterputz"]},
+    {id:"luna",name:"Metzler quadratische Türklingel mit LED Gravur + Klingeltaster | Luna",url:"metzler-quadratische-tuerklingel-mit-led-gravur-klingeltaster-luna",price:59.99,conn:"wired",pmax:1,label:["gravur","schild"],ledbtn:true,optik:["quadratisch","design"],finish:["anthrazit","andere"],mount:["unterputz"]},
+    {id:"tenika",name:"Metzler Türklingel Edelstahl beleuchtetes Klingelsymbol | Tenika",url:"metzler-tuerklingel-edelstahl-beleuchtetes-klingelsymbol-tenika",price:24.99,conn:"wired",pmax:1,label:["symbol"],ledbtn:true,optik:["quadratisch"],finish:["edelstahl"],mount:["unterputz"]},
+    {id:"decker",name:"Metzler Klingelschild Edelstahl Anthrazit Gravur + LED-Taster | Decker",url:"metzler-klingelschild-edelstahl-anthrazit-gravur-led-taster-decker",price:79.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht"],finish:["edelstahl","anthrazit"],mount:["aufputz","unterputz"]},
+    {id:"boris",name:"Metzler Klingelschild Edelstahl Anthrazit LED-Taster + Gravur | Boris",url:"metzler-klingelschild-edelstahl-anthrazit-led-taster-gravur-boris",price:49.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["schlicht","quadratisch"],finish:["edelstahl","anthrazit"],mount:["unterputz"]},
+    {id:"dena",name:"Metzler Klingelschild Edelstahl Anthrazit 3D-Gravur | Dena",url:"metzler-klingelschild-edelstahl-anthrazit-3d-gravur-dena",price:89.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["design"],finish:["anthrazit"],mount:["unterputz"]},
+    {id:"floria",name:"Metzler Türklingel Edelstahl mit Pusteblumenmotiv Gravur | Floria",url:"metzler-tuerklingel-edelstahl-mit-pusteblumenmotiv-gravur-floria",price:49.99,conn:"wired",pmax:1,label:["gravur"],ledbtn:true,optik:["motiv"],finish:["edelstahl"],mount:["aufputz","unterputz"]}
+  ];
+
+  /* ---------- TÜRKLINGEL QUIZ ---------- */
+  var TK_STEPS={
+    conn:{q:"Wie möchten Sie die Klingel anschließen?",help:"Die wichtigste Frage – sie entscheidet über die halbe Auswahl.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"wired",ol:"An vorhandene Klingeldrähte",od:"klassischer Kabelanschluss"},
+      {v:"funk",ol:"Kabellos (Funk)",od:"Funksender – kein Kabel nötig · Empfänger separat"},
+      {v:"unsure",ol:"Weiß ich nicht",od:"wir zeigen beide Varianten"}]},
+    parties:{q:"Für wie viele Wohneinheiten?",help:"Also wie viele Klingeltaster brauchen Sie?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"1",ol:"1 Wohneinheit",od:"Einfamilienhaus"},
+      {v:"2",ol:"2 Wohneinheiten",od:"Zweifamilienhaus"},
+      {v:"3",ol:"3 Wohneinheiten",od:"Dreifamilienhaus"},
+      {v:"4",ol:"4 und mehr",od:"Mehrfamilienhaus (bis 7)"}]},
+    label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Klingel.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"gravur",ol:"Gravur",od:"Name/Hausnummer fest eingraviert"},
+      {v:"schild",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel einfach tauschen"},
+      {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"},
+      {v:"egal",ol:"Egal / noch offen",od:""}]},
+    beleuchtung:{q:"Was soll beleuchtet sein?",help:"Mehrfachauswahl – optional.",type:"multi",vis:function(){return true;},opts:[
+      {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar"},
+      {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar"},
+      {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer"},
+      {v:"none",ol:"Keine Beleuchtung nötig",od:"",solo:true}]},
+    optik:{q:"Welche Optik bevorzugen Sie?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",vis:function(){return true;},opts:[
+      {v:"schlicht",ol:"Schlicht & klassisch",od:"reduzierte Edelstahlplatte"},
+      {v:"design",ol:"Design / Acrylglas",od:"edle Front, Akzent-Optik"},
+      {v:"quadratisch",ol:"Quadratisch",od:"kompaktes Quadrat-Format"},
+      {v:"xl",ol:"Großformat / XL",od:"große, markante Platte"},
+      {v:"motiv",ol:"Mit Motiv",od:"dekorative Gravur (z. B. Pusteblume)"}]},
+    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
+      {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016"},
+      {v:"andere",ol:"Andere Farbe",od:"weiß, schwarz, weitere RAL"},
+      {v:"egal",ol:"Egal",od:""}]},
+    mounting:{q:"Wie soll montiert werden?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
+      {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"},
+      {v:"egal",ol:"Egal / noch offen",od:""}]}
+  };
+  var TK_ORDER=["conn","parties","label","beleuchtung","optik","farbe","mounting"];
+
+  /* ================= SHARED HELPERS ================= */
   function accessSel(a){ return (a.access||[]).filter(function(x){return x!=="none";}); }
-  /* Hypothetical answer set: what `a` becomes if option o of step id is applied. */
-  function applyAns(id,o,a){ var b={}; for(var k in a){ b[k]=Array.isArray(a[k])?a[k].slice():a[k]; }
-    if(STEPS[id].type==="multi"){ if(o.solo){ b[id]=[o.v]; } else { var arr=(b[id]||[]).slice(); if(arr.indexOf(o.v)<0)arr.push(o.v); b[id]=arr.filter(function(x){return x!=="none";}); } }
-    else { b[id]=o.v; }
-    return b; }
-  /* Feed-forward availability: is this option reachable given the other answers? If not, why. */
-  function optState(id,o,a,selected){
-    if(selected||o.solo) return {off:false};
-    if(liveCount(applyAns(id,o,a))>0) return {off:false,count:liveCount(applyAns(id,o,a))};
-    if(deriveSystem(a)==="bus"){ var bIP=applyAns(id,o,a); delete bIP.bau; if(liveCount(bIP)>0) return {off:true,note:"nur IP-Serie",swap:true}; }
-    if(a.media==="audio"){ var bV=applyAns(id,o,a); delete bV.media; if(liveCount(bV)>0) return {off:true,note:"nur mit Video-Sprechanlage"}; }
-    return {off:true,note:"derzeit kein passendes Modell"};
-  }
-  /* Upsell: leaving BUS for the IP series means proper/new cabling – send the user back to reconsider it. */
-  function switchToIP(){ state.flash="Für PIN, Fingerabdruck oder Gesichtserkennung ist die IP-Serie nötig – wählen Sie hier die IP-Option (Neubau oder Netzwerk-/Telefonkabel). Hinweis: dafür ist eine IP-Verkabelung nötig, ggf. neue Leitungen."; goTo("bau"); }
-  function matches(p,a){
+  function chipsHTML(out){ return out.map(function(o){return '<span class="advisor__chip"><small>'+esc(o[0])+'</small><span class="advisor__chip-val">'+esc(o[1])+'</span></span>';}).join(""); }
+
+  /* ================= SPRECHANLAGE category logic (unchanged behaviour) ================= */
+  function spDerive(a){ if(a.bau==="ip")return"ip-lan"; if(a.bau==="bus")return"bus"; return null; }
+  function spMatches(p,a){
     var sys=deriveSystem(a);
     if(sys&&p.systems.indexOf(sys)===-1)return false;
     if(a.combo){ if(a.combo==="none"){ if(p.combo)return false; } else if((p.combo||"none")!==a.combo)return false; }
@@ -380,26 +465,145 @@
     if(a.mounting&&a.mounting!=="open"){ if(p.mount.indexOf(a.mounting)===-1)return false; }
     return true;
   }
-  function score(p,a){ var s=0,d=a.design||[]; if(d.indexOf("wunsch")>-1&&p.wunsch)s++; if(d.indexOf("nameplate")>-1&&p.nameplate)s++; if(d.indexOf("led")>-1&&p.led)s++; if(d.indexOf("display")>-1&&p.display)s++; if((a.integration||[]).indexOf("nvr")>-1&&p.media==="video"&&p.series!=="2-Draht-BUS")s++; return s; }
-  function isAnswered(id){ var v=state.a[id]; return STEPS[id].type==="multi"?(Array.isArray(v)&&v.length>0):(v!=null); }
+  function spScore(p,a){ var s=0,d=a.design||[]; if(d.indexOf("wunsch")>-1&&p.wunsch)s++; if(d.indexOf("nameplate")>-1&&p.nameplate)s++; if(d.indexOf("led")>-1&&p.led)s++; if(d.indexOf("display")>-1&&p.display)s++; if((a.integration||[]).indexOf("nvr")>-1&&p.media==="video"&&p.series!=="2-Draht-BUS")s++; return s; }
+  function spOptState(id,o,a,selected){
+    if(selected||o.solo) return {off:false};
+    if(liveCount(applyAns(id,o,a))>0) return {off:false,count:liveCount(applyAns(id,o,a))};
+    if(deriveSystem(a)==="bus"){ var bIP=applyAns(id,o,a); delete bIP.bau; if(liveCount(bIP)>0) return {off:true,note:"nur IP-Serie",swap:true}; }
+    if(a.media==="audio"){ var bV=applyAns(id,o,a); delete bV.media; if(liveCount(bV)>0) return {off:true,note:"nur mit Video-Sprechanlage"}; }
+    return {off:true,note:"derzeit kein passendes Modell"};
+  }
+  /* Upsell: leaving BUS for the IP series means proper/new cabling – send the user back to reconsider it. */
+  function switchToIP(){ state.flash="Für PIN, Fingerabdruck oder Gesichtserkennung ist die IP-Serie nötig – wählen Sie hier die IP-Option (Neubau oder Netzwerk-/Telefonkabel). Hinweis: dafür ist eine IP-Verkabelung nötig, ggf. neue Leitungen."; goTo("bau"); }
+  function spSummary(a){
+    var out=[],sys=deriveSystem(a);
+    if(sys)out.push(["System",{"ip-lan":"IP-System","ip-2draht":"IP-System","bus":"2-Draht-BUS"}[sys],"bau"]);
+    else if(a.bau==="unsure")out.push(["System","beide / offen","bau"]);
+    if(a.combo)out.push(["Ausführung",{none:"Nur Sprechanlage",briefkasten:"mit Briefkasten",paketbox:"mit Paketbox"}[a.combo],"combo"]);
+    if(a.media)out.push(["Typ",a.media==="video"?"Video":"Audio","media"]);
+    if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":a.parties,"parties"]);
+    var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
+    if(a.mounting&&a.mounting!=="open")out.push(["Montage",{unterputz:"Unterputz",aufputz:"Aufputz",stele:"Stele"}[a.mounting],"mounting"]);
+    var integ=(a.integration||[]).filter(function(x){return x!=="none";}); if(integ.length)out.push(["Technik",integ.map(function(x){return{sip:"FRITZ!/SIP",nvr:"Überwachung",secmod:"Sicherheitsmodul"}[x];}).join(", "),"integration"]);
+    if(a.set)out.push(["Umfang",{set:"Komplettset",single:"Einzelteile",either:"offen"}[a.set],"set"]);
+    return chipsHTML(out);
+  }
+  function spEmpty(a){
+    var sys=deriveSystem(a),hint="Passen Sie einzelne Angaben an oder lassen Sie sich persönlich beraten.";
+    if(sys==="bus"&&a.media==="audio")hint="Für die 2-Draht-BUS-Nachrüstung gibt es aktuell nur Video (XDM10). Audio-only ist nur als IP-Variante (ADM10) verfügbar – dafür wäre eine IP-Verkabelung nötig.";
+    else if(sys==="bus"&&(accessSel(a).indexOf("face")>-1||accessSel(a).indexOf("pin")>-1||accessSel(a).indexOf("fingerprint")>-1))hint="Gesichtserkennung, PIN und Fingerabdruck sind der IP-Serie vorbehalten. Über die 2-Draht-Leitung (XDM10) ist RFID die schlüssellose Option.";
+    else if(sys==="bus"&&(a.parties==="4"||a.parties==="many"))hint="Die 2-Draht-BUS-Anlage (XDM10) gibt es mit bis zu 3 Klingeltastern. Für mehr Parteien empfehlen wir die IP-Serie (Horizon oder SDM10).";
+    else if(a.media==="audio"&&(accessSel(a).indexOf("face")>-1||accessSel(a).indexOf("pin")>-1||accessSel(a).indexOf("fingerprint")>-1))hint="Gesichtserkennung, PIN und Fingerabdruck gibt es nur bei Video-Türstationen. Für Audio ist die App-Steuerung die passende Wahl.";
+    return emptyCard(hint);
+  }
+
+  /* ================= TÜRKLINGEL category logic ================= */
+  function tkMatches(p,a){
+    if(a.conn&&a.conn!=="unsure"&&p.conn!==a.conn)return false;
+    if(a.parties){ var n=a.parties==="4"?4:+a.parties; if(!(p.pmax>=n))return false; }
+    if(a.label&&a.label!=="egal"&&(p.label||[]).indexOf(a.label)<0)return false;
+    var bel=(a.beleuchtung||[]).filter(function(x){return x!=="none";});
+    for(var i=0;i<bel.length;i++){ var b=bel[i];
+      if(b==="led"&&!p.ledbtn)return false;
+      if(b==="name"&&!p.ledname)return false;
+      if(b==="hausnr"&&!p.hausnr)return false; }
+    if(a.farbe&&a.farbe!=="egal"&&(p.finish||[]).indexOf(a.farbe)<0)return false;
+    if(a.mounting&&a.mounting!=="egal"&&(p.mount||[]).indexOf(a.mounting)<0)return false;
+    return true;
+  }
+  /* Optik is a soft preference: it only ranks results, never filters them out. */
+  function tkScore(p,a){ var s=0,o=a.optik||[]; for(var i=0;i<o.length;i++){ if((p.optik||[]).indexOf(o[i])>-1)s++; } return s; }
+  function tkOptState(id,o,a,selected){
+    if(selected||o.solo) return {off:false};
+    var c=liveCount(applyAns(id,o,a));
+    if(c>0) return {off:false,count:c};
+    return {off:true,note:"derzeit kein passendes Modell"};
+  }
+  function tkSummary(a){
+    var out=[];
+    if(a.conn)out.push(["Anschluss",{wired:"Kabel",funk:"Funk",unsure:"offen"}[a.conn],"conn"]);
+    if(a.parties)out.push(["Einheiten",a.parties==="4"?"4+":a.parties,"parties"]);
+    if(a.label&&a.label!=="egal")out.push(["Beschriftung",{gravur:"Gravur",schild:"Namensschild",symbol:"Symbol"}[a.label],"label"]);
+    var bel=(a.beleuchtung||[]).filter(function(x){return x!=="none";}); if(bel.length)out.push(["Beleuchtung",bel.map(function(x){return{led:"Taster",name:"Namensschild",hausnr:"Hausnummer"}[x];}).join(", "),"beleuchtung"]);
+    var op=(a.optik||[]); if(op.length)out.push(["Optik",op.map(function(x){return{schlicht:"schlicht",design:"Design",quadratisch:"quadratisch",xl:"XL",motiv:"Motiv"}[x];}).join(", "),"optik"]);
+    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",{edelstahl:"Edelstahl",anthrazit:"Anthrazit",andere:"andere"}[a.farbe],"farbe"]);
+    if(a.mounting&&a.mounting!=="egal")out.push(["Montage",{aufputz:"Aufputz",unterputz:"Unterputz"}[a.mounting],"mounting"]);
+    return chipsHTML(out);
+  }
+  function tkEmpty(a){
+    var hint="Passen Sie einzelne Angaben an – oder lassen Sie sich kostenlos beraten.";
+    if(a.label==="symbol"&&a.parties&&(+a.parties>1))hint="Eine Klingel mit reinem Klingelsymbol gibt es nur für eine Wohneinheit. Für mehrere Parteien wählen Sie Gravur oder ein Namensschild.";
+    else if(a.conn==="funk"&&a.parties&&(+a.parties>1))hint="Funkklingeln bieten wir für eine Wohneinheit an. Für mehrere Parteien ist der kabelgebundene Anschluss die passende Wahl.";
+    else if((a.beleuchtung||[]).indexOf("hausnr")>-1&&a.conn==="funk")hint="Eine integrierte beleuchtete Hausnummer gibt es derzeit nur bei kabelgebundenen Modellen (Gala, Erik).";
+    return emptyCard(hint);
+  }
+  function tkResultNote(a){
+    if(a.conn==="funk") return '<p class="advisor__hint">Hinweis: Bei Funkklingeln ist der Empfänger/Gong separat erhältlich (Steckdosen-, Batterie- oder WLAN-Empfänger).</p>';
+    return "";
+  }
+
+  /* ================= CATEGORY REGISTRY ================= */
+  var CATS={
+    sprechanlage:{
+      key:"sprechanlage",tab:"Sprechanlage",noun:"Türsprechanlage",nounPl:"Türsprechanlagen",
+      catUrl:"tuersprechanlagen",flashStep:"bau",
+      barSub:"Beantworten Sie ein paar kurze Fragen – der Berater empfiehlt Ihnen die passende Türsprechanlage.",
+      products:SP_PRODUCTS,steps:SP_STEPS,order:SP_ORDER,relaxKeys:["bau","combo","media","parties"],
+      imgPlaceholder:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild.webp",
+      matches:spMatches,score:spScore,deriveSystem:spDerive,optState:spOptState,summaryChips:spSummary,emptyHTML:spEmpty,
+      resultNote:function(){return"";},
+      support:{title:"Unsicher bei der Auswahl?",sub:"Unsere Sprechanlagen-Experten beraten Sie kostenlos – auch zur Verkabelung vor Ort.",
+        primaryHref:"https://calendly.com/kaufberatung",primaryLabel:"Beratungstermin",secondaryHref:BASE+"sprechanlagen-online-support-termin",secondaryLabel:"Technischer Support"}
+    },
+    tuerklingel:{
+      key:"tuerklingel",tab:"Türklingel",noun:"Türklingel",nounPl:"Türklingeln",
+      catUrl:"tuerklingel",flashStep:null,
+      barSub:"Beantworten Sie ein paar kurze Fragen – der Berater empfiehlt Ihnen die passende Türklingel.",
+      products:TK_PRODUCTS,steps:TK_STEPS,order:TK_ORDER,relaxKeys:["conn","parties"],
+      imgPlaceholder:"Türklingel.png",
+      matches:tkMatches,score:tkScore,optState:tkOptState,summaryChips:tkSummary,emptyHTML:tkEmpty,resultNote:tkResultNote,
+      support:{title:"Unsicher bei der Auswahl?",sub:"Unsere Klingel-Experten helfen Ihnen kostenlos weiter – von der Gravur bis zur Montage.",
+        primaryHref:"https://calendly.com/kaufberatung",primaryLabel:"Beratungstermin",secondaryHref:BASE+"Kontakt",secondaryLabel:"Kontakt"}
+    }
+  };
+
+  /* ================= ENGINE (category-agnostic) ================= */
+  var state={a:{},id:null,edit:false};
+  var lead={email:"",news:false};
+  var TOTAL=0, CAT=null;
+  function ST(id){ return CAT.steps[id]; }
+  function matches(p,a){ return CAT.matches(p,a); }
+  function score(p,a){ return CAT.score(p,a); }
+  function deriveSystem(a){ return CAT.deriveSystem?CAT.deriveSystem(a):null; }
+  function optState(id,o,a,selected){ return CAT.optState(id,o,a,selected); }
+  function summaryChips(a){ return CAT.summaryChips(a); }
+  function emptyHTML(a){ return CAT.emptyHTML(a); }
+  /* Live count: how many models still match the choices so far (updates every step). */
+  function liveCount(a){ return CAT.products.filter(function(p){return matches(p,a);}).length; }
+  /* Hypothetical answer set: what `a` becomes if option o of step id is applied. */
+  function applyAns(id,o,a){ var b={}; for(var k in a){ b[k]=Array.isArray(a[k])?a[k].slice():a[k]; }
+    if(ST(id).type==="multi"){ if(o.solo){ b[id]=[o.v]; } else { var arr=(b[id]||[]).slice(); if(arr.indexOf(o.v)<0)arr.push(o.v); b[id]=arr.filter(function(x){return x!=="none";}); } }
+    else { b[id]=o.v; }
+    return b; }
+  function isAnswered(id){ var v=state.a[id]; return ST(id).type==="multi"?(Array.isArray(v)&&v.length>0):(v!=null); }
   /* A single-select filter step is only worth asking if its options can still lead
      to different results. If every reachable option yields the same set of products
      (or only one is reachable), skip it — the question can't change anything. */
   function discriminates(id,a){
-    var st=STEPS[id];
+    var st=ST(id);
     if(st.noskip) return true;
     /* single-select is forced, so it needs >=2 real options to be a genuine choice;
        multi-select is optional, so even 1 addable option makes it worth showing. */
     var need=st.type==="multi"?1:2, avail=0;
     for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
       if(o.media&&o.media!==a.media) continue;
-      if(o.solo||o.v==="open"||o.v==="unsure") continue; /* pass-through / "weiß nicht" options aren't real discriminators */
-      if(PRODUCTS.some(function(p){return matches(p,applyAns(id,o,a));})){ if(++avail>=need) return true; }
+      if(o.solo||o.v==="open"||o.v==="unsure"||o.v==="egal") continue; /* pass-through / "weiß nicht" options aren't real discriminators */
+      if(CAT.products.some(function(p){return matches(p,applyAns(id,o,a));})){ if(++avail>=need) return true; }
       else if(optState(id,o,a,false).swap) return true; /* a dead option that offers a "wechseln?" redirect is worth showing */
     }
     return false; /* not enough reachable options and no redirect → the question can't change anything */
   }
-  function visibleSteps(a){ return ORDER.filter(function(id){return STEPS[id].vis(a)&&discriminates(id,a);}); }
+  function visibleSteps(a){ return CAT.order.filter(function(id){return ST(id).vis(a)&&discriminates(id,a);}); }
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 
@@ -430,7 +634,7 @@
   function renderStep(id){
     root.classList.remove("is-result"); resEl.hidden=true;
     state.id=id;
-    var st=STEPS[id],a=state.a,vs=visibleSteps(a),pos=vs.indexOf(id),total=vs.length;
+    var st=ST(id),a=state.a,vs=visibleSteps(a),pos=vs.indexOf(id),total=vs.length;
     var multi=st.type==="multi", cur=a[id];
     var opts=st.opts.filter(function(o){return !(o.media&&o.media!==a.media);}).map(function(o){
       var sel=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v);
@@ -441,7 +645,7 @@
     var isLast=pos===total-1;
     var canNext = multi ? true : (st.req ? cur!=null : true);
     var lc=liveCount(a);
-    var flash=(id==="bau")?state.flash:""; if(id==="bau") state.flash=null;
+    var flash=(id===CAT.flashStep)?state.flash:""; if(id===CAT.flashStep) state.flash=null;
     quizEl.innerHTML=''
       +'<div class="advisor__step">'
       +'<div class="advisor__progress"><span class="advisor__progress-dots">'+dots+'</span>'
@@ -453,7 +657,7 @@
       +'<div class="advisor__nav">'
         +'<div class="advisor__nav-left">'
           +(pos>0?'<button type="button" class="advisor__back" data-back>'+CHEV+'Zurück</button>':'')
-          +'<span class="advisor__count'+(lc===0?' is-none':'')+'">'+(lc===0?'Diese Kombination ergibt derzeit <b>kein</b> passendes Modell – passen Sie eine Angabe an.':'Aktuell passen <b>'+lc+'</b> von '+TOTAL+' Türsprechanlagen zu Ihrer Auswahl.')+'</span>'
+          +'<span class="advisor__count'+(lc===0?' is-none':'')+'">'+(lc===0?'Diese Kombination ergibt derzeit <b>kein</b> passendes Modell – passen Sie eine Angabe an.':'Aktuell passen <b>'+lc+'</b> von '+TOTAL+' '+CAT.nounPl+' zu Ihrer Auswahl.')+'</span>'
         +'</div>'
         +'<button type="button" class="advisor__forward'+(isLast?' advisor__forward--cta':'')+'" data-next'+(canNext?'':' disabled')+'>'+(isLast?'Empfehlung anzeigen':'Weiter')+CHEV+'</button>'
       +'</div>'
@@ -464,7 +668,7 @@
   }
 
   function wireStep(id){
-    var st=STEPS[id],a=state.a,multi=st.type==="multi";
+    var st=ST(id),a=state.a,multi=st.type==="multi";
     Array.prototype.forEach.call(quizEl.querySelectorAll(".advisor__opt"),function(btn){
       btn.addEventListener("click",function(ev){
         if(ev.target&&ev.target.closest&&ev.target.closest("[data-swap]")){ ev.preventDefault(); switchToIP(); return; }
@@ -495,41 +699,20 @@
   function goTo(id){ state.id=id; renderStep(id); }
   function collapse(){ root.classList.remove("is-open"); root.querySelector(".advisor__bar").setAttribute("aria-expanded","false"); }
 
-  /* ---------- summary chips ---------- */
-  function summaryChips(a){
-    var out=[],sys=deriveSystem(a);
-    if(sys)out.push(["System",{"ip-lan":"IP-System","ip-2draht":"IP-System","bus":"2-Draht-BUS"}[sys],"bau"]);
-    else if(a.bau==="unsure")out.push(["System","beide / offen","bau"]);
-    if(a.combo)out.push(["Ausführung",{none:"Nur Sprechanlage",briefkasten:"mit Briefkasten",paketbox:"mit Paketbox"}[a.combo],"combo"]);
-    if(a.media)out.push(["Typ",a.media==="video"?"Video":"Audio","media"]);
-    if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":a.parties,"parties"]);
-    var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
-    if(a.mounting&&a.mounting!=="open")out.push(["Montage",{unterputz:"Unterputz",aufputz:"Aufputz",stele:"Stele"}[a.mounting],"mounting"]);
-    var integ=(a.integration||[]).filter(function(x){return x!=="none";}); if(integ.length)out.push(["Technik",integ.map(function(x){return{sip:"FRITZ!/SIP",nvr:"Überwachung",secmod:"Sicherheitsmodul"}[x];}).join(", "),"integration"]);
-    if(a.set)out.push(["Umfang",{set:"Komplettset",single:"Einzelteile",either:"offen"}[a.set],"set"]);
-    return out.map(function(o){return '<span class="advisor__chip"><small>'+esc(o[0])+'</small><span class="advisor__chip-val">'+esc(o[1])+'</span></span>';}).join("");
-  }
-
   /* ---------- result ---------- */
-  var THUMB='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2"/><circle cx="12" cy="8" r="2.2"/><line x1="10" y1="13" x2="14" y2="13"/><line x1="10" y1="16" x2="14" y2="16"/></svg>';
   /* Placeholder product images (local folder). Live integration swaps these for shop CDN images. */
-  var IMG="Kaufbrater Images/", IMG_PLACEHOLDER="metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild.webp"; /* generic Sprechanlage placeholder */
+  var IMG="Kaufbrater Images/";
   function imgSrc(f){ return encodeURI(IMG+f); }
-  function thumbImg(p){ var ph=imgSrc(IMG_PLACEHOLDER);
-    return '<img src="'+imgSrc(p.img||IMG_PLACEHOLDER)+'" alt="'+esc(p.name||"")+'" onerror="this.onerror=null;this.src=\''+ph+'\'">'; }
-  function whyList(p,a){
-    var w=[],sys=deriveSystem(a);
-    if(sys)w.push({"ip-lan":"Passt zu Ihrer IP-Verkabelung","ip-2draht":"Passt zu Ihrer IP-Verkabelung","bus":"Nachrüstbar über 2-Draht-Bestandsleitung"}[sys]);
-    w.push(p.media==="video"?"Video mit Kamera":"Audio-Sprechanlage");
-    if(a.parties)w.push(p.flex?"Skaliert bis 500 Parteien":"Bis "+p.bmax+" Klingeltaster");
-    accessSel(a).forEach(function(x){ if(p.access.indexOf(x)>-1)w.push({rfid:"RFID-Zutritt",pin:"PIN-Code",fingerprint:"Fingerabdruck",face:"Gesichtserkennung"}[x]); });
-    if((a.integration||[]).indexOf("sip")>-1&&p.sip)w.push("FRITZ!Box / SIP-fähig");
-    if(w.length<3)p.hl.forEach(function(h){if(w.length<4)w.push(h);});
-    return w.slice(0,4);
+  function thumbImg(p){ var ph=imgSrc(CAT.imgPlaceholder);
+    return '<img src="'+imgSrc(p.img||CAT.imgPlaceholder)+'" alt="'+esc(p.name||"")+'" onerror="this.onerror=null;this.src=\''+ph+'\'">'; }
+  function fmtPrice(n){ return (n%1===0)?String(n):n.toFixed(2).replace(".",","); }
+  function emptyCard(hint){
+    return '<div class="advisor__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
+      +'<div><strong>Mit dieser Kombination haben wir kein exaktes Modell gefunden.</strong><p>'+esc(hint)+'</p></div></div>';
   }
   function recHTML(p,a,best,solo){
     var name='<span class="advisor__rec-name">'+esc(p.name)+'</span>';
-    var price='<span class="advisor__rec-price">ab '+p.price+' € <small>inkl. MwSt.</small></span>';
+    var price='<span class="advisor__rec-price">ab '+fmtPrice(p.price)+' € <small>inkl. MwSt.</small></span>';
     var chev='<span class="advisor__rec-chev" aria-hidden="true">'+CHEV+'</span>';
     var thumb='<span class="advisor__rec-thumb advisor__rec-thumb--img">'+thumbImg(p)+'</span>';
     if(solo){
@@ -542,40 +725,32 @@
         +'<span class="advisor__rec-head">'+name+price+'</span>'+chev+'</div>'
     +'</a>';
   }
-  function emptyHTML(a,sys){
-    var hint="Passen Sie einzelne Angaben an oder lassen Sie sich persönlich beraten.";
-    if(sys==="bus"&&a.media==="audio")hint="Für die 2-Draht-BUS-Nachrüstung gibt es aktuell nur Video (XDM10). Audio-only ist nur als IP-Variante (ADM10) verfügbar – dafür wäre eine IP-Verkabelung nötig.";
-    else if(sys==="bus"&&(accessSel(a).indexOf("face")>-1||accessSel(a).indexOf("pin")>-1||accessSel(a).indexOf("fingerprint")>-1))hint="Gesichtserkennung, PIN und Fingerabdruck sind der IP-Serie vorbehalten. Über die 2-Draht-Leitung (XDM10) ist RFID die schlüssellose Option.";
-    else if(sys==="bus"&&(a.parties==="4"||a.parties==="many"))hint="Die 2-Draht-BUS-Anlage (XDM10) gibt es mit bis zu 3 Klingeltastern. Für mehr Parteien empfehlen wir die IP-Serie (Horizon oder SDM10).";
-    else if(a.media==="audio"&&(accessSel(a).indexOf("face")>-1||accessSel(a).indexOf("pin")>-1||accessSel(a).indexOf("fingerprint")>-1))hint="Gesichtserkennung, PIN und Fingerabdruck gibt es nur bei Video-Türstationen. Für Audio ist die App-Steuerung die passende Wahl.";
-    return '<div class="advisor__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
-      +'<div><strong>Mit dieser Kombination haben wir kein exaktes Modell gefunden.</strong><p>'+esc(hint)+'</p></div></div>';
-  }
-
   function renderResult(){
     state.id="__result__"; state.edit=false;
-    var a=state.a,sys=deriveSystem(a),list=PRODUCTS.filter(function(p){return matches(p,a);});
+    var a=state.a,list=CAT.products.filter(function(p){return matches(p,a);});
     list.sort(function(x,y){var d=score(y,a)-score(x,a);return d!==0?d:x.price-y.price;});
     var exact=list.length;
-    if(list.length<2){ var extra=PRODUCTS.filter(function(p){var b={bau:a.bau,combo:a.combo,media:a.media,parties:a.parties};return matches(p,b)&&list.indexOf(p)===-1;}).sort(function(x,y){return x.price-y.price;}); list=list.concat(extra).slice(0,2); }
+    if(list.length<2){ var b={}; CAT.relaxKeys.forEach(function(k){ if(a[k]!=null) b[k]=a[k]; }); var extra=CAT.products.filter(function(p){return matches(p,b)&&list.indexOf(p)===-1;}).sort(function(x,y){return x.price-y.price;}); list=list.concat(extra).slice(0,2); }
     else list=list.slice(0,3);
 
-    var title = exact>=2 ? '<strong>'+exact+'</strong> passende Türsprechanlagen' : (exact===1?'Unsere Top-Empfehlung':'Am ehesten passend');
+    var title = exact>=2 ? '<strong>'+exact+'</strong> passende '+CAT.nounPl : (exact===1?'Unsere Top-Empfehlung':'Am ehesten passend');
     var solo = list.length===1;
     var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&exact>=1,solo);}).join("")+'</div>' : "";
-    var body = list.length ? ('<h3 class="advisor__result-title">'+title+'</h3>'+recs) : emptyHTML(a,sys);
+    var note = list.length ? CAT.resultNote(a) : "";
+    var body = list.length ? ('<h3 class="advisor__result-title">'+title+'</h3>'+recs+note) : emptyHTML(a);
+    var sup=CAT.support;
 
     resEl.innerHTML='<div class="advisor__result">'
       +'<div class="advisor__summary">'+summaryChips(a)+'</div>'
       +body
       +'<div class="advisor__actions">'
-        +(list.length?'<a class="advisor__view" href="'+BASE+'tuersprechanlagen" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
+        +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
         +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
       +'</div>'
       +captureHTML()
-      +'<div class="advisor__support"><div><div class="st">Unsicher bei der Auswahl?</div><div class="ss">Unsere Sprechanlagen-Experten beraten Sie kostenlos – auch zur Verkabelung vor Ort.</div></div>'
-        +'<div class="advisor__support-btns"><a class="solid" href="https://calendly.com/kaufberatung" target="_blank" rel="noopener">Beratungstermin</a>'
-        +'<a href="'+BASE+'sprechanlagen-online-support-termin" target="_blank" rel="noopener">Technischer Support</a></div></div>'
+      +'<div class="advisor__support"><div><div class="st">'+esc(sup.title)+'</div><div class="ss">'+esc(sup.sub)+'</div></div>'
+        +'<div class="advisor__support-btns"><a class="solid" href="'+sup.primaryHref+'" target="_blank" rel="noopener">'+esc(sup.primaryLabel)+'</a>'
+        +'<a href="'+sup.secondaryHref+'" target="_blank" rel="noopener">'+esc(sup.secondaryLabel)+'</a></div></div>'
     +'</div>';
     root.classList.add("is-result"); resEl.hidden=false;
     wireResult();
@@ -627,5 +802,34 @@
     email.addEventListener("keydown",function(e){ if(e.key==="Enter"){ e.preventDefault(); submit(); } });
     cap.querySelector("[data-email-send]").addEventListener("click",submit);
   }
+
+  /* ---------- category selection + standalone-preview switcher ---------- */
+  function detectCat(){ var p=(location.pathname+location.search).toLowerCase();
+    if(/sprech/.test(p))return"sprechanlage";
+    if(/klingel/.test(p))return"tuerklingel";
+    return null; }
+  function applyChrome(){
+    document.title="Metzler "+CAT.nounPl+"-Kaufberater";
+    var ct=document.querySelector(".page-head .ct"); if(ct)ct.textContent=CAT.nounPl;
+    var sub=document.querySelector(".advisor__bar-sub"); if(sub)sub.textContent=CAT.barSub;
+  }
+  function setCat(key){
+    CAT=CATS[key]||CATS.sprechanlage; TOTAL=CAT.products.length;
+    state={a:{},id:null,edit:false}; lead={email:"",news:false};
+    root.classList.remove("is-open","is-result"); resEl.hidden=true; resEl.innerHTML=""; quizEl.innerHTML="";
+    root.querySelector(".advisor__bar").setAttribute("aria-expanded","false");
+    applyChrome();
+    var sw=document.getElementById("catSwitch");
+    if(sw) Array.prototype.forEach.call(sw.querySelectorAll("button"),function(b){ b.classList.toggle("is-on",b.getAttribute("data-cat")===CAT.key); });
+  }
+  var detected=detectCat();
+  setCat(detected||"sprechanlage");
+  (function initSwitch(){
+    var sw=document.getElementById("catSwitch"); if(!sw) return;
+    if(detected){ sw.hidden=true; return; }   /* the embedding category page already fixes the category */
+    sw.hidden=false;
+    sw.innerHTML=Object.keys(CATS).map(function(k){return '<button type="button" data-cat="'+k+'"'+(k===CAT.key?' class="is-on"':'')+'>'+esc(CATS[k].tab)+'</button>';}).join("");
+    Array.prototype.forEach.call(sw.querySelectorAll("button"),function(b){ b.addEventListener("click",function(){ var k=b.getAttribute("data-cat"); if(CAT&&k===CAT.key)return; setCat(k); }); });
+  })();
 })();
 </script>
