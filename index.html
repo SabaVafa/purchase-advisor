@@ -469,6 +469,118 @@
   };
   var TK_ORDER=["conn","parties","label","beleuchtung","optik","farbe","mounting"];
 
+  /* ================= BRIEFKASTEN PRODUCT DATA (feed 2026-07-15; Metzler mailboxes only) =================
+     bauform: wand|stand|unterputz · fmax: max Briefkastenfächer/Wohneinheiten · combo: integrated Klingel+Video-Sprechanlage ·
+     zeitung: ja|optional|nein|null · gravur: ['mit']/['ohne']/['mit','ohne'] · material/finish: soft tags */
+  var BK_PRODUCTS=[
+    {id:"hoffmann",name:"Metzler Briefkasten mit austauschbarem Namensschild | Hoffmann",url:"metzler-briefkasten-mit-austauschbarem-namensschild-hoffmann",price:69.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit","ohne"],material:["stahl","edelstahl"],finish:["andere","anthrazit"]},
+    {id:"modellG",name:"Metzler moderner Design Briefkasten | Modell-G",url:"metzler-moderner-design-briefkasten-modell-g",price:69.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit","ohne"],material:["edelstahl","stahl"],finish:["andere","anthrazit"]},
+    {id:"neumann",name:"Metzler Briefkasten pulverbeschichtet | zeitloses Design | Neumann",url:"metzler-briefkasten-pulverbeschichtet-zeitloses-design-neumann",price:69.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit","ohne"],material:["edelstahl"],finish:["andere"]},
+    {id:"anton",name:"Metzler Briefkasten Holzoptik Eiche mit Edelstahl Namensschild | Anton",url:"metzler-briefkasten-holzoptik-eiche-mit-edelstahl-namensschild-anton",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit","ohne"],material:["edelstahl"],finish:["andere"]},
+    {id:"bK212mitaustauschbaremNamensschild",name:"Metzler Briefkasten in Anthrazit | BK212 mit austauschbarem Namensschild",url:"metzler-briefkasten-in-anthrazit-bk212-mit-austauschbarem-namensschild",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"nein",gravur:["ohne"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"ebenhard",name:"Metzler Briefkasten austauschbares Namensschild | Ebenhard",url:"metzler-briefkasten-austauschbares-namensschild-ebenhard",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"enno",name:"Metzler Briefkasten mit Edelstahl-Namensschild | Enno",url:"metzler-briefkasten-mit-edelstahl-namensschild-enno",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"hoffmannSF",name:"Metzler Briefkasten mit Sichtfenster | mit austauschbarem Namensschild | Hoffmann SF",url:"metzler-briefkasten-mit-sichtfenster-mit-austauschbarem-namensschild-hoffmann-sf",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"hugoU",name:"Metzler Unterputz Briefkasten hochwertiger Stahl | Hugo",url:"metzler-unterputz-briefkasten-hochwertiger-stahl-hugo",price:89.99,bauform:"unterputz",fmax:1,combo:false,zeitung:"nein",gravur:["ohne"],material:["edelstahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"siebert",name:"Metzler Briefkasten mit Funkklingel | personalisiert mit Gravur | Edelstahl-Namensschild | mit Zeitungsfach | Siebert",url:"metzler-briefkasten-mit-funkklingel-personalisiert-mit-gravur-edelstahl-namensschild-mit-zeitungsfach-siebert",price:89.99,bauform:"wand",fmax:1,combo:true,zeitung:"ja",gravur:["mit"],material:["stahl","edelstahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"siebert2",name:"Metzler Briefkasten | austauschbares Namensschild | Siebert 2",url:"metzler-briefkasten-austauschbares-namensschild-siebert-2",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"stelio",name:"Metzler Briefkasten pulverbeschichtet | Lasergravur | Stelio",url:"metzler-briefkasten-pulverbeschichtet-lasergravur-stelio",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"albrecht",name:"Metzler Briefkasten mit zwei Edelstahl-Namensschildern | personalisiert mit Gravur | Albrecht",url:"metzler-briefkasten-mit-zwei-edelstahl-namensschildern-personalisiert-mit-gravur-albrecht",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["stahl","edelstahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"anton2",name:"Metzler Briefkasten Holzoptik Eiche | Anthrazit RAL7016 mit Edelstahl Namensschild | Anton 2",url:"metzler-briefkasten-holzoptik-eiche-anthrazit-ral7016-mit-edelstahl-namensschild-anton-2",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere"]},
+    {id:"bK212REZF",name:"Metzler Briefkasten mit Zeitungsfach | RAL7016 Anthrazitgrau | BK212-RE-ZF",url:"metzler-briefkasten-mit-zeitungsfach-ral7016-anthrazitgrau-bk212-re-zf",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["ohne"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"cube",name:"Metzler Briefkasten hochwertiger Stahl Sichtfenster | Cube",url:"metzler-briefkasten-hochwertiger-stahl-sichtfenster-cube",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"hermann",name:"Metzler Briefkasten mit Funkklingel | personalisiert mit Gravur | Edelstahl-Namensschild | mit Zeitungsfach | Hermann",url:"metzler-briefkasten-mit-funkklingel-personalisiert-mit-gravur-edelstahl-namensschild-mit-zeitungsfach-hermann",price:99.99,bauform:"wand",fmax:1,combo:true,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"oltmann",name:"Metzler Briefkasten Stahl Sichtfenster | Oltmann",url:"metzler-briefkasten-stahl-sichtfenster-oltmann",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"stencil",name:"Metzler Briefkasten mit Funkklingel | personalisiert mit Gravur | Edelstahl-Namensschild | mit Zeitungsfach | Stencil",url:"metzler-briefkasten-mit-funkklingel-personalisiert-mit-gravur-edelstahl-namensschild-mit-zeitungsfach-stencil",price:99.99,bauform:"wand",fmax:2,combo:true,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["andere","anthrazit"]},
+    {id:"stencil2",name:"Metzler Briefkasten mit Lasergravur | Stencil 2",url:"metzler-briefkasten-mit-lasergravur-stencil-2",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"thobe",name:"Metzler Briefkasten mit Namensschild aus Edelstahl | Thobe",url:"metzler-briefkasten-mit-namensschild-aus-edelstahl-thobe",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"zeppelin",name:"Metzler Briefkasten Design Anthrazit Edelstahl | Zeppelin",url:"metzler-briefkasten-design-anthrazit-edelstahl-zeppelin",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["anthrazit"]},
+    {id:"hugo2U",name:"Metzler Briefkasten Unterputz | personalisiert mit Gravur | Edelstahl-Namensschild | Hugo 2",url:"metzler-briefkasten-unterputz-personalisiert-mit-gravur-edelstahl-namensschild-hugo-2",price:109,bauform:"unterputz",fmax:1,combo:false,zeitung:"nein",gravur:["mit"],material:["edelstahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"siebertSF",name:"Metzler Briefkasten mit Sichtfenster | Personalisiert mit Gravur | Edelstahl-Namensschild | Siebert SF",url:"metzler-briefkasten-mit-sichtfenster-personalisiert-mit-gravur-edelstahl-namensschild-siebert-sf",price:109,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["stahl","edelstahl"],finish:["edelstahl"]},
+    {id:"siebertFrameJ",name:"Metzler Briefkasten mit Blumenkasten | personalisiert mit Gravur | Edelstahl-Namensschild | Siebert Frame J",url:"metzler-briefkasten-mit-blumenkasten-personalisiert-mit-gravur-edelstahl-namensschild-siebert-frame-j",price:119,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["stahl","edelstahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"noraU",name:"Metzler Durchwurfbriefkasten | Mauerdurchwurf-Briefkasten | personalisiert mit Gravur | Edelstahl-Namensschild | Anthrazit RAL7016 | Nora",url:"metzler-durchwurfbriefkasten-mauerdurchwurf-briefkasten-personalisiert-mit-gravur-edelstahl-namensschild-anthrazit-ral7016-nora",price:120,bauform:"unterputz",fmax:1,combo:false,zeitung:null,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"nora2U",name:"Metzler Durchwurfbriefkasten | Mauerdurchwurf-Briefkasten | mit austauschbarem Namensschild | Anthrazit RAL7016 |  Nora 2",url:"metzler-durchwurfbriefkasten-mauerdurchwurf-briefkasten-mit-austauschbarem-namensschild-anthrazit-ral7016-nora-2",price:120,bauform:"unterputz",fmax:1,combo:false,zeitung:null,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"lepo",name:"Metzler Briefkasten aus hochwertigem Stahl pulverbeschichtet | Lepo",url:"metzler-briefkasten-aus-hochwertigem-stahl-pulverbeschichtet-lepo",price:139,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"emma",name:"Metzler Briefkasten für Zaunmontage | Zaunbriefkasten |  personalisiert mit Gravur | Anthrazit RAL 7016 | Emma",url:"metzler-briefkasten-fuer-zaunmontage-zaunbriefkasten-personalisiert-mit-gravur-anthrazit-ral-7016-emma",price:149,bauform:"wand",fmax:1,combo:false,zeitung:null,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"emma2",name:"Metzler Briefkasten für Zaunmontage | Zaunbriefkasten | personalisiert mit Gravur | Anthrazit RAL 7016 | Emma 2",url:"metzler-briefkasten-fuer-zaunmontage-zaunbriefkasten-personalisiert-mit-gravur-anthrazit-ral-7016-emma-2",price:149,bauform:"wand",fmax:1,combo:false,zeitung:null,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"hoffmannS",name:"Metzler Standbriefkasten aus hochwertigem Stahl | Namensschild mit Papiereinleger | Hoffmann",url:"metzler-standbriefkasten-aus-hochwertigem-stahl-namensschild-mit-papiereinleger-hoffmann",price:149,bauform:"stand",fmax:2,combo:false,zeitung:"ja",gravur:["mit","ohne"],material:["edelstahl","stahl"],finish:["anthrazit","andere"]},
+    {id:"lepo1",name:"Metzler Briefkasten aus hochwertigem Stahl pulverbeschichtet | personalisiert mit Gravur | Lepo 1",url:"metzler-briefkasten-aus-hochwertigem-stahl-pulverbeschichtet-personalisiert-mit-gravur-lepo-1",price:149,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["andere","anthrazit"]},
+    {id:"lepo2",name:"Metzler Briefkasten Funkklingel Anthrazit Gravur optional | Lepo 2",url:"metzler-briefkasten-funkklingel-anthrazit-gravur-optional-lepo-2",price:149,bauform:"wand",fmax:1,combo:true,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"moris",name:"Metzler Briefkasten aus Edelstahl | personalisiert mit Gravur | Zeitungsfach optional | Moris",url:"metzler-briefkasten-aus-edelstahl-personalisiert-mit-gravur-zeitungsfach-optional-moris",price:149,bauform:"wand",fmax:1,combo:false,zeitung:"optional",gravur:["mit"],material:["acryl","edelstahl"],finish:["edelstahl","andere","anthrazit"]},
+    {id:"stencilS",name:"Metzler Standbriefkasten mit Gravur aus Edelstahl | Stencil",url:"metzler-standbriefkasten-mit-gravur-aus-edelstahl-stencil",price:149,bauform:"stand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["andere","anthrazit"]},
+    {id:"cubeS",name:"Metzler Standbriefkasten Mehrfamilienhaus Anthrazit Sichtfenster | Cube",url:"metzler-standbriefkasten-mehrfamilienhaus-anthrazit-sichtfenster-cube",price:154,bauform:"stand",fmax:2,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","acryl"],finish:["anthrazit","andere"]},
+    {id:"ebenhardS",name:"Metzler Standbriefkasten | Namensschild austauschbar | Ebenhard",url:"metzler-standbriefkasten-namensschild-austauschbar-ebenhard",price:155,bauform:"stand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"siebertS",name:"Metzler Standbriefkasten Mehrfamilienhaus Anthrazit RAL 7016 Lasergravur | Siebert",url:"metzler-standbriefkasten-mehrfamilienhaus-anthrazit-ral-7016-lasergravur-siebert",price:159,bauform:"stand",fmax:2,combo:false,zeitung:"ja",gravur:["mit"],material:["stahl","edelstahl"],finish:["andere","edelstahl","anthrazit"]},
+    {id:"lepo3",name:"Metzler Briefkasten Anthrazit Edelstahl | Lepo 3",url:"metzler-briefkasten-anthrazit-edelstahl-lepo-3",price:169,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["ohne"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"modellGS",name:"Metzler Standbriefkasten | Modell G",url:"metzler-standbriefkasten-modell-g",price:169,bauform:"stand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["andere","anthrazit"]},
+    {id:"oltmannS",name:"Metzler Standbriefkasten Mehrfamilienhaus Anthrazit Edelstahlleiste | Oltmann",url:"metzler-standbriefkasten-mehrfamilienhaus-anthrazit-edelstahlleiste-oltmann",price:169,bauform:"stand",fmax:2,combo:false,zeitung:"ja",gravur:["mit"],material:["acryl","edelstahl"],finish:["anthrazit","andere"]},
+    {id:"thobeS",name:"Metzler Standbriefkasten | inkl. Namensschild aus Edelstahl | Thobe",url:"metzler-standbriefkasten-inkl-namensschild-aus-edelstahl-thobe",price:169,bauform:"stand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["andere","anthrazit"]},
+    {id:"bK212horizontal",name:"Metzler Zweifach Briefkasten | mit austauschbaren Namensschildern | RAL7016 Anthrazitgrau | BK212 horizontal",url:"metzler-zweifach-briefkasten-mit-austauschbaren-namensschildern-ral7016-anthrazitgrau-bk212-horizontal",price:179,bauform:"wand",fmax:3,combo:false,zeitung:"nein",gravur:["ohne"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"bK212vertikal",name:"Metzler Zweifach Briefkasten | mit austauschbaren Namensschildern | RAL7016 Anthrazitgrau | BK212 vertikal",url:"metzler-zweifach-briefkasten-mit-austauschbaren-namensschildern-ral7016-anthrazitgrau-bk212-vertikal",price:179,bauform:"wand",fmax:3,combo:false,zeitung:"nein",gravur:["ohne"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"modell01",name:"Metzler Briefkasten Anthrazit Gravur optional mit Zeitungsfach | Modell01",url:"metzler-briefkasten-anthrazit-gravur-optional-mit-zeitungsfach-modell01",price:179,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["acryl","edelstahl"],finish:["anthrazit"]},
+    {id:"alvesS",name:"Metzler Standbriefkasten mit Zeitungsfach aus hochwertigem Stahl | Alves",url:"metzler-standbriefkasten-mit-zeitungsfach-aus-hochwertigem-stahl-alves",price:189,bauform:"stand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"alves2S",name:"Metzler Standbriefkasten mit Zeitungsfach aus hochwertigem Stahl | Alves 2",url:"metzler-standbriefkasten-mit-zeitungsfach-aus-hochwertigem-stahl-alves-2",price:189,bauform:"stand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"alves3S",name:"Metzler Standbriefkasten mit Zeitungsfach aus hochwertigem Stahl | Alves 3",url:"metzler-standbriefkasten-mit-zeitungsfach-aus-hochwertigem-stahl-alves-3",price:199,bauform:"stand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"gustav",name:"Metzler Standbriefkasten Anthrazit RAL 7016 Namensschild | Gustav",url:"metzler-standbriefkasten-anthrazit-ral-7016-namensschild-gustav",price:199,bauform:"wand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"01",name:"Metzler Briefkasten mit Funkklingel Anthrazit Edelstahl | 01",url:"metzler-briefkasten-mit-funkklingel-anthrazit-edelstahl-01",price:229,bauform:"wand",fmax:1,combo:true,zeitung:"optional",gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"lepo3S",name:"Metzler Standbriefkasten freistehend | Anthrazit RAL7016 | Edelstahl Applikation | Lepo 3",url:"metzler-standbriefkasten-freistehend-anthrazit-ral7016-edelstahl-applikation-lepo-3",price:238,bauform:"stand",fmax:1,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"mitaustauschbaremNamensschildS",name:"Metzler Standbriefkasten Mehrfamilienhaus | 6er | mit austauschbarem Namensschild",url:"metzler-standbriefkasten-mehrfamilienhaus-6er-mit-austauschbarem-namensschild",price:249,bauform:"stand",fmax:6,combo:false,zeitung:null,gravur:["ohne"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"anthrazitS",name:"Metzler Standbriefkasten | 6er vertikal | Mit austauschbarem Namensschild | Anthrazit",url:"metzler-standbriefkasten-6er-vertikal-mit-austauschbarem-namensschild-anthrazit",price:259,bauform:"stand",fmax:6,combo:false,zeitung:null,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"modell02",name:"Metzler Briefkasten Edelstahl Gravur optional | Modell02",url:"metzler-briefkasten-edelstahl-gravur-optional-modell02",price:259,bauform:"wand",fmax:1,combo:false,zeitung:"optional",gravur:["mit"],material:["acryl","edelstahl"],finish:["andere","anthrazit"]},
+    {id:"masiva",name:"Metzler Briefkasten Edelstahl Echtholz Lärche | Masiva",url:"metzler-briefkasten-edelstahl-echtholz-laerche-masiva",price:279,bauform:"wand",fmax:1,combo:false,zeitung:"optional",gravur:["mit"],material:["edelstahl","holz"],finish:["anthrazit","andere"]},
+    {id:"personalisiertmitGravurS",name:"Metzler Standbriefkasten Mehrfamilienhaus in RAL 7016 Anthrazit | 6er | personalisiert mit Gravur",url:"metzler-standbriefkasten-mehrfamilienhaus-in-ral-7016-anthrazit-6er-personalisiert-mit-gravur",price:279,bauform:"stand",fmax:6,combo:false,zeitung:null,gravur:["mit"],material:["edelstahl"],finish:["anthrazit","andere"]},
+    {id:"01S",name:"Metzler Standbriefkasten Anthrazit Gravur + Zeitungsfach optional | 01",url:"metzler-standbriefkasten-anthrazit-gravur-zeitungsfach-optional-01",price:289,bauform:"stand",fmax:1,combo:false,zeitung:"optional",gravur:["mit"],material:["acryl","edelstahl"],finish:["anthrazit"]},
+    {id:"02",name:"Metzler Briefkasten Funkklingel Anthrazit Edelstahl Gravur optional | 02",url:"metzler-briefkasten-funkklingel-anthrazit-edelstahl-gravur-optional-02",price:289,bauform:"wand",fmax:1,combo:true,zeitung:"optional",gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"svenaS",name:"Metzler Standbriefkasten Mehrfamilienhaus Anthrazit Edelstahlleiste | Svena",url:"metzler-standbriefkasten-mehrfamilienhaus-anthrazit-edelstahlleiste-svena",price:289,bauform:"stand",fmax:2,combo:false,zeitung:"ja",gravur:["mit"],material:["acryl","stahl","edelstahl"],finish:["anthrazit"]},
+    {id:"hermannS",name:"Metzler Standbriefkasten Mehrfamilienhaus Anthrazit Lasergravur | Hermann",url:"metzler-standbriefkasten-mehrfamilienhaus-anthrazit-lasergravur-hermann",price:309,bauform:"stand",fmax:2,combo:false,zeitung:"ja",gravur:["mit"],material:["edelstahl","stahl"],finish:["andere","anthrazit"]},
+    {id:"02S",name:"Metzler Standbriefkasten Funkklingel Anthrazit Edelstahl Gravur optional | 02",url:"metzler-standbriefkasten-funkklingel-anthrazit-edelstahl-gravur-optional-02",price:339,bauform:"stand",fmax:1,combo:true,zeitung:"optional",gravur:["mit"],material:["acryl","edelstahl"],finish:["anthrazit"]},
+    {id:"masivaS",name:"Metzler Standbriefkasten Anthrazit Gravur optional | Masiva",url:"metzler-standbriefkasten-anthrazit-gravur-optional-masiva",price:369,bauform:"stand",fmax:1,combo:false,zeitung:"optional",gravur:["mit"],material:["edelstahl"],finish:["anthrazit","andere"]},
+    {id:"metzlerBriefkastenanlagefr3ParteienpulverbeschichtetinAnthrazitgrauRAL7016",name:"Metzler Briefkastenanlage für 3 Parteien, pulverbeschichtet in Anthrazitgrau RAL7016",url:"metzler-briefkastenanlage-fuer-3-parteien-pulverbeschichtet-in-anthrazitgrau-ral7016",price:369,bauform:"wand",fmax:1,combo:false,zeitung:null,gravur:["ohne"],material:["edelstahl"],finish:["edelstahl"]},
+    {id:"bispoFunk",name:"Metzler Funk-Paketbox mit Klingel & Briefkasten |  personalisiert mit Gravur | Edelstahl-Namensschilder | Bispo Funk",url:"metzler-funk-paketbox-mit-klingel-briefkasten-personalisiert-mit-gravur-edelstahl-namensschilder-bispo-funk_1",price:379,bauform:"wand",fmax:3,combo:true,zeitung:null,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"metzlerBriefkastenanlagefr4ParteienpulverbeschichtetinAnthrazitgrauRAL7016",name:"Metzler Briefkastenanlage für 4 Parteien, pulverbeschichtet in Anthrazitgrau RAL7016",url:"metzler-briefkastenanlage-fuer-4-parteien-pulverbeschichtet-in-anthrazitgrau-ral7016",price:399,bauform:"wand",fmax:4,combo:false,zeitung:null,gravur:["ohne"],material:["edelstahl"],finish:["edelstahl"]},
+    {id:"metzlerBriefkastenanlagefreistehendfr3ParteienpulverbeschichtetinAnthrazitgrauRAL7016S",name:"Metzler Briefkastenanlage freistehend für 3 Parteien, pulverbeschichtet in Anthrazitgrau RAL7016",url:"metzler-briefkastenanlage-freistehend-fuer-3-parteien-pulverbeschichtet-in-anthrazitgrau-ral7016",price:619,bauform:"stand",fmax:1,combo:false,zeitung:null,gravur:["ohne"],material:["edelstahl"],finish:["edelstahl"]},
+    {id:"metzlerBriefkastenanlagefreistehendfr4ParteienpulverbeschichtetinAnthrazitgrauRAL7016S",name:"Metzler Briefkastenanlage freistehend für 4 Parteien, pulverbeschichtet in Anthrazitgrau RAL7016",url:"metzler-briefkastenanlage-freistehend-fuer-4-parteien-pulverbeschichtet-in-anthrazitgrau-ral7016",price:649,bauform:"stand",fmax:4,combo:false,zeitung:null,gravur:["ohne"],material:["edelstahl"],finish:["edelstahl"]},
+    {id:"metzlerVideosprechanlageVDM1020inRAL7016AnthrazitpassendalsSetmitdemBriefkastenModellSiebert",name:"Metzler Videosprechanlage VDM10 2.0 in RAL7016 Anthrazit passend als Set mit dem Briefkasten Modell Siebert",url:"metzler-videosprechanlage-vdm10-20-in-ral7016-anthrazit-passend-als-set-mit-dem-briefkasten-modell-siebert",price:799,bauform:"wand",fmax:1,combo:true,zeitung:null,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"metzlerBriefkastenrostfreiundmassivRAL7016AnthrazitgraumitVideosprechanlageVDM1020ModellSiebert",name:"Metzler Briefkasten rostfrei und massiv, RAL7016 Anthrazitgrau mit Videosprechanlage VDM10 2.0, Modell Siebert",url:"metzler-briefkasten-rostfrei-und-massiv-ral7016-anthrazitgrau-mit-videosprechanlage-vdm10-20-modell-siebert",price:899,bauform:"wand",fmax:1,combo:true,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"metzlerStandbriefkastenrostfreiundmassivRAL7016AnthrazitgraumitVideosprechanlageVDM1020ModellSiebert",name:"Metzler Standbriefkasten rostfrei und massiv, RAL7016 Anthrazitgrau mit Videosprechanlage VDM10 2.0, Modell Siebert",url:"metzler-standbriefkasten-rostfrei-und-massiv-ral7016-anthrazitgrau-mit-videosprechanlage-vdm10-20-modell-siebert",price:1059,bauform:"wand",fmax:1,combo:true,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"rAL7016Anthrazit",name:"Metzler Briefkasten mit VDM10 2.0 Video-Türsprechanlage | 1 Klingel | RAL7016 Anthrazit",url:"metzler-briefkasten-mit-vdm10-20-video-tuersprechanlage-1-klingel-ral7016-anthrazit",price:1099,bauform:"wand",fmax:1,combo:true,zeitung:"ja",gravur:["mit"],material:["edelstahl"],finish:["edelstahl"]},
+    {id:"anthrazitRAL7016S",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Zweifamilienhaus SDM10 | Touch-Display | Anthrazit RAL7016",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-zweifamilienhaus-sdm10-touch-display-anthrazit-ral7016",price:1490,bauform:"stand",fmax:2,combo:true,zeitung:null,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"anthrazitRAL7016Sx",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Zweifamilienhaus VDM10 | Anthrazit RAL 7016",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-zweifamilienhaus-vdm10-anthrazit-ral-7016",price:1590,bauform:"stand",fmax:2,combo:true,zeitung:null,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]}
+  ];
+
+  /* ---------- BRIEFKASTEN QUIZ ---------- */
+  var BK_STEPS={
+    bauform:{q:"Wie soll der Briefkasten montiert werden?",help:"Die wichtigste Frage – sie bestimmt die Bauform.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"wand",ol:"Wandbriefkasten",od:"Aufputz – an die Wand montiert"},
+      {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"},
+      {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"},
+      {v:"egal",ol:"Egal / noch offen",od:""}]},
+    fach:{q:"Für wie viele Wohneinheiten?",help:"Also wie viele Briefkastenfächer brauchen Sie?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"1",ol:"1 Wohneinheit",od:"Einfamilienhaus"},
+      {v:"2",ol:"2 Wohneinheiten",od:"Zweifamilienhaus"},
+      {v:"3",ol:"3 Wohneinheiten",od:"Dreifamilienhaus"},
+      {v:"4",ol:"4 und mehr",od:"Mehrfamilienhaus (bis 6 Fächer)"}]},
+    combo:{q:"Nur Briefkasten – oder mit Klingel & Sprechanlage?",help:"Metzler bietet Briefkästen auch mit integrierter Video-Türsprechanlage.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"none",ol:"Nur Briefkasten",od:"ohne Klingel/Sprechanlage"},
+      {v:"combo",ol:"Mit Klingel & Sprechanlage",od:"integrierte IP-Video-Türstation"}]},
+    zeitung:{q:"Mit Zeitungsfach?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"ja",ol:"Mit Zeitungsfach",od:"Platz für Zeitungen"},
+      {v:"nein",ol:"Ohne Zeitungsfach",od:"kompakter"},
+      {v:"egal",ol:"Egal / noch offen",od:""}]},
+    material:{q:"Bevorzugtes Material?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+      {v:"edelstahl",ol:"Edelstahl",od:"rostfrei, V2A",attr:"material"},
+      {v:"acryl",ol:"Acrylglas-Front",od:"moderne Optik",attr:"material"},
+      {v:"holz",ol:"Holz (Lärche)",od:"warme Optik",attr:"material"},
+      {v:"stahl",ol:"Stahl pulverbeschichtet",od:"RAL-Farbe",attr:"material"},
+      {v:"none",ol:"Egal",od:"",solo:true}]},
+    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",attr:"finish"},
+      {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",attr:"finish"},
+      {v:"andere",ol:"Andere Farbe",od:"weitere RAL / Wunschfarbe",attr:"finish"},
+      {v:"none",ol:"Egal",od:"",solo:true}]}
+  };
+  var BK_ORDER=["bauform","fach","combo","zeitung","material","farbe"];
+
   /* ================= SHARED HELPERS ================= */
   function accessSel(a){ return (a.access||[]).filter(function(x){return x!=="none";}); }
   function chipsHTML(out){ return out.map(function(o){return '<span class="advisor__chip"><small>'+esc(o[0])+'</small><span class="advisor__chip-val">'+esc(o[1])+'</span></span>';}).join(""); }
@@ -559,6 +671,36 @@
     return "";
   }
 
+  /* ================= BRIEFKASTEN category logic ================= */
+  function bkMatches(p,a){
+    if(a.bauform&&a.bauform!=="egal"&&p.bauform!==a.bauform)return false;
+    if(a.fach){ var n=a.fach==="4"?4:+a.fach; if(!(p.fmax>=n))return false; }
+    if(a.combo){ if(a.combo==="none"&&p.combo)return false; if(a.combo==="combo"&&!p.combo)return false; }
+    if(a.zeitung&&a.zeitung!=="egal"&&p.zeitung){
+      if(a.zeitung==="ja"&&!(p.zeitung==="ja"||p.zeitung==="optional"))return false;
+      if(a.zeitung==="nein"&&!(p.zeitung==="nein"||p.zeitung==="optional"))return false; }
+    return true;
+  }
+  /* Material + Farbe are soft prefs: rank only, never filter. */
+  function bkScore(p,a){ var s=0,m=a.material||[],f=a.farbe||[]; for(var i=0;i<m.length;i++)if((p.material||[]).indexOf(m[i])>-1)s++; for(var j=0;j<f.length;j++)if((p.finish||[]).indexOf(f[j])>-1)s++; return s; }
+  function bkSummary(a){
+    var out=[];
+    if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandmontage",stand:"Standbriefkasten",unterputz:"Unterputz"}[a.bauform],"bauform"]);
+    if(a.fach)out.push(["Einheiten",a.fach==="4"?"4+":a.fach,"fach"]);
+    if(a.combo)out.push(["Ausführung",{none:"Nur Briefkasten",combo:"mit Klingel & Sprechanlage"}[a.combo],"combo"]);
+    if(a.zeitung&&a.zeitung!=="egal")out.push(["Zeitungsfach",{ja:"mit",nein:"ohne"}[a.zeitung],"zeitung"]);
+    var mm=(a.material||[]).filter(function(x){return x!=="none";}); if(mm.length)out.push(["Material",mm.map(function(x){return{edelstahl:"Edelstahl",acryl:"Acrylglas",holz:"Holz",stahl:"Stahl"}[x];}).join(", "),"material"]);
+    var ff=(a.farbe||[]).filter(function(x){return x!=="none";}); if(ff.length)out.push(["Farbe",ff.map(function(x){return{edelstahl:"Edelstahl",anthrazit:"Anthrazit",andere:"andere"}[x];}).join(", "),"farbe"]);
+    return chipsHTML(out);
+  }
+  function bkEmpty(a){
+    var hint="Passen Sie einzelne Angaben an – oder lassen Sie sich beraten.";
+    if(a.bauform==="unterputz"&&a.combo==="combo")hint="Unterputz-Briefkästen mit integrierter Sprechanlage sind selten. Prüfen Sie Wand- oder Standmontage – oder wählen Sie „Nur Briefkasten“.";
+    else if(a.combo==="combo"&&a.fach&&(+a.fach>2))hint="Briefkästen mit integrierter Klingel & Sprechanlage bieten wir vor allem für 1–2 Wohneinheiten. Für mehr Parteien wählen Sie „Nur Briefkasten“ oder unsere Sprechanlagen.";
+    return emptyCard(hint);
+  }
+  function bkResultNote(a){ if(a.combo==="combo")return '<p class="advisor__hint">Diese Modelle enthalten eine IP-Video-Türsprechanlage – Innenstation und Netzteil ggf. separat. Details über den Sprechanlagen-Kaufberater.</p>'; return ""; }
+
   /* ================= CATEGORY REGISTRY ================= */
   var CATS={
     sprechanlage:{
@@ -580,6 +722,15 @@
       imgPlaceholder:"Türklingel.png",
       matches:tkMatches,score:tkScore,optState:tkOptState,summaryChips:tkSummary,emptyHTML:tkEmpty,resultNote:tkResultNote,
       support:null   /* no booked consultation for a simple doorbell plate (unlike Sprechanlage) */
+    },
+    briefkasten:{
+      key:"briefkasten",tab:"Briefkasten",noun:"Briefkasten",nounPl:"Briefkästen",
+      catUrl:"briefkasten",flashStep:null,
+      barSub:"Beantworten Sie ein paar kurze Fragen – der Berater empfiehlt Ihnen den passenden Briefkasten.",
+      products:BK_PRODUCTS,steps:BK_STEPS,order:BK_ORDER,relaxKeys:["bauform","fach","combo"],
+      imgPlaceholder:"metzler-briefkasten-unterputz-personalisiert-mit-gravur-edelstahl-namensschild-hugo-2.webp",
+      matches:bkMatches,score:bkScore,optState:tkOptState,summaryChips:bkSummary,emptyHTML:bkEmpty,resultNote:bkResultNote,
+      support:null
     }
   };
 
@@ -606,7 +757,7 @@
      to different results. If every reachable option yields the same set of products
      (or only one is reachable), skip it — the question can't change anything. */
   /* Does product p satisfy soft-pref option o? Boolean attr field (Sprechanlage) or optik-tag membership (Türklingel). */
-  function optHas(p,o){ if(o.attr) return !!p[o.attr]; return Array.isArray(p.optik)&&p.optik.indexOf(o.v)>-1; }
+  function optHas(p,o){ if(o.attr){ var v=p[o.attr]; return Array.isArray(v)?v.indexOf(o.v)>-1:!!v; } return Array.isArray(p.optik)&&p.optik.indexOf(o.v)>-1; }
   function discriminates(id,a){
     var st=ST(id);
     if(st.noskip) return true;
@@ -840,6 +991,7 @@
   /* ---------- category selection + standalone-preview switcher ---------- */
   function detectCat(){ var p=(location.pathname+location.search).toLowerCase();
     if(/sprech/.test(p))return"sprechanlage";
+    if(/briefkasten/.test(p))return"briefkasten";
     if(/klingel/.test(p))return"tuerklingel";
     return null; }
   function applyChrome(){
