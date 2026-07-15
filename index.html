@@ -16,6 +16,9 @@
     --container:1380px;   /* matches Metzler design-system .container (styles-v2.css) */
   }
   *{box-sizing:border-box}
+  /* Always reserve the vertical scrollbar gutter so the standalone preview's content width
+     matches the real (long, scrolling) PLP page — otherwise a short collapsed page is ~15px wider. */
+  html{overflow-y:scroll}
   body{margin:0;background:var(--paper-white);color:var(--ink-72);font-family:var(--font-family);
     line-height:1.55;font-size:var(--text-body);-webkit-font-smoothing:antialiased}
   .container{width:100%;max-width:var(--container);margin:0 auto;padding:24px clamp(24px,4vw,56px) 72px}
