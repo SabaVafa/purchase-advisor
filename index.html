@@ -464,7 +464,7 @@
     return {off:true,note:"derzeit kein passendes Modell"};
   }
   /* Upsell: leaving BUS for the IP series means proper/new cabling – send the user back to reconsider it. */
-  function switchToIP(){ state.flash="Für PIN, Fingerabdruck oder Gesichtserkennung ist die IP-Serie nötig – wählen Sie hier die IP-Option (Neubau oder Netzwerk-/Telefonkabel). Hinweis: dafür ist eine IP-Verkabelung nötig, ggf. neue Leitungen."; goTo("bau"); }
+  function switchToIP(){ state.flash="Für PIN, Fingerabdruck oder Gesichtserkennung ist das IP-System nötig – wählen Sie „Neubau und Neuverkabelung“. Dafür sind ggf. neue Leitungen erforderlich."; goTo("bau"); }
   function spSummary(a){
     var out=[],sys=deriveSystem(a);
     if(sys)out.push(["System",{"ip-lan":"IP-System","ip-2draht":"IP-System","bus":"2-Draht-BUS"}[sys],"bau"]);
