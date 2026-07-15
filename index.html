@@ -581,6 +581,101 @@
   };
   var BK_ORDER=["bauform","fach","combo","zeitung","material","farbe"];
 
+  /* ================= PAKETBOX PRODUCT DATA (feed 2026-07-15; Metzler parcel boxes only) =================
+     fmax: integrated Briefkästen (0 = pure parcel box) · xl: XL/extra volume · bel: LED-illuminated ·
+     combo: integrated Klingel+Video-Sprechanlage · gravur: ['mit']/['ohne']/both · material/finish: soft tags */
+  var PB_PRODUCTS=[
+    {id:"pb1",name:"Metzler Paketbox | rostfrei & massiv | für Pakete bis zur Größe S | Avalon 3",url:"metzler-paketbox-rostfrei-massiv-fuer-pakete-bis-zur-groesse-s-avalon-3",price:159,fmax:0,xl:false,bel:false,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb2",name:"Metzler Paketbox mit Pflanzdach | Anthrazit RAL 7016 | für Pakete bis zur Größe S | rostfrei | Avalon 3",url:"metzler-paketbox-mit-pflanzdach-anthrazit-ral-7016-fuer-pakete-bis-zur-groesse-s-rostfrei-avalon-3",price:189,fmax:0,xl:false,bel:false,combo:false,gravur:["ohne"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb3",name:"Metzler Paketbox | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei & massiv | Avalon 1",url:"metzler-paketbox-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-massiv-avalon-1",price:229,fmax:0,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb4",name:"Metzler Paketbox | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei & massiv | Avalon 2",url:"metzler-paketbox-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-massiv-avalon-2",price:229,fmax:0,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb5",name:"Metzler Paketbox mit Pflanzdach | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei & massiv | Avalon 1",url:"metzler-paketbox-mit-pflanzdach-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-massiv-avalon-1",price:259,fmax:0,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb6",name:"Metzler Paketbox mit Pflanzdach | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei & massiv | Avalon 2",url:"metzler-paketbox-mit-pflanzdach-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-massiv-avalon-2",price:259,fmax:0,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb7",name:"Metzler Paketbox | personalisiert mit Gravur | rostfrei | Bispo 2",url:"metzler-paketbox-personalisiert-mit-gravur-rostfrei-bispo-2",price:269,fmax:0,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb8",name:"Metzler Paketbox mit Briefkasten | mit Briefeinwurf | für Pakete bis zur Größe M | rostfrei | Bispo",url:"metzler-paketbox-mit-briefkasten-mit-briefeinwurf-fuer-pakete-bis-zur-groesse-m-rostfrei-bispo",price:279,fmax:1,xl:false,bel:false,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb9",name:"Metzler Paketbox | Entnahme auf der Rückseite | personalisiert mit Gravur | Anthrazit | Zivo 2",url:"metzler-paketbox-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-anthrazit-zivo-2",price:279,fmax:0,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb10",name:"Metzler Paketbox mit Briefkasten | mit Pflanzdach | mit Briefeinwurf | für Pakete bis zur Größe M | rostfrei | Bispo",url:"metzler-paketbox-mit-briefkasten-mit-pflanzdach-mit-briefeinwurf-fuer-pakete-bis-zur-groesse-m-rostfrei-bispo",price:299,fmax:1,xl:false,bel:false,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb11",name:"Metzler Paketbox mit austauschbarem Namensschild | für Pakete bis zur Größe M | Bispo RE",url:"metzler-paketbox-mit-austauschbarem-namensschild-fuer-pakete-bis-zur-groesse-m-bispo-re",price:299,fmax:1,xl:false,bel:false,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb12",name:"Metzler Paketbox mit Briefkasten | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2",url:"metzler-paketbox-mit-briefkasten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2",price:309,fmax:3,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb13",name:"Metzler Paketbox mit Briefkasten | LED |  für Pakete bis zur Größe M | Bispo",url:"metzler-paketbox-mit-briefkasten-led-fuer-pakete-bis-zur-groesse-m-bispo",price:319,fmax:1,xl:false,bel:true,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb14",name:"Paketbox mit Briefkasten | mit seitlichen Sichtfenstern | Anthrazit | Bispo SF",url:"paketbox-mit-briefkasten-mit-seitlichen-sichtfenstern-anthrazit-bispo-sf",price:319,fmax:1,xl:false,bel:false,combo:false,gravur:["ohne"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb15",name:"Metzler Paketbox mit Briefkasten | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Bispo 2",url:"metzler-paketbox-mit-briefkasten-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-bispo-2",price:329,fmax:1,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb16",name:"Metzler Paketbox mit 2 Briefkästen | zweifacher Briefeinwurf | für Pakete bis zur Größe M | rostfrei | Bispo",url:"metzler-paketbox-mit-2-briefkaesten-zweifacher-briefeinwurf-fuer-pakete-bis-zur-groesse-m-rostfrei-bispo",price:339,fmax:2,xl:false,bel:false,combo:false,gravur:["ohne"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb17",name:"Metzler Paketbox mit Briefkasten | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Taren",url:"metzler-paketbox-mit-briefkasten-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-taren",price:339,fmax:1,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb18",name:"Metzler Paketbox mit LED | Entnahme auf der Rückseite | austauschbares Namensschild | Anthrazit | Zivo 2 Renz LED",url:"metzler-paketbox-mit-led-entnahme-auf-der-rueckseite-austauschbares-namensschild-anthrazit-zivo-2-renz-led_1",price:349,fmax:3,xl:false,bel:true,combo:false,gravur:["mit","ohne"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb19",name:"Metzler Paketbox mit Pflanzdach | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Bispo 2",url:"metzler-paketbox-mit-pflanzdach-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-bispo-2",price:349,fmax:1,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb20",name:"Paketbox mit Briefkasten | mit seitlichen Sichtfenstern | personalisiert mit Gravur | Edelstahl-Namensschild | Anthrazit | Bispo 2 SF",url:"paketbox-mit-briefkasten-mit-seitlichen-sichtfenstern-personalisiert-mit-gravur-edelstahl-namensschild-anthrazit-bispo-2-sf",price:349,fmax:1,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb21",name:"Metzler Paketbox mit 2 Briefkästen mit austauschbaren Namensschildern | für Pakete bis zur Größe M | Bispo RE",url:"metzler-paketbox-mit-2-briefkaesten-mit-austauschbaren-namensschildern-fuer-pakete-bis-zur-groesse-m-bispo-re",price:359,fmax:2,xl:false,bel:false,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb22",name:"Metzler Paketbox mit 2 Briefkästen | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2",url:"metzler-paketbox-mit-2-briefkaesten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2",price:359,fmax:2,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb23",name:"Metzler Paketbox mit Briefkasten | mit Sichtfenster | personalisiert mit Gravur | Edelstahl-Namensschild | Bispo 3",url:"metzler-paketbox-mit-briefkasten-mit-sichtfenster-personalisiert-mit-gravur-edelstahl-namensschild-bispo-3",price:359,fmax:1,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb24",name:"Metzler Paketbox mit Briefkasten | LED | personalisiert mit Gravur | Bispo 2",url:"metzler-paketbox-mit-briefkasten-led-personalisiert-mit-gravur-bispo-2",price:369,fmax:1,xl:false,bel:true,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb25",name:"Metzler Funk-Paketbox mit Klingel & Briefkasten |  personalisiert mit Gravur | Edelstahl-Namensschild | Bispo Funk",url:"metzler-funk-paketbox-mit-klingel-briefkasten-personalisiert-mit-gravur-edelstahl-namensschild-bispo-funk",price:379,fmax:1,xl:false,bel:false,combo:true,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb26",name:"Metzler Paketbox mit 2 Briefkästen | LED | zweifacher Briefeinwurf | Bispo",url:"metzler-paketbox-mit-2-briefkaesten-led-zweifacher-briefeinwurf-bispo",price:379,fmax:2,xl:false,bel:true,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb27",name:"Metzler Paketbox mit LED | Entnahme auf der Rückseite | personalisiert mit Gravur | Anthrazit | Zivo 2 LED",url:"metzler-paketbox-mit-led-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-anthrazit-zivo-2-led_2",price:379,fmax:3,xl:false,bel:true,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb28",name:"Metzler Paketbox mit 2 Briefkästen | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Bispo 2",url:"metzler-paketbox-mit-2-briefkaesten-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-bispo-2",price:389,fmax:2,xl:false,bel:false,combo:false,gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb29",name:"Metzler Paketbox mit 3 Briefkästen | dreifacher Briefeinwurf | für Pakete bis zur Größe M | rostfrei | Bispo",url:"metzler-paketbox-mit-3-briefkaesten-dreifacher-briefeinwurf-fuer-pakete-bis-zur-groesse-m-rostfrei-bispo",price:389,fmax:3,xl:false,bel:false,combo:false,gravur:["ohne"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb30",name:"Metzler Paketbox mit Briefkasten | mit LED | seitliche Sichtfenster | personalisiert mit Gravur | Bispo 2",url:"metzler-paketbox-mit-briefkasten-mit-led-seitliche-sichtfenster-personalisiert-mit-gravur-bispo-2",price:399,fmax:1,xl:false,bel:true,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb31",name:"Metzler Paketbox mit 3 Briefkästen | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2",url:"metzler-paketbox-mit-3-briefkaesten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2",price:409,fmax:3,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb32",name:"Metzler Paketbox mit 3 Briefkästen mit austauschbaren Namensschildern | für Pakete bis zur Größe M | Bispo RE",url:"metzler-paketbox-mit-3-briefkaesten-mit-austauschbaren-namensschildern-fuer-pakete-bis-zur-groesse-m-bispo-re",price:419,fmax:3,xl:false,bel:false,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb33",name:"Metzler Paketbox mit 2 Briefkästen | LED | personalisiert mit Gravur | Bispo 2",url:"metzler-paketbox-mit-2-briefkaesten-led-personalisiert-mit-gravur-bispo-2",price:429,fmax:2,xl:false,bel:true,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb34",name:"Metzler Paketbox mit 3 Briefkästen | LED | dreifacher Briefeinwurf | Bispo",url:"metzler-paketbox-mit-3-briefkaesten-led-dreifacher-briefeinwurf-bispo",price:439,fmax:3,xl:false,bel:true,combo:false,gravur:["ohne"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb35",name:"Metzler Paketbox mit 3 Briefkästen | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Bispo 2",url:"metzler-paketbox-mit-3-briefkaesten-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-bispo-2",price:439,fmax:3,xl:false,bel:false,combo:false,gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb36",name:"Metzler Paketbox XL | Paketkasten rostfrei | Bispo Max",url:"metzler-paketbox-xl-paketkasten-rostfrei-bispo-max",price:449,fmax:0,xl:true,bel:false,combo:false,gravur:["ohne"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb37",name:"Metzler Paketbox mit 4 Briefkästen | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2",url:"metzler-paketbox-mit-4-briefkaesten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2",price:459,fmax:4,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb38",name:"Metzler Paketbox mit 3 Briefkästen | personalisiert mit Gravur | Bispo 2",url:"metzler-paketbox-mit-3-briefkaesten-personalisiert-mit-gravur-bispo-2",price:489,fmax:3,xl:false,bel:true,combo:false,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb39",name:"Metzler Funk-Paketbox mit Klingel & Briefkasten |  personalisiert mit Gravur | Edelstahl-Namensschilder | Bispo Funk",url:"metzler-funk-paketbox-mit-klingel-briefkasten-personalisiert-mit-gravur-edelstahl-namensschilder-bispo-funk_1",price:499,fmax:3,xl:false,bel:false,combo:true,gravur:["mit"],material:["stahl"],finish:["andere","anthrazit"]},
+    {id:"pb40",name:"Metzler Paketbox XL mit Briefkasten | Paketkasten rostfrei | Bispo Max",url:"metzler-paketbox-xl-mit-briefkasten-paketkasten-rostfrei-bispo-max",price:499,fmax:1,xl:true,bel:false,combo:false,gravur:["ohne"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb41",name:"Metzler Paketbox XL personalisiert mit Gravur | Paketkasten rostfrei | Bispo Max 2",url:"metzler-paketbox-xl-personalisiert-mit-gravur-paketkasten-rostfrei-bispo-max-2",price:499,fmax:0,xl:true,bel:false,combo:false,gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb42",name:"Metzler Paketbox mit 5 Briefkästen | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2",url:"metzler-paketbox-mit-5-briefkaesten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2",price:509,fmax:5,xl:false,bel:false,combo:false,gravur:["mit"],material:["stahl"],finish:["anthrazit"]},
+    {id:"pb43",name:"Metzler Paketbox XL mit Briefkasten | Mit austauschbarem Namensschild | Bispo Max RE",url:"metzler-paketbox-xl-mit-briefkasten-mit-austauschbarem-namensschild-bispo-max-re",price:519,fmax:1,xl:true,bel:false,combo:false,gravur:["ohne"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb44",name:"Metzler Paketbox XL mit Briefkasten | LED | personalisiert mit Gravur | RAL 7016 Anthrazit | Bispo Max 2",url:"metzler-paketbox-xl-mit-briefkasten-led-personalisiert-mit-gravur-ral-7016-anthrazit-bispo-max-2",price:539,fmax:1,xl:true,bel:true,combo:false,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"pb45",name:"Metzler Paketbox XL mit Briefkasten | Paketkasten rostfrei | personalisiert mit Gravur | Bispo Max 2",url:"metzler-paketbox-xl-mit-briefkasten-paketkasten-rostfrei-personalisiert-mit-gravur-bispo-max-2",price:549,fmax:1,xl:true,bel:false,combo:false,gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb46",name:"Metzler Paketbox XL mit 2 Briefkästen | Paketkasten rostfrei | Bispo Max",url:"metzler-paketbox-xl-mit-2-briefkaesten-paketkasten-rostfrei-bispo-max",price:589,fmax:2,xl:true,bel:false,combo:false,gravur:["ohne"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb47",name:"Metzler Paketbox XL mit 2 Briefkästen | LED  | personalisiert mit Gravur | RAL 7016 Anthrazit | Bispo Max 2",url:"metzler-paketbox-xl-mit-2-briefkaesten-led-personalisiert-mit-gravur-ral-7016-anthrazit-bispo-max-2",price:639,fmax:2,xl:true,bel:true,combo:false,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"pb48",name:"Metzler Paketbox XL mit 2 Briefkästen | Paketkasten rostfrei | personalisiert mit Gravur | Bispo Max 2",url:"metzler-paketbox-xl-mit-2-briefkaesten-paketkasten-rostfrei-personalisiert-mit-gravur-bispo-max-2",price:639,fmax:2,xl:true,bel:false,combo:false,gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb49",name:"Metzler Paketbox XL mit zwei Briefkästen | austauschbarer Papiereinleger | personalisiert mit Gravur | Bispo Max 2",url:"metzler-paketbox-xl-mit-zwei-briefkaesten-austauschbarer-papiereinleger-personalisiert-mit-gravur-bispo-max-2",price:639,fmax:2,xl:true,bel:false,combo:false,gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb50",name:"Metzler Paketbox XL mit 3 Briefkästen | Paketkasten rostfrei | Bispo Max",url:"metzler-paketbox-xl-mit-3-briefkaesten-paketkasten-rostfrei-bispo-max",price:679,fmax:3,xl:true,bel:false,combo:false,gravur:["ohne"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb51",name:"Metzler Paketbox | Extra großes Volumen | Höhenverstellbare Füße | Optionale Beschriftung | Anthrazit | Ben",url:"metzler-paketbox-extra-grosses-volumen-hoehenverstellbare-fuesse-optionale-beschriftung-anthrazit-ben",price:699,fmax:0,xl:true,bel:false,combo:false,gravur:["ohne"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"pb52",name:"Metzler Paketbox XL mit 3 Briefkästen | LED | personalisiert mit Gravur | RAL 7016 Anthrazit | Bispo Max 2",url:"metzler-paketbox-xl-mit-3-briefkaesten-led-personalisiert-mit-gravur-ral-7016-anthrazit-bispo-max-2",price:719,fmax:3,xl:true,bel:true,combo:false,gravur:["mit"],material:["edelstahl"],finish:["anthrazit"]},
+    {id:"pb53",name:"Metzler Paketbox XL mit 3 Briefkästen | Paketkasten rostfrei | personalisiert mit Gravur | Bispo Max 2",url:"metzler-paketbox-xl-mit-3-briefkaesten-paketkasten-rostfrei-personalisiert-mit-gravur-bispo-max-2",price:719,fmax:3,xl:true,bel:false,combo:false,gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb54",name:"Metzler Paketbox XL mit vier Briefkästen | austauschbare Papiereinleger | personalisiert mit Gravur | Bispo Max 2",url:"metzler-paketbox-xl-mit-vier-briefkaesten-austauschbare-papiereinleger-personalisiert-mit-gravur-bispo-max-2",price:719,fmax:4,xl:true,bel:false,combo:false,gravur:["mit"],material:["edelstahl"],finish:["andere","anthrazit"]},
+    {id:"pb55",name:"Metzler Video-Türsprechanlage mit Paketbox | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild",url:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild",price:1199,fmax:0,xl:false,bel:false,combo:true,gravur:["mit"],material:["stahl"],finish:["anthrazit"]}
+  ];
+
+  /* ---------- PAKETBOX QUIZ ---------- */
+  var PB_STEPS={
+    fach:{q:"Mit wie vielen Briefkästen?",help:"Paketboxen gibt es auch mit integriertem Briefkasten.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"0",ol:"Ohne Briefkasten",od:"reine Paketbox"},
+      {v:"1",ol:"1 Briefkasten",od:"Einfamilienhaus"},
+      {v:"2",ol:"2 Briefkästen",od:"Zweifamilienhaus"},
+      {v:"3",ol:"3 und mehr",od:"Mehrfamilienhaus (bis 5)"}]},
+    combo:{q:"Nur Paketbox – oder mit Klingel & Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"none",ol:"Nur Paketbox",od:"ohne Klingel/Sprechanlage"},
+      {v:"combo",ol:"Mit Klingel & Sprechanlage",od:"integrierte IP-Video-Türstation"}]},
+    groesse:{q:"Welche Paketgröße?",help:"XL fasst größere bzw. mehr Pakete.",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"standard",ol:"Standard",od:"für gängige Paketgrößen"},
+      {v:"xl",ol:"XL / Extra groß",od:"großes Volumen"},
+      {v:"egal",ol:"Egal / noch offen",od:""}]},
+    beleuchtung:{q:"Mit Beleuchtung?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"led",ol:"Mit LED-Beleuchtung",od:"nachts sichtbar"},
+      {v:"ohne",ol:"Ohne Beleuchtung",od:"schlicht"},
+      {v:"egal",ol:"Egal",od:""}]},
+    gravur:{q:"Personalisierung?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"mit",ol:"Mit Gravur",od:"Name/Hausnummer graviert"},
+      {v:"ohne",ol:"Ohne Gravur",od:"schlicht"},
+      {v:"egal",ol:"Egal",od:""}]},
+    material:{q:"Bevorzugtes Material?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+      {v:"edelstahl",ol:"Edelstahl",od:"rostfrei, V2A",attr:"material"},
+      {v:"stahl",ol:"Stahl pulverbeschichtet",od:"RAL-Farbe",attr:"material"},
+      {v:"none",ol:"Egal",od:"",solo:true}]},
+    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",attr:"finish"},
+      {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",attr:"finish"},
+      {v:"andere",ol:"Andere Farbe",od:"weitere RAL",attr:"finish"},
+      {v:"none",ol:"Egal",od:"",solo:true}]}
+  };
+  var PB_ORDER=["fach","combo","groesse","beleuchtung","gravur","material","farbe"];
+
   /* ================= SHARED HELPERS ================= */
   function accessSel(a){ return (a.access||[]).filter(function(x){return x!=="none";}); }
   function chipsHTML(out){ return out.map(function(o){return '<span class="advisor__chip"><small>'+esc(o[0])+'</small><span class="advisor__chip-val">'+esc(o[1])+'</span></span>';}).join(""); }
@@ -701,6 +796,35 @@
   }
   function bkResultNote(a){ if(a.combo==="combo")return '<p class="advisor__hint">Diese Modelle enthalten eine IP-Video-Türsprechanlage – Innenstation und Netzteil ggf. separat. Details über den Sprechanlagen-Kaufberater.</p>'; return ""; }
 
+  /* ================= PAKETBOX category logic ================= */
+  function pbMatches(p,a){
+    if(a.fach){ if(a.fach==="0"){ if(p.fmax!==0)return false; } else { var n=a.fach==="3"?3:+a.fach; if(!(p.fmax>=n))return false; } }
+    if(a.combo){ if(a.combo==="none"&&p.combo)return false; if(a.combo==="combo"&&!p.combo)return false; }
+    if(a.groesse&&a.groesse!=="egal"){ if(a.groesse==="xl"&&!p.xl)return false; if(a.groesse==="standard"&&p.xl)return false; }
+    if(a.beleuchtung&&a.beleuchtung!=="egal"){ if(a.beleuchtung==="led"&&!p.bel)return false; if(a.beleuchtung==="ohne"&&p.bel)return false; }
+    if(a.gravur&&a.gravur!=="egal"&&(p.gravur||[]).indexOf(a.gravur)<0)return false;
+    return true;
+  }
+  function pbScore(p,a){ var s=0,m=a.material||[],f=a.farbe||[]; for(var i=0;i<m.length;i++)if((p.material||[]).indexOf(m[i])>-1)s++; for(var j=0;j<f.length;j++)if((p.finish||[]).indexOf(f[j])>-1)s++; return s; }
+  function pbSummary(a){
+    var out=[];
+    if(a.fach)out.push(["Briefkästen",a.fach==="0"?"ohne":(a.fach==="3"?"3+":a.fach),"fach"]);
+    if(a.combo)out.push(["Ausführung",{none:"Nur Paketbox",combo:"mit Klingel & Sprechanlage"}[a.combo],"combo"]);
+    if(a.groesse&&a.groesse!=="egal")out.push(["Größe",{standard:"Standard",xl:"XL"}[a.groesse],"groesse"]);
+    if(a.beleuchtung&&a.beleuchtung!=="egal")out.push(["Beleuchtung",{led:"mit LED",ohne:"ohne"}[a.beleuchtung],"beleuchtung"]);
+    if(a.gravur&&a.gravur!=="egal")out.push(["Gravur",{mit:"mit",ohne:"ohne"}[a.gravur],"gravur"]);
+    var mm=(a.material||[]).filter(function(x){return x!=="none";}); if(mm.length)out.push(["Material",mm.map(function(x){return{edelstahl:"Edelstahl",stahl:"Stahl"}[x];}).join(", "),"material"]);
+    var ff=(a.farbe||[]).filter(function(x){return x!=="none";}); if(ff.length)out.push(["Farbe",ff.map(function(x){return{edelstahl:"Edelstahl",anthrazit:"Anthrazit",andere:"andere"}[x];}).join(", "),"farbe"]);
+    return chipsHTML(out);
+  }
+  function pbEmpty(a){
+    var hint="Passen Sie einzelne Angaben an – oder lassen Sie sich beraten.";
+    if(a.combo==="combo"&&a.fach&&(+a.fach>2))hint="Paketboxen mit integrierter Klingel & Sprechanlage bieten wir für 1–2 Wohneinheiten. Für mehr Parteien wählen Sie „Nur Paketbox“ oder unsere Sprechanlagen.";
+    else if(a.combo==="combo"&&a.beleuchtung==="led")hint="Die Paketbox-Kombis mit Klingel & Sprechanlage gibt es derzeit ohne LED-Beleuchtung.";
+    return emptyCard(hint);
+  }
+  function pbResultNote(a){ if(a.combo==="combo")return '<p class="advisor__hint">Diese Modelle enthalten eine IP-Video-Türsprechanlage – Innenstation und Netzteil ggf. separat. Details über den Sprechanlagen-Kaufberater.</p>'; return ""; }
+
   /* ================= CATEGORY REGISTRY ================= */
   var CATS={
     sprechanlage:{
@@ -730,6 +854,15 @@
       products:BK_PRODUCTS,steps:BK_STEPS,order:BK_ORDER,relaxKeys:["bauform","fach","combo"],
       imgPlaceholder:"metzler-briefkasten-unterputz-personalisiert-mit-gravur-edelstahl-namensschild-hugo-2.webp",
       matches:bkMatches,score:bkScore,optState:tkOptState,summaryChips:bkSummary,emptyHTML:bkEmpty,resultNote:bkResultNote,
+      support:null
+    },
+    paketbox:{
+      key:"paketbox",tab:"Paketbox",noun:"Paketbox",nounPl:"Paketboxen",
+      catUrl:"paketboxen",flashStep:null,
+      barSub:"Beantworten Sie ein paar kurze Fragen – der Berater empfiehlt Ihnen die passende Paketbox.",
+      products:PB_PRODUCTS,steps:PB_STEPS,order:PB_ORDER,relaxKeys:["fach","combo","groesse"],
+      imgPlaceholder:"Paketbox.png",
+      matches:pbMatches,score:pbScore,optState:tkOptState,summaryChips:pbSummary,emptyHTML:pbEmpty,resultNote:pbResultNote,
       support:null
     }
   };
@@ -991,6 +1124,7 @@
   /* ---------- category selection + standalone-preview switcher ---------- */
   function detectCat(){ var p=(location.pathname+location.search).toLowerCase();
     if(/sprech/.test(p))return"sprechanlage";
+    if(/paketbox/.test(p))return"paketbox";
     if(/briefkasten/.test(p))return"briefkasten";
     if(/klingel/.test(p))return"tuerklingel";
     return null; }
