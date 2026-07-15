@@ -346,14 +346,9 @@
       {v:"nameplate",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel"},
       {v:"led",ol:"Beleuchteter Klingeltaster",od:"LED-Farbe wählbar"},
       {v:"display",ol:"Touch-Display",od:"digitales Bedienfeld statt Klingeltaster (SDM10)"},
-      {v:"none",ol:"Standard reicht",od:"keine besonderen Wünsche",solo:true}]},
-    budget:{q:"Wie hoch ist Ihr Budget?",help:"Optional – Sie können hier auch offenlassen.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"einstieg",ol:"Einstieg",od:"bis 600 €"},
-      {v:"komfort",ol:"Komfort",od:"600 – 1.200 €"},
-      {v:"premium",ol:"Premium",od:"ab 1.200 €"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]}
+      {v:"none",ol:"Standard reicht",od:"keine besonderen Wünsche",solo:true}]}
   };
-  var SP_ORDER=["bau","combo","media","parties","access","integration","mounting","design","budget"];
+  var SP_ORDER=["bau","combo","media","parties","access","integration","mounting","design"];
 
   /* ================= TÜRKLINGEL PRODUCT DATA (crawl 2026-07-15; prose+configurator) =================
      conn: wired|funk · pmax: max Wohneinheiten/Klingeltaster · label: name-presentation modes ·
@@ -464,10 +459,6 @@
     var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
     if((a.integration||[]).indexOf("sip")>-1&&!p.sip)return false;
     if(a.mounting&&a.mounting!=="open"){ if(p.mount.indexOf(a.mounting)===-1)return false; }
-    if(a.budget&&a.budget!=="egal"){ var pr=p.price;
-      if(a.budget==="einstieg"&&pr>=600)return false;
-      if(a.budget==="komfort"&&(pr<600||pr>1200))return false;
-      if(a.budget==="premium"&&pr<=1200)return false; }
     return true;
   }
   function spScore(p,a){ var s=0,d=a.design||[]; if(d.indexOf("wunsch")>-1&&p.wunsch)s++; if(d.indexOf("nameplate")>-1&&p.nameplate)s++; if(d.indexOf("led")>-1&&p.led)s++; if(d.indexOf("display")>-1&&p.display)s++; if((a.integration||[]).indexOf("nvr")>-1&&p.media==="video"&&p.series!=="2-Draht-BUS")s++; return s; }
@@ -490,7 +481,6 @@
     var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
     if(a.mounting&&a.mounting!=="open")out.push(["Montage",{unterputz:"Unterputz",aufputz:"Aufputz",stele:"Stele"}[a.mounting],"mounting"]);
     var integ=(a.integration||[]).filter(function(x){return x!=="none";}); if(integ.length)out.push(["Technik",integ.map(function(x){return{sip:"FRITZ!/SIP",nvr:"Überwachung",secmod:"Sicherheitsmodul"}[x];}).join(", "),"integration"]);
-    if(a.budget&&a.budget!=="egal")out.push(["Budget",{einstieg:"bis 600 €",komfort:"600–1.200 €",premium:"ab 1.200 €"}[a.budget],"budget"]);
     return chipsHTML(out);
   }
   function spEmpty(a){
