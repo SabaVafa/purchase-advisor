@@ -579,8 +579,7 @@
       products:TK_PRODUCTS,steps:TK_STEPS,order:TK_ORDER,relaxKeys:["conn","parties"],
       imgPlaceholder:"Türklingel.png",
       matches:tkMatches,score:tkScore,optState:tkOptState,summaryChips:tkSummary,emptyHTML:tkEmpty,resultNote:tkResultNote,
-      support:{title:"Unsicher bei der Auswahl?",sub:"Unsere Klingel-Experten helfen Ihnen kostenlos weiter – von der Gravur bis zur Montage.",
-        primaryHref:"https://calendly.com/kaufberatung",primaryLabel:"Beratungstermin",secondaryHref:BASE+"Kontakt",secondaryLabel:"Kontakt"}
+      support:null   /* no booked consultation for a simple doorbell plate (unlike Sprechanlage) */
     }
   };
 
@@ -783,9 +782,9 @@
         +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
       +'</div>'
       +captureHTML()
-      +'<div class="advisor__support"><div><div class="st">'+esc(sup.title)+'</div><div class="ss">'+esc(sup.sub)+'</div></div>'
+      +(sup?('<div class="advisor__support"><div><div class="st">'+esc(sup.title)+'</div><div class="ss">'+esc(sup.sub)+'</div></div>'
         +'<div class="advisor__support-btns"><a class="solid" href="'+sup.primaryHref+'" target="_blank" rel="noopener">'+esc(sup.primaryLabel)+'</a>'
-        +'<a href="'+sup.secondaryHref+'" target="_blank" rel="noopener">'+esc(sup.secondaryLabel)+'</a></div></div>'
+        +'<a href="'+sup.secondaryHref+'" target="_blank" rel="noopener">'+esc(sup.secondaryLabel)+'</a></div></div>'):'')
     +'</div>';
     root.classList.add("is-result"); resEl.hidden=false;
     wireResult();
