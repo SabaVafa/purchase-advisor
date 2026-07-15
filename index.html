@@ -333,11 +333,6 @@
       {v:"fingerprint",ol:"Fingerabdruck",od:"nur Niko",media:"video"},
       {v:"face",ol:"Gesichtserkennung",od:"SDM10",media:"video"},
       {v:"none",ol:"Nur App / noch offen",od:"keine besondere Zutrittsart",solo:true}]},
-    integration:{q:"Besondere Anforderungen an die Technik?",en:"Special requirements — multiple choice.",type:"multi",vis:function(){return true;},opts:[
-      {v:"sip",ol:"FRITZ!Box / SIP-Telefon",od:"Klingel aufs FRITZ!Fon"},
-      {v:"nvr",ol:"Als Überwachungskamera",od:"Einbindung in NVR",media:"video"},
-      {v:"secmod",ol:"Sicherer Türöffner",od:"Sicherheitsmodul"},
-      {v:"none",ol:"Keine besonderen",od:"Standard genügt",solo:true}]},
     mounting:{q:"Wie soll montiert werden?",en:"Mounting type.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"},{v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
       {v:"stele",ol:"Freistehende Stele",od:"kein Wandmontageort"},{v:"open",ol:"Noch offen",od:"weiß ich noch nicht"}]},
@@ -348,7 +343,7 @@
       {v:"display",ol:"Touch-Display",od:"digitales Bedienfeld statt Klingeltaster (SDM10)"},
       {v:"none",ol:"Standard reicht",od:"keine besonderen Wünsche",solo:true}]}
   };
-  var SP_ORDER=["bau","combo","media","parties","access","integration","mounting","design"];
+  var SP_ORDER=["bau","combo","media","parties","access","mounting","design"];
 
   /* ================= TÜRKLINGEL PRODUCT DATA (crawl 2026-07-15; prose+configurator) =================
      conn: wired|funk · pmax: max Wohneinheiten/Klingeltaster · label: name-presentation modes ·
@@ -457,11 +452,10 @@
     if(a.media&&p.media!==a.media)return false;
     if(a.parties){ if(a.parties==="many"){if(!p.flex)return false;} else {var n=+a.parties; if(!(p.flex||p.bmax>=n))return false;} }
     var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
-    if((a.integration||[]).indexOf("sip")>-1&&!p.sip)return false;
     if(a.mounting&&a.mounting!=="open"){ if(p.mount.indexOf(a.mounting)===-1)return false; }
     return true;
   }
-  function spScore(p,a){ var s=0,d=a.design||[]; if(d.indexOf("wunsch")>-1&&p.wunsch)s++; if(d.indexOf("nameplate")>-1&&p.nameplate)s++; if(d.indexOf("led")>-1&&p.led)s++; if(d.indexOf("display")>-1&&p.display)s++; if((a.integration||[]).indexOf("nvr")>-1&&p.media==="video"&&p.series!=="2-Draht-BUS")s++; return s; }
+  function spScore(p,a){ var s=0,d=a.design||[]; if(d.indexOf("wunsch")>-1&&p.wunsch)s++; if(d.indexOf("nameplate")>-1&&p.nameplate)s++; if(d.indexOf("led")>-1&&p.led)s++; if(d.indexOf("display")>-1&&p.display)s++; return s; }
   function spOptState(id,o,a,selected){
     if(selected||o.solo) return {off:false};
     if(liveCount(applyAns(id,o,a))>0) return {off:false,count:liveCount(applyAns(id,o,a))};
@@ -480,7 +474,6 @@
     if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":a.parties,"parties"]);
     var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
     if(a.mounting&&a.mounting!=="open")out.push(["Montage",{unterputz:"Unterputz",aufputz:"Aufputz",stele:"Stele"}[a.mounting],"mounting"]);
-    var integ=(a.integration||[]).filter(function(x){return x!=="none";}); if(integ.length)out.push(["Technik",integ.map(function(x){return{sip:"FRITZ!/SIP",nvr:"Überwachung",secmod:"Sicherheitsmodul"}[x];}).join(", "),"integration"]);
     return chipsHTML(out);
   }
   function spEmpty(a){
