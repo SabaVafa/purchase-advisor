@@ -344,10 +344,10 @@
     mounting:{q:"Wie soll montiert werden?",en:"Mounting type.",type:"single",req:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"},{v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
       {v:"stele",ol:"Freistehende Stele",od:"kein Wandmontageort"},{v:"open",ol:"Noch offen",od:"weiß ich noch nicht"}]},
-    design:{q:"Was ist Ihnen bei der Optik wichtig?",en:"Aesthetic preferences — optional.",type:"multi",soft:true,vis:function(){return true;},opts:[
+    design:{q:"Was ist Ihnen bei der Optik wichtig?",en:"Aesthetic preferences — optional.",type:"multi",soft:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell, pulverbeschichtet",attr:"wunsch"},
       {v:"nameplate",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel",attr:"nameplate"},
-      {v:"led",ol:"Klingeltaster",od:"",attr:"led"},
+      {v:"led",ol:"Klingeltaster",od:"klassischer Klingelknopf",attr:"led"},
       {v:"display",ol:"Touch-Display",od:"digitales Bedienfeld statt Klingeltaster (SDM10)",attr:"display"},
       {v:"none",ol:"Standard reicht",od:"keine besonderen Wünsche",solo:true}]}
   };
