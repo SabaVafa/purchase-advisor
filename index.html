@@ -321,8 +321,7 @@
   var SP_STEPS={
     bau:{q:"Wie sieht die Verkabelung bei Ihnen aus?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt – die wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"ip",ol:"Neubau und Neuverkabelung",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"},
-      {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"},
-      {v:"unsure",ol:"Weiß ich nicht",od:"wir zeigen beide Systeme + kostenlose Verkabelungs-Beratung"}]},
+      {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"}]},
     combo:{q:"Nur die Sprechanlage – oder als Kombination?",help:"Metzler bietet die Türstation auch integriert in Briefkasten oder Paketbox.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"none",ol:"Nur Sprechanlage",od:"nur die Türstation"},
       {v:"briefkasten",ol:"Mit Briefkasten",od:"integriert in eine Briefkastenanlage · IP-Video"},
@@ -877,7 +876,6 @@
   function spSummary(a){
     var out=[],sys=deriveSystem(a);
     if(sys)out.push(["System",{"ip-lan":"IP-System","ip-2draht":"IP-System","bus":"2-Draht-BUS"}[sys],"bau"]);
-    else if(a.bau==="unsure")out.push(["System","beide / offen","bau"]);
     if(a.combo)out.push(["Ausführung",{none:"Nur Sprechanlage",briefkasten:"mit Briefkasten",paketbox:"mit Paketbox"}[a.combo],"combo"]);
     if(a.media)out.push(["Typ",a.media==="video"?"Video":"Audio","media"]);
     if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":a.parties,"parties"]);
