@@ -1187,8 +1187,14 @@
       if(o.media&&o.media!==a.media) return false;
       /* option explicitly not offered on a combo (Briefkasten/Paketbox) path */
       if(o.notForCombo && a.combo && a.combo!=="none") return false;
-      /* soft-pref option: only offer it if a still-matching product actually satisfies it */
-      if(st.soft && !o.solo && !CAT.products.some(function(p){return matches(p,a)&&optHas(p,o);})) return false;
+      /* soft-pref option: only offer it if it separates the still-matching set — i.e. some
+         match has the attribute and some don't. If none have it, or ALL have it, it can't
+         rank anything, so it's redundant → hide. */
+      if(st.soft && !o.solo){
+        var ms=CAT.products.filter(function(p){return matches(p,a);}), t=0;
+        for(var mi=0;mi<ms.length;mi++){ if(optHas(ms[mi],o)) t++; }
+        if(t===0 || t===ms.length) return false;
+      }
       return true;
     }).map(function(o){
       var sel=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v);
