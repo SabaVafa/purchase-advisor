@@ -312,8 +312,8 @@
     {id:"bkstand",name:"Metzler Standbriefkasten rostfrei und massiv, RAL7016 Anthrazitgrau mit Videosprechanlage VDM10 2.0, Modell Siebert",series:"IP",combo:"briefkasten",url:"metzler-standbriefkasten-rostfrei-und-massiv-ral7016-anthrazitgrau-mit-videosprechanlage-vdm10-20-modell-siebert",media:"video",systems:["ip-lan","ip-2draht"],bmax:1,flex:false,price:1059,access:["app"],sip:true,nameplate:true,led:true,wunsch:true,mount:["stele"],house:false,hl:["Freistehender Standbriefkasten Siebert + Video","VDM10 2.0 · FullHD-Kamera","Einfamilienhaus (1 Klingel)"]},
     {id:"skvdm1",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Einfamilienhaus VDM10 | Anthrazit RAL7016",series:"IP",combo:"briefkasten",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-einfamilienhaus-vdm10-anthrazit-ral7016",media:"video",systems:["ip-lan","ip-2draht"],bmax:1,flex:false,price:1490,access:["app"],sip:true,nameplate:false,led:true,wunsch:true,mount:["stele"],house:false,hl:["Standbriefkasten + VDM10 Video","Einfamilienhaus (1 Klingel)","RAL 7016"]},
     {id:"skvdm2",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Zweifamilienhaus VDM10 | Anthrazit RAL 7016",series:"IP",combo:"briefkasten",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-zweifamilienhaus-vdm10-anthrazit-ral-7016",media:"video",systems:["ip-lan","ip-2draht"],bmax:2,flex:false,price:1590,access:["app"],sip:true,nameplate:false,led:true,wunsch:true,mount:["stele"],house:false,hl:["Standbriefkasten + VDM10 Video","Zweifamilienhaus (2 Klingeln)","RAL 7016"]},
-    {id:"bkstandx",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Einfamilienhaus SDM10 | Touch-Display | Anthrazit RAL7016",series:"IP",display:true,combo:"briefkasten",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-einfamilienhaus-sdm10-touch-display-anthrazit-ral7016",media:"video",systems:["ip-lan","ip-2draht"],bmax:1,flex:false,price:2290,access:["app"],sip:true,nameplate:false,led:false,wunsch:true,mount:["stele"],house:false,hl:["Standbriefkasten + SDM10 Touch-Display","Einfamilienhaus (1 Klingel)","RAL 7016"]},
-    {id:"sksdm2",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Zweifamilienhaus SDM10 | Touch-Display | Anthrazit RAL7016",series:"IP",display:true,combo:"briefkasten",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-zweifamilienhaus-sdm10-touch-display-anthrazit-ral7016",media:"video",systems:["ip-lan","ip-2draht"],bmax:2,flex:false,price:2390,access:["app"],sip:true,nameplate:false,led:false,wunsch:true,mount:["stele"],house:false,hl:["Standbriefkasten + SDM10 Touch-Display","Zweifamilienhaus (2 Klingeln)","RAL 7016"]},
+    {id:"bkstandx",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Einfamilienhaus SDM10 | Touch-Display | Anthrazit RAL7016",series:"IP",display:true,combo:"briefkasten",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-einfamilienhaus-sdm10-touch-display-anthrazit-ral7016",media:"video",systems:["ip-lan","ip-2draht"],bmax:1,flex:true,price:2290,access:["app"],sip:true,nameplate:false,led:false,wunsch:true,mount:["stele"],house:false,hl:["Standbriefkasten + SDM10 Touch-Display","Einfamilienhaus (1 Klingel)","RAL 7016"]},
+    {id:"sksdm2",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Zweifamilienhaus SDM10 | Touch-Display | Anthrazit RAL7016",series:"IP",display:true,combo:"briefkasten",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-zweifamilienhaus-sdm10-touch-display-anthrazit-ral7016",media:"video",systems:["ip-lan","ip-2draht"],bmax:2,flex:true,price:2390,access:["app"],sip:true,nameplate:false,led:false,wunsch:true,mount:["stele"],house:false,hl:["Standbriefkasten + SDM10 Touch-Display","Zweifamilienhaus (2 Klingeln)","RAL 7016"]},
     {id:"pbcombo",name:"Metzler Video-Türsprechanlage mit Paketbox | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild",series:"IP",combo:"paketbox",url:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild",img:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild.webp",media:"video",systems:["ip-lan","ip-2draht"],bmax:1,flex:false,price:1199,access:["app"],sip:true,nameplate:true,led:true,wunsch:true,mount:["aufputz","unterputz"],house:false,hl:["Türstation + Paketbox in einem","Pakete kontaktlos & sicher empfangen","RAL 7016 · personalisierbar"]}
   ];
 
@@ -763,7 +763,7 @@
     if(sys&&p.systems.indexOf(sys)===-1)return false;
     if(a.combo){ if(a.combo==="none"){ if(p.combo)return false; } else if((p.combo||"none")!==a.combo)return false; }
     if(a.media&&p.media!==a.media)return false;
-    if(a.parties){ if(a.parties==="many"){if(!p.flex)return false;} else {var n=+a.parties; if(!(p.flex||p.bmax>=n))return false;} }
+    if(a.parties){ if(a.parties==="many"){if(!p.flex)return false;} else {var n=+a.parties; if(!(p.bmax>=n))return false;} }  /* flex satisfies only "Flexibel", not discrete 3-7 (combos jump 1-2 -> modular) */
     var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
     if(a.mounting&&a.mounting!=="open"){ if(p.mount.indexOf(a.mounting)===-1)return false; }
     return true;
@@ -1065,6 +1065,9 @@
       if(o.media&&o.media!==a.media) return false;
       /* soft-pref option: only offer it if a still-matching product actually satisfies it */
       if(st.soft && !o.solo && !CAT.products.some(function(p){return matches(p,a)&&optHas(p,o);})) return false;
+      /* hide non-actionable dead options (off with no "wechseln?" redirect); swap dead-ends stay visible */
+      var sel0=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v), st0=optState(id,o,a,sel0);
+      if(st0.off && !st0.swap && !sel0) return false;
       return true;
     }).map(function(o){
       var sel=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v);
