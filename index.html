@@ -346,9 +346,9 @@
       {v:"stele",ol:"Freistehende Stele",od:"kein Wandmontageort"},{v:"open",ol:"Noch offen",od:"weiß ich noch nicht"}]},
     design:{q:"Was ist Ihnen bei der Optik wichtig?",en:"Aesthetic preferences — optional.",type:"multi",soft:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell, pulverbeschichtet",attr:"wunsch"},
-      {v:"nameplate",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel",attr:"nameplate"},
+      {v:"nameplate",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar",attr:"nameplate"},
       {v:"led",ol:"Klingeltaster",od:"klassischer Klingelknopf",attr:"led"},
-      {v:"display",ol:"Touch-Display",od:"digitales Bedienfeld statt Klingeltaster (SDM10)",attr:"display"},
+      {v:"display",ol:"Digitales Namensschild",od:"editierbar (SDM10)",attr:"display"},
       {v:"none",ol:"Standard reicht",od:"keine besonderen Wünsche",solo:true}]}
   };
   var SP_ORDER=["bau","combo","media","parties","access","mounting","design"];
@@ -446,8 +446,8 @@
       {v:"3",ol:"3 Wohneinheiten",od:"Dreifamilienhaus"},
       {v:"4",ol:"4 und mehr",od:"Mehrfamilienhaus (bis 7)"}]},
     label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Klingel.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"gravur",ol:"Gravur",od:"Name/Hausnummer fest eingraviert"},
-      {v:"schild",ol:"Austauschbares Namensschild",od:"bei Mieterwechsel einfach tauschen"},
+      {v:"gravur",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
+      {v:"schild",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
       {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"},
       {v:"egal",ol:"Egal / noch offen",od:""}]},
     beleuchtung:{q:"Was soll beleuchtet sein?",help:"Mehrfachauswahl – optional.",type:"multi",vis:function(){return true;},opts:[
@@ -666,7 +666,7 @@
       {v:"ohne",ol:"Ohne Beleuchtung",od:"schlicht"},
       {v:"egal",ol:"Egal",od:""}]},
     gravur:{q:"Personalisierung?",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"mit",ol:"Mit Gravur",od:"Name/Hausnummer graviert"},
+      {v:"mit",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"ohne",ol:"Ohne Gravur",od:"schlicht"},
       {v:"egal",ol:"Egal",od:""}]},
     material:{q:"Bevorzugtes Material?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
@@ -920,7 +920,7 @@
     var out=[];
     if(a.conn)out.push(["Anschluss",{wired:"Kabel",funk:"Funk",unsure:"offen"}[a.conn],"conn"]);
     if(a.parties)out.push(["Einheiten",a.parties==="4"?"4+":a.parties,"parties"]);
-    if(a.label&&a.label!=="egal")out.push(["Beschriftung",{gravur:"Gravur",schild:"Namensschild",symbol:"Symbol"}[a.label],"label"]);
+    if(a.label&&a.label!=="egal")out.push(["Beschriftung",{gravur:"Lasergraviertes Namensschild",schild:"Namensschild mit Papiereinleger",symbol:"Symbol"}[a.label],"label"]);
     var bel=(a.beleuchtung||[]).filter(function(x){return x!=="none";}); if(bel.length)out.push(["Beleuchtung",bel.map(function(x){return{led:"Taster",name:"Namensschild",hausnr:"Hausnummer"}[x];}).join(", "),"beleuchtung"]);
     var op=(a.optik||[]); if(op.length)out.push(["Optik",op.map(function(x){return{schlicht:"schlicht",design:"Design",quadratisch:"quadratisch",xl:"XL",motiv:"Motiv"}[x];}).join(", "),"optik"]);
     if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",{edelstahl:"Edelstahl",anthrazit:"Anthrazit",andere:"andere"}[a.farbe],"farbe"]);
@@ -929,7 +929,7 @@
   }
   function tkEmpty(a){
     var hint="Passen Sie einzelne Angaben an – oder lassen Sie sich kostenlos beraten.";
-    if(a.label==="symbol"&&a.parties&&(+a.parties>1))hint="Eine Klingel mit reinem Klingelsymbol gibt es nur für eine Wohneinheit. Für mehrere Parteien wählen Sie Gravur oder ein Namensschild.";
+    if(a.label==="symbol"&&a.parties&&(+a.parties>1))hint="Eine Klingel mit reinem Klingelsymbol gibt es nur für eine Wohneinheit. Für mehrere Parteien wählen Sie ein Lasergraviertes Namensschild oder ein Namensschild mit Papiereinleger.";
     else if((a.beleuchtung||[]).indexOf("hausnr")>-1&&a.conn==="funk")hint="Eine integrierte beleuchtete Hausnummer gibt es derzeit nur bei kabelgebundenen Modellen (Gala, Erik).";
     return emptyCard(hint);
   }
@@ -984,7 +984,7 @@
     if(a.combo)out.push(["Ausführung",{none:"Nur Paketbox",combo:"mit Klingel & Sprechanlage"}[a.combo],"combo"]);
     if(a.groesse&&a.groesse!=="egal")out.push(["Größe",{standard:"Standard",xl:"XL"}[a.groesse],"groesse"]);
     if(a.beleuchtung&&a.beleuchtung!=="egal")out.push(["Beleuchtung",{led:"mit LED",ohne:"ohne"}[a.beleuchtung],"beleuchtung"]);
-    if(a.gravur&&a.gravur!=="egal")out.push(["Gravur",{mit:"mit",ohne:"ohne"}[a.gravur],"gravur"]);
+    if(a.gravur&&a.gravur!=="egal")out.push(["Personalisierung",{mit:"Lasergraviertes Namensschild",ohne:"ohne"}[a.gravur],"gravur"]);
     var mm=(a.material||[]).filter(function(x){return x!=="none";}); if(mm.length)out.push(["Material",mm.map(function(x){return{edelstahl:"Edelstahl",stahl:"Stahl"}[x];}).join(", "),"material"]);
     var ff=(a.farbe||[]).filter(function(x){return x!=="none";}); if(ff.length)out.push(["Farbe",ff.map(function(x){return{edelstahl:"Edelstahl",anthrazit:"Anthrazit",andere:"andere"}[x];}).join(", "),"farbe"]);
     return chipsHTML(out);
