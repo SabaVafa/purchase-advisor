@@ -341,7 +341,7 @@
       {v:"fingerprint",ol:"Fingerabdruck",od:"nur Niko",media:"video"},
       {v:"face",ol:"Gesichtserkennung",od:"SDM10",media:"video"},
       {v:"none",ol:"Nur App / noch offen",od:"keine besondere Zutrittsart",solo:true}]},
-    mounting:{q:"Wie soll montiert werden?",en:"Mounting type.",type:"single",req:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
+    mounting:{q:"Wie soll montiert werden?",en:"Mounting type.",type:"single",req:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox")&&a.media!=="audio";},opts:[
       {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"},{v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
       {v:"stele",ol:"Freistehende Stele",od:"kein Wandmontageort"},{v:"open",ol:"Noch offen",od:"weiß ich noch nicht"}]},
     design:{q:"Was ist Ihnen bei der Optik wichtig?",en:"Aesthetic preferences — optional.",type:"multi",soft:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
