@@ -437,8 +437,7 @@
   var TK_STEPS={
     conn:{q:"Wie möchten Sie die Klingel anschließen?",help:"Die wichtigste Frage – sie entscheidet über die halbe Auswahl.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"wired",ol:"An vorhandene Klingeldrähte",od:"klassischer Kabelanschluss"},
-      {v:"funk",ol:"Kabellos (Funk)",od:"Funksender – kein Kabel nötig · Empfänger separat"},
-      {v:"unsure",ol:"Weiß ich nicht",od:"wir zeigen beide Varianten"}]},
+      {v:"funk",ol:"Kabellos (Funk)",od:"Funksender – kein Kabel nötig · Empfänger separat"}]},
     parties:{q:"Für wie viele Wohneinheiten?",help:"Also wie viele Klingeltaster brauchen Sie?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Wohneinheit",od:"Einfamilienhaus"},
       {v:"2",ol:"2 Wohneinheiten",od:"Zweifamilienhaus"},
@@ -894,7 +893,7 @@
 
   /* ================= TÜRKLINGEL category logic ================= */
   function tkMatches(p,a){
-    if(a.conn&&a.conn!=="unsure"&&p.conn!==a.conn)return false;
+    if(a.conn&&p.conn!==a.conn)return false;
     if(a.parties){ var n=a.parties==="4"?4:+a.parties; if(!(p.pmax>=n))return false; }
     if(a.label&&a.label!=="egal"&&(p.label||[]).indexOf(a.label)<0)return false;
     var bel=(a.beleuchtung||[]).filter(function(x){return x!=="none";});
@@ -916,7 +915,7 @@
   }
   function tkSummary(a){
     var out=[];
-    if(a.conn)out.push(["Anschluss",{wired:"Kabel",funk:"Funk",unsure:"offen"}[a.conn],"conn"]);
+    if(a.conn)out.push(["Anschluss",{wired:"Kabel",funk:"Funk"}[a.conn],"conn"]);
     if(a.parties)out.push(["Einheiten",a.parties==="4"?"4+":a.parties,"parties"]);
     if(a.label&&a.label!=="egal")out.push(["Beschriftung",{gravur:"Lasergraviertes Namensschild",schild:"Namensschild mit Papiereinleger",symbol:"Symbol"}[a.label],"label"]);
     var bel=(a.beleuchtung||[]).filter(function(x){return x!=="none";}); if(bel.length)out.push(["Beleuchtung",bel.map(function(x){return{led:"Taster",name:"Namensschild",hausnr:"Hausnummer"}[x];}).join(", "),"beleuchtung"]);
