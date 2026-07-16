@@ -332,7 +332,7 @@
       {v:"audio",ol:"Audio genügt",od:"Nur Sprechen & Hören"}]},
     parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",help:"Die genaue Taster-Anzahl wählen Sie später im Konfigurator.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},{v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
-      {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus"},{v:"4",ol:"4–7 Parteien",od:"Mehrfamilienhaus"},
+      {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus",notForCombo:true},{v:"4",ol:"4–7 Parteien",od:"Mehrfamilienhaus",notForCombo:true},
       {v:"many",ol:"Flexibel",od:"Großobjekt · modular für 1–500 Parteien"}]},
     access:{q:"Wie möchten Sie schlüssellos öffnen?",en:"Keyless entry — multiple choice. App is always included.",help:"Mehrfachauswahl. Die App-Steuerung ist bei allen Modellen dabei.",type:"multi",vis:function(){return true;},opts:[
       {v:"rfid",ol:"RFID-Karte / -Chip",od:"Transponder"},
@@ -763,7 +763,7 @@
     if(sys&&p.systems.indexOf(sys)===-1)return false;
     if(a.combo){ if(a.combo==="none"){ if(p.combo)return false; } else if((p.combo||"none")!==a.combo)return false; }
     if(a.media&&p.media!==a.media)return false;
-    if(a.parties){ if(a.parties==="many"){if(!p.flex)return false;} else {var n=+a.parties; if(!(p.bmax>=n))return false;} }  /* flex satisfies only "Flexibel", not discrete 3-7 (combos jump 1-2 -> modular) */
+    if(a.parties){ if(a.parties==="many"){if(!p.flex)return false;} else {var n=+a.parties; if(!(p.flex||p.bmax>=n))return false;} }
     var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
     if(a.mounting&&a.mounting!=="open"){ if(p.mount.indexOf(a.mounting)===-1)return false; }
     return true;
@@ -1063,11 +1063,10 @@
     var multi=st.type==="multi", cur=a[id];
     var opts=st.opts.filter(function(o){
       if(o.media&&o.media!==a.media) return false;
+      /* option explicitly not offered on a combo (Briefkasten/Paketbox) path */
+      if(o.notForCombo && a.combo && a.combo!=="none") return false;
       /* soft-pref option: only offer it if a still-matching product actually satisfies it */
       if(st.soft && !o.solo && !CAT.products.some(function(p){return matches(p,a)&&optHas(p,o);})) return false;
-      /* hide non-actionable dead options (off with no "wechseln?" redirect); swap dead-ends stay visible */
-      var sel0=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v), st0=optState(id,o,a,sel0);
-      if(st0.off && !st0.swap && !sel0) return false;
       return true;
     }).map(function(o){
       var sel=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v);
