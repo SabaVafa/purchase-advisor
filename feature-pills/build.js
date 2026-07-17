@@ -285,7 +285,8 @@ ${sections}
 }
 
 /* --- main --- */
-const files = fs.readdirSync(FEEDS_DIR).filter((f) => f.endsWith('.json')).sort();
+// skip `_`-prefixed files (intermediate scratch data, e.g. the SP rebuild artifacts)
+const files = fs.readdirSync(FEEDS_DIR).filter((f) => f.endsWith('.json') && !f.startsWith('_')).sort();
 if (!files.length) {
   console.error('No feed *.json files in', FEEDS_DIR);
   process.exit(1);
