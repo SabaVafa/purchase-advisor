@@ -28,13 +28,14 @@ const rows = P.map((p) => {
     id: p.id, sku: p.sku, series: seriesOf(p.sku, p.name), name: p.name, url: (p.url || '').replace(BASE, ''),
     price: (p.price_eur_gross && p.price_eur_gross.from) || 0,
     tonnen: tonnenOf(c['Anzahl der Mülltonnen']), pflanz: /pflanzdach/i.test(p.name),
+    pedal: /fußpedal|fusspedal|freihändig|freihaendig/i.test(p.name),
     optik: optikOf(p.name), finish: finishOf(c.Farbe),
   };
 });
 const j = JSON.stringify;
 const lines = rows.map((p) => '    {' + [
   'id:' + j(p.id), 'sku:' + j(p.sku), 'series:' + j(p.series), 'name:' + j(p.name), 'url:' + j(p.url), 'price:' + p.price,
-  'tonnen:' + j(p.tonnen), 'pflanz:' + p.pflanz, 'optik:' + j(p.optik), 'finish:' + j(p.finish),
+  'tonnen:' + j(p.tonnen), 'pflanz:' + p.pflanz, 'pedal:' + p.pedal, 'optik:' + j(p.optik), 'finish:' + j(p.finish),
 ].join(',') + '}');
 fs.writeFileSync(path.join(__dirname, 'feeds/_mt_products.js'), '  var MT_PRODUCTS=[\n' + lines.join(',\n') + '\n  ];');
 console.log('wrote', rows.length, 'MT products | pflanz:', rows.filter((r) => r.pflanz).length);
