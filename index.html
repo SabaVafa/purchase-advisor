@@ -1243,16 +1243,19 @@
   function discriminates(id,a){
     var st=ST(id);
     if(st.noskip) return true;
-    /* soft (ranking-only) step: worth asking only if it can actually re-rank the result —
-       i.e. >=2 products still match AND at least one shown preference separates them. */
+    /* soft (ranking-only) step: worth asking only if it offers a genuine choice —
+       i.e. >=2 products still match AND >=2 shown options each separate the set. A single
+       separating option (e.g. "Andere Farbe" + "Egal") isn't a real choice, so skip it. */
     if(st.soft){
       var ms=CAT.products.filter(function(p){return matches(p,a);});
       if(ms.length<2) return false;
-      return st.opts.some(function(o){
-        if(o.solo||(o.media&&o.media!==a.media)) return false;
+      var sep=0;
+      st.opts.forEach(function(o){
+        if(o.solo||(o.media&&o.media!==a.media)) return;
         var t=0,f=0; for(var j=0;j<ms.length;j++){ optHas(ms[j],o)?t++:f++; }
-        return t>0&&f>0;
+        if(t>0&&f>0) sep++;
       });
+      return sep>=2;
     }
     /* single-select is forced, so it needs >=2 real options to be a genuine choice;
        multi-select is optional, so even 1 addable option makes it worth showing. */
