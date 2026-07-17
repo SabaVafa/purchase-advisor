@@ -27,10 +27,14 @@ function descOf(html) {
 }
 function detect(text, name) {
   const L = (name + ' ' + text).toLowerCase();
+  // label from the NAME only — the description mentions Gravur/Namensschild generically and
+  // over-triggers. "schild" = austauschbar/Papier Namensschild specifically, NOT any Namensschild
+  // (a lasergraviertes Namensschild also contains the word "Namensschild").
+  const N = name.toLowerCase();
   const label = [];
-  if (/gravur|graviert/.test(L)) label.push('gravur');
-  if (/austauschbar\w*\s+namensschild|papiereinleger|namensschild/.test(L)) label.push('schild');
-  if (/klingelsymbol|nur symbol|ohne namen/.test(L)) label.push('symbol');
+  if (/gravur|graviert/.test(N)) label.push('gravur');
+  if (/austauschbar\w*\s+namensschild|namensschild\w*\s+austauschbar|papiereinleger/.test(N)) label.push('schild');
+  if (/klingelsymbol|nur symbol|ohne namen/.test(N)) label.push('symbol');
   const optik = [];
   if (/acrylglas|acryl|\bdesign\b/.test(L)) optik.push('design');
   if (/quadrat/.test(L)) optik.push('quadratisch');
