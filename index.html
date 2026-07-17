@@ -1287,15 +1287,18 @@
     state.id="__result__"; state.edit=false;
     var a=state.a,list=CAT.products.filter(function(p){return matches(p,a);});
     list.sort(function(x,y){var d=score(y,a)-score(x,a);return d!==0?d:x.price-y.price;});
-    var exact=list.length;
-    if(list.length<2){ var b={}; CAT.relaxKeys.forEach(function(k){ if(a[k]!=null) b[k]=a[k]; }); var extra=CAT.products.filter(function(p){return matches(p,b)&&list.indexOf(p)===-1;}).sort(function(x,y){return x.price-y.price;}); list=list.concat(extra).slice(0,2); }
+    var exact=list.length, relaxed=false;
+    /* Only relax when NOTHING matches exactly. Never pad exact results with
+       near-matches that silently drop a hard filter (e.g. Zutritt/Fingerprint). */
+    if(exact===0){ var b={}; CAT.relaxKeys.forEach(function(k){ if(a[k]!=null) b[k]=a[k]; }); var extra=CAT.products.filter(function(p){return matches(p,b)&&list.indexOf(p)===-1;}).sort(function(x,y){return x.price-y.price;}); list=extra.slice(0,2); relaxed=list.length>0; }
     else list=list.slice(0,3);
 
-    var title = exact>=2 ? '<strong>'+exact+'</strong> passende '+CAT.nounPl : (exact===1?'Unsere Top-Empfehlung':'Am ehesten passend');
+    var title = relaxed ? 'Am ehesten passend' : (exact>=2 ? '<strong>'+exact+'</strong> passende '+CAT.nounPl : 'Unsere Top-Empfehlung');
     var solo = list.length===1;
-    var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&exact>=1,solo);}).join("")+'</div>' : "";
+    var relaxNote = relaxed ? '<p class="advisor__hint">Kein Modell passt exakt zu allen Angaben – diese kommen Ihrer Auswahl am nächsten. Passen Sie einzelne Angaben an oder lassen Sie sich kostenlos beraten.</p>' : '';
+    var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&!relaxed,solo);}).join("")+'</div>' : "";
     var note = list.length ? CAT.resultNote(a) : "";
-    var body = list.length ? ('<h3 class="advisor__result-title">'+title+'</h3>'+recs+note) : emptyHTML(a);
+    var body = list.length ? ('<h3 class="advisor__result-title">'+title+'</h3>'+relaxNote+recs+note) : emptyHTML(a);
     var sup=CAT.support;
 
     resEl.innerHTML='<div class="advisor__result">'
