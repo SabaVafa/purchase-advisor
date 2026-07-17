@@ -953,14 +953,9 @@
       {v:"design",ol:"Design-Muster",od:"Rauten-/Quadrat-/Linienmuster",attr:"optik"},
       {v:"holz",ol:"Holzoptik",od:"warme Holz-Anmutung",attr:"optik"},
       {v:"akzent",ol:"Edelstahl-Akzente",od:"Edelstahl-Details",attr:"optik"},
-      {v:"none",ol:"Egal",od:"",solo:true}]},
-    farbe:{q:"Welche Farbe?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
-      {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",attr:"finish"},
-      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet",attr:"finish"},
-      {v:"andere",ol:"Andere Farbe",od:"weitere RAL",attr:"finish"},
       {v:"none",ol:"Egal",od:"",solo:true}]}
   };
-  var MT_ORDER=["tonnen","dach","optik","farbe"];
+  var MT_ORDER=["tonnen","dach","optik"];
 
   /* ================= SHARED HELPERS ================= */
   function accessSel(a){ return (a.access||[]).filter(function(x){return x!=="none";}); }
@@ -1144,7 +1139,7 @@
     if(a.dach&&a.dach!=="egal"){ if(a.dach==="pflanz"&&!p.pflanz)return false; if(a.dach==="ohne"&&p.pflanz)return false; }
     return true;
   }
-  function mtScore(p,a){ var s=0,o=a.optik||[],f=a.farbe||[]; for(var i=0;i<o.length;i++)if((p.optik||[]).indexOf(o[i])>-1)s++; for(var j=0;j<f.length;j++)if((p.finish||[]).indexOf(f[j])>-1)s++; return s; }
+  function mtScore(p,a){ var s=0,o=a.optik||[]; for(var i=0;i<o.length;i++)if((p.optik||[]).indexOf(o[i])>-1)s++; return s; }
   function mtSummary(a){
     var out=[];
     if(a.tonnen)out.push(["Mülltonnen",a.tonnen,"tonnen"]);
