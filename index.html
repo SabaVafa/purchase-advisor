@@ -1228,12 +1228,14 @@
      explains it (then the caller keeps the generic message). Labels come from summaryChips. */
   function deadReason(id,o,a){
     var b=applyAns(id,o,a);
-    var lbl={}; ((CAT.summaryChips&&CAT.summaryChips(a))||[]).forEach(function(c){ lbl[c[2]]=c[1]; });
+    function lblOf(k){ var st=ST(k),v=a[k];
+      if(Array.isArray(v)) return v.map(function(x){ var op=st.opts.filter(function(t){return t.v===x;})[0]; return op?op.ol:x; }).join(" / ");
+      var op=st.opts.filter(function(t){return t.v===v;})[0]; return op?op.ol:v; }
     var blockers=[];
     for(var k in a){
-      if(k===id||a[k]==null||!(k in b)||!lbl[k]) continue;
+      if(k===id||a[k]==null) continue;
       var c2={}; for(var kk in b){ if(kk!==k) c2[kk]=b[kk]; }
-      if(liveCount(c2)>0) blockers.push(lbl[k]);
+      if(liveCount(c2)>0) blockers.push(lblOf(k));
     }
     return blockers.length ? "nicht mit "+blockers.join(" & ")+" kombinierbar" : null;
   }
