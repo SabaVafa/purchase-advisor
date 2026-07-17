@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feature-Pills · Metzler Kategorien</title>
+<style>
+  :root{
+    --bg:#f4f6f7; --card:#fff; --ink:#0f2f36; --muted:#6b7a80; --line:#e2e8ea; --accent:#0b5563;
+    --fach:#0b6bcb; --fach-bg:#e6f1fd; --taster:#c2410c; --taster-bg:#fdece2;
+    --material:#0f766e; --material-bg:#e3f4f1; --flag:#15803d; --flag-bg:#e6f4ea;
+    --volt:#b45309; --volt-bg:#fdefd0; --dia:#0e7490; --dia-bg:#d9f2f6;
+    --bel:#4f46e5; --bel-bg:#e7e6fb; --fn:#be123c; --fn-bg:#fde3ea;
+    --misc:#475569; --misc-bg:#eef1f4;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#0e1517; --card:#152023; --ink:#e8eef0; --muted:#8ba0a6; --line:#243237; --accent:#4bb3c6;
+      --fach:#7cc0ff; --fach-bg:#12314d; --taster:#f0a878; --taster-bg:#3a1f10;
+      --material:#5fd0c4; --material-bg:#0e332f; --flag:#86e0a5; --flag-bg:#123322;
+      --volt:#f4c877; --volt-bg:#3a2a0c; --dia:#67d4e6; --dia-bg:#0c3239; --bel:#b4adff; --bel-bg:#201d47;
+      --fn:#f78fa7; --fn-bg:#3a1220; --misc:#cbd5e1; --misc-bg:#222c31; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 64px}
+  header.top{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+  h1{font-size:22px;margin:0}
+  .sub{color:var(--muted);font-size:13px}
+  .nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 22px}
+  .nav a{font-size:13px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;color:var(--ink);text-decoration:none;background:var(--card)}
+  .nav a:hover{border-color:var(--accent);color:var(--accent)}
+  .search{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-size:14px;margin-bottom:24px}
+  .cat{margin:0 0 40px}
+  .cat__head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+  .cat__head h2{font-size:18px;margin:0}
+  .count{font-size:13px;color:var(--muted);font-weight:400;margin-left:6px}
+  .cat__link{font-size:13px;color:var(--accent);text-decoration:none}
+  .legend{margin-bottom:16px;font-size:13px}
+  .legend summary{cursor:pointer;color:var(--accent)}
+  .legend__list{display:flex;flex-wrap:wrap;gap:6px 18px;list-style:none;padding:10px 0 4px;margin:0}
+  .muted{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 15px;display:flex;flex-direction:column;gap:10px}
+  .card__name{font-weight:600;font-size:14px;color:var(--ink);text-decoration:none;line-height:1.35}
+  .card__name:hover{color:var(--accent)}
+  .card__meta{display:flex;justify-content:space-between;gap:10px;margin-top:5px;font-size:12px;color:var(--muted)}
+  .ids{display:flex;flex-wrap:wrap;gap:3px 10px;align-items:baseline}
+  .artnr,.sku{font-family:ui-monospace,Menlo,Consolas,monospace}
+  .artnr{color:var(--ink);font-weight:600}
+  .sku{color:var(--muted)}
+  .price{font-weight:600;color:var(--ink);white-space:nowrap}
+  .pills{display:flex;flex-wrap:wrap;gap:6px}
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;line-height:1;padding:5px 9px;border-radius:999px;white-space:nowrap;font-weight:500}
+  .pill--fach{background:var(--fach-bg);color:var(--fach)}
+  .pill--taster{background:var(--taster-bg);color:var(--taster)}
+  .pill--material{background:var(--material-bg);color:var(--material)}
+  .pill--flag{background:var(--flag-bg);color:var(--flag)}
+  .pill--volt{background:var(--volt-bg);color:var(--volt)}
+  .pill--dia{background:var(--dia-bg);color:var(--dia)}
+  .pill--bel{background:var(--bel-bg);color:var(--bel)}
+  .pill--fn{background:var(--fn-bg);color:var(--fn)}
+  .pill--misc{background:var(--misc-bg);color:var(--misc)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <h1>Feature-Pills nach Kategorie</h1>
+      <span class="sub">2 Kategorie(n) · 157 Produkte · Merkmale direkt aus dem Feed</span>
+    </header>
+    <nav class="nav"><a href="#paketboxen">Paketboxen</a><a href="#tuerklingel">Türklingeln</a></nav>
+    <input class="search" type="search" placeholder="Produkt, SKU, Art.-Nr. oder Feature suchen …" oninput="filterCards(this.value)">
+  <section class="cat" id="paketboxen">
+    <div class="cat__head">
+      <h2>Paketboxen <span class="count">69 Produkte</span></h2>
+      <a class="cat__link" href="https://edelstahl-tuerklingel.de/paketboxen" target="_blank" rel="noopener">Kategorie ansehen ↗</a>
+    </div>
+    <details class="legend">
+      <summary>Feature-Legende (aus dem Feed)</summary>
+      <ul class="legend__list"><li><b>Farbe</b> <span class="muted">6 Werte · 92 Modelle</span></li><li><b>Anzahl der Briefkastenfächer</b> <span class="muted">5 Werte · 55 Modelle</span></li><li><b>Material</b> <span class="muted">2 Werte · 48 Modelle</span></li><li><b>Anzahl der Klingeltaster</b> <span class="muted">3 Werte · 3 Modelle</span></li></ul>
+      <p class="muted">Ausgelassen (nur ein Wert): Marke = Metzler · System = IP-System</p>
+    </details>
+    <div class="grid">
+      <article class="card" data-search="metzler paketbox | rostfrei &amp; massiv | für pakete bis zur größe s | avalon 3 avalon3 40249 ohne briefkasten galvanisierter stahl ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-rostfrei-massiv-fuer-pakete-bis-zur-groesse-s-avalon-3" target="_blank" rel="noopener">Metzler Paketbox | rostfrei &amp; massiv | für Pakete bis zur Größe S | Avalon 3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40249</span><span class="sku">Avalon3</span></span><span class="price">159 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit pflanzdach | anthrazit ral 7016 | für pakete bis zur größe s | rostfrei | avalon 3 avalon3-pd 40042 ohne briefkasten galvanisierter stahl ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-pflanzdach-anthrazit-ral-7016-fuer-pakete-bis-zur-groesse-s-rostfrei-avalon-3" target="_blank" rel="noopener">Metzler Paketbox mit Pflanzdach | Anthrazit RAL 7016 | für Pakete bis zur Größe S | rostfrei | Avalon 3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40042</span><span class="sku">Avalon3-PD</span></span><span class="price">189 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox rostfrei und massiv mit ständer, ral7016 anthrazitgrau matt, | avalon 3 avalon3_ps 35593 ohne briefkasten galvanisierter stahl">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-rostfrei-und-massiv-mit-staender-ral7016-anthrazitgrau-matt-avalon-3" target="_blank" rel="noopener">Metzler Paketbox rostfrei und massiv mit Ständer, RAL7016 Anthrazitgrau matt, | Avalon 3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35593</span><span class="sku">Avalon3_PS</span></span><span class="price">229 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox | personalisiert mit gravur | edelstahl-namensschild | rostfrei &amp; massiv | avalon 1 avalon1 40236 ohne briefkasten galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-massiv-avalon-1" target="_blank" rel="noopener">Metzler Paketbox | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei &amp; massiv | Avalon 1</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40236</span><span class="sku">Avalon1</span></span><span class="price">229 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox | personalisiert mit gravur | edelstahl-namensschild | rostfrei &amp; massiv | avalon 2 avalon2 40240 ohne briefkasten galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-massiv-avalon-2" target="_blank" rel="noopener">Metzler Paketbox | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei &amp; massiv | Avalon 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40240</span><span class="sku">Avalon2</span></span><span class="price">229 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit pflanzdach | anthrazit ral 7016 | personalisiert mit gravur | edelstahl-namensschild | rostfrei &amp; massiv | avalon 1 avalon1-pd 40040 ohne briefkasten galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-pflanzdach-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-massiv-avalon-1" target="_blank" rel="noopener">Metzler Paketbox mit Pflanzdach | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei &amp; massiv | Avalon 1</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40040</span><span class="sku">Avalon1-PD</span></span><span class="price">259 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit pflanzdach | anthrazit ral 7016 | personalisiert mit gravur | edelstahl-namensschild | rostfrei &amp; massiv | avalon 2 avalon2-pd 40041 ohne briefkasten galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-pflanzdach-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-massiv-avalon-2" target="_blank" rel="noopener">Metzler Paketbox mit Pflanzdach | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei &amp; massiv | Avalon 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40041</span><span class="sku">Avalon2-PD</span></span><span class="price">259 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox | personalisiert mit gravur | rostfrei | bispo 2 pbox-bispo2-obk 44105 ohne briefkasten galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-personalisiert-mit-gravur-rostfrei-bispo-2" target="_blank" rel="noopener">Metzler Paketbox | personalisiert mit Gravur | rostfrei | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44105</span><span class="sku">PBOX-BISPO2-oBK</span></span><span class="price">269 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | mit briefeinwurf | für pakete bis zur größe m | rostfrei | bispo pbox-bispo-1x 39773 1 briefkastenfach galvanisierter stahl ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-mit-briefeinwurf-fuer-pakete-bis-zur-groesse-m-rostfrei-bispo" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | mit Briefeinwurf | für Pakete bis zur Größe M | rostfrei | Bispo</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 39773</span><span class="sku">PBOX-BISPO-1x</span></span><span class="price">279 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox | entnahme auf der rückseite | personalisiert mit gravur | anthrazit | zivo 2 pbox-zivo2-obk-an 43707 ohne briefkasten galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-anthrazit-zivo-2" target="_blank" rel="noopener">Metzler Paketbox | Entnahme auf der Rückseite | personalisiert mit Gravur | Anthrazit | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43707</span><span class="sku">PBOX-ZIVO2-oBK-AN</span></span><span class="price">279 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox freistehend mit ständer | anthrazit ral 7016 | personalisiert mit gravur | edelstahl-namensschild | rostfrei | avalon 1 avalon1_ps 35592 ohne briefkasten galvanisierter stahl">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-freistehend-mit-staender-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-avalon-1" target="_blank" rel="noopener">Metzler Paketbox freistehend mit Ständer | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei | Avalon 1</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35592</span><span class="sku">Avalon1_PS</span></span><span class="price">299 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox freistehend mit ständer | anthrazit ral 7016 | personalisiert mit gravur | edelstahl-namensschild | rostfrei | avalon 2 avalon2_ps 35591 ohne briefkasten galvanisierter stahl">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-freistehend-mit-staender-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild-rostfrei-avalon-2" target="_blank" rel="noopener">Metzler Paketbox freistehend mit Ständer | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild | rostfrei | Avalon 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35591</span><span class="sku">Avalon2_PS</span></span><span class="price">299 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | mit pflanzdach | mit briefeinwurf | für pakete bis zur größe m | rostfrei | bispo pbox-bispo-pd 40036 1 briefkastenfach galvanisierter stahl ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-mit-pflanzdach-mit-briefeinwurf-fuer-pakete-bis-zur-groesse-m-rostfrei-bispo" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | mit Pflanzdach | mit Briefeinwurf | für Pakete bis zur Größe M | rostfrei | Bispo</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40036</span><span class="sku">PBOX-BISPO-PD</span></span><span class="price">299 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit austauschbarem namensschild | für pakete bis zur größe m | bispo re pbox-bispo-re-1x 42436 1 briefkastenfach galvanisierter stahl ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-austauschbarem-namensschild-fuer-pakete-bis-zur-groesse-m-bispo-re" target="_blank" rel="noopener">Metzler Paketbox mit austauschbarem Namensschild | für Pakete bis zur Größe M | Bispo RE</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42436</span><span class="sku">PBOX-BISPO-RE-1x</span></span><span class="price">299 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | entnahme auf der rückseite | personalisiert mit gravur | austauschbares namensschild | anthrazit | zivo 2 pbox-zivo2-re-1x-an 43708 1 briefkastenfach galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43708</span><span class="sku">PBOX-ZIVO2-RE-1x-AN</span></span><span class="price">309 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | led |  für pakete bis zur größe m | bispo pbox-bispo-led-1x 41907 1 briefkastenfach galvanisierter stahl ohne gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-led-fuer-pakete-bis-zur-groesse-m-bispo" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | LED |  für Pakete bis zur Größe M | Bispo</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41907</span><span class="sku">PBOX-BISPO-LED-1x</span></span><span class="price">319 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="paketbox mit briefkasten | mit seitlichen sichtfenstern | anthrazit | bispo sf pbox-bispo-sf-an 42954 1 briefkastenfach galvanisierter stahl ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/paketbox-mit-briefkasten-mit-seitlichen-sichtfenstern-anthrazit-bispo-sf" target="_blank" rel="noopener">Paketbox mit Briefkasten | mit seitlichen Sichtfenstern | Anthrazit | Bispo SF</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42954</span><span class="sku">PBOX-BISPO-SF-AN</span></span><span class="price">319 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | personalisiert mit gravur | edelstahl-namensschild | mit briefeinwurf | bispo 2 pbox-bispo2-1x 39770 1 briefkastenfach galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-bispo-2" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 39770</span><span class="sku">PBOX-BISPO2-1x</span></span><span class="price">329 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 2 briefkästen | zweifacher briefeinwurf | für pakete bis zur größe m | rostfrei | bispo pbox-bispo-2x 41465 2 briefkastenfächer ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-2-briefkaesten-zweifacher-briefeinwurf-fuer-pakete-bis-zur-groesse-m-rostfrei-bispo" target="_blank" rel="noopener">Metzler Paketbox mit 2 Briefkästen | zweifacher Briefeinwurf | für Pakete bis zur Größe M | rostfrei | Bispo</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41465</span><span class="sku">PBOX-BISPO-2x</span></span><span class="price">339 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | entnahme auf der rückseite | personalisiert mit gravur | zivo 2 pbox-zivo2-1x 44671 1 briefkastenfach mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-zivo-2" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | Entnahme auf der Rückseite | personalisiert mit Gravur | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44671</span><span class="sku">PBOX-ZIVO2-1x</span></span><span class="price">339 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | personalisiert mit gravur | edelstahl-namensschild | mit briefeinwurf | taren pbox-taren 42743 1 briefkastenfach galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-taren" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Taren</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42743</span><span class="sku">PBOX-TAREN</span></span><span class="price">339 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit led | entnahme auf der rückseite | austauschbares namensschild | anthrazit | zivo 2 renz led pbox-zivo2-re-led-1x 44098 1 briefkastenfach galvanisierter stahl ohne gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-led-entnahme-auf-der-rueckseite-austauschbares-namensschild-anthrazit-zivo-2-renz-led" target="_blank" rel="noopener">Metzler Paketbox mit LED | Entnahme auf der Rückseite | austauschbares Namensschild | Anthrazit | Zivo 2 Renz LED</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44098</span><span class="sku">PBOX-ZIVO2-RE-LED-1x</span></span><span class="price">349 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit pflanzdach | personalisiert mit gravur | edelstahl-namensschild | mit briefeinwurf | bispo 2 pbox-bispo2-pd 40032 1 briefkastenfach galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-pflanzdach-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-bispo-2" target="_blank" rel="noopener">Metzler Paketbox mit Pflanzdach | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40032</span><span class="sku">PBOX-BISPO2-PD</span></span><span class="price">349 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="paketbox mit briefkasten | mit seitlichen sichtfenstern | personalisiert mit gravur | edelstahl-namensschild | anthrazit | bispo 2 sf pbox-bispo2-sf-an 42953 1 briefkastenfach galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/paketbox-mit-briefkasten-mit-seitlichen-sichtfenstern-personalisiert-mit-gravur-edelstahl-namensschild-anthrazit-bispo-2-sf" target="_blank" rel="noopener">Paketbox mit Briefkasten | mit seitlichen Sichtfenstern | personalisiert mit Gravur | Edelstahl-Namensschild | Anthrazit | Bispo 2 SF</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42953</span><span class="sku">PBOX-BISPO2-SF-AN</span></span><span class="price">349 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 2 briefkästen mit austauschbaren namensschildern | für pakete bis zur größe m | bispo re pbox-bispo-re-2x 42443 2 briefkastenfächer galvanisierter stahl ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-2-briefkaesten-mit-austauschbaren-namensschildern-fuer-pakete-bis-zur-groesse-m-bispo-re" target="_blank" rel="noopener">Metzler Paketbox mit 2 Briefkästen mit austauschbaren Namensschildern | für Pakete bis zur Größe M | Bispo RE</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42443</span><span class="sku">PBOX-BISPO-RE-2x</span></span><span class="price">359 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 2 briefkästen | entnahme auf der rückseite | personalisiert mit gravur | austauschbares namensschild | anthrazit | zivo 2 pbox-zivo2-re-2x-an 43709 2 briefkastenfächer galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-2-briefkaesten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2" target="_blank" rel="noopener">Metzler Paketbox mit 2 Briefkästen | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43709</span><span class="sku">PBOX-ZIVO2-RE-2x-AN</span></span><span class="price">359 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | mit sichtfenster | personalisiert mit gravur | edelstahl-namensschild | bispo 3 pbox-bispo3 41791 1 briefkastenfach galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-mit-sichtfenster-personalisiert-mit-gravur-edelstahl-namensschild-bispo-3" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | mit Sichtfenster | personalisiert mit Gravur | Edelstahl-Namensschild | Bispo 3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41791</span><span class="sku">PBOX-BISPO3</span></span><span class="price">359 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | led | personalisiert mit gravur | bispo 2 pbox-bispo2-led-1x 41911 1 briefkastenfach galvanisierter stahl mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-led-personalisiert-mit-gravur-bispo-2" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | LED | personalisiert mit Gravur | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41911</span><span class="sku">PBOX-BISPO2-LED-1x</span></span><span class="price">369 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler funk-paketbox mit klingel &amp; briefkasten |  personalisiert mit gravur | edelstahl-namensschild | bispo funk pbox-bispo2-fu-1x 42026 1 briefkastenfach 1 taster galvanisierter stahl mit klingel &amp; sprechanlage">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funk-paketbox-mit-klingel-briefkasten-personalisiert-mit-gravur-edelstahl-namensschild-bispo-funk" target="_blank" rel="noopener">Metzler Funk-Paketbox mit Klingel &amp; Briefkasten |  personalisiert mit Gravur | Edelstahl-Namensschild | Bispo Funk</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42026</span><span class="sku">PBOX-BISPO2-FU-1x</span></span><span class="price">379 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--taster">1 Taster</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Klingel &amp; Sprechanlage</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 2 briefkästen | led | zweifacher briefeinwurf | bispo pbox-bispo-led-2x 41926 2 briefkastenfächer galvanisierter stahl ohne gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-2-briefkaesten-led-zweifacher-briefeinwurf-bispo" target="_blank" rel="noopener">Metzler Paketbox mit 2 Briefkästen | LED | zweifacher Briefeinwurf | Bispo</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41926</span><span class="sku">PBOX-BISPO-LED-2x</span></span><span class="price">379 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit led | entnahme auf der rückseite | personalisiert mit gravur | anthrazit | zivo 2 led pbox-zivo2-led-1x-an 44074 1 briefkastenfach galvanisierter stahl mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-led-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-anthrazit-zivo-2-led" target="_blank" rel="noopener">Metzler Paketbox mit LED | Entnahme auf der Rückseite | personalisiert mit Gravur | Anthrazit | Zivo 2 LED</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44074</span><span class="sku">PBOX-ZIVO2-LED-1x-AN</span></span><span class="price">379 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 2 briefkästen | personalisiert mit gravur | edelstahl-namensschild | mit briefeinwurf | bispo 2 pbox-bispo2-2x 41455 2 briefkastenfächer mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-2-briefkaesten-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-bispo-2" target="_blank" rel="noopener">Metzler Paketbox mit 2 Briefkästen | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41455</span><span class="sku">PBOX-BISPO2-2x</span></span><span class="price">389 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 3 briefkästen | dreifacher briefeinwurf | für pakete bis zur größe m | rostfrei | bispo pbox-bispo-3x 41475 3 briefkastenfächer ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-3-briefkaesten-dreifacher-briefeinwurf-fuer-pakete-bis-zur-groesse-m-rostfrei-bispo" target="_blank" rel="noopener">Metzler Paketbox mit 3 Briefkästen | dreifacher Briefeinwurf | für Pakete bis zur Größe M | rostfrei | Bispo</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41475</span><span class="sku">PBOX-BISPO-3x</span></span><span class="price">389 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | entnahme auf der rückseite | personalisiert mit gravur | zivo 2 pbox-zivo2-2x 44685 2 briefkastenfächer galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-zivo-2_1" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | Entnahme auf der Rückseite | personalisiert mit Gravur | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44685</span><span class="sku">PBOX-ZIVO2-2x</span></span><span class="price">399 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | mit led | seitliche sichtfenster | personalisiert mit gravur | bispo 2 pbox-bispo2-led-sf 43628 1 briefkastenfach galvanisierter stahl mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-mit-led-seitliche-sichtfenster-personalisiert-mit-gravur-bispo-2" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | mit LED | seitliche Sichtfenster | personalisiert mit Gravur | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43628</span><span class="sku">PBOX-BISPO2-LED-SF</span></span><span class="price">399 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit led | entnahme auf der rückseite | austauschbares namensschild | anthrazit | zivo 2 renz led pbox-zivo2-re-led-2x 44099 2 briefkastenfächer galvanisierter stahl ohne gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-led-entnahme-auf-der-rueckseite-austauschbares-namensschild-anthrazit-zivo-2-renz-led_1" target="_blank" rel="noopener">Metzler Paketbox mit LED | Entnahme auf der Rückseite | austauschbares Namensschild | Anthrazit | Zivo 2 Renz LED</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44099</span><span class="sku">PBOX-ZIVO2-RE-LED-2x</span></span><span class="price">399 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 3 briefkästen | entnahme auf der rückseite | personalisiert mit gravur | austauschbares namensschild | anthrazit | zivo 2 pbox-zivo2-re-3x-an 43710 3 briefkastenfächer galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-3-briefkaesten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2" target="_blank" rel="noopener">Metzler Paketbox mit 3 Briefkästen | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43710</span><span class="sku">PBOX-ZIVO2-RE-3x-AN</span></span><span class="price">409 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 3 briefkästen mit austauschbaren namensschildern | für pakete bis zur größe m | bispo re pbox-bispo-re-3x 42451 3 briefkastenfächer galvanisierter stahl ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-3-briefkaesten-mit-austauschbaren-namensschildern-fuer-pakete-bis-zur-groesse-m-bispo-re" target="_blank" rel="noopener">Metzler Paketbox mit 3 Briefkästen mit austauschbaren Namensschildern | für Pakete bis zur Größe M | Bispo RE</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42451</span><span class="sku">PBOX-BISPO-RE-3x</span></span><span class="price">419 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 2 briefkästen | led | personalisiert mit gravur | bispo 2 pbox-bispo2-led-2x 41917 2 briefkastenfächer galvanisierter stahl mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-2-briefkaesten-led-personalisiert-mit-gravur-bispo-2" target="_blank" rel="noopener">Metzler Paketbox mit 2 Briefkästen | LED | personalisiert mit Gravur | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41917</span><span class="sku">PBOX-BISPO2-LED-2x</span></span><span class="price">429 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 3 briefkästen | led | dreifacher briefeinwurf | bispo pbox-bispo-led-3x 41941 3 briefkastenfächer galvanisierter stahl ohne gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-3-briefkaesten-led-dreifacher-briefeinwurf-bispo" target="_blank" rel="noopener">Metzler Paketbox mit 3 Briefkästen | LED | dreifacher Briefeinwurf | Bispo</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41941</span><span class="sku">PBOX-BISPO-LED-3x</span></span><span class="price">439 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">ohne Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 3 briefkästen | personalisiert mit gravur | edelstahl-namensschild | mit briefeinwurf | bispo 2 pbox-bispo2-3x 41459 3 briefkastenfächer mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-3-briefkaesten-personalisiert-mit-gravur-edelstahl-namensschild-mit-briefeinwurf-bispo-2" target="_blank" rel="noopener">Metzler Paketbox mit 3 Briefkästen | personalisiert mit Gravur | Edelstahl-Namensschild | mit Briefeinwurf | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41459</span><span class="sku">PBOX-BISPO2-3x</span></span><span class="price">439 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit led | entnahme auf der rückseite | personalisiert mit gravur | anthrazit | zivo 2 led pbox-zivo2-led-2x-an 44076 2 briefkastenfächer galvanisierter stahl mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-led-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-anthrazit-zivo-2-led_1" target="_blank" rel="noopener">Metzler Paketbox mit LED | Entnahme auf der Rückseite | personalisiert mit Gravur | Anthrazit | Zivo 2 LED</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44076</span><span class="sku">PBOX-ZIVO2-LED-2x-AN</span></span><span class="price">439 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl | paketkasten rostfrei | bispo max bispo-max-obk 44147 ohne briefkasten ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-paketkasten-rostfrei-bispo-max" target="_blank" rel="noopener">Metzler Paketbox XL | Paketkasten rostfrei | Bispo Max</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44147</span><span class="sku">BISPO-MAX-oBK</span></span><span class="price">449 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 4 briefkästen | entnahme auf der rückseite | personalisiert mit gravur | austauschbares namensschild | anthrazit | zivo 2 pbox-zivo2-re-4x-an 43711 4 briefkastenfächer galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-4-briefkaesten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2" target="_blank" rel="noopener">Metzler Paketbox mit 4 Briefkästen | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43711</span><span class="sku">PBOX-ZIVO2-RE-4x-AN</span></span><span class="price">459 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">4 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit briefkasten | entnahme auf der rückseite | personalisiert mit gravur | zivo 2 pbox-zivo2-3x 44691 3 briefkastenfächer galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-briefkasten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-zivo-2_2" target="_blank" rel="noopener">Metzler Paketbox mit Briefkasten | Entnahme auf der Rückseite | personalisiert mit Gravur | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44691</span><span class="sku">PBOX-ZIVO2-3x</span></span><span class="price">469 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit led | entnahme auf der rückseite | personalisiert mit gravur | anthrazit | zivo 2 renz led pbox-zivo2-re-led-3x 44101 3 briefkastenfächer galvanisierter stahl mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-led-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-anthrazit-zivo-2-renz-led" target="_blank" rel="noopener">Metzler Paketbox mit LED | Entnahme auf der Rückseite | personalisiert mit Gravur | Anthrazit | Zivo 2 Renz LED</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44101</span><span class="sku">PBOX-ZIVO2-RE-LED-3x</span></span><span class="price">469 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 3 briefkästen | personalisiert mit gravur | bispo 2 pbox-bispo2-led-3x 41921 3 briefkastenfächer galvanisierter stahl mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-3-briefkaesten-personalisiert-mit-gravur-bispo-2" target="_blank" rel="noopener">Metzler Paketbox mit 3 Briefkästen | personalisiert mit Gravur | Bispo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41921</span><span class="sku">PBOX-BISPO2-LED-3x</span></span><span class="price">489 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler funk-paketbox mit klingel &amp; briefkasten |  personalisiert mit gravur | edelstahl-namensschilder | bispo funk pbox-bispo2-fu-2x 42276 2 briefkastenfächer 2 taster galvanisierter stahl mit klingel &amp; sprechanlage">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funk-paketbox-mit-klingel-briefkasten-personalisiert-mit-gravur-edelstahl-namensschilder-bispo-funk" target="_blank" rel="noopener">Metzler Funk-Paketbox mit Klingel &amp; Briefkasten |  personalisiert mit Gravur | Edelstahl-Namensschilder | Bispo Funk</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42276</span><span class="sku">PBOX-BISPO2-FU-2x</span></span><span class="price">499 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--taster">2 Taster</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Klingel &amp; Sprechanlage</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit briefkasten | paketkasten rostfrei | bispo max bispo-max-1x 44158 1 briefkastenfach ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-briefkasten-paketkasten-rostfrei-bispo-max" target="_blank" rel="noopener">Metzler Paketbox XL mit Briefkasten | Paketkasten rostfrei | Bispo Max</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44158</span><span class="sku">BISPO-MAX-1x</span></span><span class="price">499 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl personalisiert mit gravur | paketkasten rostfrei | bispo max 2 bispo2-max-obk 44111 ohne briefkasten mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-personalisiert-mit-gravur-paketkasten-rostfrei-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL personalisiert mit Gravur | Paketkasten rostfrei | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44111</span><span class="sku">BISPO2-MAX-oBK</span></span><span class="price">499 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit 5 briefkästen | entnahme auf der rückseite | personalisiert mit gravur | austauschbares namensschild | anthrazit | zivo 2 pbox-zivo2-re-5x-an 43713 5 briefkastenfächer galvanisierter stahl mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-5-briefkaesten-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-austauschbares-namensschild-anthrazit-zivo-2" target="_blank" rel="noopener">Metzler Paketbox mit 5 Briefkästen | Entnahme auf der Rückseite | personalisiert mit Gravur | austauschbares Namensschild | Anthrazit | Zivo 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43713</span><span class="sku">PBOX-ZIVO2-RE-5x-AN</span></span><span class="price">509 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">5 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox mit led | entnahme auf der rückseite | personalisiert mit gravur | anthrazit | zivo 2 led pbox-zivo2-led-3x-an 44097 3 briefkastenfächer galvanisierter stahl mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-mit-led-entnahme-auf-der-rueckseite-personalisiert-mit-gravur-anthrazit-zivo-2-led_2" target="_blank" rel="noopener">Metzler Paketbox mit LED | Entnahme auf der Rückseite | personalisiert mit Gravur | Anthrazit | Zivo 2 LED</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44097</span><span class="sku">PBOX-ZIVO2-LED-3x-AN</span></span><span class="price">509 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit briefkasten | mit austauschbarem namensschild | bispo max re bispo-max-re-1x 44190 1 briefkastenfach ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-briefkasten-mit-austauschbarem-namensschild-bispo-max-re" target="_blank" rel="noopener">Metzler Paketbox XL mit Briefkasten | Mit austauschbarem Namensschild | Bispo Max RE</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44190</span><span class="sku">BISPO-MAX-RE-1x</span></span><span class="price">519 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit briefkasten | led | ral 7016 anthrazit | bispo max 2 bispo-max-led-1x-an 44323 1 briefkastenfach beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-briefkasten-led-ral-7016-anthrazit-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit Briefkasten | LED | RAL 7016 Anthrazit | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44323</span><span class="sku">BISPO-MAX-LED-1x-AN</span></span><span class="price">539 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit briefkasten | paketkasten rostfrei | personalisiert mit gravur | bispo max 2 bispo2-max-1x 44114 1 briefkastenfach mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-briefkasten-paketkasten-rostfrei-personalisiert-mit-gravur-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit Briefkasten | Paketkasten rostfrei | personalisiert mit Gravur | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44114</span><span class="sku">BISPO2-MAX-1x</span></span><span class="price">549 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit 2 briefkästen | paketkasten rostfrei | bispo max bispo-max-2x 44163 2 briefkastenfächer ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-2-briefkaesten-paketkasten-rostfrei-bispo-max" target="_blank" rel="noopener">Metzler Paketbox XL mit 2 Briefkästen | Paketkasten rostfrei | Bispo Max</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44163</span><span class="sku">BISPO-MAX-2x</span></span><span class="price">589 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit briefkasten | led | personalisiert mit gravur | ral 7016 anthrazit | bispo max 2 bispo2-max-led-1x-an 44319 1 briefkastenfach mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-briefkasten-led-personalisiert-mit-gravur-ral-7016-anthrazit-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit Briefkasten | LED | personalisiert mit Gravur | RAL 7016 Anthrazit | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44319</span><span class="sku">BISPO2-MAX-LED-1x-AN</span></span><span class="price">589 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">1 Briefkastenfach</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler funk-paketbox mit klingel &amp; briefkasten |  personalisiert mit gravur | edelstahl-namensschilder | bispo funk pbox-bispo2-fu-3x 42282 3 briefkastenfächer 3 taster galvanisierter stahl mit klingel &amp; sprechanlage">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funk-paketbox-mit-klingel-briefkasten-personalisiert-mit-gravur-edelstahl-namensschilder-bispo-funk_1" target="_blank" rel="noopener">Metzler Funk-Paketbox mit Klingel &amp; Briefkasten |  personalisiert mit Gravur | Edelstahl-Namensschilder | Bispo Funk</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42282</span><span class="sku">PBOX-BISPO2-FU-3x</span></span><span class="price">619 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--taster">3 Taster</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Klingel &amp; Sprechanlage</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit 2 briefkästen | led | ral 7016 anthrazit | bispo max 2 bispo-max-led-2x-an 44328 2 briefkastenfächer beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-2-briefkaesten-led-ral-7016-anthrazit-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit 2 Briefkästen | LED | RAL 7016 Anthrazit | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44328</span><span class="sku">BISPO-MAX-LED-2x-AN</span></span><span class="price">639 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit 2 briefkästen | paketkasten rostfrei | personalisiert mit gravur | bispo max 2 bispo2-max-2x 44138 2 briefkastenfächer mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-2-briefkaesten-paketkasten-rostfrei-personalisiert-mit-gravur-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit 2 Briefkästen | Paketkasten rostfrei | personalisiert mit Gravur | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44138</span><span class="sku">BISPO2-MAX-2x</span></span><span class="price">639 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit zwei briefkästen | austauschbarer papiereinleger | personalisiert mit gravur | bispo max 2 bispo-max-2b 44402 2 briefkastenfächer mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-zwei-briefkaesten-austauschbarer-papiereinleger-personalisiert-mit-gravur-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit zwei Briefkästen | austauschbarer Papiereinleger | personalisiert mit Gravur | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44402</span><span class="sku">BISPO-MAX-2B</span></span><span class="price">639 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit 2 briefkästen | led  | personalisiert mit gravur | ral 7016 anthrazit | bispo max 2 bispo2-max-led-2x-an 44320 2 briefkastenfächer mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-2-briefkaesten-led-personalisiert-mit-gravur-ral-7016-anthrazit-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit 2 Briefkästen | LED  | personalisiert mit Gravur | RAL 7016 Anthrazit | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44320</span><span class="sku">BISPO2-MAX-LED-2x-AN</span></span><span class="price">679 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">2 Briefkastenfächer</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit 3 briefkästen | paketkasten rostfrei | bispo max bispo-max-3x 44170 3 briefkastenfächer ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-3-briefkaesten-paketkasten-rostfrei-bispo-max" target="_blank" rel="noopener">Metzler Paketbox XL mit 3 Briefkästen | Paketkasten rostfrei | Bispo Max</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44170</span><span class="sku">BISPO-MAX-3x</span></span><span class="price">679 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox | extra großes volumen | höhenverstellbare füße | optionale beschriftung | anthrazit | ben pbox-ben-an 44077 ohne briefkasten ohne gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-extra-grosses-volumen-hoehenverstellbare-fuesse-optionale-beschriftung-anthrazit-ben" target="_blank" rel="noopener">Metzler Paketbox | Extra großes Volumen | Höhenverstellbare Füße | Optionale Beschriftung | Anthrazit | Ben</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44077</span><span class="sku">PBOX-BEN-AN</span></span><span class="price">699 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--flag">ohne Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit 3 briefkästen | led | ral 7016 anthrazit | bispo max 2 bispo-max-led-3x-an 44335 3 briefkastenfächer beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-3-briefkaesten-led-ral-7016-anthrazit-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit 3 Briefkästen | LED | RAL 7016 Anthrazit | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44335</span><span class="sku">BISPO-MAX-LED-3x-AN</span></span><span class="price">719 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit 3 briefkästen | paketkasten rostfrei | personalisiert mit gravur | bispo max 2 bispo2-max-3x 44142 3 briefkastenfächer mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-3-briefkaesten-paketkasten-rostfrei-personalisiert-mit-gravur-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit 3 Briefkästen | Paketkasten rostfrei | personalisiert mit Gravur | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44142</span><span class="sku">BISPO2-MAX-3x</span></span><span class="price">719 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit vier briefkästen | austauschbare papiereinleger | personalisiert mit gravur | bispo max 2 bispo-max-4b 44419 4 briefkastenfächer mit gravur">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-vier-briefkaesten-austauschbare-papiereinleger-personalisiert-mit-gravur-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit vier Briefkästen | austauschbare Papiereinleger | personalisiert mit Gravur | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44419</span><span class="sku">BISPO-MAX-4B</span></span><span class="price">719 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">4 Briefkastenfächer</span><span class="pill pill--flag">mit Gravur</span></div>
+      </article>
+      <article class="card" data-search="metzler paketbox xl mit 3 briefkästen | led | personalisiert mit gravur | ral 7016 anthrazit | bispo max 2 bispo2-max-led-3x-an 44322 3 briefkastenfächer mit gravur beleuchtet">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-paketbox-xl-mit-3-briefkaesten-led-personalisiert-mit-gravur-ral-7016-anthrazit-bispo-max-2" target="_blank" rel="noopener">Metzler Paketbox XL mit 3 Briefkästen | LED | personalisiert mit Gravur | RAL 7016 Anthrazit | Bispo Max 2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 44322</span><span class="sku">BISPO2-MAX-LED-3x-AN</span></span><span class="price">759 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">3 Briefkastenfächer</span><span class="pill pill--flag">mit Gravur</span><span class="pill pill--flag">beleuchtet</span></div>
+      </article>
+      <article class="card" data-search="metzler video-türsprechanlage mit paketbox | anthrazit ral 7016 | personalisiert mit gravur | edelstahl-namensschild vdm10-pbox 37175 ohne briefkasten galvanisierter stahl mit klingel &amp; sprechanlage">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild" target="_blank" rel="noopener">Metzler Video-Türsprechanlage mit Paketbox | Anthrazit RAL 7016 | personalisiert mit Gravur | Edelstahl-Namensschild</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 37175</span><span class="sku">VDM10-PBOX</span></span><span class="price">1199 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--fach">Ohne Briefkasten</span><span class="pill pill--material">Galvanisierter Stahl</span><span class="pill pill--flag">mit Klingel &amp; Sprechanlage</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="cat" id="tuerklingel">
+    <div class="cat__head">
+      <h2>Türklingeln <span class="count">88 Produkte</span></h2>
+      <a class="cat__link" href="https://edelstahl-tuerklingel.de/tuerklingel" target="_blank" rel="noopener">Kategorie ansehen ↗</a>
+    </div>
+    <details class="legend">
+      <summary>Feature-Legende (aus dem Feed)</summary>
+      <ul class="legend__list"><li><b>Material</b> <span class="muted">4 Werte · 230 Modelle</span></li><li><b>LED-Farbe</b> <span class="muted">9 Werte · 202 Modelle</span></li><li><b>LED-Spannung</b> <span class="muted">3 Werte · 170 Modelle</span></li><li><b>Beleuchtung</b> <span class="muted">4 Werte · 135 Modelle</span></li><li><b>Einbaudurchmesser</b> <span class="muted">4 Werte · 134 Modelle</span></li><li><b>Funktion</b> <span class="muted">3 Werte · 133 Modelle</span></li></ul>
+      <p class="muted">Ausgelassen (nur ein Wert): Marke = Metzler · Anzahl der Briefkastenfächer = 1</p>
+    </details>
+    <div class="grid">
+      <article class="card" data-search="metzler türklingel edelstahl beleuchtetes klingelsymbol | tenika p90symbol 9700 edelstahl">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-beleuchtetes-klingelsymbol-tenika" target="_blank" rel="noopener">Metzler Türklingel Edelstahl beleuchtetes Klingelsymbol | Tenika</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 9700</span><span class="sku">p90symbol</span></span><span class="price">24.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel mit gravur + led-taster optional | stella bergmann 35875 edelstahl v2a edelstahl (1.4301) 6-24 v ac/dc aufputz unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-mit-gravur-led-taster-optional-stella" target="_blank" rel="noopener">Metzler Türklingel mit Gravur + LED-Taster optional | Stella</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35875</span><span class="sku">Bergmann</span></span><span class="price">24.99–34.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--material">V2A Edelstahl (1.4301)</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild anthrazit led-taster + gravur | friesen anp4590-60130 39135 edelstahl aufputz unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-anthrazit-led-taster-gravur-friesen" target="_blank" rel="noopener">Metzler Klingelschild Anthrazit LED-Taster + Gravur | Friesen</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 39135</span><span class="sku">anP4590-60130</span></span><span class="price">29.99–34.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild edelstahl led-taster + gravur optional | friesen vap13060-p9045 39016 edelstahl 6-24 v ac/dc aufputz unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-edelstahl-led-taster-gravur-optional-friesen" target="_blank" rel="noopener">Metzler Klingelschild Edelstahl LED-Taster + Gravur optional | Friesen</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 39016</span><span class="sku">vaP13060-P9045</span></span><span class="price">34.99–39.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz anthrazit austauschbare namensschilder | serie otis re-an 24981 v2a edelstahl (1.4301) 6-24 v ac/dc dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-anthrazit-austauschbare-namensschilder-serie-otis" target="_blank" rel="noopener">Metzler Türklingel Aufputz Anthrazit austauschbare Namensschilder | Serie Otis</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 24981</span><span class="sku">RE-AN</span></span><span class="price">34.99–130 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">V2A Edelstahl (1.4301)</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--volt">DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler aufputz türklingel austauschbares namensschild | parisa re100100 35857 edelstahl aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-aufputz-tuerklingel-austauschbares-namensschild-parisa" target="_blank" rel="noopener">Metzler Aufputz Türklingel austauschbares Namensschild | Parisa</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35857</span><span class="sku">RE100100</span></span><span class="price">39.99–49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel anthrazit | magneto anmag3ohnegravur 10010 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-anthrazit-magneto" target="_blank" rel="noopener">Metzler Türklingel Anthrazit | Magneto</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 10010</span><span class="sku">anMAG3ohneGravur</span></span><span class="price">39.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl anthrazit led größe wählbar | heidi vaan-60110160 39132 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-anthrazit-led-groesse-waehlbar-heidi_1" target="_blank" rel="noopener">Metzler Türklingel Edelstahl Anthrazit LED Größe wählbar | Heidi</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 39132</span><span class="sku">vaAN-60110160</span></span><span class="price">39.99–59.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl klingeltaster led optional wählbare größen | heidi web-p80-110-160 35719 edelstahl unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-klingeltaster-led-optional-waehlbare-groessen-heidi" target="_blank" rel="noopener">Metzler Türklingel Edelstahl Klingeltaster LED optional wählbare Größen | Heidi</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35719</span><span class="sku">WEB-p80-110-160</span></span><span class="price">39.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl weiß lasergravur + led-taster | sena ap-w-11080web 26495 acrylglas edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-weiss-lasergravur-led-taster-sena" target="_blank" rel="noopener">Metzler Türklingel Edelstahl Weiß Lasergravur + LED-Taster | Sena</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 26495</span><span class="sku">AP-W-11080web</span></span><span class="price">39.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel weiß austauschbares namensschild gravur | otto slim w11080f-laser_neu 5234 acrylglas edelstahl unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-weiss-austauschbares-namensschild-gravur-otto-slim" target="_blank" rel="noopener">Metzler Türklingel Weiß austauschbares Namensschild Gravur | Otto Slim</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 5234</span><span class="sku">W11080F-laser_neu</span></span><span class="price">39.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aus edelstahl mit gravur + led-taster optional | ari tk_ari 35911 edelstahl 6-24 v ac/dc aufputz unterputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aus-edelstahl-mit-gravur-led-taster-optional-ari" target="_blank" rel="noopener">Metzler Türklingel aus Edelstahl mit Gravur + LED-Taster optional | Ari</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35911</span><span class="sku">TK_Ari</span></span><span class="price">39.99–49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz edelstahl austauschbare namensschilder | serie otis re-va 24638 edelstahl aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-edelstahl-austauschbare-namensschilder-serie-otis" target="_blank" rel="noopener">Metzler Türklingel Aufputz Edelstahl austauschbare Namensschilder | Serie Otis</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 24638</span><span class="sku">RE-VA</span></span><span class="price">44.99–110 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz gravur optional | kasa au-11080-pl 37278 edelstahl aufputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-gravur-optional-kasa" target="_blank" rel="noopener">Metzler Klingel Aufputz Gravur optional | Kasa</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 37278</span><span class="sku">AU-11080-PL</span></span><span class="price">49.99–59.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild edelstahl anthrazit led-taster + gravur | boris be90_web 3577 edelstahl aufputz unterputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-edelstahl-anthrazit-led-taster-gravur-boris" target="_blank" rel="noopener">Metzler Klingelschild Edelstahl Anthrazit LED-Taster + Gravur | Boris</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 3577</span><span class="sku">BE90_web</span></span><span class="price">49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild edelstahl eisenglimmer gravur | boris db703_web 5018 edelstahl unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-edelstahl-eisenglimmer-gravur-boris" target="_blank" rel="noopener">Metzler Klingelschild Edelstahl Eisenglimmer Gravur | Boris</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 5018</span><span class="sku">DB703_web</span></span><span class="price">49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz gravur + led-taster | vera au100100-vera 43343 edelstahl aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-gravur-led-taster-vera" target="_blank" rel="noopener">Metzler Türklingel Aufputz Gravur + LED-Taster | Vera</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43343</span><span class="sku">AU100100-Vera</span></span><span class="price">49.99–59.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz mit austauschbarem namensschild | abakos renz-au11080 35877 edelstahl v2a edelstahl (1.4301) 6-24 v ac/dc 19mm aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-mit-austauschbarem-namensschild-abakos" target="_blank" rel="noopener">Metzler Türklingel Aufputz mit austauschbarem Namensschild | Abakos</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35877</span><span class="sku">Renz-AU11080</span></span><span class="price">49.99–59.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--material">V2A Edelstahl (1.4301)</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--dia">19mm</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl mit 3d-namensgravur + led-taster optional | sena smap_11080 35859 acrylglas edelstahl 6-24 v ac/dc aufputz unterputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-mit-3d-namensgravur-led-taster-optional-sena" target="_blank" rel="noopener">Metzler Türklingel Edelstahl mit 3D-Namensgravur + LED-Taster optional | Sena</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35859</span><span class="sku">smAP_11080</span></span><span class="price">49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl mit pusteblumenmotiv gravur | floria p11080pu 23626 edelstahl aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-mit-pusteblumenmotiv-gravur-floria" target="_blank" rel="noopener">Metzler Türklingel Edelstahl mit Pusteblumenmotiv Gravur | Floria</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 23626</span><span class="sku">p11080PU</span></span><span class="price">49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aus edelstahl led-3d-namensschild | sora sm_uap_11080 35858 acrylglas edelstahl 6-24 v ac/dc">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aus-edelstahl-led-3d-namensschild-sora" target="_blank" rel="noopener">Metzler Türklingel aus Edelstahl LED-3D-Namensschild | Sora</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35858</span><span class="sku">sm_UAP_11080</span></span><span class="price">49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aus edelstahl | klingeltaster led optional | heidi p11080 41841 edelstahl aufputz unterputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aus-edelstahl-klingeltaster-led-optional-heidi" target="_blank" rel="noopener">Metzler Türklingel aus Edelstahl | Klingeltaster LED optional | Heidi</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 41841</span><span class="sku">P11080</span></span><span class="price">49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel mit led 3d-namensschild | otto sman11080 35865 acrylglas edelstahl v2a edelstahl (1.4301) 6-24 v ac/dc aufputz unterputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-mit-led-3d-namensschild-otto" target="_blank" rel="noopener">Metzler Türklingel mit LED 3D-Namensschild | Otto</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35865</span><span class="sku">smAN11080</span></span><span class="price">49.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--material">V2A Edelstahl (1.4301)</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel mit austauschbaren namensschildern mit optionaler gravur | magneto mag-3 35872 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-mit-austauschbaren-namensschildern-mit-optionaler-gravur-magneto" target="_blank" rel="noopener">Metzler Türklingel mit austauschbaren Namensschildern mit optionaler Gravur | Magneto</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35872</span><span class="sku">MAG-3</span></span><span class="price">49.99–59.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler aufputz türklingel | personalisiert mit gravur | edelstahl-taster mit led | vitus au11080 35876 edelstahl 6-24 v ac/dc aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-aufputz-tuerklingel-personalisiert-mit-gravur-edelstahl-taster-mit-led-vitus" target="_blank" rel="noopener">Metzler Aufputz Türklingel | personalisiert mit Gravur | Edelstahl-Taster mit LED | Vitus</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35876</span><span class="sku">AU11080</span></span><span class="price">59.99–69.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel aufputz austauschbares namensschild | parisa fu-re100100 35835 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-aufputz-austauschbares-namensschild-parisa" target="_blank" rel="noopener">Metzler Funkklingel Aufputz austauschbares Namensschild | Parisa</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35835</span><span class="sku">Fu-Re100100</span></span><span class="price">59.99–69.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz namensschilder | tovi m2 renz-au-d12080 35919 edelstahl aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-namensschilder-tovi-m2" target="_blank" rel="noopener">Metzler Türklingel Aufputz Namensschilder | Tovi M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35919</span><span class="sku">renz-AU-D12080</span></span><span class="price">59.99–69.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl anthrazit austauschbares namensschild gravur | wester an-va14070_mag 6331 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-anthrazit-austauschbares-namensschild-gravur-wester" target="_blank" rel="noopener">Metzler Türklingel Edelstahl Anthrazit austauschbares Namensschild Gravur | Wester</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 6331</span><span class="sku">AN-VA14070_MAG</span></span><span class="price">59.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler quadratische türklingel anthrazit beleuchtetes klingelsymbol | ares bell anbell45 30526 edelstahl 6-24 v ac/dc symbol unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-quadratische-tuerklingel-anthrazit-beleuchtetes-klingelsymbol-ares-bell" target="_blank" rel="noopener">Metzler quadratische Türklingel Anthrazit beleuchtetes Klingelsymbol | Ares Bell</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 30526</span><span class="sku">anBell45</span></span><span class="price">59.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--bel">Symbol</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler quadratische türklingel mit led gravur + klingeltaster | luna luna_40 35862 acrylglas v2a edelstahl (1.4301) 6-24 v ac/dc">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-quadratische-tuerklingel-mit-led-gravur-klingeltaster-luna" target="_blank" rel="noopener">Metzler quadratische Türklingel mit LED Gravur + Klingeltaster | Luna</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35862</span><span class="sku">Luna_40</span></span><span class="price">59.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">V2A Edelstahl (1.4301)</span><span class="pill pill--volt">6-24 V AC/DC</span></div>
+      </article>
+      <article class="card" data-search="funkklingel aufputz quadratisch | personalisiert mit gravur | vera fu100100-vera 43341 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/funkklingel-aufputz-quadratisch-personalisiert-mit-gravur-vera" target="_blank" rel="noopener">Funkklingel Aufputz quadratisch | personalisiert mit Gravur | Vera</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43341</span><span class="sku">FU100100-Vera</span></span><span class="price">69.99–79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel aufputz gravur optional | kasa fuau11080-pl 35843 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-aufputz-gravur-optional-kasa" target="_blank" rel="noopener">Metzler Funkklingel Aufputz Gravur optional | Kasa</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35843</span><span class="sku">FUAU11080-PL</span></span><span class="price">69.99–79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz zweifamilienhaus gravur | vitus m2 au_d12080 35908 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-zweifamilienhaus-gravur-vitus-m2" target="_blank" rel="noopener">Metzler Klingel Aufputz Zweifamilienhaus Gravur | Vitus M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35908</span><span class="sku">AU_D12080</span></span><span class="price">69.99–79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel anthrazit gravur led-taster | alan slim an_caesar4 6678 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-anthrazit-gravur-led-taster-alan-slim" target="_blank" rel="noopener">Metzler Türklingel Anthrazit Gravur LED-Taster | Alan Slim</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 6678</span><span class="sku">AN_Caesar4</span></span><span class="price">69.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz mit individueller  gravur led-taster | alan au-caesar4 39706 edelstahl 6-24 v ac/dc aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-mit-individueller-gravur-led-taster-alan" target="_blank" rel="noopener">Metzler Türklingel Aufputz mit individueller  Gravur LED-Taster | Alan</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 39706</span><span class="sku">AU-Caesar4</span></span><span class="price">69.99–79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl zweifamilienhaus gravur optional | wester m2 2_140_mag 35920 edelstahl 6-24 v ac/dc unterputz mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-zweifamilienhaus-gravur-optional-wester-m2" target="_blank" rel="noopener">Metzler Türklingel Edelstahl Zweifamilienhaus Gravur optional | Wester M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35920</span><span class="sku">2_140_MAG</span></span><span class="price">69.99–79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl austauschbares namensschild gravur | wester va14070_mag 6327 edelstahl 6-24 v ac/dc">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-austauschbares-namensschild-gravur-wester" target="_blank" rel="noopener">Metzler Türklingel Edelstahl austauschbares Namensschild Gravur | Wester</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 6327</span><span class="sku">VA14070_MAG</span></span><span class="price">69.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel zweifamilienhaus anthrazit gravur + led-taster | stella m2 an-d12080 9789 edelstahl 6-24 v ac/dc unterputz mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-zweifamilienhaus-anthrazit-gravur-led-taster-stella-m2" target="_blank" rel="noopener">Metzler Türklingel Zweifamilienhaus Anthrazit Gravur + LED-Taster | Stella M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 9789</span><span class="sku">AN-D12080</span></span><span class="price">69.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel zweifamilienhaus gravur optional | adam tk_sad12080 35913 acrylglas edelstahl 6-24 v ac/dc aufputz unterputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-zweifamilienhaus-gravur-optional-adam" target="_blank" rel="noopener">Metzler Türklingel Zweifamilienhaus Gravur optional | Adam</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35913</span><span class="sku">TK_saD12080</span></span><span class="price">69.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler quadratische türklingel edelstahl beleuchtetes klingelsymbol | ares bell bell45p9090sy 9699 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-quadratische-tuerklingel-edelstahl-beleuchtetes-klingelsymbol-ares-bell" target="_blank" rel="noopener">Metzler quadratische Türklingel Edelstahl beleuchtetes Klingelsymbol | Ares Bell</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 9699</span><span class="sku">Bell45p9090sy</span></span><span class="price">69.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler quadratische türklingel mit optionaler gravur | ares 45_9090 35906 edelstahl 6-24 v ac/dc ringbeleuchtung unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-quadratische-tuerklingel-mit-optionaler-gravur-ares" target="_blank" rel="noopener">Metzler quadratische Türklingel mit optionaler Gravur | Ares</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35906</span><span class="sku">45_9090</span></span><span class="price">69.99–79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--bel">Ringbeleuchtung</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel kabellos edelstahl v2a | aufputz türklingel ip67 | 150m reichweite | vitus fu-au-11080 35832 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-kabellos-edelstahl-v2a-aufputz-tuerklingel-ip67-150m-reichweite-vitus" target="_blank" rel="noopener">Metzler Funkklingel kabellos Edelstahl V2A | Aufputz Türklingel IP67 | 150m Reichweite | Vitus</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35832</span><span class="sku">Fu-AU-11080</span></span><span class="price">79.99–89.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild edelstahl anthrazit gravur + led-taster | decker an-t24 5375 edelstahl 6-24 v ac/dc aufputz unterputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-edelstahl-anthrazit-gravur-led-taster-decker" target="_blank" rel="noopener">Metzler Klingelschild Edelstahl Anthrazit Gravur + LED-Taster | Decker</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 5375</span><span class="sku">AN-T24</span></span><span class="price">79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz zweifamilienhaus | gravur optional | alan m2 2fach_caesar4 39829 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-zweifamilienhaus-gravur-optional-alan-m2" target="_blank" rel="noopener">Metzler Türklingel Aufputz Zweifamilienhaus | Gravur optional | Alan M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 39829</span><span class="sku">2fach_caesar4</span></span><span class="price">79.99–89.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl anthrazit mit 3d-gravur + led-taster | sena xl xl-smapan150110 9802 acrylglas edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-anthrazit-mit-3d-gravur-led-taster-sena-xl" target="_blank" rel="noopener">Metzler Türklingel Edelstahl Anthrazit mit 3D-Gravur + LED-Taster | Sena XL</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 9802</span><span class="sku">XL-smAPan150110</span></span><span class="price">79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl gravur led-taster | alan slim caesar4_up 10990 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-gravur-led-taster-alan-slim" target="_blank" rel="noopener">Metzler Türklingel Edelstahl Gravur LED-Taster | Alan Slim</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 10990</span><span class="sku">Caesar4_up</span></span><span class="price">79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel edelstahl mehrfamilienhaus gravur optional | wester m3 3_mag 35912 edelstahl 6-24 v ac/dc unterputz mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-edelstahl-mehrfamilienhaus-gravur-optional-wester-m3" target="_blank" rel="noopener">Metzler Türklingel Edelstahl Mehrfamilienhaus Gravur optional | Wester M3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35912</span><span class="sku">3_MAG</span></span><span class="price">79.99–89.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel zweifamilienhaus anthrazit gravur | alan slim m2 2fach_an_caesar4 9673 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-zweifamilienhaus-anthrazit-gravur-alan-slim-m2" target="_blank" rel="noopener">Metzler Türklingel Zweifamilienhaus Anthrazit Gravur | Alan Slim M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 9673</span><span class="sku">2Fach_AN_Caesar4</span></span><span class="price">79.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel zweifamilienhaus aus edelstahl gravur | alan slim m2 2-fachcaesar4 6638 edelstahl 6-24 v ac/dc unterputz mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-zweifamilienhaus-aus-edelstahl-gravur-alan-slim-m2" target="_blank" rel="noopener">Metzler Türklingel Zweifamilienhaus aus Edelstahl Gravur | Alan Slim M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 6638</span><span class="sku">2-fachCaesar4</span></span><span class="price">89 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel einfamilien | geschwungen | hohe reichweite | dora fu_bog25 35837 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-einfamilien-geschwungen-hohe-reichweite-dora" target="_blank" rel="noopener">Metzler Funkklingel Einfamilien | geschwungen | hohe Reichweite | Dora</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35837</span><span class="sku">fu_bog25</span></span><span class="price">89.99–99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel für einfamilienhaus | personalisiert mit gravur | alan fu_caesar4 35844 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-fuer-einfamilienhaus-personalisiert-mit-gravur-alan" target="_blank" rel="noopener">Metzler Funkklingel für Einfamilienhaus | personalisiert mit Gravur | Alan</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35844</span><span class="sku">FU_Caesar4</span></span><span class="price">89.99–99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel für zweifamilienhaus - gravur | vitus m2 fu-d12080 35839 edelstahl aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-fuer-zweifamilienhaus-gravur-vitus-m2" target="_blank" rel="noopener">Metzler Funkklingel für Zweifamilienhaus - Gravur | Vitus M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35839</span><span class="sku">FU-D12080</span></span><span class="price">89.99–99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz anthrazit gravur | paloma an-aulce4 28907 edelstahl aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-anthrazit-gravur-paloma" target="_blank" rel="noopener">Metzler Klingel Aufputz Anthrazit Gravur | Paloma</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 28907</span><span class="sku">an-AULCE4</span></span><span class="price">89.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild edelstahl anthrazit 3d-gravur | dena 3d_ant-34 6358 acrylglas edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-edelstahl-anthrazit-3d-gravur-dena" target="_blank" rel="noopener">Metzler Klingelschild Edelstahl Anthrazit 3D-Gravur | Dena</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 6358</span><span class="sku">3d_anT-34</span></span><span class="price">89.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild edelstahl mit zwei led-tastern gravur optional | alvin t-53 35921 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-edelstahl-mit-zwei-led-tastern-gravur-optional-alvin" target="_blank" rel="noopener">Metzler Klingelschild Edelstahl mit zwei LED-Tastern Gravur optional | Alvin</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35921</span><span class="sku">T-53</span></span><span class="price">89.99–99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel anthrazit zweifamilienhaus gravur | magneto m2 and-85150 25536 edelstahl 6-24 v ac/dc unterputz mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-anthrazit-zweifamilienhaus-gravur-magneto-m2" target="_blank" rel="noopener">Metzler Türklingel Anthrazit Zweifamilienhaus Gravur | Magneto M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 25536</span><span class="sku">anD-85150</span></span><span class="price">89.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz mehrfamilienhaus | gravur optional | alan m3 au3-fach_caesar4-alan 39836 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-mehrfamilienhaus-gravur-optional-alan-m3" target="_blank" rel="noopener">Metzler Türklingel Aufputz Mehrfamilienhaus | Gravur optional | Alan M3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 39836</span><span class="sku">AU3-Fach_Caesar4-Alan</span></span><span class="price">89.99–99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel für zweifamilienhaus mit verschiedenen optionen | sena m2 d_sm_ap110160 35909 acrylglas edelstahl 6-24 v ac/dc mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-fuer-zweifamilienhaus-mit-verschiedenen-optionen-sena-m2" target="_blank" rel="noopener">Metzler Türklingel für Zweifamilienhaus mit verschiedenen Optionen | Sena M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35909</span><span class="sku">D_SM_AP110160</span></span><span class="price">89.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel edelstahl austauschbare namensschilder | tara slim m3 re_3fach 13854 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-edelstahl-austauschbare-namensschilder-tara-slim-m3" target="_blank" rel="noopener">Metzler Klingel Edelstahl austauschbare Namensschilder | Tara Slim M3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 13854</span><span class="sku">RE_3fach</span></span><span class="price">99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel mit austauschbarem namensschild | tara fu-renz-ce4 35833 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-mit-austauschbarem-namensschild-tara" target="_blank" rel="noopener">Metzler Funkklingel mit austauschbarem Namensschild | Tara</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35833</span><span class="sku">Fu-RENZ-CE4</span></span><span class="price">99.99–109 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz anthrazit namensschilder | tara m2 anre-2fach 26517 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-anthrazit-namensschilder-tara-m2" target="_blank" rel="noopener">Metzler Klingel Aufputz Anthrazit Namensschilder | Tara M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 26517</span><span class="sku">anRE-2fach</span></span><span class="price">99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz | selma au-ce-modell2020 43348 edelstahl aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-selma" target="_blank" rel="noopener">Metzler Klingel Aufputz | Selma</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43348</span><span class="sku">AU-Ce-Modell2020</span></span><span class="price">99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel edelstahl schwarz | selma slim caesar_web 5416 edelstahl unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-edelstahl-schwarz-selma-slim" target="_blank" rel="noopener">Metzler Klingel Edelstahl Schwarz | Selma Slim</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 5416</span><span class="sku">Caesar_web</span></span><span class="price">99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild anthrazit edelstahl gravur + led-taster | decker xl t34-uan_f20 6359 edelstahl 6-24 v ac/dc unterputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-anthrazit-edelstahl-gravur-led-taster-decker-xl" target="_blank" rel="noopener">Metzler Klingelschild Anthrazit Edelstahl Gravur + LED-Taster | Decker XL</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 6359</span><span class="sku">T34-UAN_f20</span></span><span class="price">99.99 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Unterputz</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel anthrazit gravur | paloma an-fu-lce4 28906 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-anthrazit-gravur-paloma" target="_blank" rel="noopener">Metzler Funkklingel Anthrazit Gravur | Paloma</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 28906</span><span class="sku">an-FU-LCE4</span></span><span class="price">109 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel zweifamilienhaus | personalisiert mit gravur | alan m2 2-fu_caesar4 35847 edelstahl aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-zweifamilienhaus-personalisiert-mit-gravur-alan-m2" target="_blank" rel="noopener">Metzler Funkklingel Zweifamilienhaus | personalisiert mit Gravur | Alan M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35847</span><span class="sku">2-Fu_Caesar4</span></span><span class="price">109–119 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz edelstahl namensschilder | tara m2 re_2fach 22532 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-edelstahl-namensschilder-tara-m2" target="_blank" rel="noopener">Metzler Klingel Aufputz Edelstahl Namensschilder | Tara M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 22532</span><span class="sku">RE_2fach</span></span><span class="price">109 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz austauschbare namensschilder | tara m3 re-3fach 40999 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-austauschbare-namensschilder-tara-m3" target="_blank" rel="noopener">Metzler Klingel Aufputz austauschbare Namensschilder | Tara M3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 40999</span><span class="sku">RE-3fach</span></span><span class="price">109–119 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingelschild edelstahl gravur + led-taster | decker xl t-34web 3578 edelstahl 6-24 v ac/dc">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingelschild-edelstahl-gravur-led-taster-decker-xl" target="_blank" rel="noopener">Metzler Klingelschild Edelstahl Gravur + LED-Taster | Decker XL</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 3578</span><span class="sku">T-34web</span></span><span class="price">109 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span></div>
+      </article>
+      <article class="card" data-search="metzler design türklingel mit gravur | ava slim ava_bell 35869 acrylglas edelstahl 6-24 v ac/dc aufputz unterputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-design-tuerklingel-mit-gravur-ava-slim" target="_blank" rel="noopener">Metzler Design Türklingel mit Gravur | Ava Slim</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35869</span><span class="sku">Ava_Bell</span></span><span class="price">119–129 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Unterputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel edelstahl mit gravur | selma fu_caesar_web 43346 edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-edelstahl-mit-gravur-selma" target="_blank" rel="noopener">Metzler Funkklingel Edelstahl mit Gravur | Selma</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43346</span><span class="sku">Fu_Caesar_web</span></span><span class="price">119 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel mit austauschbaren namensschildern | tara m2 re_2fach_funk 35849 edelstahl 6-24 v ac/dc aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-mit-austauschbaren-namensschildern-tara-m2" target="_blank" rel="noopener">Metzler Funkklingel mit austauschbaren Namensschildern | Tara M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35849</span><span class="sku">RE_2fach_FUNK</span></span><span class="price">119–129 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz anthrazit namensschilder | tara m4 anre-4fach 26519 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-anthrazit-namensschilder-tara-m4" target="_blank" rel="noopener">Metzler Klingel Aufputz Anthrazit Namensschilder | Tara M4</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 26519</span><span class="sku">anRE-4fach</span></span><span class="price">119 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel mehrfamilienhaus | 3 klingeltaster | personalisiert mit gravur | alan m3 fu3fach_caesar4 35848 edelstahl aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-mehrfamilienhaus-3-klingeltaster-personalisiert-mit-gravur-alan-m3" target="_blank" rel="noopener">Metzler Funkklingel Mehrfamilienhaus | 3 Klingeltaster | personalisiert mit Gravur | Alan M3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35848</span><span class="sku">FU3Fach_Caesar4</span></span><span class="price">129–139 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz edelstahl austauschbare namensschilder | tara m4 re_4fach 13853 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-edelstahl-austauschbare-namensschilder-tara-m4" target="_blank" rel="noopener">Metzler Klingel Aufputz Edelstahl austauschbare Namensschilder | Tara M4</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 13853</span><span class="sku">RE_4fach</span></span><span class="price">129 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz mit austauschbaren namensschildern | tara m5 re-5fach 35914 edelstahl 6-24 v ac/dc aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-mit-austauschbaren-namensschildern-tara-m5" target="_blank" rel="noopener">Metzler Klingel Aufputz mit austauschbaren Namensschildern | Tara M5</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35914</span><span class="sku">RE-5fach</span></span><span class="price">129–139 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz mit gravur 3d-led-hausnummer | gala auc19-pro 35860 edelstahl 6-24 v ac/dc aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-mit-gravur-3d-led-hausnummer-gala" target="_blank" rel="noopener">Metzler Türklingel Aufputz mit Gravur 3D-LED-Hausnummer | Gala</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35860</span><span class="sku">AUC19-PRO</span></span><span class="price">129–139 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler design funkklingel gravur | ava slim fu_bell 35841 acrylglas edelstahl aufputz funk">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-design-funkklingel-gravur-ava-slim" target="_blank" rel="noopener">Metzler Design Funkklingel Gravur | Ava Slim</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35841</span><span class="sku">FU_Bell</span></span><span class="price">139–149 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel edelstahl | selma m2 fu-caesar 43344 edelstahl aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-edelstahl-selma-m2" target="_blank" rel="noopener">Metzler Funkklingel Edelstahl | Selma M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 43344</span><span class="sku">Fu-Caesar</span></span><span class="price">139 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel mit austauschbaren namensschildern | tara m3 re_3fachfunk 35845 edelstahl 6-24 v ac/dc aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-mit-austauschbaren-namensschildern-tara-m3" target="_blank" rel="noopener">Metzler Funkklingel mit austauschbaren Namensschildern | Tara M3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35845</span><span class="sku">RE_3fachFUNK</span></span><span class="price">139–149 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler klingel aufputz | 6 klingeltaster | austauschbare namensschilder | tara m6 6au-renz-ce4 42851 edelstahl aufputz kabelgebunden mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-klingel-aufputz-6-klingeltaster-austauschbare-namensschilder-tara-m6" target="_blank" rel="noopener">Metzler Klingel Aufputz | 6 Klingeltaster | austauschbare Namensschilder | Tara M6</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 42851</span><span class="sku">6AU-RENZ-CE4</span></span><span class="price">139–149 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel anthrazit austauschbare namensschilder | tara slim m3 anre-3fachfunk-2017 30725 edelstahl aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-anthrazit-austauschbare-namensschilder-tara-slim-m3" target="_blank" rel="noopener">Metzler Funkklingel Anthrazit austauschbare Namensschilder | Tara Slim M3</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 30725</span><span class="sku">anRE-3fachFUNK-2017</span></span><span class="price">149 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel aufputz mehrfamilienhaus mit gravur und 3d-led-hausnummer | erik m2 auc19-pro-2 35885 edelstahl 6-24 v ac/dc aufputz kabelgebunden">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-aufputz-mehrfamilienhaus-mit-gravur-und-3d-led-hausnummer-erik-m2" target="_blank" rel="noopener">Metzler Türklingel Aufputz Mehrfamilienhaus mit Gravur und 3D-LED-Hausnummer | Erik M2</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35885</span><span class="sku">AUC19-PRO-2</span></span><span class="price">149–159 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Kabelgebunden</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel mit 4 klingeltastern | austauschbaren namensschildern | tara m4 re_4fach_funk 35850 edelstahl 6-24 v ac/dc aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-mit-4-klingeltastern-austauschbaren-namensschildern-tara-m4" target="_blank" rel="noopener">Metzler Funkklingel mit 4 Klingeltastern | austauschbaren Namensschildern | Tara M4</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35850</span><span class="sku">RE_4fach_FUNK</span></span><span class="price">159–169 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel mit austauschbaren namensschildern | tara slim m4 re_4fachfunk_2020 35846 edelstahl 6-24 v ac/dc aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-mit-austauschbaren-namensschildern-tara-slim-m4" target="_blank" rel="noopener">Metzler Funkklingel mit austauschbaren Namensschildern | Tara Slim M4</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35846</span><span class="sku">RE_4fachFUNK_2020</span></span><span class="price">169–179 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel mit 5 klingeltastern | austauschbaren namensschildern | tara m5 re-5fachfunk 35852 edelstahl 6-24 v ac/dc aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-mit-5-klingeltastern-austauschbaren-namensschildern-tara-m5" target="_blank" rel="noopener">Metzler Funkklingel mit 5 Klingeltastern | austauschbaren Namensschildern | Tara M5</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35852</span><span class="sku">RE-5fachFUNK</span></span><span class="price">179–189 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+      <article class="card" data-search="metzler türklingel inklusive led-beleuchtung | theo bb-led-110275 35861 acrylglas edelstahl aufputz">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-tuerklingel-inklusive-led-beleuchtung-theo" target="_blank" rel="noopener">Metzler Türklingel inklusive LED-Beleuchtung | Theo</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35861</span><span class="sku">BB-LED-110275</span></span><span class="price">179–189 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Acrylglas</span><span class="pill pill--material">Edelstahl</span><span class="pill pill--flag">Aufputz</span></div>
+      </article>
+      <article class="card" data-search="metzler funkklingel mit 6 klingeltastern | austauschbaren namensschildern | tara m6 6fu-renz-ce4 35851 edelstahl 6-24 v ac/dc aufputz funk mehrfamilienhaus">
+        <header class="card__head">
+          <a class="card__name" href="https://edelstahl-tuerklingel.de/metzler-funkklingel-mit-6-klingeltastern-austauschbaren-namensschildern-tara-m6" target="_blank" rel="noopener">Metzler Funkklingel mit 6 Klingeltastern | austauschbaren Namensschildern | Tara M6</a>
+          <div class="card__meta"><span class="ids"><span class="artnr">Art.-Nr. 35851</span><span class="sku">6FU-RENZ-CE4</span></span><span class="price">199–209 €</span></div>
+        </header>
+        <div class="pills"><span class="pill pill--material">Edelstahl</span><span class="pill pill--volt">6-24 V AC/DC</span><span class="pill pill--flag">Aufputz</span><span class="pill pill--flag">Funk</span><span class="pill pill--flag">Mehrfamilienhaus</span></div>
+      </article>
+    </div>
+  </section>
+  </div>
+  <script>
+    function filterCards(q){
+      q=(q||'').trim().toLowerCase();
+      document.querySelectorAll('.card').forEach(function(c){
+        c.style.display = !q || c.dataset.search.indexOf(q)>-1 ? '' : 'none';
+      });
+      document.querySelectorAll('.cat').forEach(function(s){
+        var any=[].some.call(s.querySelectorAll('.card'),function(c){return c.style.display!=='none';});
+        s.style.display=any?'':'none';
+      });
+    }
+  </script>
+</body>
+</html>
