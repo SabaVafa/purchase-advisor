@@ -113,7 +113,7 @@
   .advisor__opt.is-off .advisor__opt-label{color:var(--ink-60)}
   .advisor__opt-note{font-size:var(--text-body-sm);color:var(--status-warning);line-height:1.4}
   .advisor__opt-switch{color:var(--teal);font-weight:600;text-decoration:underline;cursor:pointer}
-  .advisor__opt-count{font-size:11px;color:var(--ink-60);opacity:.85;font-variant-numeric:tabular-nums}
+  .advisor__opt-count{font-size:12px;color:#6A6A6A;font-weight:600;font-variant-numeric:tabular-nums;margin-top:auto;padding-top:6px}
   .advisor__hint{margin:-4px 0 var(--sp-4);padding:9px 12px;font-size:var(--text-body-sm);color:var(--ink-60);
     background:var(--teal-5);border-left:3px solid var(--teal);border-radius:6px;max-width:72ch;line-height:1.45}
   .advisor__hint.advisor__flash{color:var(--status-warning);background:transparent;border-left-color:var(--status-warning)}
@@ -477,31 +477,20 @@
     label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Klingel.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"gravur",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"schild",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
-      {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]},
+      {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"}]},
     beleuchtung:{q:"Was soll beleuchtet sein?",help:"Mehrfachauswahl – optional.",type:"multi",vis:function(){return true;},opts:[
       {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar"},
       {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar"},
-      {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer"},
-      {v:"none",ol:"Keine Beleuchtung nötig",od:"",solo:true}]},
-    optik:{q:"Welche Optik bevorzugen Sie?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
-      {v:"schlicht",ol:"Schlicht & klassisch",od:"reduzierte Edelstahlplatte"},
-      {v:"design",ol:"Design / Acrylglas",od:"edle Front, Akzent-Optik"},
-      {v:"quadratisch",ol:"Quadratisch",od:"kompaktes Quadrat-Format"},
-      {v:"xl",ol:"Großformat / XL",od:"große, markante Platte"},
-      {v:"motiv",ol:"Mit Motiv",od:"dekorative Gravur (z. B. Pusteblume)"},
-      {v:"none",ol:"Keine bestimmte",od:"keine besondere Präferenz",solo:true}]},
+      {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer"}]},
     farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016"},
-      {v:"andere",ol:"Andere Farbe",od:"weiß, schwarz, weitere RAL"},
-      {v:"egal",ol:"Egal",od:""}]},
+      {v:"andere",ol:"Andere Farbe",od:"weiß, schwarz, weitere RAL"}]},
     mounting:{q:"Wie soll montiert werden?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
-      {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]}
+      {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"}]}
   };
-  var TK_ORDER=["conn","parties","label","beleuchtung","optik","farbe","mounting"];
+  var TK_ORDER=["conn","mounting","parties","label","beleuchtung","farbe"];
 
   /* ================= BRIEFKASTEN PRODUCT DATA (rebuilt from briefkasten-finder.json 2026-07-17) =================
      Feed-driven; one entry per real product page. Universe = all mailbox categories (Einfamilien +
@@ -1018,7 +1007,7 @@
       if(b==="name"&&!p.ledname)return false;
       if(b==="hausnr"&&!p.hausnr)return false; }
     if(a.farbe&&a.farbe!=="egal"&&(p.finish||[]).indexOf(a.farbe)<0)return false;
-    if(a.mounting&&a.mounting!=="egal"&&(p.mount||[]).indexOf(a.mounting)<0)return false;
+    if(a.mounting&&a.mounting!=="egal"&&(p.mount||[]).length&&p.mount.indexOf(a.mounting)<0)return false;
     return true;
   }
   /* Optik is a soft preference: it only ranks results, never filters them out. */
@@ -1234,6 +1223,20 @@
     if(ST(id).type==="multi"){ if(o.solo){ b[id]=[o.v]; } else { var arr=(b[id]||[]).slice(); if(arr.indexOf(o.v)<0)arr.push(o.v); b[id]=arr.filter(function(x){return x!=="none";}); } }
     else { b[id]=o.v; }
     return b; }
+  /* Why is option o dead-ended? Find the earlier answer(s) that block it: relax each one and
+     see if the option becomes reachable. Returns a readable note, or null if no single answer
+     explains it (then the caller keeps the generic message). Labels come from summaryChips. */
+  function deadReason(id,o,a){
+    var b=applyAns(id,o,a);
+    var lbl={}; ((CAT.summaryChips&&CAT.summaryChips(a))||[]).forEach(function(c){ lbl[c[2]]=c[1]; });
+    var blockers=[];
+    for(var k in a){
+      if(k===id||a[k]==null||!(k in b)||!lbl[k]) continue;
+      var c2={}; for(var kk in b){ if(kk!==k) c2[kk]=b[kk]; }
+      if(liveCount(c2)>0) blockers.push(lbl[k]);
+    }
+    return blockers.length ? "nicht mit "+blockers.join(" & ")+" kombinierbar" : null;
+  }
   function isAnswered(id){ var v=state.a[id]; return ST(id).type==="multi"?(Array.isArray(v)&&v.length>0):(v!=null); }
   /* A single-select filter step is only worth asking if its options can still lead
      to different results. If every reachable option yields the same set of products
@@ -1268,7 +1271,14 @@
     }
     return false; /* not enough reachable options and no redirect → the question can't change anything */
   }
-  function visibleSteps(a){ return CAT.order.filter(function(id){return ST(id).vis(a)&&discriminates(id,a);}); }
+  /* A step is shown if allowed (vis) AND (already answered OR still discriminating). Keeping
+     answered steps means a later answer can't retroactively hide an earlier one and jump the
+     progress bar backward — only not-yet-answered future steps auto-hide. */
+  function visibleSteps(a){ return CAT.order.filter(function(id){
+    if(!ST(id).vis(a)) return false;
+    var v=a[id], ans=ST(id).type==="multi"?(Array.isArray(v)&&v.length>0):(v!=null);
+    return ans||discriminates(id,a);
+  }); }
 
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
 
@@ -1316,7 +1326,11 @@
       return true;
     }).map(function(o){
       var sel=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v);
-      var stt=optState(id,o,a,sel); if(!multi) delete stt.count;
+      var stt=optState(id,o,a,sel);
+      if(sel&&!o.solo&&stt.count==null&&!stt.off) stt.count=liveCount(applyAns(id,o,a)); /* selected option keeps its count too */
+      if(o.v==="egal"||o.v==="open"||o.v==="unsure") delete stt.count;
+      /* dead option: replace the generic "kein passendes Modell" with the exact conflicting answer, if known */
+      if(stt.off && stt.note==="derzeit kein passendes Modell"){ var r=deadReason(id,o,a); if(r) stt.note=r; }
       return optHTML(o,sel,stt);
     }).join("");
     var dots=""; for(var d=0;d<total;d++) dots+='<span class="'+(d<pos?"is-done":(d===pos?"is-current":""))+'"></span>';
