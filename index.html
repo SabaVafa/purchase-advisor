@@ -341,11 +341,11 @@
     bau:{q:"Wie sieht die Verkabelung bei Ihnen aus?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt – die wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"ip",ol:"Neubau und Neuverkabelung",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"},
       {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"}]},
-    combo:{q:"Nur die Sprechanlage – oder als Kombination?",help:"Metzler bietet die Türstation auch integriert in Briefkasten oder Paketbox.",type:"single",req:true,vis:function(){return true;},opts:[
+    combo:{q:"Nur die Sprechanlage – oder als Kombination?",help:"Metzler bietet die Türstation auch integriert in Briefkasten oder Paketbox.",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
       {v:"none",ol:"Nur Sprechanlage",od:"nur die Türstation"},
       {v:"briefkasten",ol:"Mit Briefkasten",od:"integriert in eine Briefkastenanlage · IP-Video"},
       {v:"paketbox",ol:"Mit Paketbox",od:"Türstation mit integrierter Paketbox · IP-Video"}]},
-    media:{q:"Möchten Sie sehen, wer klingelt?",en:"Video or audio only?",type:"single",req:true,vis:function(){return true;},opts:[
+    media:{q:"Möchten Sie sehen, wer klingelt?",en:"Video or audio only?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
       {v:"video",ol:"Video-Sprechanlage",od:"Mit Kamera – Besucher sehen"},
       {v:"audio",ol:"Audio genügt",od:"Nur Sprechen & Hören"}]},
     parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",help:"Die genaue Taster-Anzahl wählen Sie später im Konfigurator.",type:"single",req:true,vis:function(){return true;},opts:[
@@ -353,22 +353,22 @@
       {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus",notForCombo:true},
       {v:"4",ol:"4–7 Parteien",od:"Mehrfamilienhaus",notForCombo:true,media:"video"},{v:"4",ol:"4–6 Parteien",od:"Mehrfamilienhaus",notForCombo:true,media:"audio"},
       {v:"many",ol:"Flexibel",od:"Großobjekt · modular für 1–500 Parteien"}]},
-    access:{q:"Wie möchten Sie schlüssellos öffnen?",en:"Keyless entry — multiple choice. App is always included.",help:"Mehrfachauswahl. Die App-Steuerung ist bei allen Modellen dabei.",type:"multi",vis:function(){return true;},opts:[
+    access:{q:"Wie möchten Sie schlüssellos öffnen?",en:"Keyless entry — multiple choice. App is always included.",help:"Mehrfachauswahl. Die App-Steuerung ist bei allen Modellen dabei.",type:"multi",vis:function(a){return a.bau!=="bus";},opts:[
       {v:"rfid",ol:"RFID-Karte / -Chip",od:"Transponder"},
       {v:"pin",ol:"PIN-Code",od:"Zahlencode am Gerät",media:"video"},
       {v:"fingerprint",ol:"Fingerabdruck",od:"nur Niko",media:"video"},
       {v:"face",ol:"Gesichtserkennung",od:"SDM10",media:"video"},
       {v:"none",ol:"Nur App / noch offen",od:"keine besondere Zutrittsart",solo:true}]},
-    label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Tür.",type:"single",req:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
+    label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Tür.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"laser",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"papier",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
       {v:"digital",ol:"Digitales Namensschild",od:"editierbar (SDM10 / Horizon)"}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Fast alle Modelle sind pulverbeschichtet – auch in Ihrer Wunschfarbe (RAL).",type:"single",req:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
+    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Fast alle Modelle sind pulverbeschichtet – auch in Ihrer Wunschfarbe (RAL).",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016"},
       {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet"},
       {v:"andere",ol:"Andere Standardfarbe",od:"weitere Farbe auswählen"}]},
-    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere verfügbare Farben.",type:"single",req:true,vis:function(a){return a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
+    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere verfügbare Farben.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703"},
       {v:"grau",ol:"Grau",od:""},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005"},
@@ -1180,7 +1180,7 @@
       products:SP_PRODUCTS,steps:SP_STEPS,order:SP_ORDER,relaxKeys:["bau","combo","media","parties"],
       imgPlaceholder:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild.webp",
       matches:spMatches,score:spScore,deriveSystem:spDerive,optState:spOptState,summaryChips:spSummary,emptyHTML:spEmpty,
-      resultNote:function(){return"";},
+      resultNote:function(a){return a.bau==="bus"?'<p class="advisor__hint">Die 2-Draht-BUS-Serie (XDM10 Maxior) wird klassisch per Klingel und Türöffner bedient – erhältlich in mehreren Farben mit austauschbarem Namensschild. Wünschen Sie schlüssellosen Zutritt (RFID, PIN, Fingerabdruck, Gesichtserkennung), Audio-only, eine Briefkasten-/Paketbox-Kombination, ein lasergraviertes oder digitales Namensschild oder mehr als 3 Parteien? Diese Optionen bietet die IP-Serie (Neubau/Neuverkabelung).</p>':"";},
       support:{title:"Unsicher bei der Auswahl?",sub:"Unsere Sprechanlagen-Experten beraten Sie kostenlos – auch zur Verkabelung vor Ort.",
         primaryHref:"https://calendly.com/kaufberatung",primaryLabel:"Beratungstermin",secondaryHref:BASE+"sprechanlagen-online-support-termin",secondaryLabel:"Zum Kundensupport"}
     },
