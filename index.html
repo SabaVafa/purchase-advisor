@@ -363,17 +363,17 @@
       {v:"laser",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"papier",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
       {v:"digital",ol:"Digitales Namensschild",od:"editierbar (SDM10 / Horizon)"}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Fast alle Modelle sind pulverbeschichtet – auch in Ihrer Wunschfarbe (RAL).",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
-      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
+    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Die gängigsten Farben – weitere Farben und Wunschfarbe im nächsten Schritt.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016"},
-      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet"},
-      {v:"andere",ol:"Andere Standardfarbe",od:"weitere Farbe auswählen"}]},
-    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere verfügbare Farben.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
-      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703"},
-      {v:"grau",ol:"Grau",od:""},
+      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016"},
-      {v:"braun",ol:"Bronze",od:"warmer Bronzeton"}]}
+      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze oder Wunschfarbe"}]},
+    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere Farben & individuelle Wunschfarbe.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
+      {v:"grau",ol:"Grau",od:""},
+      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703"},
+      {v:"braun",ol:"Bronze",od:"warmer Bronzeton"},
+      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet"}]}
   };
   var SP_ORDER=["bau","combo","media","parties","access","label","farbe","farbeAndere"];
 
@@ -984,7 +984,7 @@
     var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
     if(a.label&&spLabel(p)!==a.label)return false;
     if(a.farbe&&a.farbe!=="egal"){
-      if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["eisenglimmer","grau","schwarz","weiss","braun"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; }
+      if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["grau","eisenglimmer","braun","wunsch"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; }
       else if((p.finish||[]).indexOf(a.farbe)<0)return false;
     }
     return true;
@@ -1007,7 +1007,7 @@
     if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":a.parties,"parties"]);
     var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
     if(a.label)out.push(["Namensschild",{laser:"Lasergraviert",papier:"Papiereinleger",digital:"Digital"}[a.label],"label"]);
-    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({eisenglimmer:"Eisenglimmer",grau:"Grau",schwarz:"Schwarz",weiss:"Weiß",braun:"Bronze"}[a.farbeAndere]||"Andere"):{edelstahl:"Edelstahl",anthrazit:"Anthrazit",wunsch:"Wunschfarbe"}[a.farbe],"farbe"]);
+    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer",braun:"Bronze",wunsch:"Wunschfarbe"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß"}[a.farbe],"farbe"]);
     return chipsHTML(out);
   }
   function spEmpty(a){
