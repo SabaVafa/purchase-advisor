@@ -362,8 +362,7 @@
     label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Tür.",type:"single",req:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"laser",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"papier",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
-      {v:"digital",ol:"Digitales Namensschild",od:"editierbar (SDM10 / Horizon)"},
-      {v:"egal",ol:"Egal",od:"keine Präferenz"}]},
+      {v:"digital",ol:"Digitales Namensschild",od:"editierbar (SDM10 / Horizon)"}]},
     farbe:{q:"Welche Farbe oder Oberfläche?",help:"Fast alle Modelle sind pulverbeschichtet – auch in Ihrer Wunschfarbe (RAL).",type:"single",req:true,vis:function(a){return !(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016"},
@@ -983,7 +982,7 @@
     if(a.parties){ if(a.parties==="many"){ if(!p.flex)return false; }
       else { var grp=a.parties==="4"?[4,5,6,7]:[+a.parties]; if(!(p.flex||grp.some(function(n){return p.taster.indexOf(n)>-1;})))return false; } }
     var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
-    if(a.label&&a.label!=="egal"&&spLabel(p)!==a.label)return false;
+    if(a.label&&spLabel(p)!==a.label)return false;
     if(a.farbe&&a.farbe!=="egal"){
       if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["eisenglimmer","grau","schwarz","weiss","braun"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; }
       else if((p.finish||[]).indexOf(a.farbe)<0)return false;
@@ -1007,7 +1006,7 @@
     if(a.media)out.push(["Typ",a.media==="video"?"Video":"Audio","media"]);
     if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":a.parties,"parties"]);
     var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
-    if(a.label&&a.label!=="egal")out.push(["Namensschild",{laser:"Lasergraviert",papier:"Papiereinleger",digital:"Digital"}[a.label],"label"]);
+    if(a.label)out.push(["Namensschild",{laser:"Lasergraviert",papier:"Papiereinleger",digital:"Digital"}[a.label],"label"]);
     if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({eisenglimmer:"Eisenglimmer",grau:"Grau",schwarz:"Schwarz",weiss:"Weiß",braun:"Bronze"}[a.farbeAndere]||"Andere"):{edelstahl:"Edelstahl",anthrazit:"Anthrazit",wunsch:"Wunschfarbe"}[a.farbe],"farbe"]);
     return chipsHTML(out);
   }
