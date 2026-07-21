@@ -1278,6 +1278,14 @@
     if(ST(id).type==="multi"){ if(o.solo){ b[id]=[o.v]; } else { var arr=(b[id]||[]).slice(); if(arr.indexOf(o.v)<0)arr.push(o.v); b[id]=arr.filter(function(x){return x!=="none";}); } }
     else { b[id]=o.v; }
     return b; }
+  /* Answers for steps ordered AFTER `id` are dropped — a step's options must reflect only the
+     decisions up to that step, never ones made later (else navigating back disables earlier options). */
+  function trimFuture(id,a){ var ord=CAT.order,i=ord.indexOf(id),b={};
+    for(var k in a){ var ki=ord.indexOf(k); if(ki<0||ki<=i) b[k]=Array.isArray(a[k])?a[k].slice():a[k]; }
+    return b; }
+  /* When an earlier answer actually changes, discard every downstream answer so stale values
+     can't corrupt matching and the now-invalid later steps get re-asked. */
+  function clearFuture(id,a){ var ord=CAT.order,i=ord.indexOf(id); for(var j=i+1;j<ord.length;j++) delete a[ord[j]]; }
   /* Why is option o dead-ended? Find the earlier answer(s) that block it: relax each one and
      see if the option becomes reachable. Returns a readable note, or null if no single answer
      explains it (then the caller keeps the generic message). Labels come from summaryChips. */
@@ -1368,33 +1376,36 @@
     root.classList.remove("is-result"); resEl.hidden=true;
     state.id=id;
     var st=ST(id),a=state.a,vs=visibleSteps(a),pos=vs.indexOf(id),total=vs.length;
-    var multi=st.type==="multi", cur=a[id];
+    /* Options + count reflect answers UP TO this step only (see trimFuture) so a later choice
+       can never disable an earlier option when the user navigates back. */
+    var av=trimFuture(id,a);
+    var multi=st.type==="multi", cur=av[id];
     var opts=st.opts.filter(function(o){
-      if(o.media&&o.media!==a.media) return false;
+      if(o.media&&o.media!==av.media) return false;
       /* option explicitly not offered on a combo (Briefkasten/Paketbox) path */
-      if(o.notForCombo && a.combo && a.combo!=="none") return false;
+      if(o.notForCombo && av.combo && av.combo!=="none") return false;
       /* soft-pref option: only offer it if it separates the still-matching set — i.e. some
          match has the attribute and some don't. If none have it, or ALL have it, it can't
          rank anything, so it's redundant → hide. */
       if(st.soft && !o.solo){
-        var ms=CAT.products.filter(function(p){return matches(p,a);}), t=0;
+        var ms=CAT.products.filter(function(p){return matches(p,av);}), t=0;
         for(var mi=0;mi<ms.length;mi++){ if(optHas(ms[mi],o)) t++; }
         if(t===0 || t===ms.length) return false;
       }
       return true;
     }).map(function(o){
-      var sel=multi?((a[id]||[]).indexOf(o.v)>-1):(cur===o.v);
-      var stt=optState(id,o,a,sel);
-      if(sel&&!o.solo&&stt.count==null&&!stt.off) stt.count=liveCount(applyAns(id,o,a)); /* selected option keeps its count too */
+      var sel=multi?((av[id]||[]).indexOf(o.v)>-1):(cur===o.v);
+      var stt=optState(id,o,av,sel);
+      if(sel&&!o.solo&&stt.count==null&&!stt.off) stt.count=liveCount(applyAns(id,o,av)); /* selected option keeps its count too */
       if(o.v==="egal"||o.v==="open"||o.v==="unsure") delete stt.count;
       /* dead option: replace the generic "kein passendes Modell" with the exact conflicting answer, if known */
-      if(stt.off && stt.note==="derzeit kein passendes Modell"){ var r=deadReason(id,o,a); if(r) stt.note=r; }
+      if(stt.off && stt.note==="derzeit kein passendes Modell"){ var r=deadReason(id,o,av); if(r) stt.note=r; }
       return optHTML(o,sel,stt);
     }).join("");
     var dots=""; for(var d=0;d<total;d++) dots+='<span class="'+(d<pos?"is-done":(d===pos?"is-current":""))+'"></span>';
     var isLast=pos===total-1;
     var canNext = multi ? true : (st.req ? cur!=null : true);
-    var lc=liveCount(a);
+    var lc=liveCount(av);
     var flash=(id===CAT.flashStep)?state.flash:""; if(id===CAT.flashStep) state.flash=null;
     quizEl.innerHTML=''
       +'<div class="advisor__step">'
@@ -1425,12 +1436,14 @@
         if(btn.classList.contains("is-off")) return;   /* unreachable option – no selection */
         var v=btn.getAttribute("data-v");
         if(multi){
-          var arr=(a[id]||[]).slice(), o=null;
+          var old=(a[id]||[]).join(","), arr=(a[id]||[]).slice(), o=null;
           st.opts.forEach(function(x){if(x.v===v)o=x;});
           if(o&&o.solo){ arr=[v]; }
           else { var i=arr.indexOf(v); if(i>-1)arr.splice(i,1); else {arr.push(v); arr=arr.filter(function(x){return x!=="none";});} }
+          if(arr.join(",")!==old) clearFuture(id,a);   /* a changed answer invalidates downstream steps */
           a[id]=arr; renderStep(id);
         } else {
+          if(a[id]!==v) clearFuture(id,a);              /* a changed answer invalidates downstream steps */
           a[id]=v;
           renderStep(id);   /* reflect the choice; advance only when the user presses Weiter (no auto-advance) */
         }
