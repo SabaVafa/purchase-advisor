@@ -115,12 +115,15 @@
   .advisor__opt-note{font-size:var(--text-body-sm);color:var(--status-warning);line-height:1.4}
   .advisor__opt-switch{color:var(--teal);font-weight:600;text-decoration:underline;cursor:pointer}
   .advisor__opt-count{font-size:12px;color:#6A6A6A;font-weight:600;font-variant-numeric:tabular-nums;margin-top:auto;padding-top:6px}
-  .advisor__opt.has-swatch{flex-direction:row;align-items:center;gap:14px}
+  .advisor__opt.has-swatch{flex-direction:row;align-items:center;gap:14px;position:relative;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+  .advisor__opt.has-swatch:hover{transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(0,0,0,.28)}
   .advisor__opt.has-swatch .advisor__opt-body{display:flex;flex-direction:column;gap:3px;min-width:0}
-  .advisor__swatch{position:relative;width:84px;height:56px;border-radius:10px;flex:none;overflow:hidden;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.30), 0 0 0 1px rgba(0,0,0,.10), 0 2px 5px rgba(0,0,0,.16)}
+  .advisor__opt.has-swatch.is-active::after{content:"";position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;
+    background:var(--teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/13px no-repeat;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+  .advisor__swatch{position:relative;width:88px;height:60px;border-radius:12px;flex:none;overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.28), inset 0 -6px 12px -6px rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.10), 0 4px 9px -3px rgba(0,0,0,.30)}
   .advisor__swatch::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background:linear-gradient(150deg,rgba(255,255,255,.34),rgba(255,255,255,0) 42%,rgba(0,0,0,.08))}
+    background:linear-gradient(145deg,rgba(255,255,255,.40),rgba(255,255,255,0) 38%,rgba(0,0,0,.10))}
   .advisor__hint{margin:-4px 0 var(--sp-4);padding:9px 12px;font-size:var(--text-body-sm);color:var(--ink-60);
     background:var(--teal-5);border-left:3px solid var(--teal);border-radius:6px;max-width:72ch;line-height:1.45}
   .advisor__hint.advisor__flash{color:var(--status-warning);background:transparent;border-left-color:var(--status-warning)}
@@ -387,15 +390,15 @@
       {v:"digital",ol:"Digitales Namensschild",od:"editierbar (SDM10 / Horizon)"}]},
     farbe:{q:"Welche Farbe oder Oberfläche?",help:"Die gängigsten Farben – weitere Farben und Wunschfarbe im nächsten Schritt.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
-      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"linear-gradient(135deg,#c2c6c0 0%,#eef0ec 26%,#c9ccc6 47%,#f4f5f2 68%,#bcc0ba 100%)"},
+      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"linear-gradient(115deg,#b7bbb5 0%,#edefea 22%,#c4c7c1 41%,#f6f7f4 58%,#c9ccc6 74%,#abafaa 100%)"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze oder Wunschfarbe",sw:"conic-gradient(from 0deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]},
+      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze oder Wunschfarbe",sw:"conic-gradient(from 210deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]},
     farbeAndere:{q:"Welche Farbe genau?",help:"Weitere Farben & individuelle Wunschfarbe.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"linear-gradient(135deg,#34373a 0%,#5e6265 42%,#3d4144 62%,#565a5d 82%,#2f3235 100%)"},
-      {v:"braun",ol:"Bronze",od:"warmer Bronzeton",sw:"linear-gradient(135deg,#7c6237 0%,#caa96c 38%,#9a7c4d 58%,#d9bd83 76%,#7a6135 100%)"},
-      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"conic-gradient(from 0deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]}
+      {v:"braun",ol:"Bronze",od:"warmer Bronzeton",sw:"linear-gradient(120deg,#7c6237 0%,#cba96c 34%,#9a7c4d 52%,#e0c68d 70%,#7a6135 100%)"},
+      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"conic-gradient(from 210deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]}
   };
   var SP_ORDER=["bau","combo","media","parties","bfach","bauform","station","access","label","farbe","farbeAndere"];
 
