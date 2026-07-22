@@ -13,7 +13,7 @@
     --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px;
     --r-m:4px; --r-l:8px; --r-pill:9999px;
     --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 12px 32px rgba(0,0,0,0.12);
-    --container:1380px;   /* matches Metzler design-system .container (styles-v2.css) */
+    --container:1440px;   /* matches the LIVE JTL .mw-container on edelstahl-tuerklingel.de: max-width 1440/1500/1600 + padding 20/50/100 across breakpoints (see .container below) */
   }
   *{box-sizing:border-box}
   /* Always reserve the vertical scrollbar gutter so the standalone preview's content width
@@ -21,10 +21,11 @@
   html{overflow-y:scroll}
   body{margin:0;background:var(--paper-white);color:var(--ink-72);font-family:var(--font-family);
     line-height:1.55;font-size:var(--text-body);-webkit-font-smoothing:antialiased}
-  .container{width:100%;max-width:var(--container);margin:0 auto;padding:24px clamp(24px,4vw,56px) 72px}
-  @media (min-width:1440px){:root{--container:1560px} .container{padding-left:clamp(92px,5vw,116px);padding-right:clamp(92px,5vw,116px)}}
-  @media (min-width:1920px){:root{--container:1760px} .container{padding-left:clamp(92px,5vw,140px);padding-right:clamp(92px,5vw,140px)}}
-  @media (min-width:2560px){:root{--container:2040px}}
+  /* Width parity with the live JTL .mw-container (mobile-first translation of its max-width media queries):
+     <=767 -> max 1440 / pad 20 ; 768-1400 -> max 1500 / pad 50 ; >1400 -> max 1600 / pad 100. */
+  .container{width:100%;max-width:var(--container);margin:0 auto;padding:24px 20px 72px}
+  @media (min-width:768px){:root{--container:1500px} .container{padding-left:50px;padding-right:50px}}
+  @media (min-width:1401px){:root{--container:1600px} .container{padding-left:100px;padding-right:100px}}
   a{color:var(--teal)}
   button{font-family:inherit;cursor:pointer}
   h1,h2,h3{margin:0;color:var(--schwarz);line-height:1.3}
@@ -1217,7 +1218,7 @@
       products:SP_PRODUCTS,steps:SP_STEPS,order:SP_ORDER,relaxKeys:["bau","combo","media","parties"],
       imgPlaceholder:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild.webp",
       matches:spMatches,score:spScore,deriveSystem:spDerive,optState:spOptState,summaryChips:spSummary,emptyHTML:spEmpty,
-      resultNote:function(a){return a.bau==="bus"?'<p class="advisor__hint">Die 2-Draht-BUS-Serie (XDM10 Maxior) wird klassisch per Klingel und Türöffner bedient – erhältlich in mehreren Farben mit austauschbarem Namensschild. Wünschen Sie schlüssellosen Zutritt (RFID, PIN, Fingerabdruck, Gesichtserkennung), Audio-only, eine Briefkasten-/Paketbox-Kombination, ein lasergraviertes oder digitales Namensschild oder mehr als 3 Parteien? Diese Optionen bietet die IP-Serie (Neubau/Neuverkabelung).</p>':"";},
+      resultNote:function(a){return "";},
       support:{title:"Unsicher bei der Auswahl?",sub:"Unsere Sprechanlagen-Experten beraten Sie kostenlos – auch zur Verkabelung vor Ort.",
         primaryHref:"https://calendly.com/kaufberatung",primaryLabel:"Beratungstermin",secondaryHref:BASE+"sprechanlagen-online-support-termin",secondaryLabel:"Zum Kundensupport"}
     },
@@ -1309,6 +1310,10 @@
     for(var k in a){
       if(k===id||a[k]==null) continue;
       var c2={}; for(var kk in b){ if(kk!==k) c2[kk]=b[kk]; }
+      /* Skip answers the current step DEPENDS ON to be shown at all (its vis gate): removing them
+         hides the step, so they're preconditions, not blockers. E.g. farbe="Weitere Farben" is the
+         gate for the farbeAndere sub-step, not a reason Bronze is unavailable. */
+      if(!ST(id).vis(c2)) continue;
       if(liveCount(c2)>0) blockers.push(lblOf(k));
     }
     return blockers.length ? "nicht mit "+blockers.join(" & ")+" kombinierbar" : null;
