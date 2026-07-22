@@ -1336,7 +1336,7 @@
       if(ms.length<2) return false;
       var sep=0;
       st.opts.forEach(function(o){
-        if(o.solo||(o.media&&o.media!==a.media)) return;
+        if(o.solo||(o.media&&a.media&&o.media!==a.media)) return;
         var t=0,f=0; for(var j=0;j<ms.length;j++){ optHas(ms[j],o)?t++:f++; }
         if(t>0&&f>0) sep++;
       });
@@ -1345,7 +1345,7 @@
     /* multi-select is optional, so even one addable (reachable) option makes it worth showing. */
     if(st.type==="multi"){
       for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
-        if(o.media&&o.media!==a.media) continue;
+        if(o.media&&a.media&&o.media!==a.media) continue;
         if(o.solo||o.v==="open"||o.v==="unsure"||o.v==="egal") continue;
         if(CAT.products.some(function(p){return matches(p,applyAns(id,o,a));})) return true;
         if(optState(id,o,a,false).swap) return true;
@@ -1361,7 +1361,7 @@
        a "wechseln?" redirect (BUS upsell) still keeps the step visible. */
     var sigs={};
     for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
-      if(o.media&&o.media!==a.media) continue;
+      if(o.media&&a.media&&o.media!==a.media) continue;
       if(o.solo||o.v==="open"||o.v==="unsure"||o.v==="egal") continue; /* pass-through / "weiß nicht" options aren't real discriminators */
       var ms=CAT.products.filter(function(p){return matches(p,applyAns(id,o,a));});
       if(ms.length){ sigs[ms.map(function(p){return p.id;}).sort().join(",")]=1; if(Object.keys(sigs).length>=2) return true; }
@@ -1414,7 +1414,7 @@
     var av=trimFuture(id,a);
     var multi=st.type==="multi", cur=av[id];
     var opts=st.opts.filter(function(o){
-      if(o.media&&o.media!==av.media) return false;
+      if(o.media&&av.media&&o.media!==av.media) return false;
       /* option explicitly not offered on a combo (Briefkasten/Paketbox) path */
       if(o.notForCombo && av.combo && av.combo!=="none") return false;
       /* soft-pref option: only offer it if it separates the still-matching set — i.e. some
