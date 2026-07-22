@@ -354,8 +354,8 @@
   /* ---------- SPRECHANLAGE QUIZ ---------- */
   var SP_STEPS={
     bau:{q:"Wie sieht die Verkabelung bei Ihnen aus?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt – die wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"ip",ol:"Neubau und Neuverkabelung",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"},
-      {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"}]},
+      {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"},
+      {v:"ip",ol:"Neubau und Neuverkabelung",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"}]},
     combo:{q:"Nur die Sprechanlage – oder als Kombination?",help:"Metzler bietet die Türstation auch integriert in Briefkasten oder Paketbox.",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
       {v:"none",ol:"Nur Sprechanlage",od:"nur die Türstation"},
       {v:"briefkasten",ol:"Mit Briefkasten",od:"integriert in eine Briefkastenanlage · IP-Video"},
@@ -363,19 +363,15 @@
     media:{q:"Möchten Sie sehen, wer klingelt?",en:"Video or audio only?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
       {v:"video",ol:"Video-Sprechanlage",od:"Mit Kamera – Besucher sehen"},
       {v:"audio",ol:"Audio genügt",od:"Nur Sprechen & Hören"}]},
-    parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",help:"Die genaue Taster-Anzahl wählen Sie später im Konfigurator.",type:"single",req:true,vis:function(a){return a.combo!=="briefkasten";},opts:[
+    parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",help:"Die genaue Taster-Anzahl wählen Sie später im Konfigurator.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},{v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
-      {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus",notForCombo:true},
-      {v:"4",ol:"4–7 Parteien",od:"Mehrfamilienhaus",notForCombo:true,media:"video"},{v:"4",ol:"4–6 Parteien",od:"Mehrfamilienhaus",notForCombo:true,media:"audio"},
+      {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus"},
+      {v:"4",ol:"4 und mehr Parteien",od:"Mehrfamilienhaus"},
       {v:"many",ol:"Flexibel",od:"Großobjekt · modular für 1–500 Parteien"}]},
-    bfach:{q:"Wie viele Briefkästen benötigen Sie?",help:"Für 1–2 Einheiten empfehlen wir ein fertiges Set, ab 3 eine individuelle Anlage (bis 15 Briefkästen).",type:"single",req:true,vis:function(a){return a.combo==="briefkasten";},opts:[
-      {v:"1",ol:"1 Briefkasten",od:"Einfamilienhaus"},
-      {v:"2",ol:"2 Briefkästen",od:"Zweifamilienhaus"},
-      {v:"many",ol:"3 bis 15 Briefkästen",od:"Briefkastenanlage nach Maß · Konfigurator"}]},
-    bauform:{q:"Wandmontage oder freistehend?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&a.bfach!=="many";},opts:[
+    bauform:{q:"Wandmontage oder freistehend?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
       {v:"wand",ol:"Wandbriefkasten",od:"an der Wand montiert"},
       {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"}]},
-    station:{q:"Welche Türstation soll integriert sein?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&a.bfach!=="many";},opts:[
+    station:{q:"Welche Türstation soll integriert sein?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
       {v:"vdm10",ol:"Standard-Video (VDM10)",od:"Kamera, App, FRITZ!Box"},
       {v:"sdm10",ol:"Touch-Display & Gesichtserkennung (SDM10)",od:"biometrisch entsperren"}]},
     access:{q:"Wie möchten Sie schlüssellos öffnen?",en:"Keyless entry — multiple choice. App is always included.",help:"Mehrfachauswahl. Die App-Steuerung ist bei allen Modellen dabei.",type:"multi",vis:function(a){return a.bau!=="bus"&&a.combo!=="briefkasten";},opts:[
@@ -388,19 +384,19 @@
       {v:"laser",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"papier",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
       {v:"digital",ol:"Digitales Namensschild",od:"editierbar (SDM10 / Horizon)"}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Die gängigsten Farben – weitere Farben und Wunschfarbe im nächsten Schritt.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
+    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Die gängigsten Farben – weitere Farben und Wunschfarbe im nächsten Schritt.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"linear-gradient(115deg,#b7bbb5 0%,#edefea 22%,#c4c7c1 41%,#f6f7f4 58%,#c9ccc6 74%,#abafaa 100%)"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
       {v:"andere",ol:"Weitere Farben",od:"Grau, Bronze & Wunschfarbe",sw:"linear-gradient(120deg,#8d9092 0 34%,#4a4e50 34% 67%,#b58f52 67% 100%)"}]},
-    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere Farben & individuelle Wunschfarbe.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
+    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere Farben & individuelle Wunschfarbe.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"linear-gradient(135deg,#34373a 0%,#5e6265 42%,#3d4144 62%,#565a5d 82%,#2f3235 100%)"},
       {v:"braun",ol:"Bronze",od:"warmer Bronzeton",sw:"linear-gradient(120deg,#7c6237 0%,#cba96c 34%,#9a7c4d 52%,#e0c68d 70%,#7a6135 100%)"},
       {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"conic-gradient(from 210deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]}
   };
-  var SP_ORDER=["bau","combo","media","parties","bfach","bauform","station","access","label","farbe","farbeAndere"];
+  var SP_ORDER=["bau","parties","combo","media","bauform","station","access","label","farbe","farbeAndere"];
 
   /* ================= TÜRKLINGEL PRODUCT DATA (rebuilt from tuerklingel-finder.json 2026-07-17) =================
      Feed-driven; one entry per real product page. conn: wired|funk (from Funkklingeln category) ·
@@ -516,11 +512,11 @@
       {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar"},
       {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar"},
       {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer"}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},opts:[
+    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["edelstahl","anthrazit","eisenglimmer","grau","schwarz","weiss"]);},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016"},
       {v:"andere",ol:"Andere Farbe",od:"weitere Farbe auswählen"}]},
-    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere verfügbare Farben.",type:"single",req:true,vis:function(a){return a.farbe==="andere";},opts:[
+    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere verfügbare Farben.",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishSplits(a,["eisenglimmer","grau","schwarz","weiss"]);},opts:[
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703"},
       {v:"grau",ol:"Grau",od:""},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005"},
@@ -997,6 +993,11 @@
   function spDerive(a){ if(a.bau==="ip")return"ip-lan"; if(a.bau==="bus")return"bus"; return null; }
   /* Namensschild type: digital display, austauschbarer Papiereinleger, sonst lasergraviert (in den Stahl graviert). Mutually exclusive. */
   function spLabel(p){ return p.display?"digital":(p.nameplate?"papier":"laser"); }
+  /* A colour step is only worth asking if the still-matching models actually DIFFER in the given
+     colours — i.e. some colour is offered by some models but not all (so choosing it narrows the set).
+     If every remaining model comes in every colour, colour can't change the recommendation → skip. */
+  function spFinishSplits(a,cols){ var ms=CAT.products.filter(function(p){return matches(p,a);}); if(ms.length<2) return false;
+    for(var i=0;i<cols.length;i++){ var t=0; for(var j=0;j<ms.length;j++){ if((ms[j].finish||[]).indexOf(cols[i])>-1)t++; } if(t>0&&t<ms.length) return true; } return false; }
   function spMatches(p,a){
     var sys=deriveSystem(a);
     if(sys&&p.systems.indexOf(sys)===-1)return false;
@@ -1007,8 +1008,13 @@
     if(a.parties){ if(a.parties==="many"){ if(!p.flex)return false; }
       else { var grp=a.parties==="4"?[4,5,6,7]:[+a.parties]; if(!(p.flex||grp.some(function(n){return p.taster.indexOf(n)>-1;})))return false; } }
     var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
-    /* Briefkasten combo: Anzahl Briefkästen (1/2/many→Konfigurator), Bauform, Türstation */
-    if(a.bfach){ if(a.bfach==="many"){ if(p.bfach!=="many")return false; } else if(p.bfach!==+a.bfach)return false; }
+    /* Briefkasten combo: mailbox count is derived from the party count (1/2 = fertiges Set,
+       3+/Flexibel = Konfigurator-Anlage), so a 1-Familien search never returns a 2-Familien box. */
+    if(a.combo==="briefkasten"&&a.parties){
+      if(a.parties==="1"){ if(!(p.bfach===1||p.bfach==="many"))return false; }
+      else if(a.parties==="2"){ if(!(p.bfach===2||p.bfach==="many"))return false; }
+      else { if(p.bfach!=="many")return false; }
+    }
     if(a.bauform&&p.bauform&&p.bauform!=="both"&&p.bauform!==a.bauform)return false;
     if(a.station&&p.station&&p.station!=="both"&&p.station!==a.station)return false;
     if(a.label&&spLabel(p)!==a.label)return false;
@@ -1033,8 +1039,7 @@
     if(sys)out.push(["System",{"ip-lan":"IP-System","ip-2draht":"IP-System","bus":"2-Draht-BUS"}[sys],"bau"]);
     if(a.combo)out.push(["Ausführung",{none:"Nur Sprechanlage",briefkasten:"mit Briefkasten",paketbox:"mit Paketbox"}[a.combo],"combo"]);
     if(a.media)out.push(["Typ",a.media==="video"?"Video":"Audio","media"]);
-    if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":a.parties,"parties"]);
-    if(a.bfach)out.push(["Briefkästen",{"1":"1","2":"2",many:"3–15 (Anlage)"}[a.bfach],"bfach"]);
+    if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":(a.parties==="4"?"4+":a.parties),"parties"]);
     if(a.bauform)out.push(["Bauform",{wand:"Wandbriefkasten",stand:"Standbriefkasten"}[a.bauform],"bauform"]);
     if(a.station)out.push(["Türstation",{vdm10:"VDM10",sdm10:"SDM10"}[a.station],"station"]);
     var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
@@ -1275,7 +1280,10 @@
   function summaryChips(a){ return CAT.summaryChips(a); }
   function emptyHTML(a){ return CAT.emptyHTML(a); }
   /* Live count: how many models still match the choices so far (updates every step). */
-  function liveCount(a){ return CAT.products.filter(function(p){return matches(p,a);}).length; }
+  /* Counts distinct model families (deduped by series), matching how renderResult collapses the
+     per-Taster/-variant feed pages into one card per model — so every "N Modelle" figure means
+     model families, not raw product pages. Series-less products each count once. */
+  function liveCount(a){ var seen={},n=0; CAT.products.forEach(function(p){ if(!matches(p,a))return; if(p.series){ if(seen[p.series])return; seen[p.series]=1; } n++; }); return n; }
   /* Hypothetical answer set: what `a` becomes if option o of step id is applied. */
   function applyAns(id,o,a){ var b={}; for(var k in a){ b[k]=Array.isArray(a[k])?a[k].slice():a[k]; }
     if(ST(id).type==="multi"){ if(o.solo){ b[id]=[o.v]; } else { var arr=(b[id]||[]).slice(); if(arr.indexOf(o.v)<0)arr.push(o.v); b[id]=arr.filter(function(x){return x!=="none";}); } }
@@ -1314,6 +1322,7 @@
   function discriminates(id,a){
     var st=ST(id);
     if(st.noskip) return true;
+    if(st.disc) return st.disc(a); /* per-step custom rule (e.g. colour steps show only if the remaining models actually differ in finish) */
     /* soft (ranking-only) step: worth asking only if it offers a genuine choice —
        i.e. >=2 products still match AND >=2 shown options each separate the set. A single
        separating option (e.g. "Andere Farbe" + "Egal") isn't a real choice, so skip it. */
@@ -1328,16 +1337,32 @@
       });
       return sep>=2;
     }
-    /* single-select is forced, so it needs >=2 real options to be a genuine choice;
-       multi-select is optional, so even 1 addable option makes it worth showing. */
-    var need=st.type==="multi"?1:2, avail=0;
+    /* multi-select is optional, so even one addable (reachable) option makes it worth showing. */
+    if(st.type==="multi"){
+      for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
+        if(o.media&&o.media!==a.media) continue;
+        if(o.solo||o.v==="open"||o.v==="unsure"||o.v==="egal") continue;
+        if(CAT.products.some(function(p){return matches(p,applyAns(id,o,a));})) return true;
+        if(optState(id,o,a,false).swap) return true;
+      }
+      return false;
+    }
+    /* single-select is forced, so it must offer a GENUINE choice: >=2 options that lead to
+       DIFFERENT result sets. Sets are compared by matching product id (not series), so a variant/
+       price change still counts (e.g. BUS Taster 1/2/3 → different Maxior pages). If every reachable
+       option yields the identical set, the question can't change the recommendation → skip it.
+       (Steps whose choice defers to a conditional sub-step — e.g. colour "Weitere Farben" → use a
+       custom `disc` instead, since the bucket hides the sub-step's finer split.) A dead option with
+       a "wechseln?" redirect (BUS upsell) still keeps the step visible. */
+    var sigs={};
     for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
       if(o.media&&o.media!==a.media) continue;
       if(o.solo||o.v==="open"||o.v==="unsure"||o.v==="egal") continue; /* pass-through / "weiß nicht" options aren't real discriminators */
-      if(CAT.products.some(function(p){return matches(p,applyAns(id,o,a));})){ if(++avail>=need) return true; }
+      var ms=CAT.products.filter(function(p){return matches(p,applyAns(id,o,a));});
+      if(ms.length){ sigs[ms.map(function(p){return p.id;}).sort().join(",")]=1; if(Object.keys(sigs).length>=2) return true; }
       else if(optState(id,o,a,false).swap) return true; /* a dead option that offers a "wechseln?" redirect is worth showing */
     }
-    return false; /* not enough reachable options and no redirect → the question can't change anything */
+    return false; /* fewer than 2 distinct outcomes and no redirect → the question can't change anything */
   }
   /* A step is shown if allowed (vis) AND (already answered OR still discriminating). Keeping
      answered steps means a later answer can't retroactively hide an earlier one and jump the
@@ -1590,7 +1615,7 @@
     var sub=document.querySelector(".advisor__bar-sub"); if(sub)sub.textContent=CAT.barSub;
   }
   function setCat(key){
-    CAT=CATS[key]||CATS.sprechanlage; TOTAL=CAT.products.length;
+    CAT=CATS[key]||CATS.sprechanlage; TOTAL=liveCount({});
     state={a:{},id:null,edit:false}; lead={email:"",news:false};
     root.classList.remove("is-open","is-result"); resEl.hidden=true; resEl.innerHTML=""; quizEl.innerHTML="";
     root.querySelector(".advisor__bar").setAttribute("aria-expanded","false");
