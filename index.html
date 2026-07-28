@@ -1465,7 +1465,7 @@
     var isLast=pos===total-1;
     var canNext = multi ? true : (st.req ? cur!=null : true);
     var lc=liveCount(av);
-    var flash=(id===CAT.flashStep)?state.flash:""; if(id===CAT.flashStep) state.flash=null;
+    var flash=""; state.flash=null;
     quizEl.innerHTML=''
       +'<div class="advisor__step">'
       +'<div class="advisor__progress"><span class="advisor__progress-dots">'+dots+'</span>'
