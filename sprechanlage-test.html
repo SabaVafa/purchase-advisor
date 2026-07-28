@@ -26,7 +26,7 @@
 .advisor{padding-block:var(--sp-4)}
   .advisor__bar{
     width:100%;display:flex;align-items:center;gap:var(--sp-4);text-align:left;
-    padding:var(--sp-5) var(--sp-6);border:1px solid var(--teal-10);border-radius:var(--r-l);
+    padding:var(--sp-5) clamp(20px,2.4vw,28px);border:1px solid var(--teal-10);border-radius:var(--r-l);
     background:linear-gradient(135deg,var(--teal-5) 0%,#EDF3F3 100%);
     box-shadow:inset 0 0 0 1px var(--teal-10);transition:border-color .2s,box-shadow .2s}
   .advisor__bar:hover{border-color:rgba(1,82,83,0.25);box-shadow:var(--shadow-md)}
@@ -87,7 +87,7 @@
   }
   .advisor__opt{
     display:flex;flex-flow:column nowrap;align-items:flex-start;gap:3px;text-align:left;
-    padding:12px 14px;border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white);
+    padding:var(--sp-3) var(--sp-4);border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white);
     transition:border-color .15s,background .15s,box-shadow .15s}
   @media (hover:hover){.advisor__opt:hover{border-color:var(--teal)}}
   .advisor__opt:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal)}
@@ -110,7 +110,7 @@
   /* Shiny gloss: bright top-left sheen fading to a soft lower shadow — reads as a polished tile */
   .advisor__swatch::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
     background:linear-gradient(155deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.16) 22%,rgba(255,255,255,0) 46%,rgba(0,0,0,.07) 100%)}
-  .advisor__hint{margin:-4px 0 var(--sp-4);padding:9px 12px;font-size:var(--text-body-sm);color:var(--ink-60);
+  .advisor__hint{margin:-4px 0 var(--sp-4);padding:var(--sp-2) var(--sp-3);font-size:var(--text-body-sm);color:var(--ink-60);
     background:var(--teal-5);border-left:3px solid var(--teal);border-radius:6px;max-width:72ch;line-height:1.45}
   .advisor__hint.advisor__flash{color:var(--status-warning);background:transparent;border-left-color:var(--status-warning)}
 
@@ -126,6 +126,8 @@
   .advisor__forward[disabled]{opacity:.4;cursor:not-allowed}
   .advisor__back svg,.advisor__forward svg{width:1.3em;height:1.3em;flex:0 0 auto}
   .advisor__count{margin:0;flex:1 0 100%;font-size:var(--text-body-sm);color:var(--ink-60)}
+  /* First step (no Zurück): count rides up onto the Weiter row, left-aligned */
+  .advisor__nav-left:empty ~ .advisor__count{flex:0 1 auto;order:-1}
   .advisor__count b{color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums}
   .advisor__count.is-none{color:var(--status-warning)} .advisor__count.is-none b{color:var(--status-warning)}
   .advisor__back svg{transform:rotate(180deg)}
@@ -141,7 +143,7 @@
   .advisor__rec{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
     border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s}
   .advisor__rec:hover{border-color:var(--teal);box-shadow:var(--shadow-md)}
-  .advisor__rec.is-best{border-color:var(--teal)}
+  .advisor__rec.is-best{border-color:var(--graphite-300)}
   /* single-match spotlight: one lone card would stretch full-width and look broken */
   .advisor__recs--solo{display:block}
   .advisor__rec--solo{max-width:760px}
@@ -170,7 +172,7 @@
   .advisor__rec-features li::before{content:"";position:absolute;left:6px;top:3px;width:6px;height:11px;
     border:solid var(--teal);border-width:0 2px 2px 0;transform:rotate(45deg)}
   .advisor__rec-go{display:inline-flex;align-items:center;gap:5px;margin-top:auto;font-size:var(--text-body-sm);font-weight:600;color:var(--teal)}
-  .advisor__rec-chev{flex:0 0 auto;align-self:center;margin-left:auto;display:inline-flex;color:var(--teal)}
+  .advisor__rec-chev{flex:0 0 auto;align-self:center;margin-left:auto;display:inline-flex;color:var(--schwarz)}
   .advisor__rec-chev svg{width:34px;height:34px}
   /* Solo recommendation: chevron vertically centered on the card's right edge */
   .advisor__rec--solo{position:relative}
@@ -191,11 +193,11 @@
 
   /* support */
   .advisor__support{display:flex;flex-wrap:wrap;gap:var(--sp-3);align-items:center;justify-content:space-between;
-    margin-top:var(--sp-2);padding:16px 18px;border-radius:var(--r-l);background:var(--teal-5);border:1px solid var(--graphite-300);color:var(--schwarz)}
+    margin-top:var(--sp-2);padding:var(--sp-4) var(--sp-5);border-radius:var(--r-l);background:var(--teal-5);border:1px solid var(--graphite-300);color:var(--schwarz)}
   .advisor__support .st{font-weight:700;font-size:var(--text-body)}
   .advisor__support .ss{font-size:var(--text-body-sm);color:var(--ink-60);margin-top:1px}
   .advisor__support-btns{display:flex;gap:8px;flex-wrap:wrap}
-  .advisor__support a{display:inline-flex;align-items:center;height:2.5rem;padding:0 14px;border-radius:var(--r-m);
+  .advisor__support a{display:inline-flex;align-items:center;height:2.625rem;padding:0 var(--sp-4);border-radius:var(--r-m);
     font-size:var(--text-body-sm);font-weight:600;text-decoration:none;border:1px solid var(--teal);color:var(--teal);background:none}
   .advisor__support a.solid{background:var(--teal);color:#fff;border-color:var(--teal)}
 
@@ -205,7 +207,7 @@
   .advisor__capture-row{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;gap:var(--sp-4)}
   .advisor__capture-row .advisor__field,.advisor__capture-row .advisor__optin,.advisor__capture-row .advisor__send{min-height:3rem}
   .advisor__capture-row>.advisor__field{min-width:0}
-  .advisor__field{display:flex;align-items:center;gap:var(--sp-3);padding:0 .9375rem;background:var(--white);border:1px solid var(--graphite-300);border-radius:var(--r-m);transition:border-color .15s ease}
+  .advisor__field{display:flex;align-items:center;gap:var(--sp-3);padding:0 var(--sp-4);background:var(--white);border:1px solid var(--graphite-300);border-radius:var(--r-m);transition:border-color .15s ease}
   .advisor__field:focus-within{border-color:var(--teal)}
   .advisor__field-ico{width:20px;height:20px;flex:0 0 auto}
   .advisor__field-ico--mail{fill:none;stroke:var(--teal);stroke-width:1.8}
@@ -224,6 +226,15 @@
   .advisor__optin input:focus-visible + .advisor__optin-box{box-shadow:0 0 0 3px var(--teal)}
   .advisor__send{flex:0 0 auto;align-self:stretch;display:grid;place-items:center;width:48px;border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;cursor:pointer;transition:background .15s ease}
   .advisor__send:hover{background:var(--teal-600)}
+  /* Touch devices (no real hover): neutralize sticky :hover so nothing looks selected/hovered after tapping through */
+  @media (hover:none){
+    .advisor__rec:hover{border-color:var(--graphite-300);box-shadow:none}
+    .advisor__bar:hover{border-color:var(--teal-10);box-shadow:inset 0 0 0 1px var(--teal-10)}
+    button.advisor__chip:hover{border-color:var(--teal-10);box-shadow:none}
+    .advisor__view:hover,.advisor__forward--cta:hover,.advisor__send:hover{background:var(--teal)}
+    .advisor__collapse:hover,.advisor__forward:hover,.advisor__reset:hover{color:var(--teal)}
+    .advisor__back:hover{color:var(--ink-60)}
+  }
   .advisor__send svg{width:20px;height:20px}
   .advisor__send-label{display:none}
   .advisor__optin-info{display:none;align-items:flex-start;gap:8px;margin:0;padding:10px 14px;border-radius:var(--r-m);background:#E6F1FB;color:#185FA5;font-size:var(--text-body-sm);line-height:1.5}
@@ -2182,6 +2193,7 @@
   }
 
   function renderStep(id){
+    var __ph=cardH();
     root.classList.remove("is-result"); resEl.hidden=true;
     state.id=id;
     var st=ST(id),a=state.a,vs=visibleSteps(a),pos=vs.indexOf(id),total=vs.length;
@@ -2235,6 +2247,7 @@
     wireStep(id);
     var stepEl=quizEl.querySelector(".advisor__step");
     requestAnimationFrame(function(){ stepEl.classList.add("is-in"); });
+    animateCardHeight(__ph);
   }
 
   function wireStep(id){
@@ -2268,7 +2281,24 @@
     if(pos<0||pos+1>=vs.length) renderResult(); else goTo(vs[pos+1]);
   }
   function goBack(id){ var vs=visibleSteps(state.a),pos=vs.indexOf(id); if(pos<=0){/*back to bar*/ collapse();} else goTo(vs[pos-1]); }
-  function goTo(id){ state.id=id; renderStep(id); }
+  function advisorCard(){ return root.querySelector('.advisor__card'); }
+  function cardH(){ var c=advisorCard(); return (c && root.classList.contains('is-open')) ? c.offsetHeight : 0; }
+  /* Smoothly animate the card between short/tall steps (measure -> set -> transition to new height) */
+  function animateCardHeight(prevH){
+    var c=advisorCard(); if(!c || !prevH) return;
+    var endH=c.offsetHeight; if(prevH===endH) return;
+    c.style.overflow='hidden'; c.style.height=prevH+'px'; c.getBoundingClientRect();
+    c.style.transition='height .32s cubic-bezier(.4,0,.2,1)'; c.style.height=endH+'px';
+    var done=function(e){ if(e && e.propertyName && e.propertyName!=='height') return; c.style.height=''; c.style.transition=''; c.style.overflow=''; c.removeEventListener('transitionend',done); };
+    c.addEventListener('transitionend',done); setTimeout(done,420);
+  }
+  /* Keep the question in view on step change so users never land stranded at the bottom of the box */
+  function focusAdvisor(){
+    var c=advisorCard(); if(!c) return;
+    var offset=80, top=c.getBoundingClientRect().top;
+    if(Math.abs(top-offset)>10){ window.scrollTo({top:Math.max(0,top+window.pageYOffset-offset),behavior:'smooth'}); }
+  }
+  function goTo(id){ state.id=id; renderStep(id); focusAdvisor(); }
   function collapse(){ root.classList.remove("is-open"); root.querySelector(".advisor__bar").setAttribute("aria-expanded","false"); }
 
   /* ---------- result ---------- */
@@ -2298,6 +2328,7 @@
     +'</a>';
   }
   function renderResult(){
+    var __ph=cardH();
     state.id="__result__"; state.edit=false;
     var a=state.a,list=CAT.products.filter(function(p){return matches(p,a);});
     list.sort(function(x,y){var d=score(y,a)-score(x,a);return d!==0?d:x.price-y.price;});
@@ -2333,6 +2364,7 @@
     root.classList.add("is-result"); resEl.hidden=false;
     wireResult();
     var r=resEl.querySelector(".advisor__result"); requestAnimationFrame(function(){ r.classList.add("is-in"); });
+    animateCardHeight(__ph); focusAdvisor();
   }
   function wireResult(){
     var rs=resEl.querySelector("[data-reset]"); if(rs) rs.addEventListener("click",function(){ state.a={}; state.id=null; state.edit=false; root.classList.remove("is-result"); resEl.hidden=true; goTo(visibleSteps(state.a)[0]); });
