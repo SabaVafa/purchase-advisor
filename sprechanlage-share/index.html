@@ -141,7 +141,7 @@
   .advisor__rec{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
     border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s}
   .advisor__rec:hover{border-color:var(--teal);box-shadow:var(--shadow-md)}
-  .advisor__rec.is-best{border-color:var(--teal)}
+  .advisor__rec.is-best{border-color:var(--graphite-300)}
   /* single-match spotlight: one lone card would stretch full-width and look broken */
   .advisor__recs--solo{display:block}
   .advisor__rec--solo{max-width:760px}
@@ -227,7 +227,6 @@
   /* Touch devices (no real hover): neutralize sticky :hover so nothing looks selected/hovered after tapping through */
   @media (hover:none){
     .advisor__rec:hover{border-color:var(--graphite-300);box-shadow:none}
-    .advisor__rec.is-best:hover{border-color:var(--teal)}
     .advisor__bar:hover{border-color:var(--teal-10);box-shadow:inset 0 0 0 1px var(--teal-10)}
     button.advisor__chip:hover{border-color:var(--teal-10);box-shadow:none}
     .advisor__view:hover,.advisor__forward--cta:hover,.advisor__send:hover{background:var(--teal)}
