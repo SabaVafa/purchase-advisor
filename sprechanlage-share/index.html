@@ -224,6 +224,16 @@
   .advisor__optin input:focus-visible + .advisor__optin-box{box-shadow:0 0 0 3px var(--teal)}
   .advisor__send{flex:0 0 auto;align-self:stretch;display:grid;place-items:center;width:48px;border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;cursor:pointer;transition:background .15s ease}
   .advisor__send:hover{background:var(--teal-600)}
+  /* Touch devices (no real hover): neutralize sticky :hover so nothing looks selected/hovered after tapping through */
+  @media (hover:none){
+    .advisor__rec:hover{border-color:var(--graphite-300);box-shadow:none}
+    .advisor__rec.is-best:hover{border-color:var(--teal)}
+    .advisor__bar:hover{border-color:var(--teal-10);box-shadow:inset 0 0 0 1px var(--teal-10)}
+    button.advisor__chip:hover{border-color:var(--teal-10);box-shadow:none}
+    .advisor__view:hover,.advisor__forward--cta:hover,.advisor__send:hover{background:var(--teal)}
+    .advisor__collapse:hover,.advisor__forward:hover,.advisor__reset:hover{color:var(--teal)}
+    .advisor__back:hover{color:var(--ink-60)}
+  }
   .advisor__send svg{width:20px;height:20px}
   .advisor__send-label{display:none}
   .advisor__optin-info{display:none;align-items:flex-start;gap:8px;margin:0;padding:10px 14px;border-radius:var(--r-m);background:#E6F1FB;color:#185FA5;font-size:var(--text-body-sm);line-height:1.5}
@@ -2182,6 +2192,7 @@
   }
 
   function renderStep(id){
+    var __ph=cardH();
     root.classList.remove("is-result"); resEl.hidden=true;
     state.id=id;
     var st=ST(id),a=state.a,vs=visibleSteps(a),pos=vs.indexOf(id),total=vs.length;
@@ -2235,6 +2246,7 @@
     wireStep(id);
     var stepEl=quizEl.querySelector(".advisor__step");
     requestAnimationFrame(function(){ stepEl.classList.add("is-in"); });
+    animateCardHeight(__ph);
   }
 
   function wireStep(id){
@@ -2268,7 +2280,24 @@
     if(pos<0||pos+1>=vs.length) renderResult(); else goTo(vs[pos+1]);
   }
   function goBack(id){ var vs=visibleSteps(state.a),pos=vs.indexOf(id); if(pos<=0){/*back to bar*/ collapse();} else goTo(vs[pos-1]); }
-  function goTo(id){ state.id=id; renderStep(id); }
+  function advisorCard(){ return root.querySelector('.advisor__card'); }
+  function cardH(){ var c=advisorCard(); return (c && root.classList.contains('is-open')) ? c.offsetHeight : 0; }
+  /* Smoothly animate the card between short/tall steps (measure -> set -> transition to new height) */
+  function animateCardHeight(prevH){
+    var c=advisorCard(); if(!c || !prevH) return;
+    var endH=c.offsetHeight; if(prevH===endH) return;
+    c.style.overflow='hidden'; c.style.height=prevH+'px'; c.getBoundingClientRect();
+    c.style.transition='height .32s cubic-bezier(.4,0,.2,1)'; c.style.height=endH+'px';
+    var done=function(e){ if(e && e.propertyName && e.propertyName!=='height') return; c.style.height=''; c.style.transition=''; c.style.overflow=''; c.removeEventListener('transitionend',done); };
+    c.addEventListener('transitionend',done); setTimeout(done,420);
+  }
+  /* Keep the question in view on step change so users never land stranded at the bottom of the box */
+  function focusAdvisor(){
+    var c=advisorCard(); if(!c) return;
+    var offset=80, top=c.getBoundingClientRect().top;
+    if(Math.abs(top-offset)>10){ window.scrollTo({top:Math.max(0,top+window.pageYOffset-offset),behavior:'smooth'}); }
+  }
+  function goTo(id){ state.id=id; renderStep(id); focusAdvisor(); }
   function collapse(){ root.classList.remove("is-open"); root.querySelector(".advisor__bar").setAttribute("aria-expanded","false"); }
 
   /* ---------- result ---------- */
@@ -2298,6 +2327,7 @@
     +'</a>';
   }
   function renderResult(){
+    var __ph=cardH();
     state.id="__result__"; state.edit=false;
     var a=state.a,list=CAT.products.filter(function(p){return matches(p,a);});
     list.sort(function(x,y){var d=score(y,a)-score(x,a);return d!==0?d:x.price-y.price;});
@@ -2333,6 +2363,7 @@
     root.classList.add("is-result"); resEl.hidden=false;
     wireResult();
     var r=resEl.querySelector(".advisor__result"); requestAnimationFrame(function(){ r.classList.add("is-in"); });
+    animateCardHeight(__ph); focusAdvisor();
   }
   function wireResult(){
     var rs=resEl.querySelector("[data-reset]"); if(rs) rs.addEventListener("click",function(){ state.a={}; state.id=null; state.edit=false; root.classList.remove("is-result"); resEl.hidden=true; goTo(visibleSteps(state.a)[0]); });
