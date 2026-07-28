@@ -85,8 +85,8 @@
   button.advisor__chip:hover .advisor__chip-edit,button.advisor__chip:focus-visible .advisor__chip-edit{opacity:1}
 
   /* Progress */
-  .advisor__progress{display:flex;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-4)}
-  .advisor__progress-dots{display:inline-flex;gap:6px}
+  .advisor__progress{display:flex;align-items:center;flex-wrap:wrap;gap:6px var(--sp-3);margin-bottom:var(--sp-4)}
+  .advisor__progress-dots{display:inline-flex;flex-wrap:wrap;gap:6px}
   .advisor__progress-dots span{width:26px;height:3px;border-radius:var(--r-pill);background:var(--graphite-300);transition:background .3s ease}
   .advisor__progress-dots span.is-done,.advisor__progress-dots span.is-current{background:var(--teal)}
   .advisor__progress-dots span.is-current{opacity:.55}
@@ -99,8 +99,8 @@
   .advisor__q .en{display:block;font-size:var(--text-body-sm);font-weight:400;font-style:italic;color:var(--ink-60);margin-top:3px}
   .advisor__help{margin:-8px 0 var(--sp-4);font-size:var(--text-body-sm);color:var(--ink-60);max-width:60ch}
 
-  .advisor__opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--sp-3)}
-  .advisor__opts--swatch{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .advisor__opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr));gap:var(--sp-3)}
+  .advisor__opts--swatch{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
   .advisor__opt{
     display:flex;flex-flow:column nowrap;align-items:flex-start;gap:3px;text-align:left;
     padding:12px 14px;border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white);
@@ -152,7 +152,7 @@
     transition:opacity .4s ease,transform .4s ease}
   .advisor__result.is-in{opacity:1;transform:none}
   .advisor__result-title{margin:0;font-size:var(--text-h4);font-weight:700;color:var(--schwarz)}
-  .advisor__recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-4);align-items:stretch}
+  .advisor__recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:var(--sp-4);align-items:stretch}
   .advisor__rec{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
     border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s}
   .advisor__rec:hover{border-color:var(--teal);box-shadow:var(--shadow-md)}
