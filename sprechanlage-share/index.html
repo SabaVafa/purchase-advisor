@@ -80,6 +80,12 @@
 
   .advisor__opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr));gap:var(--sp-3)}
   .advisor__opts--swatch{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+  /* Mobile: fixed 2-col options; a trailing odd (lone) option spans the full width */
+  @media (max-width:560px){
+    .advisor__opts{grid-template-columns:1fr 1fr}
+    .advisor__opts--swatch{grid-template-columns:1fr}
+    .advisor__opts:not(.advisor__opts--swatch)>.advisor__opt:last-child:nth-child(odd){grid-column:1 / -1}
+  }
   .advisor__opt{
     display:flex;flex-flow:column nowrap;align-items:flex-start;gap:3px;text-align:left;
     padding:12px 14px;border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white);
