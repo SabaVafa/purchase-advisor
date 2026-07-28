@@ -24,10 +24,13 @@ Live preview (GitHub Pages): <https://sabavafa.github.io/purchase-advisor/>
 
 ## Mobile / PLP preview
 
-During development the advisor was previewed inside a snapshot of the real Türsprechanlagen
-category page (the PLP prototype) for on-phone layout testing. That throwaway harness
-(`sprechanlage-share/`, `sprechanlage-test.html`, `sprechanlage.js`) has been removed to keep
-the repo lean — regenerate it from the PLP prototype repo if you need it again.
+- **`sprechanlage-share/`** — a **self-contained** snapshot of the real Türsprechanlagen category
+  page (PLP) with the advisor embedded and every asset vendored. Deployed to GitHub Pages at
+  <https://sabavafa.github.io/purchase-advisor/sprechanlage-share/> for on-phone layout testing.
+  A throwaway harness — regenerate it rather than hand-maintaining it.
+
+> The earlier local-only variants (`sprechanlage-test.html` + `sprechanlage.js`, which needed
+> sibling `../PLP` and `../Home` folders) were removed as non-portable.
 
 ## Deploy
 
