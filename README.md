@@ -22,21 +22,12 @@ Live preview (GitHub Pages): <https://sabavafa.github.io/purchase-advisor/>
 | `Kaufbrater Images/` | Thumbnails the advisor references for cross-category recommendations. |
 | `*.md` playbooks | Internal working docs — `ADVISOR-PLAYBOOK.md` is the canonical ruleset. Git-ignored, kept local. |
 
-## Mobile layout test harness (NOT production)
+## Mobile / PLP preview
 
-To preview the advisor **inside the real Türsprechanlagen category page (PLP)** on a phone:
-
-- **`sprechanlage-share/`** — a **self-contained** snapshot of the PLP with the advisor embedded
-  and every asset vendored. Deployed to GitHub Pages at
-  <https://sabavafa.github.io/purchase-advisor/sprechanlage-share/>. This is a throwaway test
-  harness — regenerate it rather than hand-maintaining it.
-- **`sprechanlage-test.html`** + **`sprechanlage.js`** — the same integration, but it references
-  the PLP prototype and shared assets as **sibling folders** (`../PLP`, `../Home`) checked out
-  next to this repo. Only renders in that local layout; **not portable** and broken on Pages.
-
-> ⚠️ The advisor markup/CSS/JS currently lives in **three copies**: `index.html`,
-> `sprechanlage-test.html`, and `sprechanlage-share/index.html`. `index.html` is the source of
-> truth — apply advisor changes there and regenerate the two test copies.
+During development the advisor was previewed inside a snapshot of the real Türsprechanlagen
+category page (the PLP prototype) for on-phone layout testing. That throwaway harness
+(`sprechanlage-share/`, `sprechanlage-test.html`, `sprechanlage.js`) has been removed to keep
+the repo lean — regenerate it from the PLP prototype repo if you need it again.
 
 ## Deploy
 
