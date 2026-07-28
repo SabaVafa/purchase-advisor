@@ -51,7 +51,7 @@
     background:linear-gradient(135deg,var(--teal-5) 0%,#EDF3F3 100%);
     box-shadow:inset 0 0 0 1px var(--teal-10);transition:border-color .2s,box-shadow .2s}
   .advisor__bar:hover{border-color:rgba(1,82,83,0.25);box-shadow:var(--shadow-md)}
-  .advisor__bar:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__bar:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal)}
   .advisor__bar-txt{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0}
   .advisor__bar-head{display:flex;align-items:center;gap:var(--sp-3)}
   .advisor__bar-title{font-size:var(--text-body);font-weight:700;color:var(--schwarz);line-height:1.3}
@@ -70,7 +70,7 @@
   .advisor__collapse{position:absolute;top:14px;right:14px;width:32px;height:32px;display:grid;place-items:center;
     background:none;border:0;color:var(--teal);border-radius:var(--r-m)}
   .advisor__collapse:hover{color:var(--teal-700)}
-  .advisor__collapse:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__collapse:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal)}
   .advisor__collapse svg{width:24px;height:24px;transform:rotate(-90deg)}
 
   /* Chips (PILL RULE: text-only, Teal-100 fill on the teal card, Teal-700 label, no icon) */
@@ -79,7 +79,7 @@
     border:1px solid var(--teal-10);border-radius:var(--r-pill);padding:4px 11px;line-height:1.3}
   button.advisor__chip{cursor:pointer;transition:box-shadow .15s,border-color .15s}
   button.advisor__chip:hover{border-color:var(--teal);box-shadow:0 0 0 2px var(--teal-10)}
-  button.advisor__chip:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal-10)}
+  button.advisor__chip:focus-visible{outline:none;box-shadow:0 0 0 3px var(--teal)}
   .advisor__chip small{font-weight:400;color:var(--teal-700);opacity:.7;margin-right:5px}
   .advisor__chip-edit{width:13px;height:13px;margin-left:6px;flex:none;opacity:.75;transition:opacity .15s}
   button.advisor__chip:hover .advisor__chip-edit,button.advisor__chip:focus-visible .advisor__chip-edit{opacity:1}
@@ -106,7 +106,7 @@
     padding:12px 14px;border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white);
     transition:border-color .15s,background .15s,box-shadow .15s}
   .advisor__opt:hover{border-color:var(--teal)}
-  .advisor__opt:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__opt:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal)}
   .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5)}
   .advisor__opt-label{font-size:var(--text-body-sm);font-weight:500;color:var(--schwarz)}
   .advisor__opt-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4}
@@ -115,7 +115,7 @@
   .advisor__opt.is-off .advisor__opt-label{color:var(--ink-60)}
   .advisor__opt-note{font-size:var(--text-body-sm);color:var(--status-warning);line-height:1.4}
   .advisor__opt-switch{color:var(--teal);font-weight:600;text-decoration:underline;cursor:pointer}
-  .advisor__opt-count{font-size:12px;color:#6A6A6A;font-weight:600;font-variant-numeric:tabular-nums;margin-top:auto;padding-top:6px}
+  .advisor__opt-count{font-size:var(--text-caption);color:#6A6A6A;font-weight:600;font-variant-numeric:tabular-nums;margin-top:auto;padding-top:6px}
   .advisor__opt.has-swatch{flex-direction:row;align-items:flex-start;gap:14px;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
   .advisor__opt.has-swatch:hover{transform:translateY(-2px);box-shadow:0 6px 14px -8px rgba(0,0,0,.18)}
   .advisor__opt.has-swatch .advisor__opt-body{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
@@ -232,7 +232,7 @@
   .advisor__optin-box{flex:0 0 auto;width:1.125rem;height:1.125rem;border-radius:.1875rem;border:1px solid var(--graphite-300);background:var(--white);display:grid;place-items:center;transition:background .12s ease,border-color .12s ease}
   .advisor__optin.is-on .advisor__optin-box{background:var(--teal);border-color:var(--teal)}
   .advisor__optin.is-on .advisor__optin-box::after{content:"";width:.34rem;height:.6rem;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
-  .advisor__optin input:focus-visible + .advisor__optin-box{box-shadow:0 0 0 3px var(--teal-10)}
+  .advisor__optin input:focus-visible + .advisor__optin-box{box-shadow:0 0 0 3px var(--teal)}
   .advisor__send{flex:0 0 auto;align-self:stretch;display:grid;place-items:center;width:48px;border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;cursor:pointer;transition:background .15s ease}
   .advisor__send:hover{background:var(--teal-600)}
   .advisor__send svg{width:20px;height:20px}
@@ -265,8 +265,10 @@
     .advisor__bar{flex-direction:column;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-4)}
     .advisor__bar-cta{margin-left:0;align-self:flex-end}
     .advisor__support{flex-direction:column;align-items:flex-start}
+    .advisor__actions{justify-content:flex-end}
   }
-  @media (prefers-reduced-motion:reduce){.advisor__step,.advisor__result{transition:none}}
+  @media (prefers-reduced-motion:reduce){.advisor__step,.advisor__result{transition:none}
+    .advisor__opt,.advisor__opt.has-swatch:hover{transition:none;transform:none} .advisor__progress-dots span{transition:none}}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol></svg>
@@ -387,7 +389,7 @@
       {v:"digital",ol:"Digitales Namensschild",od:"editierbar (SDM10 / Horizon)"}]},
     farbe:{q:"Welche Farbe oder Oberfläche?",help:"Die gängigsten Farben – weitere Farben und Wunschfarbe im nächsten Schritt.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
-      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#c9ccc6"},
+      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
       {v:"andere",ol:"Weitere Farben",od:"Grau, Bronze & Wunschfarbe",sw:"linear-gradient(120deg,#8d9092 0 34%,#4a4e50 34% 67%,#b58f52 67% 100%)"}]},
