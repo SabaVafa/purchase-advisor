@@ -85,6 +85,8 @@
     .advisor__opts{grid-template-columns:1fr 1fr}
     .advisor__opts--swatch{grid-template-columns:1fr}
     .advisor__opts:not(.advisor__opts--swatch)>.advisor__opt:last-child:nth-child(odd){grid-column:1 / -1;align-items:center;text-align:center}
+    .advisor__support-btns{width:100%}
+    .advisor__support-btns a{flex:1 1 100%;justify-content:center}
   }
   .advisor__opt{
     display:flex;flex-flow:column nowrap;align-items:flex-start;gap:3px;text-align:left;
@@ -126,7 +128,7 @@
   .advisor__forward--cta:hover{background:var(--teal-600);color:#fff}
   .advisor__forward[disabled]{opacity:.4;cursor:not-allowed}
   .advisor__back svg,.advisor__forward svg{width:1.3em;height:1.3em;flex:0 0 auto}
-  .advisor__count{margin:0;font-size:var(--text-body-sm);color:var(--ink-60)}
+  .advisor__count{margin:0;flex:1 0 100%;font-size:var(--text-body-sm);color:var(--ink-60)}
   .advisor__count b{color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums}
   .advisor__count.is-none{color:var(--status-warning)} .advisor__count.is-none b{color:var(--status-warning)}
   .advisor__back svg{transform:rotate(180deg)}
@@ -176,7 +178,7 @@
   .advisor__rec-go svg{width:18px;height:18px}
 
   /* Summary + actions */
-  .advisor__summary{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .advisor__summary{display:flex;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:8px}
   .advisor__summary-hint{width:100%;font-size:var(--text-caption);color:var(--ink-60);margin:2px 0 0}
   .advisor__actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-4);margin-top:var(--sp-2)}
   .advisor__view{display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;padding:.7rem 1.2rem;
@@ -2224,9 +2226,9 @@
       +'<div class="advisor__nav">'
         +'<div class="advisor__nav-left">'
           +(pos>0?'<button type="button" class="advisor__back" data-back>'+CHEV+'Zurück</button>':'')
-          +'<span class="advisor__count'+(lc===0?' is-none':'')+'">'+(lc===0?'Diese Kombination ergibt derzeit <b>kein</b> passendes Modell – passen Sie eine Angabe an.':'Aktuell passen <b>'+lc+'</b> von '+TOTAL+' Modellen zu Ihrer Auswahl.')+'</span>'
         +'</div>'
         +'<button type="button" class="advisor__forward'+(isLast?' advisor__forward--cta':'')+'" data-next'+(canNext?'':' disabled')+'>'+(isLast?'Empfehlung anzeigen':'Weiter')+CHEV+'</button>'
+        +'<span class="advisor__count'+(lc===0?' is-none':'')+'">'+(lc===0?'Diese Kombination ergibt derzeit <b>kein</b> passendes Modell – passen Sie eine Angabe an.':'Aktuell passen <b>'+lc+'</b> von '+TOTAL+' Modellen zu Ihrer Auswahl.')+'</span>'
       +'</div>'
       +'</div>';
     wireStep(id);
