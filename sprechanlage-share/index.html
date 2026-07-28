@@ -201,6 +201,23 @@
     font-size:var(--text-body-sm);font-weight:600;text-decoration:none;border:1px solid var(--teal);color:var(--teal);background:none}
   .advisor__support a.solid{background:var(--teal);color:#fff;border-color:var(--teal)}
 
+  /* Collapsible "more" section (e-mail capture + support): a dropdown on mobile, always open on desktop */
+  .advisor__more{margin-top:var(--sp-2)}
+  .advisor__more-summary{display:flex;align-items:center;gap:var(--sp-3);cursor:pointer;list-style:none;
+    font-size:var(--text-body-sm);font-weight:700;color:var(--schwarz);
+    padding:var(--sp-3) var(--sp-4);border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white)}
+  .advisor__more-summary::-webkit-details-marker{display:none}
+  .advisor__more-summary::marker{content:""}
+  .advisor__more-chev{width:20px;height:20px;margin-left:auto;flex:none;color:var(--teal);transition:transform .2s ease}
+  .advisor__more[open] .advisor__more-chev{transform:rotate(90deg)}
+  .advisor__more[open] .advisor__more-summary{margin-bottom:var(--sp-4);border-color:var(--teal-10)}
+  @media (min-width:561px){
+    .advisor__more{margin-top:0;display:flex;flex-direction:column;gap:var(--sp-4)}
+    .advisor__more>summary{display:none}
+    .advisor__more .advisor__capture{display:flex!important}
+    .advisor__more .advisor__support{display:flex!important}
+  }
+
   /* e-mail capture (result screen) */
   .advisor__capture{display:flex;flex-direction:column;gap:var(--sp-3);margin-top:var(--sp-4);padding-top:var(--sp-4);border-top:1px solid var(--graphite-300)}
   .advisor__capture-q{margin:0;font-size:var(--text-body-sm);font-weight:700;color:var(--schwarz)}
@@ -2356,10 +2373,12 @@
         +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
         +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
       +'</div>'
+      +'<details class="advisor__more"><summary class="advisor__more-summary">Empfehlung per E-Mail &amp; Beratung<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></summary>'
       +captureHTML()
       +(sup?('<div class="advisor__support"><div><div class="st">'+esc(sup.title)+'</div><div class="ss">'+esc(sup.sub)+'</div></div>'
         +'<div class="advisor__support-btns"><a class="solid" href="'+sup.primaryHref+'" target="_blank" rel="noopener">'+esc(sup.primaryLabel)+'</a>'
         +'<a href="'+sup.secondaryHref+'" target="_blank" rel="noopener">'+esc(sup.secondaryLabel)+'</a></div></div>'):'')
+      +'</details>'
     +'</div>';
     root.classList.add("is-result"); resEl.hidden=false;
     wireResult();
