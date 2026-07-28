@@ -126,6 +126,8 @@
   .advisor__forward[disabled]{opacity:.4;cursor:not-allowed}
   .advisor__back svg,.advisor__forward svg{width:1.3em;height:1.3em;flex:0 0 auto}
   .advisor__count{margin:0;flex:1 0 100%;font-size:var(--text-body-sm);color:var(--ink-60)}
+  /* First step (no Zurück): count rides up onto the Weiter row, left-aligned */
+  .advisor__nav-left:empty ~ .advisor__count{flex:0 1 auto;order:-1}
   .advisor__count b{color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums}
   .advisor__count.is-none{color:var(--status-warning)} .advisor__count.is-none b{color:var(--status-warning)}
   .advisor__back svg{transform:rotate(180deg)}
@@ -170,7 +172,7 @@
   .advisor__rec-features li::before{content:"";position:absolute;left:6px;top:3px;width:6px;height:11px;
     border:solid var(--teal);border-width:0 2px 2px 0;transform:rotate(45deg)}
   .advisor__rec-go{display:inline-flex;align-items:center;gap:5px;margin-top:auto;font-size:var(--text-body-sm);font-weight:600;color:var(--teal)}
-  .advisor__rec-chev{flex:0 0 auto;align-self:center;margin-left:auto;display:inline-flex;color:var(--teal)}
+  .advisor__rec-chev{flex:0 0 auto;align-self:center;margin-left:auto;display:inline-flex;color:var(--schwarz)}
   .advisor__rec-chev svg{width:34px;height:34px}
   /* Solo recommendation: chevron vertically centered on the card's right edge */
   .advisor__rec--solo{position:relative}
