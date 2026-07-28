@@ -12,3 +12,9 @@ sprechanlagen-kaufberater.html
 
 # large category feed inputs for the feature-pills generator — kept locally
 feature-pills/feeds/
+
+# raw category "finder" feed exports — inputs to the build scripts, kept local
+Json Folder/
+
+# build artifacts
+*.zip
