@@ -13,7 +13,7 @@
     --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px;
     --r-m:4px; --r-l:8px; --r-pill:9999px;
     --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 12px 32px rgba(0,0,0,0.12);
-    --container:1440px;   /* matches the LIVE JTL .mw-container on edelstahl-tuerklingel.de: max-width 1440/1500/1600 + padding 20/50/100 across breakpoints (see .container below) */
+    --container:1380px;   /* matches the production PLP (docs/Home/styles-v2.css) .container: max-width 1380/1560/1760/2040 @ base/1440/1920/2560 (see .container below) */
   }
   *{box-sizing:border-box}
   /* Always reserve the vertical scrollbar gutter so the standalone preview's content width
@@ -21,11 +21,13 @@
   html{overflow-y:scroll}
   body{margin:0;background:var(--paper-white);color:var(--ink-72);font-family:var(--font-family);
     line-height:1.55;font-size:var(--text-body);-webkit-font-smoothing:antialiased}
-  /* Width parity with the live JTL .mw-container (mobile-first translation of its max-width media queries):
-     <=767 -> max 1440 / pad 20 ; 768-1400 -> max 1500 / pad 50 ; >1400 -> max 1600 / pad 100. */
-  .container{width:100%;max-width:var(--container);margin:0 auto;padding:24px 20px 72px}
-  @media (min-width:768px){:root{--container:1500px} .container{padding-left:50px;padding-right:50px}}
-  @media (min-width:1401px){:root{--container:1600px} .container{padding-left:100px;padding-right:100px}}
+  /* Width parity with the production PLP (docs/Home/styles-v2.css) .container:
+     max-width 1380/1560/1760/2040 and padding-inline clamp(24,4vw,56)/clamp(92,5vw,116)/clamp(92,5vw,140)
+     at base/1440/1920/2560 (mobile-first). Keeps the advisor's own top/bottom padding (24/72). */
+  .container{width:100%;max-width:var(--container);margin:0 auto;padding:24px clamp(24px,4vw,56px) 72px}
+  @media (min-width:1440px){:root{--container:1560px} .container{padding-inline:clamp(92px,5vw,116px)}}
+  @media (min-width:1920px){:root{--container:1760px} .container{padding-inline:clamp(92px,5vw,140px)}}
+  @media (min-width:2560px){:root{--container:2040px}}
   a{color:var(--teal)}
   button{font-family:inherit;cursor:pointer}
   h1,h2,h3{margin:0;color:var(--schwarz);line-height:1.3}
@@ -390,7 +392,7 @@
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Bronze & Wunschfarbe",sw:"linear-gradient(#8d9092,#8d9092) 0 0/34% 100% no-repeat,conic-gradient(from 140deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a) 50% 0/34% 100% no-repeat,linear-gradient(#b58f52,#b58f52) 100% 0/34% 100% no-repeat"}]},
+      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze & Wunschfarbe",sw:"linear-gradient(#8d9092,#8d9092) 0 0/50% 50% no-repeat,linear-gradient(#4a4d4e,#4a4d4e) 100% 0/50% 50% no-repeat,linear-gradient(#9a7b4f,#9a7b4f) 0 100%/50% 50% no-repeat,conic-gradient(from 210deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a) 100% 100%/50% 50% no-repeat"}]},
     farbeAndere:{q:"Welche Farbe genau?",help:"Weitere Farben & individuelle Wunschfarbe.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
