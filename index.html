@@ -103,8 +103,11 @@
 
   .advisor__opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr));gap:var(--sp-3)}
   .advisor__opts--swatch{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
-  /* Mobile: full-width, equal-width support buttons */
+  /* Mobile: 2-col options; a lone trailing (odd) option spans full width with looser text */
   @media (max-width:560px){
+    .advisor__opts{grid-template-columns:1fr 1fr}
+    .advisor__opts--swatch{grid-template-columns:1fr}
+    .advisor__opts:not(.advisor__opts--swatch)>.advisor__opt:last-child:nth-child(odd){grid-column:1 / -1;gap:8px;padding:var(--sp-4) var(--sp-5)}
     .advisor__support-btns{width:100%}
     .advisor__support-btns a{flex:1 1 100%;justify-content:center}
   }
