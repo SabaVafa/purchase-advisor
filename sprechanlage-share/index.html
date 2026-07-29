@@ -40,10 +40,10 @@
   .advisor__bar-cta svg{width:24px;height:24px;transform:rotate(90deg)}
 
   /* Smooth full-height expand/collapse of the whole box: bar row shrinks while the card row grows (grid 0fr↔1fr) */
-  .advisor__reveal-bar{display:grid;grid-template-rows:1fr;transition:grid-template-rows .3s cubic-bezier(.4,0,.2,1) .14s,opacity .14s ease}
+  .advisor__reveal-bar{display:grid;grid-template-rows:1fr;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1),opacity .24s ease}
   .advisor.is-open .advisor__reveal-bar{grid-template-rows:0fr;opacity:0;pointer-events:none}
   .advisor__reveal-bar>.advisor__bar{overflow:hidden;min-height:0}
-  .advisor__reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.4,0,.2,1) .14s}
+  .advisor__reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1)}
   .advisor.is-open .advisor__reveal{grid-template-rows:1fr}
   .advisor__reveal>.advisor__card{overflow:hidden;min-height:0}
 
