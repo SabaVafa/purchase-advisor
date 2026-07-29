@@ -1203,7 +1203,7 @@
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze & Wunschfarbe",sw:"radial-gradient(130% 100% at 26% 16%,rgba(255,255,255,.85),rgba(255,255,255,.28) 26%,rgba(255,255,255,0) 52%),conic-gradient(from 140deg,#9aa0a2,#4a4d4e,#a9854f,#c799bd,#8fb0d4,#9aa0a2)"}]},
+      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze & Wunschfarbe",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#9a7b4f,#b98db0,#8ba6c4,#8d9092)"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
