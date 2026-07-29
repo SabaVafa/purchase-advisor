@@ -69,7 +69,7 @@
   button.advisor__chip:hover .advisor__chip-edit,button.advisor__chip:focus-visible .advisor__chip-edit{opacity:1}
 
   /* Progress */
-  .advisor__progress{display:flex;align-items:center;flex-wrap:wrap;gap:6px var(--sp-3);margin-bottom:var(--sp-4)}
+  .advisor__progress{display:flex;align-items:center;flex-wrap:wrap;gap:6px var(--sp-3);margin-bottom:var(--sp-4);cursor:pointer}
   .advisor__progress-dots{display:inline-flex;flex-wrap:wrap;gap:6px}
   .advisor__progress-dots span{width:26px;height:3px;border-radius:var(--r-pill);background:var(--graphite-300);transition:background .3s ease}
   .advisor__progress-dots span.is-done,.advisor__progress-dots span.is-current{background:var(--teal)}
@@ -2301,6 +2301,7 @@
     });
     var nb=quizEl.querySelector("[data-next]"); if(nb) nb.addEventListener("click",function(){ if(!nb.hasAttribute("disabled")) advance(id); });
     var bb=quizEl.querySelector("[data-back]"); if(bb) bb.addEventListener("click",function(){ goBack(id); });
+    var pr=quizEl.querySelector(".advisor__progress"); if(pr) pr.addEventListener("click",collapse);
   }
 
   function advance(id){
