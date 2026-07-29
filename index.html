@@ -66,7 +66,7 @@
   .advisor__reveal-bar{display:grid;grid-template-rows:1fr;grid-template-columns:minmax(0,1fr);transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1),opacity .24s ease}
   .advisor.is-open .advisor__reveal-bar{grid-template-rows:0fr;opacity:0;pointer-events:none}
   .advisor__reveal-bar>.advisor__bar{overflow:hidden;min-height:0}
-  .advisor__reveal{display:grid;grid-template-rows:0fr;grid-template-columns:minmax(0,1fr);transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1)}
+  .advisor__reveal{display:grid;grid-template-rows:0fr;grid-template-columns:minmax(0,1fr);overflow:hidden;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1)}
   .advisor.is-open .advisor__reveal{grid-template-rows:1fr}
   .advisor__reveal>.advisor__card{overflow:hidden;min-height:0}
 
