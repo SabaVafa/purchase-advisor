@@ -229,19 +229,17 @@
 
   /* Collapsible "more" section (e-mail capture + support): a dropdown on mobile, always open on desktop */
   .advisor__more{margin-top:var(--sp-2)}
-  .advisor__more-summary{display:flex;align-items:center;gap:var(--sp-3);cursor:pointer;list-style:none;
-    font-size:var(--text-body-sm);font-weight:700;color:var(--schwarz);
+  .advisor__more-summary{display:flex;align-items:center;gap:var(--sp-3);width:100%;cursor:pointer;text-align:left;
+    font-family:inherit;font-size:var(--text-body-sm);font-weight:700;color:var(--schwarz);
     padding:var(--sp-3) var(--sp-4);border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white)}
-  .advisor__more-summary::-webkit-details-marker{display:none}
-  .advisor__more-summary::marker{content:""}
   .advisor__more-chev{width:20px;height:20px;margin-left:auto;flex:none;color:var(--teal);transform:rotate(90deg);transition:transform .2s ease}
-  .advisor__more[open] .advisor__more-chev{transform:rotate(270deg)}
-  .advisor__more[open] .advisor__more-summary{margin-bottom:var(--sp-4);border-color:var(--teal-10)}
+  .advisor__more.is-open .advisor__more-chev{transform:rotate(270deg)}
+  .advisor__more.is-open .advisor__more-summary{margin-bottom:var(--sp-4);border-color:var(--teal-10)}
+  .advisor__more-body{display:none}
+  .advisor__more.is-open .advisor__more-body{display:block}
   @media (min-width:561px){
-    .advisor__more{margin-top:0;display:flex;flex-direction:column;gap:var(--sp-4)}
-    .advisor__more>summary{display:none}
-    .advisor__more .advisor__capture{display:flex!important}
-    .advisor__more .advisor__support{display:flex!important;margin-top:0}
+    .advisor__more-summary{display:none}
+    .advisor__more-body{display:block}
   }
 
   /* e-mail capture (result screen) */
@@ -1615,12 +1613,12 @@
         +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
         +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
       +'</div>'
-      +'<details class="advisor__more"><summary class="advisor__more-summary">Empfehlung per E-Mail &amp; Beratung<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></summary>'
+      +'<div class="advisor__more"><button type="button" class="advisor__more-summary" data-more-toggle aria-expanded="false">Empfehlung per E-Mail &amp; Beratung<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><div class="advisor__more-body">'
       +captureHTML()
       +(sup?('<div class="advisor__support"><div><div class="st">'+esc(sup.title)+'</div><div class="ss">'+esc(sup.sub)+'</div></div>'
         +'<div class="advisor__support-btns"><a class="solid" href="'+sup.primaryHref+'" target="_blank" rel="noopener">'+esc(sup.primaryLabel)+'</a>'
         +'<a href="'+sup.secondaryHref+'" target="_blank" rel="noopener">'+esc(sup.secondaryLabel)+'</a></div></div>'):'')
-      +'</details>'
+      +'</div></div>'
     +'</div>';
     root.classList.add("is-result"); resEl.hidden=false;
     wireResult();
@@ -1629,6 +1627,7 @@
   }
   function wireResult(){
     var rs=resEl.querySelector("[data-reset]"); if(rs) rs.addEventListener("click",function(){ state.a={}; state.id=null; state.edit=false; root.classList.remove("is-result"); resEl.hidden=true; goTo(visibleSteps(state.a)[0]); });
+    var mt=resEl.querySelector("[data-more-toggle]"); if(mt) mt.addEventListener("click",function(){ var m=mt.closest(".advisor__more"); mt.setAttribute("aria-expanded", m.classList.toggle("is-open")?"true":"false"); });
     wireCapture();
   }
   /* ---------- e-mail capture (front-end mock; wire to backend at go-live) ---------- */
