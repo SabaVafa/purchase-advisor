@@ -417,10 +417,10 @@
       {v:"video",ol:"Video-Sprechanlage",od:"Mit Kamera – Besucher sehen"},
       {v:"audio",ol:"Audio genügt",od:"Nur Sprechen & Hören"}]},
     parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",help:"Die genaue Taster-Anzahl wählen Sie später im Konfigurator.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},{v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
-      {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus"},
-      {v:"4",ol:"4 und mehr Parteien",od:"Mehrfamilienhaus"},
-      {v:"many",ol:"Flexibel",od:"Großobjekt · modular für 1–500 Parteien"}]},
+      {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},{v:"2",ol:"2 Parteien"},
+      {v:"3",ol:"3 Parteien"},
+      {v:"4",ol:"4 und mehr Parteien"},
+      {v:"many",ol:"Flexibel"}]},
     bauform:{q:"Wandmontage oder freistehend?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
       {v:"wand",ol:"Wandbriefkasten",od:"an der Wand montiert"},
       {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"}]},
@@ -431,8 +431,7 @@
       {v:"rfid",ol:"RFID-Karte / -Chip",od:"Transponder"},
       {v:"pin",ol:"PIN-Code",od:"Zahlencode am Gerät",media:"video"},
       {v:"fingerprint",ol:"Fingerabdruck",od:"nur Niko",media:"video"},
-      {v:"face",ol:"Gesichtserkennung",od:"SDM10",media:"video"},
-      {v:"none",ol:"Nur App / noch offen",od:"keine besondere Zutrittsart",solo:true}]},
+      {v:"face",ol:"Gesichtserkennung",od:"SDM10",media:"video"}]},
     label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Tür.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"laser",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"papier",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
@@ -442,7 +441,7 @@
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze & Wunschfarbe",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#9a7b4f,#b98db0,#8ba6c4,#8d9092)"}]},
+      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze & Wunschfarbe",sw:"radial-gradient(130% 100% at 26% 16%,rgba(255,255,255,.85),rgba(255,255,255,.28) 26%,rgba(255,255,255,0) 52%),conic-gradient(from 140deg,#9aa0a2,#4a4d4e,#a9854f,#c799bd,#8fb0d4,#9aa0a2)"}]},
     farbeAndere:{q:"Welche Farbe genau?",help:"Weitere Farben & individuelle Wunschfarbe.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
