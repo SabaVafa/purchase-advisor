@@ -551,16 +551,16 @@
     conn:{q:"Wie möchten Sie die Klingel anschließen?",help:"Die wichtigste Frage – sie entscheidet über die halbe Auswahl.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"wired",ol:"An vorhandene Klingeldrähte",od:"klassischer Kabelanschluss"},
       {v:"funk",ol:"Kabellos (Funk)",od:"Funksender – kein Kabel nötig · Empfänger separat"}]},
-    parties:{q:"Für wie viele Wohneinheiten?",help:"Also wie viele Klingeltaster brauchen Sie?",type:"single",req:true,vis:function(){return true;},opts:[
+    parties:{q:"Für wie viele Wohneinheiten?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Wohneinheit",od:"Einfamilienhaus"},
       {v:"2",ol:"2 Wohneinheiten",od:"Zweifamilienhaus"},
       {v:"3",ol:"3 Wohneinheiten",od:"Dreifamilienhaus"},
       {v:"4",ol:"4 und mehr",od:"Mehrfamilienhaus (bis 7)"}]},
-    label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Klingel.",type:"single",req:true,vis:function(){return true;},opts:[
+    label:{q:"Wie soll der Name angezeigt werden?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"gravur",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"schild",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
       {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"}]},
-    beleuchtung:{q:"Was soll beleuchtet sein?",help:"Mehrfachauswahl – optional.",type:"multi",vis:function(){return true;},opts:[
+    beleuchtung:{q:"Was soll beleuchtet sein?",type:"multi",vis:function(){return true;},opts:[
       {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar"},
       {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar"},
       {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer"}]},
@@ -568,7 +568,7 @@
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016"},
       {v:"andere",ol:"Andere Farbe",od:"weitere Farbe auswählen"}]},
-    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere verfügbare Farben.",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishSplits(a,["eisenglimmer","grau","schwarz","weiss"]);},opts:[
+    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishSplits(a,["eisenglimmer","grau","schwarz","weiss"]);},opts:[
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703"},
       {v:"grau",ol:"Grau",od:""},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005"},
@@ -719,25 +719,25 @@
       {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"},
       {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"},
       {v:"egal",ol:"Egal / noch offen",od:""}]},
-    fach:{q:"Für wie viele Wohneinheiten?",help:"Also wie viele Briefkastenfächer brauchen Sie?",type:"single",req:true,vis:function(){return true;},opts:[
+    fach:{q:"Für wie viele Wohneinheiten?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Wohneinheit",od:"Einfamilienhaus"},
       {v:"2",ol:"2 Wohneinheiten",od:"Zweifamilienhaus"},
       {v:"3",ol:"3 Wohneinheiten",od:"Dreifamilienhaus"},
       {v:"4",ol:"4 und mehr",od:"Mehrfamilienhaus (bis 6 Fächer)"}]},
-    combo:{q:"Nur Briefkasten – oder mit Klingel & Sprechanlage?",help:"Metzler bietet Briefkästen auch mit integrierter Video-Türsprechanlage.",type:"single",req:true,vis:function(){return true;},opts:[
+    combo:{q:"Nur Briefkasten – oder mit Klingel & Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"none",ol:"Nur Briefkasten",od:"ohne Klingel/Sprechanlage"},
       {v:"combo",ol:"Mit Klingel & Sprechanlage",od:"integrierte IP-Video-Türstation"}]},
     zeitung:{q:"Mit Zeitungsfach?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"ja",ol:"Mit Zeitungsfach",od:"Platz für Zeitungen"},
       {v:"nein",ol:"Ohne Zeitungsfach",od:"kompakter"},
       {v:"egal",ol:"Egal / noch offen",od:""}]},
-    material:{q:"Bevorzugtes Material?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+    material:{q:"Bevorzugtes Material?",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"rostfrei, V2A",attr:"material"},
       {v:"acryl",ol:"Acrylglas-Front",od:"moderne Optik",attr:"material"},
       {v:"holz",ol:"Holz (Lärche)",od:"warme Optik",attr:"material"},
       {v:"stahl",ol:"Stahl pulverbeschichtet",od:"RAL-Farbe",attr:"material"},
       {v:"none",ol:"Egal",od:"",solo:true}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+    farbe:{q:"Welche Farbe oder Oberfläche?",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",attr:"finish"},
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",attr:"finish"},
       {v:"andere",ol:"Andere Farbe",od:"weitere RAL / Wunschfarbe",attr:"finish"},
@@ -832,7 +832,7 @@
     combo:{q:"Nur Paketbox – oder mit Klingel & Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"none",ol:"Nur Paketbox",od:"ohne Klingel/Sprechanlage"},
       {v:"combo",ol:"Mit Klingel & Sprechanlage",od:"integrierte IP-Video-Türstation"}]},
-    groesse:{q:"Welche Paketgröße?",help:"XL fasst größere bzw. mehr Pakete.",type:"single",req:true,vis:function(){return true;},opts:[
+    groesse:{q:"Welche Paketgröße?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"standard",ol:"Standard",od:"für gängige Paketgrößen"},
       {v:"xl",ol:"XL / Extra groß",od:"großes Volumen"},
       {v:"egal",ol:"Egal / noch offen",od:""}]},
@@ -844,11 +844,11 @@
       {v:"mit",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"ohne",ol:"Ohne Gravur",od:"schlicht"},
       {v:"egal",ol:"Egal",od:""}]},
-    material:{q:"Bevorzugtes Material?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+    material:{q:"Bevorzugtes Material?",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"rostfrei, V2A",attr:"material"},
       {v:"stahl",ol:"Stahl pulverbeschichtet",od:"RAL-Farbe",attr:"material"},
       {v:"none",ol:"Egal",od:"",solo:true}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+    farbe:{q:"Welche Farbe oder Oberfläche?",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",attr:"finish"},
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",attr:"finish"},
       {v:"andere",ol:"Andere Farbe",od:"weitere RAL",attr:"finish"},
@@ -919,13 +919,13 @@
       {v:"poe",ol:"Kabel (PoE/LAN)",od:"stabil, Strom über Netzwerkkabel"},
       {v:"wlan",ol:"WLAN (kabellos)",od:"einfache Montage, ohne Netzwerkkabel"},
       {v:"egal",ol:"Egal / noch offen",od:""}]},
-    aufloesung:{q:"Welche Auflösung?",help:"Höher = mehr Detail. Modelle ohne Angabe werden nicht ausgeschlossen.",type:"single",req:true,vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
+    aufloesung:{q:"Welche Auflösung?",type:"single",req:true,vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
       {v:"2",ol:"2 MP (Full-HD)",od:"Einstieg"},
       {v:"4",ol:"ab 4 MP",od:"hohe Detailschärfe"},
       {v:"6",ol:"ab 6 MP",od:"sehr hohe Auflösung"},
       {v:"8",ol:"8 MP (4K)",od:"maximale Detailschärfe"},
       {v:"egal",ol:"Egal",od:""}]},
-    extras:{q:"Besondere Kamera-Funktionen?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
+    extras:{q:"Besondere Kamera-Funktionen?",type:"multi",soft:true,vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
       {v:"nachtfarbe",ol:"Nachtsicht in Farbe",od:"farbige Nachtaufnahmen",attr:"nachtColor"},
       {v:"ptz",ol:"Schwenkbar (PTZ)",od:"dreh-/neigbar, Zoom",attr:"ptz"},
       {v:"dual",ol:"Dual-Objektiv",od:"zwei Linsen, größerer Bereich",attr:"dual"},
@@ -1020,15 +1020,15 @@
       {v:"3",ol:"3 Mülltonnen",od:""},
       {v:"4",ol:"4 Mülltonnen",od:""},
       {v:"5",ol:"5 Mülltonnen",od:"Großanlage"}]},
-    dach:{q:"Mit begrünbarem Pflanzdach?",help:"Ein Pflanzdach lässt sich bepflanzen und fügt die Box in den Garten ein.",type:"single",req:true,vis:function(){return true;},opts:[
+    dach:{q:"Mit begrünbarem Pflanzdach?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"pflanz",ol:"Mit Pflanzdach",od:"begrünbares Dach"},
       {v:"ohne",ol:"Ohne Pflanzdach",od:"klassisches Flachdach"},
       {v:"egal",ol:"Egal / noch offen",od:""}]},
-    pedal:{q:"Freihändige Bedienung per Fußpedal?",help:"Deckel/Tür mit dem Fuß öffnen – praktisch mit vollen Händen.",type:"single",req:true,vis:function(){return true;},opts:[
+    pedal:{q:"Freihändige Bedienung per Fußpedal?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"ja",ol:"Mit Fußpedal",od:"freihändige Bedienung"},
       {v:"nein",ol:"Ohne Fußpedal",od:"klassische Bedienung"},
       {v:"egal",ol:"Egal / noch offen",od:""}]},
-    optik:{q:"Bevorzugte Optik?",help:"Mehrfachauswahl – optional, zur Sortierung.",type:"multi",soft:true,vis:function(){return true;},opts:[
+    optik:{q:"Bevorzugte Optik?",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"schlicht",ol:"Schlicht",od:"glatte Front",attr:"optik"},
       {v:"design",ol:"Design-Muster",od:"Rauten-/Quadrat-/Linienmuster",attr:"optik"},
       {v:"holz",ol:"Holzoptik",od:"warme Holz-Anmutung",attr:"optik"},
