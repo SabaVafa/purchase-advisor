@@ -219,7 +219,7 @@
   .advisor__more.is-open .advisor__more-summary{border-bottom:1px solid var(--graphite-300)}
   .advisor__more-summary:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--teal)}
   /* smooth height animation (grid 0fr→1fr); inner clips during the transition */
-  .advisor__more-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s cubic-bezier(.4,0,.2,1)}
+  .advisor__more-body{display:grid;grid-template-rows:0fr;grid-template-columns:minmax(0,1fr);transition:grid-template-rows .32s cubic-bezier(.4,0,.2,1)}
   .advisor__more.is-open .advisor__more-body{grid-template-rows:1fr}
   .advisor__more-inner{overflow:hidden;min-height:0}
   .advisor__more-pad{padding:var(--sp-4)}
