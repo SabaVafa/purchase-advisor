@@ -62,11 +62,13 @@
     font-size:var(--text-body-sm);font-weight:700;color:var(--teal)}
   .advisor__bar-cta svg{width:24px;height:24px;transform:rotate(90deg)}
 
-  .advisor:not(.is-open) .advisor__card{display:none}
-  .advisor.is-open .advisor__bar{display:none}
-  /* Smooth, professional reveal when the box opens */
-  .advisor.is-open .advisor__card{animation:advisorReveal .4s cubic-bezier(.16,1,.3,1) both}
-  @keyframes advisorReveal{from{opacity:0;transform:translateY(-8px) scale(.985)}to{opacity:1;transform:none}}
+  /* Smooth full-height expand/collapse of the whole box: bar row shrinks while the card row grows (grid 0fr↔1fr) */
+  .advisor__reveal-bar{display:grid;grid-template-rows:1fr;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1),opacity .24s ease}
+  .advisor.is-open .advisor__reveal-bar{grid-template-rows:0fr;opacity:0;pointer-events:none}
+  .advisor__reveal-bar>.advisor__bar{overflow:hidden;min-height:0}
+  .advisor__reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1)}
+  .advisor.is-open .advisor__reveal{grid-template-rows:1fr}
+  .advisor__reveal>.advisor__card{overflow:hidden;min-height:0}
 
   .advisor__card{
     position:relative;padding:clamp(20px,2.4vw,28px);border-radius:var(--r-l);
@@ -310,7 +312,7 @@
     .advisor__support{flex-direction:column;align-items:flex-start}
     .advisor__actions{justify-content:flex-end}
   }
-  @media (prefers-reduced-motion:reduce){.advisor__step,.advisor__result{transition:none} .advisor.is-open .advisor__card{animation:none}
+  @media (prefers-reduced-motion:reduce){.advisor__step,.advisor__result{transition:none} .advisor__reveal,.advisor__reveal-bar{transition:none}
     .advisor__opt,.advisor__opt.has-swatch:hover{transition:none;transform:none} .advisor__progress-dots span,.advisor__more-body,.advisor__more-chev,.advisor__more-summary{transition:none}}
 </style>
 
@@ -325,6 +327,7 @@
   </div>
 
   <section class="advisor" id="advisor">
+    <div class="advisor__reveal-bar">
     <button type="button" class="advisor__bar" data-ai-toggle aria-expanded="false" aria-controls="advisorPanel">
       <span class="advisor__bar-txt">
         <span class="advisor__bar-head">
@@ -334,10 +337,13 @@
       </span>
       <span class="advisor__bar-cta">Kaufberater<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></span>
     </button>
+    </div>
+    <div class="advisor__reveal">
     <div class="advisor__card" id="advisorPanel">
       <button type="button" class="advisor__collapse" data-ai-toggle aria-label="Berater schließen"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
       <div class="advisor__quiz" id="quiz"></div>
       <div class="advisor__results" id="results" aria-live="polite" hidden></div>
+    </div>
     </div>
   </section>
 
@@ -1432,9 +1438,10 @@
   /* toggle open/close */
   Array.prototype.forEach.call(root.querySelectorAll("[data-ai-toggle]"),function(b){
     b.addEventListener("click",function(){
-      var open=root.classList.toggle("is-open");
-      root.querySelector(".advisor__bar").setAttribute("aria-expanded",open?"true":"false");
+      var open=!root.classList.contains("is-open");
       if(open && !state.id){ goTo(visibleSteps(state.a)[0]); }
+      root.classList.toggle("is-open");
+      root.querySelector(".advisor__bar").setAttribute("aria-expanded",open?"true":"false");
     });
   });
 
