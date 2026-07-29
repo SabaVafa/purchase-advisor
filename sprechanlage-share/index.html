@@ -46,6 +46,8 @@
   .advisor__reveal{display:grid;grid-template-rows:0fr;grid-template-columns:minmax(0,1fr);overflow:hidden;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1)}
   .advisor.is-open .advisor__reveal{grid-template-rows:1fr}
   .advisor__reveal>.advisor__card{overflow:hidden;min-height:0}
+  /* Collapsed: zero the card's vertical padding so the 0fr row truly reaches 0 (padding on a border-box can't be shrunk by height/overflow) */
+  .advisor:not(.is-open) .advisor__reveal>.advisor__card{padding-top:0;padding-bottom:0}
 
   .advisor__card{
     position:relative;padding:clamp(20px,2.4vw,28px);border-radius:var(--r-l);
