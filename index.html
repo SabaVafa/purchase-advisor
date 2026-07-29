@@ -409,40 +409,40 @@
     bau:{q:"Wie sieht die Verkabelung bei Ihnen aus?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt – die wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"},
       {v:"ip",ol:"Neubau und Neuverkabelung",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"}]},
-    combo:{q:"Nur die Sprechanlage – oder als Kombination?",help:"Metzler bietet die Türstation auch integriert in Briefkasten oder Paketbox.",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
+    combo:{q:"Nur die Sprechanlage – oder als Kombination?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
       {v:"none",ol:"Nur Sprechanlage",od:"nur die Türstation"},
       {v:"briefkasten",ol:"Mit Briefkasten",od:"integriert in eine Briefkastenanlage · IP-Video"},
       {v:"paketbox",ol:"Mit Paketbox",od:"Türstation mit integrierter Paketbox · IP-Video"}]},
     media:{q:"Möchten Sie sehen, wer klingelt?",en:"Video or audio only?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
       {v:"video",ol:"Video-Sprechanlage",od:"Mit Kamera – Besucher sehen"},
       {v:"audio",ol:"Audio genügt",od:"Nur Sprechen & Hören"}]},
-    parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",help:"Die genaue Taster-Anzahl wählen Sie später im Konfigurator.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},{v:"2",ol:"2 Parteien"},
-      {v:"3",ol:"3 Parteien"},
-      {v:"4",ol:"4 und mehr Parteien"},
-      {v:"many",ol:"Flexibel"}]},
+    parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},{v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
+      {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus"},
+      {v:"4",ol:"4 und mehr Parteien",od:"Mehrfamilienhaus"},
+      {v:"many",ol:"Flexibel",od:"Großobjekt · modular für 1–500 Parteien"}]},
     bauform:{q:"Wandmontage oder freistehend?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
       {v:"wand",ol:"Wandbriefkasten",od:"an der Wand montiert"},
       {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"}]},
     station:{q:"Welche Türstation soll integriert sein?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
       {v:"vdm10",ol:"Standard-Video (VDM10)",od:"Kamera, App, FRITZ!Box"},
       {v:"sdm10",ol:"Touch-Display & Gesichtserkennung (SDM10)",od:"biometrisch entsperren"}]},
-    access:{q:"Wie möchten Sie schlüssellos öffnen?",en:"Keyless entry — multiple choice. App is always included.",help:"Mehrfachauswahl. Die App-Steuerung ist bei allen Modellen dabei.",type:"multi",vis:function(a){return a.bau!=="bus"&&a.combo!=="briefkasten";},opts:[
+    access:{q:"Wie möchten Sie schlüssellos öffnen?",en:"Keyless entry — multiple choice. App is always included.",type:"multi",vis:function(a){return a.bau!=="bus"&&a.combo!=="briefkasten";},opts:[
       {v:"rfid",ol:"RFID-Karte / -Chip",od:"Transponder"},
       {v:"pin",ol:"PIN-Code",od:"Zahlencode am Gerät",media:"video"},
       {v:"fingerprint",ol:"Fingerabdruck",od:"nur Niko",media:"video"},
       {v:"face",ol:"Gesichtserkennung",od:"SDM10",media:"video"}]},
-    label:{q:"Wie soll der Name angezeigt werden?",help:"Die persönlichste Entscheidung an der Tür.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
+    label:{q:"Wie soll der Name angezeigt werden?",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},opts:[
       {v:"laser",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"papier",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
       {v:"digital",ol:"Digitales Namensschild",od:"editierbar (SDM10 / Horizon)"}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",help:"Die gängigsten Farben – weitere Farben und Wunschfarbe im nächsten Schritt.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer","braun","wunsch"]);},opts:[
+    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
       {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze & Wunschfarbe",sw:"radial-gradient(130% 100% at 26% 16%,rgba(255,255,255,.85),rgba(255,255,255,.28) 26%,rgba(255,255,255,0) 52%),conic-gradient(from 140deg,#9aa0a2,#4a4d4e,#a9854f,#c799bd,#8fb0d4,#9aa0a2)"}]},
-    farbeAndere:{q:"Welche Farbe genau?",help:"Weitere Farben & individuelle Wunschfarbe.",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer","braun","wunsch"]);},opts:[
+    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
       {v:"braun",ol:"Bronze",od:"warmer Bronzeton",sw:"#9a7b4f"},
