@@ -550,7 +550,7 @@
 
   /* ---------- TÜRKLINGEL QUIZ ---------- */
   var TK_STEPS={
-    conn:{q:"Wie möchten Sie die Klingel anschließen?",help:"Die wichtigste Frage – sie entscheidet über die halbe Auswahl.",type:"single",req:true,vis:function(){return true;},opts:[
+    conn:{q:"Wie möchten Sie die Klingel anschließen?",help:"Sie entscheidet über die halbe Auswahl.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"wired",ol:"An vorhandene Klingeldrähte",od:"klassischer Kabelanschluss"},
       {v:"funk",ol:"Kabellos (Funk)",od:"Funksender – kein Kabel nötig · Empfänger separat"}]},
     parties:{q:"Für wie viele Wohneinheiten?",type:"single",req:true,vis:function(){return true;},opts:[
@@ -716,7 +716,7 @@
 
   /* ---------- BRIEFKASTEN QUIZ ---------- */
   var BK_STEPS={
-    bauform:{q:"Wie soll der Briefkasten montiert werden?",help:"Die wichtigste Frage – sie bestimmt die Bauform.",type:"single",req:true,vis:function(){return true;},opts:[
+    bauform:{q:"Wie soll der Briefkasten montiert werden?",help:"Sie bestimmt die Bauform.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"wand",ol:"Wandbriefkasten",od:"Aufputz – an die Wand montiert"},
       {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"},
       {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"},
@@ -912,7 +912,7 @@
 
   /* ---------- SICHERHEITSTECHNIK QUIZ (type-led; camera steps gated via vis) ---------- */
   var SEC_STEPS={
-    type:{q:"Wonach suchen Sie?",help:"Die wichtigste Frage – sie bestimmt die Produktart.",type:"single",req:true,vis:function(){return true;},opts:[
+    type:{q:"Wonach suchen Sie?",help:"Sie bestimmt die Produktart.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"kamera",ol:"Überwachungskamera",od:"IP-, WLAN- oder Dual-Kamera"},
       {v:"set",ol:"Komplett-Set",od:"Kamera(s) + Rekorder, vorkonfiguriert"},
       {v:"rekorder",ol:"Videorekorder (NVR)",od:"Aufzeichnung für IP-Kameras"},
@@ -1016,7 +1016,7 @@
 
   /* ---------- MÜLLTONNENBOX QUIZ ---------- */
   var MT_STEPS={
-    tonnen:{q:"Für wie viele Mülltonnen?",help:"Für 240-Liter-Tonnen – die wichtigste Frage.",type:"single",req:true,vis:function(){return true;},opts:[
+    tonnen:{q:"Für wie viele Mülltonnen?",help:"Für 240-Liter-Tonnen.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Mülltonne",od:"Einzelbox"},
       {v:"2",ol:"2 Mülltonnen",od:""},
       {v:"3",ol:"3 Mülltonnen",od:""},
