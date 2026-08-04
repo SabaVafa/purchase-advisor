@@ -1152,10 +1152,7 @@
     else if((a.beleuchtung||[]).indexOf("hausnr")>-1&&a.conn==="funk")hint="Eine integrierte beleuchtete Hausnummer gibt es derzeit nur bei kabelgebundenen Modellen (Gala, Erik).";
     return emptyCard(hint);
   }
-  function tkResultNote(a){
-    if(a.conn==="funk") return '<p class="advisor__hint">Hinweis: Bei Funkklingeln ist der Empfänger/Gong separat erhältlich (Steckdosen-, Batterie- oder WLAN-Empfänger).</p>';
-    return "";
-  }
+  function tkResultNote(a){ return ""; }
 
   /* ================= BRIEFKASTEN category logic ================= */
   function bkMatches(p,a){
