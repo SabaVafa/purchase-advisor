@@ -1399,12 +1399,13 @@
       if(st.gateOpts){
         var msg=CAT.products.filter(function(p){return matches(p,a);});
         if(msg.length<2) return false;
+        var gsep=0;
         for(var gi=0;gi<st.opts.length;gi++){ var go=st.opts[gi];
           if(go.solo||(go.media&&a.media&&go.media!==a.media)) continue;
           var gt=0; for(var gj=0;gj<msg.length;gj++){ if(optHas(msg[gj],go)) gt++; }
-          if(gt>0 && gt<msg.length) return true;
+          if(gt>0 && gt<msg.length) gsep++;
         }
-        return false;
+        return gsep>=2;   /* >=2 separating options = a real multi-choice; a lone toggle isn't, so skip */
       }
       for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
         if(o.media&&a.media&&o.media!==a.media) continue;
