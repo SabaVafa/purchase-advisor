@@ -564,8 +564,8 @@
       {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"}]},
     beleuchtung:{q:"Was soll beleuchtet sein?",type:"multi",vis:function(){return true;},opts:[
       {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar"},
-      {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar"},
-      {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer"}]},
+      {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar",notForConn:"funk"},
+      {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer",notForConn:"funk"}]},
     farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
@@ -579,7 +579,7 @@
       {v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
       {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"}]}
   };
-  var TK_ORDER=["conn","mounting","parties","label","beleuchtung","farbe","farbeAndere"];
+  var TK_ORDER=["conn","parties","label","mounting","beleuchtung","farbe","farbeAndere"];
 
   /* ================= BRIEFKASTEN PRODUCT DATA (rebuilt from briefkasten-finder.json 2026-07-17) =================
      Feed-driven; one entry per real product page. Universe = all mailbox categories (Einfamilien +
@@ -1469,6 +1469,8 @@
       if(o.media&&av.media&&o.media!==av.media) return false;
       /* option explicitly not offered on a combo (Briefkasten/Paketbox) path */
       if(o.notForCombo && av.combo && av.combo!=="none") return false;
+      /* option not offered for a given connection type (e.g. funk klingeln have no beleuchtetes Namensschild / Hausnummer) */
+      if(o.notForConn && av.conn===o.notForConn) return false;
       /* soft-pref option: only offer it if it separates the still-matching set — i.e. some
          match has the attribute and some don't. If none have it, or ALL have it, it can't
          rank anything, so it's redundant → hide. */
