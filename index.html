@@ -741,11 +741,10 @@
       {v:"holz",ol:"Holz (Lärche)",od:"warme Optik",attr:"material"},
       {v:"stahl",ol:"Stahl pulverbeschichtet",od:"RAL-Farbe",attr:"material"},
       {v:"none",ol:"Egal",od:"",solo:true}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",type:"multi",soft:true,vis:function(){return true;},opts:[
-      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",attr:"finish"},
-      {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",attr:"finish"},
-      {v:"andere",ol:"Andere Farbe",od:"weitere RAL / Wunschfarbe",attr:"finish"},
-      {v:"none",ol:"Egal",od:"",solo:true}]}
+    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","andere"]);},opts:[
+      {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
+      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
+      {v:"andere",ol:"Weitere Farben",od:"weitere RAL / Wunschfarbe",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#9a7b4f,#b98db0,#8ba6c4,#8d9092)"}]}
   };
   var BK_ORDER=["bauform","fach","combo","zeitung","material","farbe"];
 
@@ -1161,10 +1160,11 @@
     if(a.zeitung&&a.zeitung!=="egal"&&p.zeitung){
       if(a.zeitung==="ja"&&!(p.zeitung==="ja"||p.zeitung==="optional"))return false;
       if(a.zeitung==="nein"&&!(p.zeitung==="nein"||p.zeitung==="optional"))return false; }
+    if(a.farbe&&a.farbe!=="egal"&&(p.finish||[]).indexOf(a.farbe)<0)return false;
     return true;
   }
-  /* Material + Farbe are soft prefs: rank only, never filter. */
-  function bkScore(p,a){ var s=0,m=a.material||[],f=a.farbe||[]; for(var i=0;i<m.length;i++)if((p.material||[]).indexOf(m[i])>-1)s++; for(var j=0;j<f.length;j++)if((p.finish||[]).indexOf(f[j])>-1)s++; return s; }
+  /* Material is a soft pref: ranks only, never filters. Farbe is a hard single-select filter (like SP/TK). */
+  function bkScore(p,a){ var s=0,m=a.material||[]; for(var i=0;i<m.length;i++)if((p.material||[]).indexOf(m[i])>-1)s++; return s; }
   function bkSummary(a){
     var out=[];
     if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandmontage",stand:"Standbriefkasten",unterputz:"Unterputz"}[a.bauform],"bauform"]);
@@ -1172,7 +1172,7 @@
     if(a.combo)out.push(["Ausführung",{none:"Nur Briefkasten",combo:"mit Klingel & Sprechanlage"}[a.combo],"combo"]);
     if(a.zeitung&&a.zeitung!=="egal")out.push(["Zeitungsfach",{ja:"mit",nein:"ohne"}[a.zeitung],"zeitung"]);
     var mm=(a.material||[]).filter(function(x){return x!=="none";}); if(mm.length)out.push(["Material",mm.map(function(x){return{edelstahl:"Edelstahl",acryl:"Acrylglas",holz:"Holz",stahl:"Stahl"}[x];}).join(", "),"material"]);
-    var ff=(a.farbe||[]).filter(function(x){return x!=="none";}); if(ff.length)out.push(["Farbe",ff.map(function(x){return{edelstahl:"Edelstahl",anthrazit:"Anthrazit",andere:"andere"}[x];}).join(", "),"farbe"]);
+    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",{anthrazit:"Anthrazit",edelstahl:"Edelstahl",andere:"Weitere Farben"}[a.farbe],"farbe"]);
     return chipsHTML(out);
   }
   function bkEmpty(a){
