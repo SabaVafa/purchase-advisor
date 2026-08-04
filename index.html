@@ -555,11 +555,11 @@
     conn:{q:"Wie möchten Sie die Klingel anschließen?",help:"Sie entscheidet über die halbe Auswahl.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"wired",ol:"An vorhandene Klingeldrähte",od:"klassischer Kabelanschluss"},
       {v:"funk",ol:"Kabellos (Funk)",od:"Funksender – kein Kabel nötig · Empfänger separat"}]},
-    parties:{q:"Für wie viele Wohneinheiten?",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"1",ol:"1 Wohneinheit",od:"Einfamilienhaus"},
-      {v:"2",ol:"2 Wohneinheiten",od:"Zweifamilienhaus"},
-      {v:"3",ol:"3 Wohneinheiten",od:"Dreifamilienhaus"},
-      {v:"4",ol:"4 und mehr",od:"Mehrfamilienhaus (bis 7)"}]},
+    parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},
+      {v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
+      {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus"},
+      {v:"4",ol:"4 und mehr Parteien",od:"Mehrfamilienhaus (bis 7)"}]},
     label:{q:"Wie soll der Name angezeigt werden?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"gravur",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"schild",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
@@ -1138,8 +1138,8 @@
   function tkSummary(a){
     var out=[];
     if(a.conn)out.push(["Anschluss",{wired:"Kabel",funk:"Funk"}[a.conn],"conn"]);
-    if(a.parties)out.push(["Einheiten",a.parties==="4"?"4+":a.parties,"parties"]);
-    if(a.label&&a.label!=="egal")out.push(["Beschriftung",{gravur:"Lasergraviertes Namensschild",schild:"Namensschild mit Papiereinleger",symbol:"Symbol"}[a.label],"label"]);
+    if(a.parties)out.push(["Parteien",a.parties==="4"?"4+":a.parties,"parties"]);
+    if(a.label&&a.label!=="egal")out.push(["Namensschild",{gravur:"Lasergraviert",schild:"Papiereinleger",symbol:"Symbol"}[a.label],"label"]);
     var bel=(a.beleuchtung||[]).filter(function(x){return x!=="none";}); if(bel.length)out.push(["Beleuchtung",bel.map(function(x){return{led:"Taster",name:"Namensschild",hausnr:"Hausnummer"}[x];}).join(", "),"beleuchtung"]);
     if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß"}[a.farbe],"farbe"]);
     if(a.mounting&&a.mounting!=="egal")out.push(["Montage",{aufputz:"Aufputz",unterputz:"Unterputz"}[a.mounting],"mounting"]);
@@ -1147,7 +1147,7 @@
   }
   function tkEmpty(a){
     var hint="Passen Sie einzelne Angaben an – oder lassen Sie sich kostenlos beraten.";
-    if(a.label==="symbol"&&a.parties&&(+a.parties>1))hint="Eine Klingel mit reinem Klingelsymbol gibt es nur für eine Wohneinheit. Für mehrere Parteien wählen Sie ein Lasergraviertes Namensschild oder ein Namensschild mit Papiereinleger.";
+    if(a.label==="symbol"&&a.parties&&(+a.parties>1))hint="Eine Klingel mit reinem Klingelsymbol gibt es nur für eine Partei. Für mehrere Parteien wählen Sie ein Lasergraviertes Namensschild oder ein Namensschild mit Papiereinleger.";
     else if((a.beleuchtung||[]).indexOf("hausnr")>-1&&a.conn==="funk")hint="Eine integrierte beleuchtete Hausnummer gibt es derzeit nur bei kabelgebundenen Modellen (Gala, Erik).";
     return emptyCard(hint);
   }
