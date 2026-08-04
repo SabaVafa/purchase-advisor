@@ -1478,6 +1478,10 @@
        can never disable an earlier option when the user navigates back. */
     var av=trimFuture(id,a);
     var multi=st.type==="multi", cur=av[id];
+    /* Gating set for soft/gateOpts options excludes THIS step's own answer, so a selected
+       filtering option (e.g. beleuchtung LED-Taster) doesn't self-filter the set and then hide
+       itself as "universal". Matches how discriminates evaluates the step (pre-selection set). */
+    var avGate=av; if(av[id]!=null){ avGate={}; for(var _k in av){ if(_k!==id) avGate[_k]=av[_k]; } }
     var opts=st.opts.filter(function(o){
       if(o.media&&av.media&&o.media!==av.media) return false;
       /* option explicitly not offered on a combo (Briefkasten/Paketbox) path */
@@ -1488,7 +1492,7 @@
          drops the LED-Taster option when every remaining model already offers it, and the
          nameplate/Hausnummer options when none on this path do). */
       if((st.soft || st.gateOpts) && !o.solo){
-        var ms=CAT.products.filter(function(p){return matches(p,av);}), t=0;
+        var ms=CAT.products.filter(function(p){return matches(p,avGate);}), t=0;
         for(var mi=0;mi<ms.length;mi++){ if(optHas(ms[mi],o)) t++; }
         if(t===0 || t===ms.length) return false;
       }
