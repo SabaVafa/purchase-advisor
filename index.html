@@ -122,6 +122,8 @@
     display:flex;flex-flow:column nowrap;align-items:flex-start;gap:3px;text-align:left;
     padding:var(--sp-3) var(--sp-4);border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white);
     transition:border-color .15s,background .15s,box-shadow .15s}
+  /* A lone option shouldn't stretch to full container width on desktop (caps at 32rem, left-aligned) */
+  .advisor__opt:only-child{max-width:32rem}
   @media (hover:hover){.advisor__opt:hover{border-color:var(--teal)}}
   .advisor__opt:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal)}
   .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5)}
@@ -562,10 +564,10 @@
       {v:"gravur",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"schild",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
       {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"}]},
-    beleuchtung:{q:"Was soll beleuchtet sein?",type:"multi",vis:function(){return true;},opts:[
-      {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar"},
-      {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar",notForConn:"funk"},
-      {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer",notForConn:"funk"}]},
+    beleuchtung:{q:"Was soll beleuchtet sein?",type:"multi",gateOpts:true,vis:function(){return true;},opts:[
+      {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar",attr:"ledbtn"},
+      {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar",attr:"ledname"},
+      {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer",attr:"hausnr"}]},
     farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
@@ -1389,8 +1391,21 @@
       });
       return sep>=2;
     }
-    /* multi-select is optional, so even one addable (reachable) option makes it worth showing. */
+    /* multi-select is optional, so even one addable (reachable) option makes it worth showing.
+       A gateOpts multi step is stricter: worth asking only if some option actually SEPARATES the
+       still-matching set — so a lone non-narrowing option (e.g. every remaining funk model already
+       has the LED-Taster) auto-skips the whole step. */
     if(st.type==="multi"){
+      if(st.gateOpts){
+        var msg=CAT.products.filter(function(p){return matches(p,a);});
+        if(msg.length<2) return false;
+        for(var gi=0;gi<st.opts.length;gi++){ var go=st.opts[gi];
+          if(go.solo||(go.media&&a.media&&go.media!==a.media)) continue;
+          var gt=0; for(var gj=0;gj<msg.length;gj++){ if(optHas(msg[gj],go)) gt++; }
+          if(gt>0 && gt<msg.length) return true;
+        }
+        return false;
+      }
       for(var i=0;i<st.opts.length;i++){ var o=st.opts[i];
         if(o.media&&a.media&&o.media!==a.media) continue;
         if(o.solo||o.v==="open"||o.v==="unsure"||o.v==="egal") continue;
@@ -1466,12 +1481,12 @@
       if(o.media&&av.media&&o.media!==av.media) return false;
       /* option explicitly not offered on a combo (Briefkasten/Paketbox) path */
       if(o.notForCombo && av.combo && av.combo!=="none") return false;
-      /* option not offered for a given connection type (e.g. funk klingeln have no beleuchtetes Namensschild / Hausnummer) */
-      if(o.notForConn && av.conn===o.notForConn) return false;
-      /* soft-pref option: only offer it if it separates the still-matching set — i.e. some
-         match has the attribute and some don't. If none have it, or ALL have it, it can't
-         rank anything, so it's redundant → hide. */
-      if(st.soft && !o.solo){
+      /* option only worth offering if it SEPARATES the still-matching set — some match has the
+         attribute and some don't. If none have it, or ALL have it, it can't narrow/rank → hide.
+         Applies to soft (ranking) steps and gateOpts filter steps (e.g. Tuerklingel beleuchtung —
+         drops the LED-Taster option when every remaining model already offers it, and the
+         nameplate/Hausnummer options when none on this path do). */
+      if((st.soft || st.gateOpts) && !o.solo){
         var ms=CAT.products.filter(function(p){return matches(p,av);}), t=0;
         for(var mi=0;mi<ms.length;mi++){ if(optHas(ms[mi],o)) t++; }
         if(t===0 || t===ms.length) return false;
