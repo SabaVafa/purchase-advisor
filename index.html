@@ -566,15 +566,15 @@
       {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar"},
       {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar"},
       {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer"}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["edelstahl","anthrazit","eisenglimmer","grau","schwarz","weiss"]);},opts:[
-      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur"},
-      {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016"},
-      {v:"andere",ol:"Andere Farbe",od:"weitere Farbe auswählen"}]},
-    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishSplits(a,["eisenglimmer","grau","schwarz","weiss"]);},opts:[
-      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703"},
-      {v:"grau",ol:"Grau",od:""},
-      {v:"schwarz",ol:"Schwarz",od:"RAL 9005"},
-      {v:"weiss",ol:"Weiß",od:"RAL 9016"}]},
+    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer"]);},opts:[
+      {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
+      {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
+      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
+      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
+      {v:"andere",ol:"Weitere Farben",od:"Grau & Eisenglimmer",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#8d9092)"}]},
+    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer"]);},opts:[
+      {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
+      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"}]},
     mounting:{q:"Wie soll montiert werden?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
       {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"}]}
@@ -1121,7 +1121,7 @@
       if(b==="name"&&!p.ledname)return false;
       if(b==="hausnr"&&!p.hausnr)return false; }
     if(a.farbe&&a.farbe!=="egal"){
-      if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["eisenglimmer","grau","schwarz","weiss"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; }
+      if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["grau","eisenglimmer"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; }
       else if((p.finish||[]).indexOf(a.farbe)<0)return false;
     }
     if(a.mounting&&a.mounting!=="egal"&&(p.mount||[]).length&&p.mount.indexOf(a.mounting)<0)return false;
@@ -1142,7 +1142,7 @@
     if(a.label&&a.label!=="egal")out.push(["Beschriftung",{gravur:"Lasergraviertes Namensschild",schild:"Namensschild mit Papiereinleger",symbol:"Symbol"}[a.label],"label"]);
     var bel=(a.beleuchtung||[]).filter(function(x){return x!=="none";}); if(bel.length)out.push(["Beleuchtung",bel.map(function(x){return{led:"Taster",name:"Namensschild",hausnr:"Hausnummer"}[x];}).join(", "),"beleuchtung"]);
     var op=(a.optik||[]); if(op.length)out.push(["Optik",op.map(function(x){return{schlicht:"schlicht",design:"Design",quadratisch:"quadratisch",xl:"XL",motiv:"Motiv"}[x];}).join(", "),"optik"]);
-    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({eisenglimmer:"Eisenglimmer",grau:"Grau",schwarz:"Schwarz",weiss:"Weiß"}[a.farbeAndere]||"Andere"):{edelstahl:"Edelstahl",anthrazit:"Anthrazit"}[a.farbe],"farbe"]);
+    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß"}[a.farbe],"farbe"]);
     if(a.mounting&&a.mounting!=="egal")out.push(["Montage",{aufputz:"Aufputz",unterputz:"Unterputz"}[a.mounting],"mounting"]);
     return chipsHTML(out);
   }
