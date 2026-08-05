@@ -1158,7 +1158,7 @@
   function bkScore(){ return 0; }
   function bkSummary(a){
     var out=[];
-    if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandmontage",stand:"Standbriefkasten",unterputz:"Unterputz"}[a.bauform],"bauform"]);
+    if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandbriefkasten",stand:"Standbriefkasten",unterputz:"Unterputz"}[a.bauform],"bauform"]);
     if(a.fach)out.push(["Parteien",a.fach==="4"?"4+":a.fach,"fach"]);
     if(a.combo)out.push(["Ausführung",{none:"Nur Briefkasten",combo:"mit Klingel & Sprechanlage"}[a.combo],"combo"]);
     if(a.zeitung&&a.zeitung!=="egal")out.push(["Zeitungsfach",{ja:"mit",nein:"ohne"}[a.zeitung],"zeitung"]);
@@ -1166,7 +1166,7 @@
     return chipsHTML(out);
   }
   function bkEmpty(a){
-    var hint="Passen Sie einzelne Angaben an – oder lassen Sie sich beraten.";
+    var hint="Passen Sie einzelne Angaben an.";
     if(a.bauform==="unterputz"&&a.combo==="combo")hint="Unterputz-Briefkästen mit integrierter Sprechanlage sind selten. Prüfen Sie Wand- oder Standmontage – oder wählen Sie „Nur Briefkasten“.";
     else if(a.combo==="combo"&&a.fach&&(+a.fach>2))hint="Briefkästen mit integrierter Klingel & Sprechanlage bieten wir vor allem für 1–2 Parteien. Für mehr Parteien wählen Sie „Nur Briefkasten“ oder unsere Sprechanlagen.";
     return emptyCard(hint);
