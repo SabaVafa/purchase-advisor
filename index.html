@@ -574,7 +574,7 @@
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
       {v:"andere",ol:"Weitere Farben",od:"Grau & Eisenglimmer",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#8d9092)"}]},
-    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer"]);},opts:[
+    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer"]);},opts:[
       {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"}]},
     mounting:{q:"Wie soll montiert werden?",type:"single",req:true,vis:function(){return true;},opts:[
@@ -1045,6 +1045,12 @@
      If every remaining model comes in every colour, colour can't change the recommendation → skip. */
   function spFinishSplits(a,cols){ var ms=CAT.products.filter(function(p){return matches(p,a);}); if(ms.length<2) return false;
     for(var i=0;i<cols.length;i++){ var t=0; for(var j=0;j<ms.length;j++){ if((ms[j].finish||[]).indexOf(cols[i])>-1)t++; } if(t>0&&t<ms.length) return true; } return false; }
+  /* Colour SUB-step ("Weitere Farben" -> pick the exact colour) must ALWAYS appear whenever the
+     bucket still offers >=2 individual colours, even if they sit on the same models and so don't
+     narrow the list — colour is a real customer choice (a configurable variant), not just a filter.
+     RULE: wherever a "Weitere Farben" option exists, its individual colours get their own step. */
+  function spFinishChoice(a,cols){ var ms=CAT.products.filter(function(p){return matches(p,a);}); var n=0;
+    for(var i=0;i<cols.length;i++){ for(var j=0;j<ms.length;j++){ if((ms[j].finish||[]).indexOf(cols[i])>-1){ n++; break; } } } return n>=2; }
   function spMatches(p,a){
     var sys=deriveSystem(a);
     if(sys&&p.systems.indexOf(sys)===-1)return false;
