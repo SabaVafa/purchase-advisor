@@ -723,11 +723,11 @@
       {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"},
       {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"},
       {v:"egal",ol:"Egal / noch offen",od:""}]},
-    fach:{q:"Für wie viele Wohneinheiten?",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"1",ol:"1 Wohneinheit",od:"Einfamilienhaus"},
-      {v:"2",ol:"2 Wohneinheiten",od:"Zweifamilienhaus"},
-      {v:"3",ol:"3 Wohneinheiten",od:"Dreifamilienhaus"},
-      {v:"4",ol:"4 und mehr",od:"Mehrfamilienhaus (bis 6 Fächer)"}]},
+    fach:{q:"Für wie viele Wohneinheiten / Briefkastenfächer?",en:"How many parties / mailbox compartments?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},
+      {v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
+      {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus"},
+      {v:"4",ol:"4 und mehr Parteien",od:"Mehrfamilienhaus (bis 6 Fächer)"}]},
     combo:{q:"Nur Briefkasten – oder mit Klingel & Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"none",ol:"Nur Briefkasten",od:"ohne Klingel/Sprechanlage"},
       {v:"combo",ol:"Mit Klingel & Sprechanlage",od:"integrierte IP-Video-Türstation"}]},
@@ -1168,7 +1168,7 @@
   function bkSummary(a){
     var out=[];
     if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandmontage",stand:"Standbriefkasten",unterputz:"Unterputz"}[a.bauform],"bauform"]);
-    if(a.fach)out.push(["Einheiten",a.fach==="4"?"4+":a.fach,"fach"]);
+    if(a.fach)out.push(["Parteien",a.fach==="4"?"4+":a.fach,"fach"]);
     if(a.combo)out.push(["Ausführung",{none:"Nur Briefkasten",combo:"mit Klingel & Sprechanlage"}[a.combo],"combo"]);
     if(a.zeitung&&a.zeitung!=="egal")out.push(["Zeitungsfach",{ja:"mit",nein:"ohne"}[a.zeitung],"zeitung"]);
     var mm=(a.material||[]).filter(function(x){return x!=="none";}); if(mm.length)out.push(["Material",mm.map(function(x){return{edelstahl:"Edelstahl",acryl:"Acrylglas",holz:"Holz",stahl:"Stahl"}[x];}).join(", "),"material"]);
@@ -1178,7 +1178,7 @@
   function bkEmpty(a){
     var hint="Passen Sie einzelne Angaben an – oder lassen Sie sich beraten.";
     if(a.bauform==="unterputz"&&a.combo==="combo")hint="Unterputz-Briefkästen mit integrierter Sprechanlage sind selten. Prüfen Sie Wand- oder Standmontage – oder wählen Sie „Nur Briefkasten“.";
-    else if(a.combo==="combo"&&a.fach&&(+a.fach>2))hint="Briefkästen mit integrierter Klingel & Sprechanlage bieten wir vor allem für 1–2 Wohneinheiten. Für mehr Parteien wählen Sie „Nur Briefkasten“ oder unsere Sprechanlagen.";
+    else if(a.combo==="combo"&&a.fach&&(+a.fach>2))hint="Briefkästen mit integrierter Klingel & Sprechanlage bieten wir vor allem für 1–2 Parteien. Für mehr Parteien wählen Sie „Nur Briefkasten“ oder unsere Sprechanlagen.";
     return emptyCard(hint);
   }
   function bkResultNote(a){ if(a.combo==="combo")return '<p class="advisor__hint">Diese Modelle enthalten eine IP-Video-Türsprechanlage – Innenstation und Netzteil ggf. separat. Details über den Sprechanlagen-Kaufberater.</p>'; return ""; }
