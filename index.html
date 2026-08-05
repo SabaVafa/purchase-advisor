@@ -1137,7 +1137,7 @@
     return chipsHTML(out);
   }
   function tkEmpty(a){
-    var hint="Passen Sie einzelne Angaben an – oder lassen Sie sich kostenlos beraten.";
+    var hint="Passen Sie einzelne Angaben an.";
     if(a.label==="symbol"&&a.parties&&(+a.parties>1))hint="Eine Klingel mit reinem Klingelsymbol gibt es nur für eine Partei. Für mehrere Parteien wählen Sie ein Lasergraviertes Namensschild oder ein Namensschild mit Papiereinleger.";
     else if((a.beleuchtung||[]).indexOf("hausnr")>-1&&a.conn==="funk")hint="Eine integrierte beleuchtete Hausnummer gibt es derzeit nur bei kabelgebundenen Modellen (Gala, Erik).";
     return emptyCard(hint);
@@ -1622,7 +1622,7 @@
 
     var title = relaxed ? 'Am ehesten passend' : (exact>=2 ? '<strong>'+exact+'</strong> passende '+CAT.nounPl : 'Unsere Top-Empfehlung');
     var solo = list.length===1;
-    var relaxNote = relaxed ? '<p class="advisor__hint">Kein Modell passt exakt zu allen Angaben – diese kommen Ihrer Auswahl am nächsten. Passen Sie einzelne Angaben an oder lassen Sie sich kostenlos beraten.</p>' : '';
+    var relaxNote = relaxed ? '<p class="advisor__hint">Kein Modell passt exakt zu allen Angaben – diese kommen Ihrer Auswahl am nächsten. Passen Sie einzelne Angaben an'+(CAT.support?' oder lassen Sie sich kostenlos beraten':'')+'.</p>' : '';
     var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&!relaxed,solo);}).join("")+'</div>' : "";
     var note = list.length ? CAT.resultNote(a) : "";
     var body = list.length ? ('<h3 class="advisor__result-title">'+title+'</h3>'+relaxNote+recs+note) : emptyHTML(a);
@@ -1635,7 +1635,7 @@
         +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
         +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
       +'</div>'
-      +'<div class="advisor__more"><button type="button" class="advisor__more-summary" data-more-toggle aria-expanded="false">Empfehlung per E-Mail &amp; Beratung<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><div class="advisor__more-body"><div class="advisor__more-inner"><div class="advisor__more-pad">'
+      +'<div class="advisor__more"><button type="button" class="advisor__more-summary" data-more-toggle aria-expanded="false">Empfehlung per E-Mail'+(CAT.support?' &amp; Beratung':'')+'<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><div class="advisor__more-body"><div class="advisor__more-inner"><div class="advisor__more-pad">'
       +captureHTML()
       +(sup?('<div class="advisor__support"><div><div class="st">'+esc(sup.title)+'</div><div class="ss">'+esc(sup.sub)+'</div></div>'
         +'<div class="advisor__support-btns"><a class="solid" href="'+sup.primaryHref+'" target="_blank" rel="noopener">'+esc(sup.primaryLabel)+'</a>'
