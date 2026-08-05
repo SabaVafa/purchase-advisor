@@ -564,7 +564,7 @@
       {v:"gravur",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"schild",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
       {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"}]},
-    beleuchtung:{q:"Was soll beleuchtet sein?",type:"multi",gateOpts:true,vis:function(a){return a.conn!=="funk";},opts:[
+    beleuchtung:{q:"Was soll beleuchtet sein?",type:"multi",gateOpts:true,vis:function(){return true;},opts:[
       {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar",attr:"ledbtn"},
       {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar",attr:"ledname"},
       {v:"hausnr",ol:"Beleuchtete Hausnummer",od:"integrierte 3D-LED-Hausnummer",attr:"hausnr"}]},
