@@ -833,18 +833,15 @@
     combo:{q:"Nur Paketbox – oder mit Klingel & Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"none",ol:"Nur Paketbox",od:"ohne Klingel/Sprechanlage"},
       {v:"combo",ol:"Mit Klingel & Sprechanlage",od:"integrierte IP-Video-Türstation"}]},
-    groesse:{q:"Welche Paketgröße?",type:"single",req:true,vis:function(){return true;},opts:[
+    groesse:{q:"Welche Paketgröße?",type:"single",vis:function(){return true;},opts:[
       {v:"standard",ol:"Standard",od:"für gängige Paketgrößen"},
-      {v:"xl",ol:"XL / Extra groß",od:"großes Volumen"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]},
-    beleuchtung:{q:"Mit Beleuchtung?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"xl",ol:"XL / Extra groß",od:"großes Volumen"}]},
+    beleuchtung:{q:"Mit Beleuchtung?",type:"single",vis:function(){return true;},opts:[
       {v:"led",ol:"Mit LED-Beleuchtung",od:"nachts sichtbar"},
-      {v:"ohne",ol:"Ohne Beleuchtung",od:"schlicht"},
-      {v:"egal",ol:"Egal",od:""}]},
-    gravur:{q:"Personalisierung?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"ohne",ol:"Ohne Beleuchtung",od:"schlicht"}]},
+    gravur:{q:"Personalisierung?",type:"single",vis:function(){return true;},opts:[
       {v:"mit",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
-      {v:"ohne",ol:"Ohne Gravur",od:"schlicht"},
-      {v:"egal",ol:"Egal",od:""}]},
+      {v:"ohne",ol:"Ohne Gravur",od:"schlicht"}]},
     material:{q:"Bevorzugtes Material?",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"rostfrei, V2A",attr:"material"},
       {v:"stahl",ol:"Stahl pulverbeschichtet",od:"RAL-Farbe",attr:"material"},
@@ -916,16 +913,14 @@
       {v:"set",ol:"Komplett-Set",od:"Kamera(s) + Rekorder, vorkonfiguriert"},
       {v:"rekorder",ol:"Videorekorder (NVR)",od:"Aufzeichnung für IP-Kameras"},
       {v:"alarm",ol:"Alarmanlage",od:"Einbruch- & Gefahrenmeldung"}]},
-    anschluss:{q:"Wie soll die Kamera angebunden werden?",type:"single",req:true,vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
+    anschluss:{q:"Wie soll die Kamera angebunden werden?",type:"single",vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
       {v:"poe",ol:"Kabel (PoE/LAN)",od:"stabil, Strom über Netzwerkkabel"},
-      {v:"wlan",ol:"WLAN (kabellos)",od:"einfache Montage, ohne Netzwerkkabel"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]},
-    aufloesung:{q:"Welche Auflösung?",type:"single",req:true,vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
+      {v:"wlan",ol:"WLAN (kabellos)",od:"einfache Montage, ohne Netzwerkkabel"}]},
+    aufloesung:{q:"Welche Auflösung?",type:"single",vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
       {v:"2",ol:"2 MP (Full-HD)",od:"Einstieg"},
       {v:"4",ol:"ab 4 MP",od:"hohe Detailschärfe"},
       {v:"6",ol:"ab 6 MP",od:"sehr hohe Auflösung"},
-      {v:"8",ol:"8 MP (4K)",od:"maximale Detailschärfe"},
-      {v:"egal",ol:"Egal",od:""}]},
+      {v:"8",ol:"8 MP (4K)",od:"maximale Detailschärfe"}]},
     extras:{q:"Besondere Kamera-Funktionen?",type:"multi",soft:true,vis:function(a){return a.type==="kamera"||a.type==="set";},opts:[
       {v:"nachtfarbe",ol:"Nachtsicht in Farbe",od:"farbige Nachtaufnahmen",attr:"nachtColor"},
       {v:"ptz",ol:"Schwenkbar (PTZ)",od:"dreh-/neigbar, Zoom",attr:"ptz"},
@@ -1021,14 +1016,12 @@
       {v:"3",ol:"3 Mülltonnen",od:""},
       {v:"4",ol:"4 Mülltonnen",od:""},
       {v:"5",ol:"5 Mülltonnen",od:"Großanlage"}]},
-    dach:{q:"Mit begrünbarem Pflanzdach?",type:"single",req:true,vis:function(){return true;},opts:[
+    dach:{q:"Mit begrünbarem Pflanzdach?",type:"single",vis:function(){return true;},opts:[
       {v:"pflanz",ol:"Mit Pflanzdach",od:"begrünbares Dach"},
-      {v:"ohne",ol:"Ohne Pflanzdach",od:"klassisches Flachdach"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]},
-    pedal:{q:"Freihändige Bedienung per Fußpedal?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"ohne",ol:"Ohne Pflanzdach",od:"klassisches Flachdach"}]},
+    pedal:{q:"Freihändige Bedienung per Fußpedal?",type:"single",vis:function(){return true;},opts:[
       {v:"ja",ol:"Mit Fußpedal",od:"freihändige Bedienung"},
-      {v:"nein",ol:"Ohne Fußpedal",od:"klassische Bedienung"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]},
+      {v:"nein",ol:"Ohne Fußpedal",od:"klassische Bedienung"}]},
     optik:{q:"Bevorzugte Optik?",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"schlicht",ol:"Schlicht",od:"glatte Front",attr:"optik"},
       {v:"design",ol:"Design-Muster",od:"Rauten-/Quadrat-/Linienmuster",attr:"optik"},
