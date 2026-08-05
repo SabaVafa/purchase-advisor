@@ -493,7 +493,7 @@
     {id:35908,sku:"AU_D12080",series:"Vitus",name:"Metzler Klingel Aufputz Zweifamilienhaus Gravur | Vitus M2",url:"metzler-klingel-aufputz-zweifamilienhaus-gravur-vitus-m2",price:69.99,conn:"wired",taster:[2],label:["gravur"],ledbtn:true,ledname:false,hausnr:false,optik:["schlicht"],finish:["schwarz","edelstahl","grau","eisenglimmer","anthrazit","weiss"],mount:["aufputz"]},
     {id:40999,sku:"RE-3fach",series:"Tara",name:"Metzler Klingel Aufputz austauschbare Namensschilder | Tara M3",url:"metzler-klingel-aufputz-austauschbare-namensschilder-tara-m3",price:109,conn:"wired",taster:[3],label:["schild"],ledbtn:true,ledname:false,hausnr:false,optik:["design"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
     {id:35914,sku:"RE-5fach",series:"Tara",name:"Metzler Klingel Aufputz mit austauschbaren Namensschildern | Tara M5",url:"metzler-klingel-aufputz-mit-austauschbaren-namensschildern-tara-m5",price:129,conn:"wired",taster:[5],label:["schild"],ledbtn:true,ledname:false,hausnr:false,optik:["design"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
-    {id:42851,sku:"6AU-RENZ-CE4",series:"Tara",name:"Metzler Klingel Aufputz | 6 Klingeltaster | austauschbare Namensschilder | Tara M6",url:"metzler-klingel-aufputz-6-klingeltaster-austauschbare-namensschilder-tara-m6",price:139,conn:"wired",taster:[6],label:["schild"],ledbtn:true,ledname:false,hausnr:false,optik:["design"],finish:[],mount:["aufputz"]},
+    {id:42851,sku:"6AU-RENZ-CE4",series:"Tara",name:"Metzler Klingel Aufputz | 6 Klingeltaster | austauschbare Namensschilder | Tara M6",url:"metzler-klingel-aufputz-6-klingeltaster-austauschbare-namensschilder-tara-m6",price:139,conn:"wired",taster:[6],label:["schild"],ledbtn:true,ledname:false,hausnr:false,optik:["design"],finish:["edelstahl","anthrazit"],mount:["aufputz"]},
     {id:43348,sku:"AU-Ce-Modell2020",series:"Selma",name:"Metzler Klingel Aufputz | Selma",url:"metzler-klingel-aufputz-selma",price:99.99,conn:"wired",taster:[1],label:["schild"],ledbtn:false,ledname:false,hausnr:false,optik:["design"],finish:["schwarz","anthrazit"],mount:["aufputz"]},
     {id:5416,sku:"Caesar_web",series:"Selma Slim",name:"Metzler Klingel Edelstahl Schwarz | Selma Slim",url:"metzler-klingel-edelstahl-schwarz-selma-slim",price:99.99,conn:"wired",taster:[1],label:["schild"],ledbtn:false,ledname:false,hausnr:false,optik:["design"],finish:["schwarz"],mount:["unterputz"]},
     {id:13854,sku:"RE_3fach",series:"Tara Slim",name:"Metzler Klingel Edelstahl austauschbare Namensschilder | Tara Slim M3",url:"metzler-klingel-edelstahl-austauschbare-namensschilder-tara-slim-m3",price:99,conn:"wired",taster:[3],label:["schild"],ledbtn:true,ledname:false,hausnr:false,optik:["design"],finish:["edelstahl"],mount:["aufputz"]},
@@ -552,7 +552,7 @@
 
   /* ---------- TÜRKLINGEL QUIZ ---------- */
   var TK_STEPS={
-    conn:{q:"Wie möchten Sie die Klingel anschließen?",help:"Sie entscheidet über die halbe Auswahl.",type:"single",req:true,vis:function(){return true;},opts:[
+    conn:{q:"Wie möchten Sie die Klingel anschließen?",help:"Der Anschluss entscheidet über die halbe Auswahl.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"wired",ol:"An vorhandene Klingeldrähte",od:"klassischer Kabelanschluss"},
       {v:"funk",ol:"Kabellos (Funk)",od:"Funksender – kein Kabel nötig · Empfänger separat"}]},
     parties:{q:"Für wie viele Wohneinheiten / Klingeltaster?",en:"How many parties / call buttons?",type:"single",req:true,vis:function(){return true;},opts:[
@@ -1139,7 +1139,6 @@
   function tkEmpty(a){
     var hint="Passen Sie einzelne Angaben an.";
     if(a.label==="symbol"&&a.parties&&(+a.parties>1))hint="Eine Klingel mit reinem Klingelsymbol gibt es nur für eine Partei. Für mehrere Parteien wählen Sie ein Lasergraviertes Namensschild oder ein Namensschild mit Papiereinleger.";
-    else if((a.beleuchtung||[]).indexOf("hausnr")>-1&&a.conn==="funk")hint="Eine integrierte beleuchtete Hausnummer gibt es derzeit nur bei kabelgebundenen Modellen (Gala, Erik).";
     return emptyCard(hint);
   }
   function tkResultNote(a){ return ""; }
