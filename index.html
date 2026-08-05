@@ -718,11 +718,10 @@
 
   /* ---------- BRIEFKASTEN QUIZ ---------- */
   var BK_STEPS={
-    bauform:{q:"Wie soll der Briefkasten montiert werden?",help:"Sie bestimmt die Bauform.",type:"single",req:true,vis:function(){return true;},opts:[
+    bauform:{q:"Wie soll der Briefkasten montiert werden?",help:"Sie bestimmt die Bauform.",type:"single",vis:function(){return true;},opts:[
       {v:"wand",ol:"Wandbriefkasten",od:"Aufputz – an die Wand montiert"},
       {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"},
-      {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]},
+      {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"}]},
     fach:{q:"Für wie viele Wohneinheiten / Briefkastenfächer?",en:"How many parties / mailbox compartments?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},
       {v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
@@ -731,10 +730,9 @@
     combo:{q:"Nur Briefkasten – oder mit Klingel & Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"none",ol:"Nur Briefkasten",od:"ohne Klingel/Sprechanlage"},
       {v:"combo",ol:"Mit Klingel & Sprechanlage",od:"integrierte IP-Video-Türstation"}]},
-    zeitung:{q:"Mit Zeitungsfach?",type:"single",req:true,vis:function(){return true;},opts:[
+    zeitung:{q:"Mit Zeitungsfach?",type:"single",vis:function(){return true;},opts:[
       {v:"ja",ol:"Mit Zeitungsfach",od:"Platz für Zeitungen"},
-      {v:"nein",ol:"Ohne Zeitungsfach",od:"kompakter"},
-      {v:"egal",ol:"Egal / noch offen",od:""}]},
+      {v:"nein",ol:"Ohne Zeitungsfach",od:"kompakter"}]},
     material:{q:"Bevorzugtes Material?",type:"multi",soft:true,vis:function(){return true;},opts:[
       {v:"edelstahl",ol:"Edelstahl",od:"rostfrei, V2A",attr:"material"},
       {v:"acryl",ol:"Acrylglas-Front",od:"moderne Optik",attr:"material"},
@@ -1509,6 +1507,9 @@
     var dots=""; for(var d=0;d<total;d++) dots+='<span class="'+(d<pos?"is-done":(d===pos?"is-current":""))+'"></span>';
     var isLast=pos===total-1;
     var canNext = multi ? true : (st.req ? cur!=null : true);
+    /* optional single-select with nothing chosen yet → label the forward button "Überspringen" so
+       skipping is discoverable (replaces the explicit "Egal / noch offen" option) */
+    var nextLbl = isLast ? "Empfehlung anzeigen" : ((!multi && !st.req && cur==null) ? "Überspringen" : "Weiter");
     var lc=liveCount(av);
     var flash=""; state.flash=null;
     quizEl.innerHTML=''
@@ -1523,7 +1524,7 @@
         +'<div class="advisor__nav-left">'
           +(pos>0?'<button type="button" class="advisor__back" data-back>'+CHEV+'Zurück</button>':'')
         +'</div>'
-        +'<button type="button" class="advisor__forward'+(isLast?' advisor__forward--cta':'')+'" data-next'+(canNext?'':' disabled')+'>'+(isLast?'Empfehlung anzeigen':'Weiter')+CHEV+'</button>'
+        +'<button type="button" class="advisor__forward'+(isLast?' advisor__forward--cta':'')+'" data-next'+(canNext?'':' disabled')+'>'+nextLbl+CHEV+'</button>'
         +'<span class="advisor__count'+(lc===0?' is-none':'')+'">'+(lc===0?'Diese Kombination ergibt derzeit <b>kein</b> passendes Modell – passen Sie eine Angabe an.':'Aktuell passen <b>'+lc+'</b> von '+TOTAL+' Modellen zu Ihrer Auswahl.')+'</span>'
       +'</div>'
       +'</div>';
