@@ -618,7 +618,8 @@
     {id:36621,sku:"Siebert",series:"Siebert",name:"Metzler Briefkasten aus hochwertigem Stahl | Siebert",url:"metzler-briefkasten-aus-hochwertigem-stahl-siebert",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",material:["stahl","edelstahl"],finish:["schwarz","edelstahl","grau","eisenglimmer","anthrazit","weiss","wunsch"]},
     {id:36620,sku:"Ebenhard",series:"Ebenhard",name:"Metzler Briefkasten austauschbares Namensschild | Ebenhard",url:"metzler-briefkasten-austauschbares-namensschild-ebenhard",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",material:["edelstahl","stahl"],finish:["schwarz","edelstahl","grau","eisenglimmer","anthrazit","weiss","wunsch"]},
     {id:43524,sku:"hoffmann24",series:"hoffmann24",name:"Metzler Briefkasten austauschbares Namensschild | Hoffmann",url:"metzler-briefkasten-austauschbares-namensschild-hoffmann",price:109,bauform:"wand",fmax:1,combo:false,zeitung:"ja",material:["stahl","edelstahl"],finish:["schwarz","grau","eisenglimmer","anthrazit","weiss"]},
-    {id:43542,sku:"ZBK-Emma-2",series:"ZBK-Emma",name:"Metzler Briefkasten für Zaunmontage | Zaunbriefkasten | personalisiert mit Gravur | Anthrazit RAL 7016 | Emma 2",url:"metzler-briefkasten-fuer-zaunmontage-zaunbriefkasten-personalisiert-mit-gravur-anthrazit-ral-7016-emma-2",price:149,bauform:"wand",fmax:1,combo:false,zeitung:null,material:[],finish:["anthrazit"]},
+    {id:43530,sku:"ZBK-Emma-1",series:"ZBK-Emma",name:"Metzler Briefkasten für Zaunmontage | Zaunbriefkasten |  personalisiert mit Gravur | Anthrazit RAL 7016 | Emma",url:"metzler-briefkasten-fuer-zaunmontage-zaunbriefkasten-personalisiert-mit-gravur-anthrazit-ral-7016-emma",price:149,bauform:"zaun",fmax:1,combo:false,zeitung:null,material:[],finish:["anthrazit"]},
+    {id:43542,sku:"ZBK-Emma-2",series:"ZBK-Emma",name:"Metzler Briefkasten für Zaunmontage | Zaunbriefkasten | personalisiert mit Gravur | Anthrazit RAL 7016 | Emma 2",url:"metzler-briefkasten-fuer-zaunmontage-zaunbriefkasten-personalisiert-mit-gravur-anthrazit-ral-7016-emma-2",price:149,bauform:"zaun",fmax:1,combo:false,zeitung:null,material:[],finish:["anthrazit"]},
     {id:36041,sku:"CUBE",series:"CUBE",name:"Metzler Briefkasten hochwertiger Stahl Sichtfenster | Cube",url:"metzler-briefkasten-hochwertiger-stahl-sichtfenster-cube",price:99.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",material:["edelstahl"],finish:["schwarz","grau","eisenglimmer","anthrazit","weiss"]},
     {id:42093,sku:"VA-Ebenhard-Frame-B",series:"VA-Ebenhard-Frame-B",name:"Metzler Briefkasten mit Blumenkasten | personalisiert mit Gravur | Edelstahl-Namensschild | Siebert Frame J",url:"metzler-briefkasten-mit-blumenkasten-personalisiert-mit-gravur-edelstahl-namensschild-siebert-frame-j",price:119,bauform:"wand",fmax:1,combo:false,zeitung:"ja",material:["stahl","edelstahl"],finish:["schwarz","edelstahl","grau","eisenglimmer","anthrazit","weiss","wunsch"]},
     {id:37777,sku:"Hoffmann27",series:"Hoffmann27",name:"Metzler Briefkasten mit Edelstahl-Namensschild | Enno",url:"metzler-briefkasten-mit-edelstahl-namensschild-enno",price:89.99,bauform:"wand",fmax:1,combo:false,zeitung:"ja",material:["edelstahl"],finish:["schwarz","edelstahl","grau","eisenglimmer","anthrazit"]},
@@ -711,7 +712,8 @@
     bauform:{q:"Wie soll der Briefkasten montiert werden?",help:"Sie bestimmt die Bauform.",type:"single",vis:function(){return true;},opts:[
       {v:"wand",ol:"Wandbriefkasten",od:"Aufputz – an die Wand montiert"},
       {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"},
-      {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"}]},
+      {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"},
+      {v:"zaun",ol:"Zaunbriefkasten",od:"an Zaun oder Geländer montiert"}]},
     fach:{q:"Für wie viele Wohneinheiten / Briefkastenfächer?",en:"How many parties / mailbox compartments?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},
       {v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
@@ -729,7 +731,7 @@
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Holz & Wunschfarbe",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#a9754a,#b98db0,#8ba6c4,#8d9092)"}]},
+      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Holz & Wunschfarbe",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#a9754a,#b98db0,#8ba6c4,#8d9092)"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer","holz","wunsch"]);},opts:[
       {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
@@ -1159,7 +1161,7 @@
   function bkScore(){ return 0; }
   function bkSummary(a){
     var out=[];
-    if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandbriefkasten",stand:"Standbriefkasten",unterputz:"Unterputz"}[a.bauform],"bauform"]);
+    if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandbriefkasten",stand:"Standbriefkasten",unterputz:"Unterputz",zaun:"Zaunbriefkasten"}[a.bauform],"bauform"]);
     if(a.fach)out.push(["Parteien",({"4":"4–6",many:"7–15"}[a.fach])||a.fach,"fach"]);
     if(a.combo)out.push(["Ausführung",{none:"Nur Briefkasten",combo:"mit Klingel & Sprechanlage"}[a.combo],"combo"]);
     if(a.zeitung&&a.zeitung!=="egal")out.push(["Zeitungsfach",{ja:"mit",nein:"ohne"}[a.zeitung],"zeitung"]);
@@ -1495,7 +1497,17 @@
       if(o.v==="egal"||o.v==="open"||o.v==="unsure") delete stt.count;
       /* dead option: replace the generic "kein passendes Modell" with the exact conflicting answer, if known */
       if(stt.off && stt.note==="derzeit kein passendes Modell"){ var r=deadReason(id,o,av); if(r) stt.note=r; }
-      return optHTML(o,sel,stt);
+      /* A bucket option (o.sub -> a conditional sub-step, e.g. "Weitere Farben" -> farbeAndere):
+         replace its static subtitle with the sub-options that ACTUALLY exist for the current
+         selection (e.g. no Holz/Wunschfarbe on the Briefkasten combo path). */
+      var oo=o;
+      if(o.sub && CAT.steps[o.sub]){
+        var base=applyAns(id,o,av), avail=[];
+        CAT.steps[o.sub].opts.forEach(function(so){ var b={}; for(var bk in base)b[bk]=base[bk]; b[o.sub]=so.v;
+          if(CAT.products.some(function(p){return matches(p,b);})) avail.push(so.ol.replace(/\s*\(.*\)$/,"")); });
+        if(avail.length){ oo={}; for(var ok in o)oo[ok]=o[ok]; oo.od=avail.length<=1?avail[0]:(avail.slice(0,-1).join(", ")+" & "+avail[avail.length-1]); }
+      }
+      return optHTML(oo,sel,stt);
     }).join("");
     var dots=""; for(var d=0;d<total;d++) dots+='<span class="'+(d<pos?"is-done":(d===pos?"is-current":""))+'"></span>';
     var isLast=pos===total-1;
