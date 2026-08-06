@@ -1143,8 +1143,9 @@
   /* ================= BRIEFKASTEN category logic ================= */
   function bkMatches(p,a){
     /* 7–15 Fächer ("many") = Großobjekt: no off-the-shelf box exists (real fmax tops out at 6),
-       so the result is ONLY the Konfigurator pseudo-product, which ignores the other filters. */
-    if(p.konfig) return a.fach==="many";
+       so the result is ONLY the Konfigurator pseudo-product. The Konfigurator anlage is Wand or
+       Stand only (not Unterputz/Zaun), so 7–15 is offered only on those bauform paths. */
+    if(p.konfig) return a.fach==="many" && (!a.bauform || a.bauform==="wand" || a.bauform==="stand");
     if(a.fach==="many") return false;
     if(a.bauform&&a.bauform!=="egal"&&p.bauform!==a.bauform)return false;
     if(a.fach){ if(a.fach==="4"){ if(!(p.fmax>=4))return false; } else { if(p.fmax!==+a.fach)return false; } }
