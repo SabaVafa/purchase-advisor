@@ -1542,6 +1542,7 @@
           if(arr.join(",")!==old) clearFuture(id,a);   /* a changed answer invalidates downstream steps */
           a[id]=arr; renderStep(id);
         } else {
+          if(!st.req && a[id]===v){ delete a[id]; clearFuture(id,a); renderStep(id); return; }  /* optional step: re-pressing the selected option deselects it (back to "Überspringen") */
           if(a[id]!==v) clearFuture(id,a);              /* a changed answer invalidates downstream steps */
           a[id]=v;
           renderStep(id);   /* reflect the choice; advance only when the user presses Weiter (no auto-advance) */
