@@ -1181,7 +1181,7 @@
     else if(a.combo&&a.combo!=="none"&&a.fach&&(+a.fach>2))hint="Briefkästen mit Klingel/Sprechanlage bieten wir vor allem für 1–2 Parteien. Für mehr Parteien wählen Sie „Nur Briefkasten“ oder unsere Sprechanlagen.";
     return emptyCard(hint);
   }
-  function bkResultNote(a){ if(a.combo==="sprech")return '<p class="advisor__hint">Diese Modelle enthalten eine IP-Video-Türsprechanlage – Innenstation und Netzteil ggf. separat. Details über den Sprechanlagen-Kaufberater.</p>'; if(a.combo==="funk")return '<p class="advisor__hint">Kabellose Funkklingel – der Funk-Empfänger (Gong) für innen ist separat erhältlich.</p>'; return ""; }
+  function bkResultNote(){ return ""; }
 
   /* ================= PAKETBOX category logic ================= */
   function pbMatches(p,a){
@@ -1210,7 +1210,7 @@
     else if(a.combo&&a.combo!=="none"&&a.beleuchtung==="led")hint="Die Paketbox-Kombis mit Klingel/Sprechanlage gibt es derzeit ohne LED-Beleuchtung.";
     return emptyCard(hint);
   }
-  function pbResultNote(a){ if(a.combo==="sprech")return '<p class="advisor__hint">Diese Modelle enthalten eine IP-Video-Türsprechanlage – Innenstation und Netzteil ggf. separat. Details über den Sprechanlagen-Kaufberater.</p>'; if(a.combo==="funk")return '<p class="advisor__hint">Kabellose Funkklingel – der Funk-Empfänger (Gong) für innen ist separat erhältlich.</p>'; return ""; }
+  function pbResultNote(){ return ""; }
 
   /* ================= SICHERHEITSTECHNIK category logic ================= */
   function secMatches(p,a){
