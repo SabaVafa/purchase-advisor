@@ -1025,15 +1025,14 @@
       {v:"farbe",ol:"Farbe (lackiert)",od:"glatt, in RAL-Farbe"},
       {v:"holz",ol:"Holzoptik",od:"warme Holz-Anmutung"},
       {v:"rauputz",ol:"Rauputz",od:"strukturierte Putz-Oberfläche"}]},
-    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","weiss","grau","eisenglimmer","braun","beige"]);},opts:[
+    farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","weiss","grau","eisenglimmer","beige"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Braun & Beige",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#9a7b4f,#cbb894,#8d9092)"}]},
-    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer","braun","beige"]);},opts:[
+      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer & Beige",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#cbb894,#8d9092)"}]},
+    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer","beige"]);},opts:[
       {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
-      {v:"braun",ol:"Braun",od:"",sw:"#9a7b4f"},
       {v:"beige",ol:"Beige",od:"",sw:"#cbb894"}]}
   };
   var MT_ORDER=["tonnen","dach","pedal","oberflaeche","farbe","farbeAndere"];
@@ -1254,7 +1253,7 @@
     if(a.dach&&a.dach!=="egal"){ if(a.dach==="pflanz"&&!p.pflanz)return false; if(a.dach==="ohne"&&p.pflanz)return false; }
     if(a.pedal&&a.pedal!=="egal"){ if(a.pedal==="ja"&&!p.pedal)return false; if(a.pedal==="nein"&&p.pedal)return false; }
     if(a.oberflaeche&&a.oberflaeche!=="egal"&&p.oberflaeche!==a.oberflaeche)return false;
-    if(a.farbe&&a.farbe!=="egal"){ if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["grau","eisenglimmer","braun","beige"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; } else if((p.finish||[]).indexOf(a.farbe)<0)return false; }
+    if(a.farbe&&a.farbe!=="egal"){ if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["grau","eisenglimmer","beige"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; } else if((p.finish||[]).indexOf(a.farbe)<0)return false; }
     return true;
   }
   function mtScore(){ return 0; }
@@ -1264,7 +1263,7 @@
     if(a.dach&&a.dach!=="egal")out.push(["Dach",{pflanz:"Pflanzdach",ohne:"Deckel"}[a.dach],"dach"]);
     if(a.pedal&&a.pedal!=="egal")out.push(["Fußpedal",{ja:"mit",nein:"ohne"}[a.pedal],"pedal"]);
     if(a.oberflaeche&&a.oberflaeche!=="egal")out.push(["Oberfläche",{farbe:"Farbe",holz:"Holzoptik",rauputz:"Rauputz"}[a.oberflaeche],"oberflaeche"]);
-    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer",braun:"Braun",beige:"Beige"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",weiss:"Weiß"}[a.farbe],"farbe"]);
+    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer",beige:"Beige"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",weiss:"Weiß"}[a.farbe],"farbe"]);
     return chipsHTML(out);
   }
   function mtEmpty(a){ return emptyCard("Passen Sie einzelne Angaben an."); }
