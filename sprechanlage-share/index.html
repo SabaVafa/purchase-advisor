@@ -2398,7 +2398,7 @@
     else list=list.slice(0,3);
 
     var title = relaxed ? 'Am ehesten passend' : (exact>=2 ? '<strong>'+exact+'</strong> passende '+CAT.nounPl : 'Unsere Top-Empfehlung');
-    var solo = list.length===1;
+    var solo = false;
     var relaxNote = relaxed ? '<p class="advisor__hint">Kein Modell passt exakt zu allen Angaben – diese kommen Ihrer Auswahl am nächsten. Passen Sie einzelne Angaben an oder lassen Sie sich kostenlos beraten.</p>' : '';
     var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&!relaxed,solo);}).join("")+'</div>' : "";
     var note = list.length ? CAT.resultNote(a) : "";

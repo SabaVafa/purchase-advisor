@@ -174,8 +174,8 @@
     transition:opacity .4s ease,transform .4s ease}
   .advisor__result.is-in{opacity:1;transform:none}
   .advisor__result-title{margin:0;font-size:var(--text-h4);font-weight:700;color:var(--schwarz)}
-  .advisor__recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:var(--sp-4);align-items:stretch}
-  .advisor__rec{display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
+  .advisor__recs{display:flex;flex-wrap:wrap;gap:var(--sp-4);align-items:flex-start}
+  .advisor__rec{flex:0 0 320px;max-width:100%;min-height:7.5rem;display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
     border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s}
   .advisor__rec:hover{border-color:var(--teal);box-shadow:var(--shadow-md)}
   .advisor__rec.is-best{border-color:var(--graphite-300)}
@@ -1693,7 +1693,7 @@
     else list=list.slice(0,3);
 
     var title = relaxed ? 'Am ehesten passend' : (exact>=2 ? '<strong>'+exact+'</strong> passende '+CAT.nounPl : 'Unsere Top-Empfehlung');
-    var solo = list.length===1;
+    var solo = false;
     var relaxNote = relaxed ? '<p class="advisor__hint">Kein Modell passt exakt zu allen Angaben – diese kommen Ihrer Auswahl am nächsten. Passen Sie einzelne Angaben an'+(CAT.support?' oder lassen Sie sich kostenlos beraten':'')+'.</p>' : '';
     var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&!relaxed,solo);}).join("")+'</div>' : "";
     var note = list.length ? CAT.resultNote(a) : "";

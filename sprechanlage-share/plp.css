@@ -1431,7 +1431,7 @@
 .advisor__result-title strong { color: var(--schwarz); }   /* count stays in the title ink, not teal */
 
 /* Curated recommendation cards — DS product-card treatment (radius-lg, Graphite 300) */
-.advisor__recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--sp-4); align-items: stretch; }   /* horizontal, equal-height cards */
+.advisor__recs { display: flex; flex-wrap: wrap; gap: var(--sp-4); align-items: flex-start; justify-content: flex-start; }   /* fixed-size cards, left-aligned, no stretch */
 /* Single recommendation (e.g. Paketbox + Sprechanlage) → a composed "featured"
    card: prominent image, a title/price header separated from a tidy two-column
    check-list. Fills the row without the cluttered look of many bullet columns. */
@@ -1481,6 +1481,7 @@
 .advisor__konfig-go svg { width: 18px; height: 18px; }
 @media (max-width: 560px) { .advisor__konfig { flex-wrap: wrap; } .advisor__konfig-go { width: 100%; justify-content: flex-end; } }
 .advisor__rec {
+  flex: 0 0 320px; max-width: 100%; min-height: 7.5rem;
   display: flex; align-items: center; gap: var(--sp-3);
   padding: var(--sp-3); border: 1px solid var(--graphite-300); border-radius: var(--r-l);
   background: var(--white); text-decoration: none; color: inherit;
