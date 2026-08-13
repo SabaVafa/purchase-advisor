@@ -1454,7 +1454,7 @@
 @media (max-width: 620px) { .advisor__rec-features { grid-template-columns: 1fr; } }
 
 /* Separate "extra option": made-to-measure Briefkastenanlagen-Konfigurator (distinct from the product cards) */
-.advisor__konfig-block { margin-top: var(--sp-5); }
+.advisor__konfig-block { margin-top: var(--sp-2); }
 .advisor__konfig-eyebrow { margin: 0 0 var(--sp-2); font-size: var(--text-caption); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-60); }
 .advisor__konfigcard { position: relative; display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-3); overflow: hidden; border: 1px solid var(--teal); border-radius: var(--r-l); background: var(--teal-5); text-decoration: none; transition: box-shadow .2s ease, transform .2s ease; }
 .advisor__konfigcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--teal); }
@@ -1494,7 +1494,7 @@
 }
 .advisor__rec-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
 .advisor__rec-info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 5px; }
-.advisor__rec-name { font-size: var(--text-body-sm); font-weight: 700; line-height: 1.375; color: var(--schwarz); }   /* Body SM Bold */
+.advisor__rec-name { font-size: var(--text-body-sm); font-weight: 700; line-height: 1.375; color: var(--schwarz); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }   /* Body SM Bold, max 3 Zeilen */
 .advisor__rec-price { font-size: var(--text-body); font-weight: 700; color: var(--schwarz); }   /* Body Bold */
 .advisor__rec-price s { margin-left: 6px; font-size: var(--text-body-sm); font-weight: 400; color: var(--ink-60); }
 .advisor__rec-go { flex: 0 0 auto; margin-left: auto; width: 20px; height: 20px; color: var(--teal); transition: transform .15s ease; }   /* right-aligned chevron — compact so the 2.25 stroke doesn't read oversized */

@@ -198,7 +198,8 @@
     color:var(--schwarz);background:var(--graphite-100);box-shadow:inset 0 0 0 1px rgba(0,0,0,0.08);border-radius:999px;padding:2px 9px}
   .advisor__rec-best{font-size:var(--text-caption);font-weight:600;text-transform:uppercase;letter-spacing:.04em;
     color:var(--teal);background:none;padding:2px 0}
-  .advisor__rec-name{font-size:var(--text-body-sm);font-weight:700;line-height:1.375;color:var(--schwarz)}
+  .advisor__rec-name{font-size:var(--text-body-sm);font-weight:700;line-height:1.375;color:var(--schwarz);
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
   .advisor__rec-price{font-size:var(--text-body);font-weight:700;color:var(--schwarz);white-space:nowrap}
   .advisor__rec-price small{font-weight:400;color:var(--ink-60);font-size:var(--text-caption)}
   .advisor__rec-features{list-style:none;margin:0;padding:var(--sp-3) 0 0;border-top:1px solid var(--line);
@@ -216,7 +217,7 @@
   .advisor__rec-go svg{width:18px;height:18px}
 
   /* Separate "extra option": made-to-measure Briefkastenanlagen-Konfigurator (distinct from the product cards) */
-  .advisor__konfig-block{margin-top:var(--sp-5)}
+  .advisor__konfig-block{margin-top:var(--sp-2)}
   .advisor__konfig-eyebrow{margin:0 0 var(--sp-2);font-size:var(--text-caption);font-weight:600;letter-spacing:.04em;
     text-transform:uppercase;color:var(--ink-60)}
   .advisor__konfigcard{position:relative;display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-3);overflow:hidden;
