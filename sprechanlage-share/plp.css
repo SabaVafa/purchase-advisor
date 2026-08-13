@@ -1460,10 +1460,9 @@
 .advisor__konfigcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--teal); }
 .advisor__konfigcard:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 .advisor__konfigcard:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
-.advisor__konfigcard-ico { flex: 0 0 auto; width: 56px; height: 56px; border-radius: var(--r-m); background: var(--teal); color: #fff; display: flex; align-items: center; justify-content: center; }
-.advisor__konfigcard-ico svg { width: 30px; height: 30px; }
+.advisor__konfigcard-thumb { flex: 0 0 auto; width: 84px; height: 84px; border-radius: var(--r-m); overflow: hidden; background: #fff; }
+.advisor__konfigcard-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .advisor__konfigcard-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
-.advisor__konfigcard-badge { align-self: flex-start; font-size: var(--text-caption); font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--teal-700); background: var(--teal-10, #E6EFEE); padding: 2px 9px; border-radius: 999px; }
 .advisor__konfigcard-title { font-size: var(--text-body); font-weight: 700; color: var(--schwarz); }
 .advisor__konfigcard-sub { font-size: var(--text-body-sm); line-height: 1.4; color: var(--ink-72); }
 .advisor__konfigcard-cta { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; color: var(--teal-700); white-space: nowrap; }
