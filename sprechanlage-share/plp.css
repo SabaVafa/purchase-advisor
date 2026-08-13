@@ -1456,11 +1456,11 @@
 /* Separate "extra option": made-to-measure Briefkastenanlagen-Konfigurator (distinct from the product cards) */
 .advisor__konfig-block { margin-top: var(--sp-5); }
 .advisor__konfig-eyebrow { margin: 0 0 var(--sp-2); font-size: var(--text-caption); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-60); }
-.advisor__konfigcard { position: relative; display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4); overflow: hidden; border: 1px solid var(--teal); border-radius: var(--r-l); background: var(--teal-5); text-decoration: none; transition: box-shadow .2s ease, transform .2s ease; }
+.advisor__konfigcard { position: relative; display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-3); overflow: hidden; border: 1px solid var(--teal); border-radius: var(--r-l); background: var(--teal-5); text-decoration: none; transition: box-shadow .2s ease, transform .2s ease; }
 .advisor__konfigcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--teal); }
 .advisor__konfigcard:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 .advisor__konfigcard:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
-.advisor__konfigcard-thumb { flex: 0 0 auto; width: 84px; height: 84px; border-radius: var(--r-m); overflow: hidden; background: #fff; }
+.advisor__konfigcard-thumb { flex: 0 0 auto; width: 56px; height: 56px; border-radius: var(--r-m); overflow: hidden; background: #fff; }
 .advisor__konfigcard-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .advisor__konfigcard-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
 .advisor__konfigcard-title { font-size: var(--text-body); font-weight: 700; color: var(--schwarz); }

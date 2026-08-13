@@ -219,13 +219,13 @@
   .advisor__konfig-block{margin-top:var(--sp-5)}
   .advisor__konfig-eyebrow{margin:0 0 var(--sp-2);font-size:var(--text-caption);font-weight:600;letter-spacing:.04em;
     text-transform:uppercase;color:var(--ink-60)}
-  .advisor__konfigcard{position:relative;display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-4);overflow:hidden;
+  .advisor__konfigcard{position:relative;display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-3);overflow:hidden;
     border:1px solid var(--teal);border-radius:var(--r-l);background:var(--teal-5);
     text-decoration:none;transition:box-shadow .2s ease,transform .2s ease}
   .advisor__konfigcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--teal)}
   .advisor__konfigcard:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
   .advisor__konfigcard:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-  .advisor__konfigcard-thumb{flex:0 0 auto;width:84px;height:84px;border-radius:var(--r-m);overflow:hidden;background:#fff}
+  .advisor__konfigcard-thumb{flex:0 0 auto;width:56px;height:56px;border-radius:var(--r-m);overflow:hidden;background:#fff}
   .advisor__konfigcard-thumb img{width:100%;height:100%;object-fit:cover;display:block}
   .advisor__konfigcard-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px}
   .advisor__konfigcard-title{font-size:var(--text-body);font-weight:700;color:var(--schwarz)}
@@ -1298,7 +1298,7 @@
          Briefkastenanlagen-Konfigurator. Shown whenever "Mit Briefkasten" is selected. */
       belowResult:function(a){ if(a.combo!=="briefkasten")return "";
         return '<div class="advisor__konfig-block">'
-          +'<p class="advisor__konfig-eyebrow">Auch möglich – individuell nach Maß</p>'
+          +'<p class="advisor__konfig-eyebrow">Auch möglich – individuell konfigurierbar</p>'
           +'<a class="advisor__konfigcard" href="'+BASE+'konfigurator/?configId=f5b83729-5b16-467f-8d09-7dd83d8adba0" target="_blank" rel="noopener">'
             +'<span class="advisor__konfigcard-thumb"><img src="'+imgSrc("metzler-briefkastenanlage-konfigurator-3d-planer.webp")+'" alt="Metzler Briefkastenanlage Konfigurator – 3D-Planer"></span>'
             +'<span class="advisor__konfigcard-body">'
@@ -1403,9 +1403,20 @@
          hides the step, so they're preconditions, not blockers. E.g. farbe="Weitere Farben" is the
          gate for the farbeAndere sub-step, not a reason Bronze is unavailable. */
       if(!ST(id).vis(c2)) continue;
-      if(liveCount(c2)>0) blockers.push(lblOf(k));
+      if(liveCount(c2)>0) blockers.push(k);
     }
-    return blockers.length ? "nicht mit "+blockers.join(" & ")+" kombinierbar" : null;
+    if(!blockers.length) return null;
+    /* If exactly one earlier answer blocks the option, state the POSITIVE availability rather than the
+       negative: when only a single value of that step unlocks the option, "nur mit 1 Partei" tells the
+       user directly what to pick, instead of forcing them to try every value. Two+ unlocking values
+       (or several blockers) → keep the generic "nicht mit … kombinierbar" note. */
+    if(blockers.length===1){ var bk=blockers[0],st=ST(bk);
+      if(st.type!=="multi"){ var base={}; for(var kk in b){ if(kk!==bk) base[kk]=b[kk]; }
+        var yes=[]; for(var i=0;i<st.opts.length;i++){ var c3={}; for(var x in base) c3[x]=base[x]; c3[bk]=st.opts[i].v; if(liveCount(c3)>0) yes.push(st.opts[i].ol); }
+        if(yes.length===1) return "nur mit "+yes[0];
+      }
+    }
+    return "nicht mit "+blockers.map(lblOf).join(" & ")+" kombinierbar";
   }
   function isAnswered(id){ var v=state.a[id]; return ST(id).type==="multi"?(Array.isArray(v)&&v.length>0):(v!=null); }
   /* A single-select filter step is only worth asking if its options can still lead
