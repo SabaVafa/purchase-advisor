@@ -1453,6 +1453,23 @@
 .advisor__rec--hero .advisor__rec-go { align-self: center; }
 @media (max-width: 620px) { .advisor__rec-features { grid-template-columns: 1fr; } }
 
+/* Separate "extra option": made-to-measure Briefkastenanlagen-Konfigurator (distinct from the product cards) */
+.advisor__konfig-block { margin-top: var(--sp-5); }
+.advisor__konfig-eyebrow { margin: 0 0 var(--sp-2); font-size: var(--text-caption); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-60); }
+.advisor__konfigcard { position: relative; display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4); overflow: hidden; border: 1px solid var(--teal); border-radius: var(--r-l); background: linear-gradient(135deg, var(--teal-5), #fff 70%); text-decoration: none; transition: box-shadow .2s ease, transform .2s ease; }
+.advisor__konfigcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--teal); }
+.advisor__konfigcard:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.advisor__konfigcard:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.advisor__konfigcard-ico { flex: 0 0 auto; width: 56px; height: 56px; border-radius: var(--r-m); background: var(--teal); color: #fff; display: flex; align-items: center; justify-content: center; }
+.advisor__konfigcard-ico svg { width: 30px; height: 30px; }
+.advisor__konfigcard-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.advisor__konfigcard-badge { align-self: flex-start; font-size: var(--text-caption); font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--teal-700); background: var(--teal-10, #E6EFEE); padding: 2px 9px; border-radius: 999px; }
+.advisor__konfigcard-title { font-size: var(--text-body); font-weight: 700; color: var(--schwarz); }
+.advisor__konfigcard-sub { font-size: var(--text-body-sm); line-height: 1.4; color: var(--ink-72); }
+.advisor__konfigcard-cta { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px; font-weight: 600; color: var(--teal-700); white-space: nowrap; }
+.advisor__konfigcard-cta svg { width: 18px; height: 18px; }
+@media (max-width: 560px) { .advisor__konfigcard { flex-wrap: wrap; } .advisor__konfigcard-cta { width: 100%; justify-content: flex-end; } }
+
 /* Mehrfamilien CTA → Briefkastenanlagen-Konfigurator (shown on the Briefkasten result only) */
 .advisor__konfig { display: flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-4); padding: 14px 18px; border-radius: var(--r-l); border: 1px solid rgba(1,82,83,0.25); background: var(--teal-10, #E6EFEE); color: var(--schwarz); text-decoration: none; transition: box-shadow .22s ease, border-color .22s ease; }
 .advisor__konfig:hover { box-shadow: var(--shadow-md); border-color: var(--teal); }

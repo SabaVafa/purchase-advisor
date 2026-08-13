@@ -215,6 +215,28 @@
   .advisor__rec--solo .advisor__rec-chev{position:absolute;top:50%;right:var(--sp-4);transform:translateY(-50%);margin:0}
   .advisor__rec-go svg{width:18px;height:18px}
 
+  /* Separate "extra option": made-to-measure Briefkastenanlagen-Konfigurator (distinct from the product cards) */
+  .advisor__konfig-block{margin-top:var(--sp-5)}
+  .advisor__konfig-eyebrow{margin:0 0 var(--sp-2);font-size:var(--text-caption);font-weight:600;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--ink-60)}
+  .advisor__konfigcard{position:relative;display:flex;align-items:center;gap:var(--sp-4);padding:var(--sp-4);overflow:hidden;
+    border:1px solid var(--teal);border-radius:var(--r-l);background:linear-gradient(135deg,var(--teal-5),#fff 70%);
+    text-decoration:none;transition:box-shadow .2s ease,transform .2s ease}
+  .advisor__konfigcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--teal)}
+  .advisor__konfigcard:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .advisor__konfigcard:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .advisor__konfigcard-ico{flex:0 0 auto;width:56px;height:56px;border-radius:var(--r-m);background:var(--teal);color:#fff;
+    display:flex;align-items:center;justify-content:center}
+  .advisor__konfigcard-ico svg{width:30px;height:30px}
+  .advisor__konfigcard-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px}
+  .advisor__konfigcard-badge{align-self:flex-start;font-size:var(--text-caption);font-weight:700;letter-spacing:.03em;
+    text-transform:uppercase;color:var(--teal-700);background:var(--teal-10,#E6EFEE);padding:2px 9px;border-radius:999px}
+  .advisor__konfigcard-title{font-size:var(--text-body);font-weight:700;color:var(--schwarz)}
+  .advisor__konfigcard-sub{font-size:var(--text-body-sm);line-height:1.4;color:var(--ink-72)}
+  .advisor__konfigcard-cta{flex:0 0 auto;display:inline-flex;align-items:center;gap:5px;font-weight:600;color:var(--teal-700);white-space:nowrap}
+  .advisor__konfigcard-cta svg{width:18px;height:18px}
+  @media (max-width:560px){.advisor__konfigcard{flex-wrap:wrap}.advisor__konfigcard-cta{width:100%;justify-content:flex-end}}
+
   /* Summary + actions */
   .advisor__summary{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:8px}
   .advisor__summary-hint{width:100%;font-size:var(--text-caption);color:var(--ink-60);margin:2px 0 0}
@@ -402,7 +424,6 @@
     {id:42329,sku:"SK212-SDM-1x",series:"SK212-SDM-1x",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Einfamilienhaus SDM10 | Touch-Display | Anthrazit RAL7016",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-einfamilienhaus-sdm10-touch-display-anthrazit-ral7016",price:2290,systems:["ip-lan","ip-2draht"],media:"video",combo:"briefkasten",taster:[1,2,3,4,5,6,7],flex:true,access:["app","rfid","face","pin","qr"],finish:["anthrazit"],led:false,display:true,nameplate:false,bauform:"stand",bfach:1,station:"sdm10"},
     {id:42274,sku:"SK212-VDM-2x",series:"SK212-VDM-2x",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Zweifamilienhaus VDM10 | Anthrazit RAL 7016",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-zweifamilienhaus-vdm10-anthrazit-ral-7016",price:1590,systems:["ip-lan","ip-2draht"],media:"video",combo:"briefkasten",taster:[2],flex:false,access:["app"],finish:["anthrazit"],led:false,display:false,nameplate:false,bauform:"stand",bfach:2,station:"vdm10"},
     {id:42331,sku:"SK212-SDM-2x",series:"SK212-SDM-2x",name:"Metzler Standbriefkasten mit Video-Türsprechanlage für Zweifamilienhaus SDM10 | Touch-Display | Anthrazit RAL7016",url:"metzler-standbriefkasten-mit-video-tuersprechanlage-fuer-zweifamilienhaus-sdm10-touch-display-anthrazit-ral7016",price:2390,systems:["ip-lan","ip-2draht"],media:"video",combo:"briefkasten",taster:[1,2,3,4,5,6,7],flex:true,access:["app","rfid","face","pin","qr"],finish:["anthrazit"],led:false,display:true,nameplate:false,bauform:"stand",bfach:2,station:"sdm10"},
-    {id:0,sku:"BK-ANLAGE",series:"BK-ANLAGE",name:"Metzler Briefkastenanlage nach Maß | bis zu 15 Briefkästen mit Video-Türsprechanlage",url:"konfigurator/?configId=3a666ad5-ae8b-4758-9cc8-82a79b41a281",price:0,priceNote:"individuell konfigurierbar",systems:["ip-lan","ip-2draht"],media:"video",combo:"briefkasten",taster:[1,2,3,4,5,6,7],flex:true,access:["app","rfid","face","pin","qr"],finish:["anthrazit"],led:false,display:false,nameplate:false,bauform:"both",bfach:"many",station:"both"},
     {id:45248,sku:"XDM10-MAXIOR-1T",series:"XDM10-MAXIOR",name:"Metzler XDM10 Video-Türsprechanlage mit austauschbarem Namensschild | 2-Draht-BUS | 1 Klingeltaster | Maxior",url:"metzler-xdm10-video-tuersprechanlage-mit-austauschbarem-namensschild-2-draht-bus-1-klingeltaster-maxior",price:899,systems:["bus"],media:"video",combo:false,taster:[1],flex:false,access:["app"],finish:["schwarz","grau","eisenglimmer","anthrazit","weiss","wunsch"],led:true,display:false,nameplate:true},
     {id:45256,sku:"XDM10-MAXIOR-2T",series:"XDM10-MAXIOR",name:"Metzler XDM10 Video-Türsprechanlage mit austauschbarem Namensschild | 2-Draht-BUS | 2 Klingeltaster | Maxior",url:"metzler-xdm10-video-tuersprechanlage-mit-austauschbarem-namensschild-2-draht-bus-2-klingeltaster-maxior",price:949,systems:["bus"],media:"video",combo:false,taster:[2],flex:false,access:["app"],finish:["schwarz","grau","eisenglimmer","anthrazit","weiss","wunsch"],led:true,display:false,nameplate:true},
     {id:45263,sku:"XDM10-MAXIOR-3T",series:"XDM10-MAXIOR",name:"Metzler XDM10 Video-Türsprechanlage mit austauschbarem Namensschild | 2-Draht-BUS | 3 Klingeltaster | Maxior",url:"metzler-xdm10-video-tuersprechanlage-mit-austauschbarem-namensschild-2-draht-bus-3-klingeltaster-maxior",price:999,systems:["bus"],media:"video",combo:false,taster:[3],flex:false,access:["app"],finish:["schwarz","grau","eisenglimmer","anthrazit","weiss","wunsch"],led:true,display:false,nameplate:true}
@@ -1062,12 +1083,13 @@
     if(a.parties){ if(a.parties==="many"){ if(!p.flex)return false; }
       else { var grp=a.parties==="4"?[4,5,6,7]:[+a.parties]; if(!(p.flex||grp.some(function(n){return p.taster.indexOf(n)>-1;})))return false; } }
     var sel=accessSel(a); for(var i=0;i<sel.length;i++){ if(p.access.indexOf(sel[i])===-1)return false; }
-    /* Briefkasten combo: mailbox count is derived from the party count (1/2 = fertiges Set,
-       3+/Flexibel = Konfigurator-Anlage), so a 1-Familien search never returns a 2-Familien box. */
+    /* Briefkasten combo: 1/2 Parteien = fertiges Set (1-/2-fach). 3+/Flexibel = skalierbare
+       SDM10-Sets (Touch-Display, "Flexibel von 1-500" Klingeltaster). Eine Briefkastenanlage
+       nach Maß wird zusätzlich als separate Option unter den Empfehlungen angeboten (belowResult). */
     if(a.combo==="briefkasten"&&a.parties){
-      if(a.parties==="1"){ if(!(p.bfach===1||p.bfach==="many"))return false; }
-      else if(a.parties==="2"){ if(!(p.bfach===2||p.bfach==="many"))return false; }
-      else { if(p.bfach!=="many")return false; }
+      if(a.parties==="1"){ if(p.bfach!==1)return false; }
+      else if(a.parties==="2"){ if(p.bfach!==2)return false; }
+      else { if(!p.flex)return false; }
     }
     if(a.bauform&&p.bauform&&p.bauform!=="both"&&p.bauform!==a.bauform)return false;
     if(a.station&&p.station&&p.station!=="both"&&p.station!==a.station)return false;
@@ -1275,6 +1297,21 @@
       imgPlaceholder:"metzler-video-tuersprechanlage-mit-paketbox-anthrazit-ral-7016-personalisiert-mit-gravur-edelstahl-namensschild.webp",
       matches:spMatches,score:spScore,deriveSystem:spDerive,optState:spOptState,summaryChips:spSummary,emptyHTML:spEmpty,
       resultNote:function(a){return "";},
+      /* Separate, distinctly-styled extra option below the main suggestions: the made-to-measure
+         Briefkastenanlagen-Konfigurator. Shown whenever "Mit Briefkasten" is selected. */
+      belowResult:function(a){ if(a.combo!=="briefkasten")return "";
+        return '<div class="advisor__konfig-block">'
+          +'<p class="advisor__konfig-eyebrow">Auch möglich – individuell nach Maß</p>'
+          +'<a class="advisor__konfigcard" href="'+BASE+'konfigurator/?configId=f5b83729-5b16-467f-8d09-7dd83d8adba0" target="_blank" rel="noopener">'
+            +'<span class="advisor__konfigcard-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="8" height="7" rx="1"/><rect x="13" y="4" width="8" height="7" rx="1"/><rect x="3" y="13" width="8" height="7" rx="1"/><rect x="13" y="13" width="8" height="7" rx="1"/><path d="M6 7.5h2M16 7.5h2M6 16.5h2M16 16.5h2"/></svg></span>'
+            +'<span class="advisor__konfigcard-body">'
+              +'<span class="advisor__konfigcard-badge">3D-Konfigurator</span>'
+              +'<span class="advisor__konfigcard-title">Briefkastenanlage nach Maß</span>'
+              +'<span class="advisor__konfigcard-sub">Größe, Farbe &amp; Montageart frei zusammenstellen – bis zu 500 Parteien.</span>'
+            +'</span>'
+            +'<span class="advisor__konfigcard-cta">Jetzt konfigurieren'+CHEV+'</span>'
+          +'</a>'
+        +'</div>'; },
       support:{title:"Unsicher bei der Auswahl?",sub:"Unsere Sprechanlagen-Experten beraten Sie kostenlos – auch zur Verkabelung vor Ort.",
         primaryHref:"https://calendly.com/kaufberatung",primaryLabel:"Produktberatung",secondaryHref:BASE+"sprechanlagen-online-support-termin",secondaryLabel:"Installationspartner"}
     },
@@ -1658,6 +1695,7 @@
     resEl.innerHTML='<div class="advisor__result">'
       +'<div class="advisor__summary">'+summaryChips(a)+'</div>'
       +body
+      +(CAT.belowResult?CAT.belowResult(a):"")
       +'<div class="advisor__actions">'
         +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
         +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
