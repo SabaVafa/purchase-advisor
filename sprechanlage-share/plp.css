@@ -1481,13 +1481,14 @@
 .advisor__konfig-go svg { width: 18px; height: 18px; }
 @media (max-width: 560px) { .advisor__konfig { flex-wrap: wrap; } .advisor__konfig-go { width: 100%; justify-content: flex-end; } }
 .advisor__rec {
-  flex: 0 0 320px; max-width: 100%; min-height: 7.5rem;
+  flex: 1 1 200px; max-width: 50%; min-height: 7.5rem;
   display: flex; align-items: center; gap: var(--sp-3);
   padding: var(--sp-3); border: 1px solid var(--graphite-300); border-radius: var(--r-l);
   background: var(--white); text-decoration: none; color: inherit;
   transition: box-shadow .25s ease, border-color .25s ease;
 }
 .advisor__rec:hover { border-color: var(--teal); box-shadow: var(--shadow-md); }   /* highlight only — no lift */
+@media (max-width: 560px) { .advisor__rec { max-width: 100%; } }   /* mobile: cards stack full width */
 .advisor__rec-thumb {
   flex: 0 0 auto; width: 84px; height: 84px; border-radius: var(--r-m); overflow: hidden;
   background: var(--white);   /* white thumb, no fill, no border */
