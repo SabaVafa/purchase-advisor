@@ -191,7 +191,10 @@
   .advisor__rec-solo-row{display:flex;flex-direction:row;align-items:flex-start;gap:var(--sp-5)}
   .advisor__rec--solo .advisor__rec-thumb--img{width:150px;height:150px}
   .advisor__rec-solo-body{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:6px}
-  @media (max-width:560px){.advisor__rec-solo-row{flex-direction:column}.advisor__rec{max-width:100%}}
+  @media (max-width:560px){.advisor__rec-solo-row{flex-direction:column}.advisor__rec{max-width:100%}
+    .advisor__summary{flex-direction:column;align-items:stretch}
+    .advisor__actions{flex-direction:column;align-items:stretch;gap:var(--sp-2)}
+    .advisor__view,.advisor__reset{width:100%}.advisor__reset{text-align:center}}
   .advisor__rec-top{display:flex;align-items:center;gap:var(--sp-3);flex:1}
   .advisor__rec-thumb{flex:0 0 auto;width:64px;height:64px;border-radius:var(--r-m);background:var(--teal-5);
     color:var(--teal);display:grid;place-items:center}
@@ -242,9 +245,11 @@
   @media (max-width:560px){.advisor__konfigcard{flex-wrap:wrap}.advisor__konfigcard-cta{width:100%;justify-content:flex-end}}
 
   /* Summary + actions */
-  .advisor__summary{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;align-items:center;gap:8px}
+  /* Result row: chips on the left (wrap in place), action buttons locked top-right — one horizontal line */
+  .advisor__summary{display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:flex-start;gap:var(--sp-3) var(--sp-4);margin-top:var(--sp-4)}
   .advisor__summary-hint{width:100%;font-size:var(--text-caption);color:var(--ink-60);margin:2px 0 0}
-  .advisor__actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-4);margin-top:var(--sp-2)}
+  .advisor__chips{flex:1 1 auto;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px}   /* min-width:0 lets the chips wrap instead of shoving the CTAs */
+  .advisor__actions{flex:0 0 auto;display:flex;flex-wrap:nowrap;align-items:center;gap:var(--sp-5)}   /* kept together, never wraps under the chips */
   .advisor__view{display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;padding:.7rem 1.2rem;
     border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;font-size:var(--text-body);font-weight:500;line-height:1.2;text-decoration:none;transition:background .15s}
   .advisor__view:hover{background:var(--teal-600)} .advisor__view:active{background:var(--teal-700)}
@@ -1707,12 +1712,14 @@
     var sup=CAT.support;
 
     resEl.innerHTML='<div class="advisor__result">'
-      +'<div class="advisor__summary">'+summaryChips(a)+'</div>'
       +body
       +(CAT.belowResult?CAT.belowResult(a):"")
-      +'<div class="advisor__actions">'
-        +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
-        +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
+      +'<div class="advisor__summary">'
+        +'<div class="advisor__chips">'+summaryChips(a)+'</div>'
+        +'<div class="advisor__actions">'
+          +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
+          +'<button type="button" class="advisor__reset" data-reset>Quiz neu starten</button>'
+        +'</div>'
       +'</div>'
       +'<div class="advisor__more"><button type="button" class="advisor__more-summary" data-more-toggle aria-expanded="false">Empfehlung per E-Mail'+(CAT.support?' &amp; Beratung':'')+'<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><div class="advisor__more-body"><div class="advisor__more-inner"><div class="advisor__more-pad">'
       +captureHTML()
