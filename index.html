@@ -46,7 +46,7 @@
   .cat-switch button.is-on{background:var(--white);color:var(--teal);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 
   /* ── Advisor (ported from Metzler PLP plp.css) ── */
-  .advisor{padding-block:var(--sp-4)}
+  .advisor{padding-block:var(--sp-4);display:grid;grid-template-columns:minmax(0,1fr)}
   .advisor__bar{
     width:100%;display:flex;align-items:center;gap:var(--sp-4);text-align:left;
     padding:var(--sp-5) clamp(20px,2.4vw,28px);border:1px solid var(--teal-10);border-radius:var(--r-l);
@@ -63,10 +63,10 @@
   .advisor__bar-cta svg{width:24px;height:24px;transform:rotate(90deg)}
 
   /* Smooth full-height expand/collapse of the whole box: bar row shrinks while the card row grows (grid 0fr↔1fr) */
-  .advisor__reveal-bar{display:grid;grid-template-rows:1fr;grid-template-columns:minmax(0,1fr);transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1),opacity .24s ease}
-  .advisor.is-open .advisor__reveal-bar{grid-template-rows:0fr;opacity:0;pointer-events:none}
+  .advisor__reveal-bar{grid-area:1/1;align-self:start;display:grid;grid-template-rows:1fr;grid-template-columns:minmax(0,1fr);transition:opacity .3s ease}
+  .advisor.is-open .advisor__reveal-bar{opacity:0;pointer-events:none}
   .advisor__reveal-bar>.advisor__bar{overflow:hidden;min-height:0}
-  .advisor__reveal{display:grid;grid-template-rows:0fr;grid-template-columns:minmax(0,1fr);overflow:hidden;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1)}
+  .advisor__reveal{grid-area:1/1;display:grid;grid-template-rows:0fr;grid-template-columns:minmax(0,1fr);overflow:hidden;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1)}
   .advisor.is-open .advisor__reveal{grid-template-rows:1fr}
   .advisor__reveal>.advisor__card{overflow:hidden;min-height:0}
   /* Collapsed: zero the card's vertical padding so the 0fr row truly reaches 0 (padding on a border-box can't be shrunk by height/overflow) */
