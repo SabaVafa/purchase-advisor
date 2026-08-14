@@ -14,7 +14,7 @@
     --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px;
     --r-m:4px; --r-l:8px; --r-pill:9999px;
     --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 12px 32px rgba(0,0,0,0.12);
-    --container:1380px;   /* matches the production PLP (docs/Home/styles-v2.css) .container: max-width 1380/1560/1760/2040 @ base/1440/1920/2560 (see .container below) */
+    --container:100rem;   /* 1600px — matches the PDP (pdp-b.css) which caps --container at 100rem for live-shop parity, overriding the design system's 1560/1760/2040 growth */
   }
   *{box-sizing:border-box}
   /* Always reserve the vertical scrollbar gutter so the standalone preview's content width
@@ -22,13 +22,12 @@
   html{overflow-y:scroll}
   body{margin:0;background:var(--paper-white);color:var(--ink-72);font-family:var(--font-family);
     line-height:1.55;font-size:var(--text-body);-webkit-font-smoothing:antialiased}
-  /* Width parity with the production PLP (docs/Home/styles-v2.css) .container:
-     max-width 1380/1560/1760/2040 and padding-inline clamp(24,4vw,56)/clamp(92,5vw,116)/clamp(92,5vw,140)
-     at base/1440/1920/2560 (mobile-first). Keeps the advisor's own top/bottom padding (24/72). */
+  /* Container matches the PDP (Home/styles-v2.css .container + pdp-b.css override):
+     fixed max-width 1600px (100rem) at every breakpoint — no 1760/2040 growth —
+     with padding-inline clamp(24,4vw,56) below 1440 and a fixed 100px at >=1440.
+     Keeps the advisor's own top/bottom padding (24/72). */
   .container{width:100%;max-width:var(--container);margin:0 auto;padding:24px clamp(24px,4vw,56px) 72px}
-  @media (min-width:1440px){:root{--container:1560px} .container{padding-inline:clamp(92px,5vw,116px)}}
-  @media (min-width:1920px){:root{--container:1760px} .container{padding-inline:clamp(92px,5vw,140px)}}
-  @media (min-width:2560px){:root{--container:2040px}}
+  @media (min-width:1440px){.container{padding-inline:100px}}
   a{color:var(--teal)}
   button{font-family:inherit;cursor:pointer}
   h1,h2,h3{margin:0;color:var(--schwarz);line-height:1.3}
@@ -47,7 +46,11 @@
   .cat-switch button.is-on{background:var(--white);color:var(--teal);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 
   /* ── Advisor (ported from Metzler PLP plp.css) ── */
-  .advisor{padding-block:var(--sp-4);display:grid;grid-template-columns:minmax(0,1fr)}
+  /* Cap the interactive module at the PDP's configurator measure (pdp-b.css
+     .sheet/.cfgb-summary max-width:64rem, centered) so the quiz option cards,
+     result cards and e-mail field don't stretch on wide screens. The option grid
+     keeps the same auto-fit minmax pattern the PDP configurator uses inside it. */
+  .advisor{padding-block:var(--sp-4);display:grid;grid-template-columns:minmax(0,1fr);max-width:64rem;margin-inline:auto}
   .advisor__bar{
     width:100%;display:flex;align-items:center;gap:var(--sp-4);text-align:left;
     padding:var(--sp-5) clamp(20px,2.4vw,28px);border:1px solid var(--teal-10);border-radius:var(--r-l);
