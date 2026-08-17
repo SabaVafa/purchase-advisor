@@ -1583,9 +1583,13 @@
     var dots=""; for(var d=0;d<total;d++) dots+='<span class="'+(d<pos?"is-done":(d===pos?"is-current":""))+'"></span>';
     var isLast=pos===total-1;
     var canNext = multi ? true : (st.req ? cur!=null : true);
-    /* optional single-select with nothing chosen yet → label the forward button "Überspringen" so
-       skipping is discoverable (replaces the explicit "Egal / noch offen" option) */
-    var nextLbl = isLast ? "Empfehlung anzeigen" : ((!multi && !st.req && cur==null) ? "Überspringen" : "Weiter");
+    /* optional step with nothing chosen yet → label the forward button "Überspringen" so
+       skipping is discoverable (replaces the explicit "Egal / noch offen" option). Applies to
+       single-select AND multi-select (an empty multi is a skip too); flips to "Weiter" on the
+       first pick. */
+    var emptyMulti  = multi && !st.req && (av[id]||[]).length===0;
+    var emptySingle = !multi && !st.req && cur==null;
+    var nextLbl = isLast ? "Empfehlung anzeigen" : ((emptyMulti||emptySingle) ? "Überspringen" : "Weiter");
     var lc=liveCount(av);
     var flash=""; state.flash=null;
     quizEl.innerHTML=''
