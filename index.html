@@ -758,9 +758,9 @@
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Holz & Wunschfarbe",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#a9754a,#b98db0,#8ba6c4,#8d9092)"}]},
-    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer","holz","wunsch"]);},opts:[
       {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
+      {v:"andere",ol:"Weitere Farben",od:"Eisenglimmer, Holz & Wunschfarbe",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#4a4d4e,#a9754a,#b98db0,#8ba6c4,#4a4d4e)"}]},
+    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["eisenglimmer","holz","wunsch"]);},opts:[
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
       {v:"holz",ol:"Holz (Lärche)",od:"Echtholz / Holzoptik",sw:"linear-gradient(120deg,#b98a56,#d8b382,#916032)"},
       {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"conic-gradient(from 210deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]}
@@ -1190,7 +1190,7 @@
       if(a.zeitung==="ja"&&!(p.zeitung==="ja"||p.zeitung==="optional"))return false;
       if(a.zeitung==="nein"&&!(p.zeitung==="nein"||p.zeitung==="optional"))return false; }
     if(a.schild&&a.schild!=="egal"&&p.schild!==a.schild)return false;
-    if(a.farbe&&a.farbe!=="egal"){ if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["grau","eisenglimmer","holz","wunsch"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; } else if((p.finish||[]).indexOf(a.farbe)<0)return false; }
+    if(a.farbe&&a.farbe!=="egal"){ if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["eisenglimmer","holz","wunsch"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; } else if((p.finish||[]).indexOf(a.farbe)<0)return false; }
     return true;
   }
   /* Farbe is a hard single-select filter (like SP/TK); Briefkasten has no soft ranking axis. */
@@ -1202,7 +1202,7 @@
     if(a.combo)out.push(["Ausführung",{none:"Nur Briefkasten",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
     if(a.zeitung&&a.zeitung!=="egal")out.push(["Zeitungsfach",{ja:"mit",nein:"ohne"}[a.zeitung],"zeitung"]);
     if(a.schild&&a.schild!=="egal")out.push(["Namensschild",{laser:"Lasergraviert",paper:"Papiereinleger",ohne:"Ohne Gravur"}[a.schild],"schild"]);
-    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer",holz:"Holz",wunsch:"Wunschfarbe"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß"}[a.farbe],"farbe"]);
+    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({eisenglimmer:"Eisenglimmer",holz:"Holz",wunsch:"Wunschfarbe"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß",grau:"Grau"}[a.farbe],"farbe"]);
     return chipsHTML(out);
   }
   function bkEmpty(a){
