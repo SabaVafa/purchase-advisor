@@ -470,9 +470,9 @@
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer, Bronze & Wunschfarbe",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#9a7b4f,#b98db0,#8ba6c4,#8d9092)"}]},
-    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["grau","eisenglimmer","braun","wunsch"]);},opts:[
-      {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
+      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
+      {v:"andere",ol:"Weitere Farben",od:"Eisenglimmer, Bronze & Wunschfarbe",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#4a4d4e,#9a7b4f,#b98db0,#8ba6c4,#4a4d4e)"}]},
+    farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["eisenglimmer","braun","wunsch"]);},opts:[
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
       {v:"braun",ol:"Bronze",od:"warmer Bronzeton",sw:"#9a7b4f"},
       {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"conic-gradient(from 210deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]}
@@ -1099,7 +1099,7 @@
     if(a.station&&p.station&&p.station!=="both"&&p.station!==a.station)return false;
     if(a.label&&spLabel(p)!==a.label)return false;
     if(a.farbe&&a.farbe!=="egal"){
-      if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["grau","eisenglimmer","braun","wunsch"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; }
+      if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["eisenglimmer","braun","wunsch"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; }
       else if((p.finish||[]).indexOf(a.farbe)<0)return false;
     }
     return true;
@@ -1124,7 +1124,7 @@
     if(a.station)out.push(["Türstation",{vdm10:"VDM10",sdm10:"SDM10"}[a.station],"station"]);
     var acc=accessSel(a); if(acc.length)out.push(["Zutritt",acc.map(function(x){return{rfid:"RFID",pin:"PIN",fingerprint:"Finger",face:"Gesicht"}[x];}).join(", "),"access"]);
     if(a.label)out.push(["Namensschild",{laser:"Lasergraviert",papier:"Papiereinleger",digital:"Digital"}[a.label],"label"]);
-    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer",braun:"Bronze",wunsch:"Wunschfarbe"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß"}[a.farbe],"farbe"]);
+    if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({eisenglimmer:"Eisenglimmer",braun:"Bronze",wunsch:"Wunschfarbe"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß",grau:"Grau"}[a.farbe],"farbe"]);
     return chipsHTML(out);
   }
   function spEmpty(a){
