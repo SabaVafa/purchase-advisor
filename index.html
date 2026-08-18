@@ -872,7 +872,7 @@
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
       {v:"andere",ol:"Weitere Farben",od:"Grau & Eisenglimmer",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#8d9092)"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer"]);},opts:[
-      {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
+      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"}]}
   };
   var PB_ORDER=["fach","combo","groesse","beleuchtung","schild","farbe","farbeAndere"];
@@ -1052,7 +1052,7 @@
       {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
       {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer & Beige",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#cbb894,#8d9092)"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer","beige"]);},opts:[
-      {v:"grau",ol:"Grau",od:"",sw:"#8d9092"},
+      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
       {v:"beige",ol:"Beige",od:"",sw:"#cbb894"}]}
   };
