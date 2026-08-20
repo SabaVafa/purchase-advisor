@@ -1236,7 +1236,7 @@
   }
   function pbEmpty(a){
     var hint="Passen Sie einzelne Angaben an.";
-    if(a.combo&&a.combo!=="none"&&a.fach&&(+a.fach>2))hint="Paketboxen mit Klingel/Sprechanlage bieten wir für 1–2 Wohneinheiten. Für mehr Parteien wählen Sie „Nur Paketbox“ oder unsere Sprechanlagen.";
+    if(a.combo&&a.combo!=="none"&&a.fach&&(+a.fach>2))hint="Paketboxen mit Klingel/Sprechanlage bieten wir für 1–2 Wohneinheiten. Für mehr Parteien wählen Sie „Ohne Klingel/Sprechanlage“ oder unsere Sprechanlagen.";
     else if(a.combo&&a.combo!=="none"&&a.beleuchtung==="led")hint="Die Paketbox-Kombis mit Klingel/Sprechanlage gibt es derzeit ohne LED-Beleuchtung.";
     return emptyCard(hint);
   }
