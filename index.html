@@ -451,7 +451,7 @@
       {v:"4",ol:"4 und mehr Parteien",od:"Mehrfamilienhaus"},
       {v:"many",ol:"Flexibel",od:"Großobjekt · modular für 1–500 Parteien"}]},
     bauform:{q:"Wie soll montiert werden?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
-      {v:"wand",ol:"Wandmontage",od:"an der Wand montiert"},
+      {v:"wand",ol:"Wandmontage",od:"Aufputz – an die Wand montiert"},
       {v:"stand",ol:"Freistehend",od:"mit Standfuß"}]},
     station:{q:"Welche Türstation soll integriert sein?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
       {v:"vdm10",ol:"Standard-Video (VDM10)",od:"Kamera, App, FRITZ!Box"},
@@ -603,8 +603,8 @@
       {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"}]},
     mounting:{q:"Wie soll montiert werden?",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"aufputz",ol:"Aufputz",od:"auf die Wand"},
-      {v:"unterputz",ol:"Unterputz",od:"bündig in der Wand"}]}
+      {v:"aufputz",ol:"Wandmontage",od:"Aufputz – an die Wand montiert"},
+      {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"}]}
   };
   var TK_ORDER=["conn","mounting","parties","label","beleuchtung","farbe","farbeAndere"];
 
@@ -1166,7 +1166,7 @@
     if(a.label&&a.label!=="egal")out.push(["Namensschild",{gravur:"Lasergraviert",schild:"Papiereinleger",symbol:"Symbol"}[a.label],"label"]);
     var bel=(a.beleuchtung||[]).filter(function(x){return x!=="none";}); if(bel.length)out.push(["Beleuchtung",bel.map(function(x){return{led:"Taster",name:"Namensschild",hausnr:"Hausnummer"}[x];}).join(", "),"beleuchtung"]);
     if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß"}[a.farbe],"farbe"]);
-    if(a.mounting&&a.mounting!=="egal")out.push(["Montage",{aufputz:"Aufputz",unterputz:"Unterputz"}[a.mounting],"mounting"]);
+    if(a.mounting&&a.mounting!=="egal")out.push(["Montage",{aufputz:"Wandmontage",unterputz:"Unterputz"}[a.mounting],"mounting"]);
     return chipsHTML(out);
   }
   function tkEmpty(a){
