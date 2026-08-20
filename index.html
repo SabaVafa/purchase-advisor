@@ -438,7 +438,7 @@
     bau:{q:"Wie sieht die Verkabelung bei Ihnen aus?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt.",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"},
       {v:"ip",ol:"Neubau und Neuverkabelung",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"}]},
-    combo:{q:"Nur die Sprechanlage – oder als Kombination?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
+    combo:{q:"Nur Sprechanlage – oder als Kombination?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
       {v:"none",ol:"Nur Sprechanlage",od:"nur die Türstation"},
       {v:"briefkasten",ol:"Mit Briefkasten",od:"integriert in eine Briefkastenanlage · IP-Video"},
       {v:"paketbox",ol:"Mit Paketbox",od:"Türstation mit integrierter Paketbox · IP-Video"}]},
