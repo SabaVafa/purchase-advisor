@@ -732,10 +732,10 @@
   /* ---------- BRIEFKASTEN QUIZ ---------- */
   var BK_STEPS={
     bauform:{q:"Wie soll der Briefkasten montiert werden?",help:"Sie bestimmt die Bauform.",type:"single",vis:function(){return true;},opts:[
-      {v:"wand",ol:"Wandbriefkasten",od:"Aufputz – an die Wand montiert"},
-      {v:"stand",ol:"Standbriefkasten",od:"freistehend mit Standfuß"},
+      {v:"wand",ol:"Wandmontage",od:"Aufputz – an die Wand montiert"},
+      {v:"stand",ol:"Freistehend",od:"mit Standfuß"},
       {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"},
-      {v:"zaun",ol:"Zaunbriefkasten",od:"an Zaun oder Geländer montiert"}]},
+      {v:"zaun",ol:"Zaunmontage",od:"an Zaun oder Geländer montiert"}]},
     fach:{q:"Für wie viele Wohneinheiten / Briefkastenfächer?",en:"How many parties / mailbox compartments?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"1",ol:"1 Partei",od:"Einfamilienhaus"},
       {v:"2",ol:"2 Parteien",od:"Zweifamilienhaus"},
@@ -1197,7 +1197,7 @@
   function bkScore(){ return 0; }
   function bkSummary(a){
     var out=[];
-    if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandbriefkasten",stand:"Standbriefkasten",unterputz:"Unterputz",zaun:"Zaunbriefkasten"}[a.bauform],"bauform"]);
+    if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Wandmontage",stand:"Freistehend",unterputz:"Unterputz",zaun:"Zaunmontage"}[a.bauform],"bauform"]);
     if(a.fach)out.push(["Parteien",({"4":"4–6",many:"7–15"}[a.fach])||a.fach,"fach"]);
     if(a.combo)out.push(["Ausführung",{none:"Nur Briefkasten",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
     if(a.zeitung&&a.zeitung!=="egal")out.push(["Zeitungsfach",{ja:"mit",nein:"ohne"}[a.zeitung],"zeitung"]);
