@@ -852,8 +852,8 @@
       {v:"1",ol:"1 Briefkasten",od:"Einfamilienhaus"},
       {v:"2",ol:"2 Briefkästen",od:"Zweifamilienhaus"},
       {v:"3",ol:"3 und mehr",od:"Mehrfamilienhaus (bis 5)"}]},
-    combo:{q:"Nur Paketbox – oder mit Klingel/Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"none",ol:"Nur Paketbox",od:"ohne Klingel/Sprechanlage"},
+    combo:{q:"Mit Klingel oder Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"none",ol:"Ohne Klingel/Sprechanlage",od:"keine zusätzliche Türtechnik"},
       {v:"funk",ol:"Mit Funkklingel",od:"kabellos – kein Kabel nötig"},
       {v:"sprech",ol:"Mit Video-Türsprechanlage",od:"kabelgebunden · IP-Video & App"}]},
     groesse:{q:"Welche Paketgröße?",type:"single",vis:function(){return true;},opts:[
@@ -1227,7 +1227,7 @@
   function pbSummary(a){
     var out=[];
     if(a.fach)out.push(["Briefkästen",a.fach==="0"?"ohne":(a.fach==="3"?"3+":a.fach),"fach"]);
-    if(a.combo)out.push(["Ausführung",{none:"Nur Paketbox",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
+    if(a.combo)out.push(["Ausführung",{none:"ohne Klingel/Sprechanlage",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
     if(a.groesse&&a.groesse!=="egal")out.push(["Größe",{standard:"Standard",xl:"XL"}[a.groesse],"groesse"]);
     if(a.beleuchtung&&a.beleuchtung!=="egal")out.push(["Beleuchtung",{led:"mit LED",ohne:"ohne"}[a.beleuchtung],"beleuchtung"]);
     if(a.schild&&a.schild!=="egal")out.push(["Namensschild",{laser:"Lasergraviert",paper:"Papiereinleger",ohne:"Ohne Gravur"}[a.schild],"schild"]);
