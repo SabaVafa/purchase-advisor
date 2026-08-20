@@ -851,9 +851,7 @@
       {v:"0",ol:"Ohne Briefkasten",od:"reine Paketbox"},
       {v:"1",ol:"1 Briefkasten",od:"Einfamilienhaus"},
       {v:"2",ol:"2 Briefkästen",od:"Zweifamilienhaus"},
-      {v:"3",ol:"3 Briefkästen",od:"Mehrfamilienhaus"},
-      {v:"4",ol:"4 Briefkästen",od:""},
-      {v:"5",ol:"5 Briefkästen",od:""}]},
+      {v:"3",ol:"3 und mehr",od:"Mehrfamilienhaus (bis 5)"}]},
     combo:{q:"Mit Klingel oder Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"none",ol:"Ohne Klingel/Sprechanlage",od:"keine zusätzliche Türtechnik"},
       {v:"funk",ol:"Mit Funkklingel",od:"kabellos – kein Kabel nötig"},
@@ -1217,7 +1215,7 @@
 
   /* ================= PAKETBOX category logic ================= */
   function pbMatches(p,a){
-    if(a.fach){ if(p.fmax!==+a.fach)return false; }
+    if(a.fach){ if(a.fach==="0"){ if(p.fmax!==0)return false; } else if(a.fach==="3"){ if(!(p.fmax>=3))return false; } else { if(p.fmax!==+a.fach)return false; } }
     if(a.combo){ if(a.combo==="none"){ if(p.combo)return false; } else if(p.combo!==a.combo)return false; }
     if(a.groesse&&a.groesse!=="egal"){ if(a.groesse==="xl"&&!p.xl)return false; if(a.groesse==="standard"&&p.xl)return false; }
     if(a.beleuchtung&&a.beleuchtung!=="egal"){ if(a.beleuchtung==="led"&&!p.bel)return false; if(a.beleuchtung==="ohne"&&p.bel)return false; }
@@ -1228,7 +1226,7 @@
   function pbScore(){ return 0; }
   function pbSummary(a){
     var out=[];
-    if(a.fach)out.push(["Briefkästen",a.fach==="0"?"ohne":a.fach,"fach"]);
+    if(a.fach)out.push(["Briefkästen",a.fach==="0"?"ohne":(a.fach==="3"?"3+":a.fach),"fach"]);
     if(a.combo)out.push(["Ausführung",{none:"ohne Klingel/Sprechanlage",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
     if(a.groesse&&a.groesse!=="egal")out.push(["Größe",{standard:"Standard",xl:"XL"}[a.groesse],"groesse"]);
     if(a.beleuchtung&&a.beleuchtung!=="egal")out.push(["Beleuchtung",{led:"mit LED",ohne:"ohne"}[a.beleuchtung],"beleuchtung"]);
