@@ -450,7 +450,7 @@
       {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus"},
       {v:"4",ol:"4 und mehr Parteien",od:"Mehrfamilienhaus"},
       {v:"many",ol:"Flexibel",od:"Großobjekt · modular für 1–500 Parteien"}]},
-    bauform:{q:"Wandmontage oder freistehend?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
+    bauform:{q:"Wie soll montiert werden?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
       {v:"wand",ol:"Wandmontage",od:"an der Wand montiert"},
       {v:"stand",ol:"Freistehend",od:"mit Standfuß"}]},
     station:{q:"Welche Türstation soll integriert sein?",type:"single",req:true,vis:function(a){return a.combo==="briefkasten"&&(a.parties==="1"||a.parties==="2");},opts:[
@@ -731,7 +731,7 @@
 
   /* ---------- BRIEFKASTEN QUIZ ---------- */
   var BK_STEPS={
-    bauform:{q:"Wie soll der Briefkasten montiert werden?",help:"Sie bestimmt die Bauform.",type:"single",vis:function(){return true;},opts:[
+    bauform:{q:"Wie soll montiert werden?",help:"Sie bestimmt die Bauform.",type:"single",vis:function(){return true;},opts:[
       {v:"wand",ol:"Wandmontage",od:"Aufputz – an die Wand montiert"},
       {v:"stand",ol:"Freistehend",od:"mit Standfuß"},
       {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"},
