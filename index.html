@@ -862,10 +862,10 @@
     beleuchtung:{q:"Mit Beleuchtung?",type:"single",vis:function(){return true;},opts:[
       {v:"led",ol:"Mit LED-Beleuchtung",od:"nachts sichtbar"},
       {v:"ohne",ol:"Ohne Beleuchtung",od:"schlicht"}]},
-    schild:{q:"Wie soll der Name angezeigt werden?",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"laser",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
-      {v:"paper",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
-      {v:"ohne",ol:"Ohne Gravur",od:"schlicht, ohne Namensschild"}]},
+    schild:{q:"Wie soll beschriftet werden?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"laser",ol:"Lasergraviertes Schild",od:"jederzeit wechselbar"},
+      {v:"paper",ol:"Schild mit Papiereinleger",od:"jederzeit wechselbar"},
+      {v:"ohne",ol:"Ohne Gravur",od:"schlicht, ohne Beschriftung"}]},
     farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","schwarz","weiss","grau","eisenglimmer"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
@@ -1230,7 +1230,7 @@
     if(a.combo)out.push(["Ausführung",{none:"Nur Paketbox",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
     if(a.groesse&&a.groesse!=="egal")out.push(["Größe",{standard:"Standard",xl:"XL"}[a.groesse],"groesse"]);
     if(a.beleuchtung&&a.beleuchtung!=="egal")out.push(["Beleuchtung",{led:"mit LED",ohne:"ohne"}[a.beleuchtung],"beleuchtung"]);
-    if(a.schild&&a.schild!=="egal")out.push(["Namensschild",{laser:"Lasergraviert",paper:"Papiereinleger",ohne:"Ohne Gravur"}[a.schild],"schild"]);
+    if(a.schild&&a.schild!=="egal")out.push(["Beschriftung",{laser:"Lasergraviert",paper:"Papiereinleger",ohne:"Ohne Gravur"}[a.schild],"schild"]);
     if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",schwarz:"Schwarz",weiss:"Weiß"}[a.farbe],"farbe"]);
     return chipsHTML(out);
   }
