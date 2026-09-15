@@ -1157,7 +1157,7 @@
     return true;
   }
   function tkOptState(id,o,a,selected){
-    if(selected||o.solo) return {off:false};
+    if(selected) return {off:false};
     var c=liveCount(applyAns(id,o,a));
     if(c>0) return {off:false,count:c};
     return {off:true,note:"derzeit kein passendes Modell"};
