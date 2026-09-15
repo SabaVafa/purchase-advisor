@@ -1030,6 +1030,9 @@
     {id:44901,sku:"MTB8-3x-AN",series:"MTB8",name:"Metzler Mülltonnenbox | Freihändige Bedienung per Fußpedal | 3er | 240l | Stahl pulverbeschichtet | RAL 7016 Anthrazit",url:"metzler-muelltonnenbox-freihaendige-bedienung-per-fusspedal-3er-240l-stahl-pulverbeschichtet-ral-7016-anthrazit",price:1099,tonnen:[3],pflanz:false,oberflaeche:"farbe",pedal:true,finish:["anthrazit"]},
     {id:44902,sku:"MTB8-4x-AN",series:"MTB8",name:"Metzler Mülltonnenbox | Freihändige Bedienung per Fußpedal | 4er | 240l | Stahl pulverbeschichtet | RAL 7016 Anthrazit",url:"metzler-muelltonnenbox-freihaendige-bedienung-per-fusspedal-4er-240l-stahl-pulverbeschichtet-ral-7016-anthrazit",price:1399,tonnen:[4],pflanz:false,oberflaeche:"farbe",pedal:true,finish:["anthrazit"]}
   ];
+  /* Material aus dem Produktnamen ableiten: nur die Aluminium-Modelle tragen
+     "Aluminium" im Namen, und nur diese haben hoehenverstellbare Fuesse. */
+  MT_PRODUCTS.forEach(function(p){ p.material=/aluminium/i.test(p.name)?"alu":"stahl"; });
 
   /* ---------- MÜLLTONNENBOX QUIZ ---------- */
   var MT_STEPS={
@@ -1045,6 +1048,9 @@
     pedal:{q:"Freihändige Bedienung per Fußpedal?",type:"single",vis:function(){return true;},opts:[
       {v:"ja",ol:"Mit Fußpedal",od:"freihändige Bedienung"},
       {v:"nein",ol:"Ohne Fußpedal",od:"klassische Bedienung"}]},
+    material:{q:"Aus welchem Material?",type:"single",vis:function(){return true;},opts:[
+      {v:"alu",ol:"Aluminium",od:"höhenverstellbare Füße – gleichen Bodenunebenheiten aus, rostfrei"},
+      {v:"stahl",ol:"Stahl",od:"robust & massiv, pulverbeschichtet"}]},
     oberflaeche:{q:"Welche Oberfläche?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"farbe",ol:"Farbe (lackiert)",od:"glatt, in RAL-Farbe"},
       {v:"holz",ol:"Holzoptik",od:"warme Holz-Anmutung"},
@@ -1059,7 +1065,7 @@
       {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
       {v:"beige",ol:"Beige",od:"",sw:"#cbb894"}]}
   };
-  var MT_ORDER=["tonnen","dach","pedal","oberflaeche","farbe","farbeAndere"];
+  var MT_ORDER=["tonnen","dach","pedal","material","oberflaeche","farbe","farbeAndere"];
 
   /* ================= SHARED HELPERS ================= */
   function accessSel(a){ return (a.access||[]).filter(function(x){return x!=="none";}); }
@@ -1279,6 +1285,7 @@
     if(a.tonnen&&(p.tonnen||[]).indexOf(+a.tonnen)<0)return false;
     if(a.dach&&a.dach!=="egal"){ if(a.dach==="pflanz"&&!p.pflanz)return false; if(a.dach==="ohne"&&p.pflanz)return false; }
     if(a.pedal&&a.pedal!=="egal"){ if(a.pedal==="ja"&&!p.pedal)return false; if(a.pedal==="nein"&&p.pedal)return false; }
+    if(a.material&&a.material!=="egal"&&p.material!==a.material)return false;
     if(a.oberflaeche&&a.oberflaeche!=="egal"&&p.oberflaeche!==a.oberflaeche)return false;
     if(a.farbe&&a.farbe!=="egal"){ if(a.farbe==="andere"){ var oth=a.farbeAndere?[a.farbeAndere]:["grau","eisenglimmer","beige"]; if(!oth.some(function(c){return (p.finish||[]).indexOf(c)>-1;}))return false; } else if((p.finish||[]).indexOf(a.farbe)<0)return false; }
     return true;
@@ -1289,6 +1296,7 @@
     if(a.tonnen)out.push(["Mülltonnen",a.tonnen,"tonnen"]);
     if(a.dach&&a.dach!=="egal")out.push(["Dach",{pflanz:"Pflanzdach",ohne:"Deckel"}[a.dach],"dach"]);
     if(a.pedal&&a.pedal!=="egal")out.push(["Fußpedal",{ja:"mit",nein:"ohne"}[a.pedal],"pedal"]);
+    if(a.material&&a.material!=="egal")out.push(["Material",{alu:"Aluminium",stahl:"Stahl"}[a.material],"material"]);
     if(a.oberflaeche&&a.oberflaeche!=="egal")out.push(["Oberfläche",{farbe:"Farbe",holz:"Holzoptik",rauputz:"Rauputz"}[a.oberflaeche],"oberflaeche"]);
     if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({grau:"Grau",eisenglimmer:"Eisenglimmer",beige:"Beige"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",weiss:"Weiß"}[a.farbe],"farbe"]);
     return chipsHTML(out);
