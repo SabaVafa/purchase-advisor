@@ -1,0 +1,22 @@
+﻿.claude/
+Thumbs.db
+.DS_Store
+scratchpad/
+
+# internal working docs — kept locally, not published
+ADVISOR-PLAYBOOK.md
+Feature-Dictionary.md
+Kaufberater-Playbook.md
+Sprechanlagen-Kaufberater.md
+sprechanlagen-kaufberater.html
+
+# large category feed inputs for the feature-pills generator — kept locally
+feature-pills/feeds/
+
+# raw category "finder" feed exports — inputs to the build scripts, kept local
+Json Folder/
+
+# build artifacts
+*.zip
+
+.github/workflows/
