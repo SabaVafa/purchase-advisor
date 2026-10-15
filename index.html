@@ -66,7 +66,8 @@
   .advisor__bar-sub{font-size:var(--text-body-sm);color:var(--ink-60)}
   .advisor__bar-cta{margin-left:auto;display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
     font-size:var(--text-body-sm);font-weight:700;color:var(--teal)}
-  .advisor__bar-cta svg{width:24px;height:24px;transform:rotate(90deg)}
+  .advisor__bar-cta svg{width:24px;height:24px;transform:rotate(90deg);transition:transform .2s ease}
+  @media (hover:hover){.advisor__bar:hover .advisor__bar-cta svg{transform:rotate(90deg) translateX(3px)}}
 
   /* Smooth full-height expand/collapse of the whole box: bar row shrinks while the card row grows (grid 0fr↔1fr) */
   .advisor__reveal-bar{grid-area:1/1;align-self:start;display:grid;grid-template-rows:1fr;grid-template-columns:minmax(0,1fr);transition:opacity .3s ease}
@@ -105,12 +106,18 @@
   .advisor__progress-dots{display:inline-flex;flex-wrap:wrap;gap:6px}
   .advisor__progress-dots span{width:26px;height:3px;border-radius:var(--r-pill);background:var(--graphite-300);transition:background .3s ease}
   .advisor__progress-dots span.is-done,.advisor__progress-dots span.is-current{background:var(--teal)}
-  .advisor__progress-dots span.is-current{opacity:.55}
+  .advisor__progress-dots span.is-current{opacity:.55;animation:dotPulse 1.9s ease-in-out infinite}
+  @keyframes dotPulse{0%,100%{opacity:.38}50%{opacity:.72}}
   .advisor__progress-label{font-size:var(--text-body-sm);font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-60)}
 
-  /* Step */
-  .advisor__step{opacity:0;transform:translateY(10px);transition:opacity .32s ease,transform .32s ease}
-  .advisor__step.is-in{opacity:1;transform:none}
+  /* Step — entrance animates on step-ENTER only (JS adds .anim-in on a fresh step, never on
+     an in-step re-render), so options don't re-cascade every time a choice is ticked. */
+  .advisor__step.anim-in{animation:stepIn .24s ease both}
+  .advisor__step.anim-in.dir-fwd .advisor__opt{animation:optInFwd .36s cubic-bezier(.4,0,.2,1) both;animation-delay:calc(var(--i,0)*28ms + 60ms)}
+  .advisor__step.anim-in.dir-back .advisor__opt{animation:optInBack .36s cubic-bezier(.4,0,.2,1) both;animation-delay:calc(var(--i,0)*28ms + 60ms)}
+  @keyframes stepIn{from{opacity:0}to{opacity:1}}
+  @keyframes optInFwd{from{opacity:0;transform:translate(10px,6px)}to{opacity:1;transform:none}}
+  @keyframes optInBack{from{opacity:0;transform:translate(-10px,6px)}to{opacity:1;transform:none}}
   .advisor__q{margin:0 0 var(--sp-4);font-size:var(--text-h4);font-weight:700;line-height:1.375;color:var(--schwarz)}
   .advisor__q .en{display:block;font-size:var(--text-body-sm);font-weight:400;font-style:italic;color:var(--ink-60);margin-top:3px}
   .advisor__help{margin:-8px 0 var(--sp-4);font-size:var(--text-body-sm);color:var(--ink-60);max-width:60ch}
@@ -127,9 +134,18 @@
     .page-head .ct{flex-basis:100%;border-left:0;padding-left:0;margin-left:0}
   }
   .advisor__opt{
+    position:relative;
     display:flex;flex-flow:column nowrap;align-items:flex-start;gap:3px;text-align:left;
     padding:var(--sp-3) var(--sp-4);border:1px solid var(--graphite-300);border-radius:var(--r-l);background:var(--white);
-    transition:border-color .15s,background .15s,box-shadow .15s}
+    transition:border-color .15s,background .15s,box-shadow .15s,transform .12s ease}
+  /* tactile press — works on pointer-down regardless of the re-render that follows the click */
+  @media (hover:hover){.advisor__opt:not(.is-off):active{transform:scale(.985)}}
+  /* selected: an animated check disc in the top-right corner */
+  .advisor__opt.is-active::after{content:"";position:absolute;top:8px;right:8px;width:16px;height:16px;border-radius:50%;
+    background:var(--teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/9px no-repeat;
+    box-shadow:0 1px 2px rgba(0,0,0,.22);animation:checkPop .18s ease-out both}
+  .advisor__opt.is-active .advisor__opt-label{padding-right:22px}
+  @keyframes checkPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
   /* A lone option shouldn't stretch to full container width on desktop (caps at 32rem, left-aligned) */
   .advisor__opt:only-child{max-width:32rem}
   @media (hover:hover){.advisor__opt:hover{border-color:var(--teal)}}
@@ -137,9 +153,13 @@
   .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5)}
   .advisor__opt-label{font-size:var(--text-body-sm);font-weight:500;color:var(--schwarz)}
   .advisor__opt-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4}
-  .advisor__opt.is-off{cursor:default;background:var(--graphite-100)}
-  .advisor__opt.is-off:hover{border-color:var(--graphite-300);box-shadow:none}
+  .advisor__opt.is-off{cursor:default;background:
+    repeating-linear-gradient(135deg,var(--graphite-100),var(--graphite-100) 7px,rgba(0,0,0,.024) 7px,rgba(0,0,0,.024) 14px)}
+  .advisor__opt.is-off::after{display:none}
+  .advisor__opt.is-off:hover{border-color:var(--graphite-300);box-shadow:none;transform:none}
   .advisor__opt.is-off .advisor__opt-label{color:var(--ink-60)}
+  .advisor__opt.is-off .advisor__opt-note{animation:noteIn .3s ease both}
+  @keyframes noteIn{from{opacity:0;transform:translateY(-2px)}to{opacity:1;transform:none}}
   .advisor__opt-note{font-size:var(--text-body-sm);color:var(--status-warning);line-height:1.4}
   .advisor__opt-switch{color:var(--teal);font-weight:600;text-decoration:underline;cursor:pointer}
   .advisor__opt-count{font-size:var(--text-caption);color:#6A6A6A;font-weight:600;font-variant-numeric:tabular-nums;margin-top:auto;padding-top:6px}
@@ -151,8 +171,13 @@
   .advisor__swatch{position:relative;width:88px;height:60px;border-radius:12px;flex:none;overflow:hidden;
     box-shadow:inset 0 0 0 1px rgba(0,0,0,.14), 0 1px 2px rgba(0,0,0,.10)}
   /* Shiny gloss: bright top-left sheen fading to a soft lower shadow — reads as a polished tile */
-  .advisor__swatch::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  .advisor__swatch::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
     background:linear-gradient(155deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.16) 22%,rgba(255,255,255,0) 46%,rgba(0,0,0,.07) 100%)}
+  /* specular sweep: a bright band glides across the tile once on hover */
+  .advisor__swatch::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+    background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
+    transform:translateX(-120%);transition:transform .6s ease}
+  @media (hover:hover){.advisor__opt.has-swatch:hover .advisor__swatch::before{transform:translateX(120%)}}
   .advisor__hint{margin:-4px 0 var(--sp-4);padding:var(--sp-2) var(--sp-3);font-size:var(--text-body-sm);color:var(--ink-60);
     background:var(--teal-5);border-left:3px solid var(--teal);border-radius:6px;max-width:72ch;line-height:1.45}
   .advisor__hint.advisor__flash{color:var(--status-warning);background:transparent;border-left-color:var(--status-warning)}
@@ -167,11 +192,17 @@
   .advisor__forward--cta{background:var(--teal);color:#fff;border-radius:var(--r-m);padding:.7rem 1.2rem;font-weight:500}
   .advisor__forward--cta:hover{background:var(--teal-600);color:#fff}
   .advisor__forward[disabled]{opacity:.4;cursor:not-allowed}
-  .advisor__back svg,.advisor__forward svg{width:1.3em;height:1.3em;flex:0 0 auto}
+  .advisor__back svg,.advisor__forward svg{width:1.3em;height:1.3em;flex:0 0 auto;transition:transform .18s ease}
+  @media (hover:hover){
+    .advisor__forward:not([disabled]):hover svg{transform:translateX(3px)}
+    .advisor__back:hover svg{transform:rotate(180deg) translateX(3px)}
+  }
   .advisor__count{margin:0;flex:1 0 100%;font-size:var(--text-body-sm);color:var(--ink-60)}
   /* First step (no Zurück): count rides up onto the Weiter row, left-aligned */
   .advisor__nav-left:empty ~ .advisor__count{flex:0 1 auto;order:-1}
-  .advisor__count b{color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums}
+  .advisor__count b{color:var(--teal);font-weight:700;font-variant-numeric:tabular-nums;display:inline-block}
+  .advisor__count.is-bumped b{animation:countBump .44s ease}
+  @keyframes countBump{0%{transform:scale(1)}30%{transform:scale(1.16);color:var(--teal-700)}100%{transform:scale(1)}}
   .advisor__count.is-none{color:var(--status-warning)} .advisor__count.is-none b{color:var(--status-warning)}
   .advisor__back svg{transform:rotate(180deg)}
 
@@ -184,9 +215,23 @@
   .advisor__result-title{margin:0;font-size:var(--text-h4);font-weight:700;color:var(--schwarz)}
   .advisor__recs{display:flex;flex-wrap:wrap;gap:var(--sp-4);align-items:flex-start}
   .advisor__rec{flex:1 1 200px;max-width:50%;min-height:7.5rem;display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
-    border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s}
+    border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s,transform .25s ease}
   .advisor__rec:hover{border-color:var(--teal);box-shadow:var(--shadow-md)}
+  @media (hover:hover){.advisor__rec:hover{transform:translateY(-2px)}}
   .advisor__rec.is-best{border-color:var(--graphite-300)}
+  /* result cards stagger in on reveal */
+  .advisor__result.is-in .advisor__rec{animation:recIn .42s cubic-bezier(.4,0,.2,1) both;animation-delay:calc(var(--i,0)*70ms + 90ms)}
+  @keyframes recIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  /* recommendation (best) card: a single gentle sheen pass */
+  .advisor__rec.is-best{overflow:hidden;position:relative}
+  .advisor__result.is-in .advisor__rec.is-best::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;pointer-events:none;
+    background:linear-gradient(100deg,transparent,rgba(1,82,83,.09),transparent);transform:skewX(-18deg);animation:sweep 1.1s ease .55s both}
+  @keyframes sweep{from{left:-60%}to{left:135%}}
+  .advisor__rec-chev{transition:transform .2s ease}
+  @media (hover:hover){
+    .advisor__rec:not(.advisor__rec--solo):hover .advisor__rec-chev{transform:translateX(3px)}
+    .advisor__rec--solo:hover .advisor__rec-chev{transform:translateY(-50%) translateX(3px)}
+  }
   /* single-match spotlight: one lone card would stretch full-width and look broken */
   .advisor__recs--solo{display:block}
   .advisor__rec--solo{max-width:760px}
@@ -248,8 +293,11 @@
   .advisor__summary-hint{width:100%;font-size:var(--text-caption);color:var(--ink-60);margin:2px 0 0}
   .advisor__actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-4);margin-top:var(--sp-2)}
   .advisor__view{display:inline-flex;align-items:center;justify-content:center;min-height:2.625rem;padding:.7rem 1.2rem;
-    border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;font-size:var(--text-body);font-weight:500;line-height:1.2;text-decoration:none;transition:background .15s}
-  .advisor__view:hover{background:var(--teal-600)} .advisor__view:active{background:var(--teal-700)}
+    border:0;border-radius:var(--r-m);background:var(--teal);color:#fff;font-size:var(--text-body);font-weight:500;line-height:1.2;text-decoration:none;transition:background .15s,transform .12s ease}
+  .advisor__view:hover{background:var(--teal-600)} .advisor__view:active{background:var(--teal-700);transform:translateY(1px)}
+  .advisor__forward--cta{transition:background .15s,transform .12s ease}
+  .advisor__forward--cta:active{transform:translateY(1px)}
+  .advisor__send{transition:background .15s ease,transform .12s ease} .advisor__send:active{transform:translateY(1px)}
   .advisor__reset{min-height:2.625rem;padding:.7rem 0;border:0;background:none;color:var(--teal);font-size:var(--text-body);
     font-weight:600;text-decoration:underline;text-underline-offset:3px}
   .advisor__reset:hover{color:var(--teal-700)}
@@ -346,7 +394,13 @@
     .advisor__actions{justify-content:flex-end}
   }
   @media (prefers-reduced-motion:reduce){.advisor__step,.advisor__result{transition:none} .advisor__reveal,.advisor__reveal-bar{transition:none}
-    .advisor__opt,.advisor__opt.has-swatch:hover{transition:none;transform:none} .advisor__progress-dots span,.advisor__more-body,.advisor__more-chev,.advisor__more-summary{transition:none}}
+    .advisor__opt,.advisor__opt.has-swatch:hover{transition:none;transform:none} .advisor__progress-dots span,.advisor__more-body,.advisor__more-chev,.advisor__more-summary{transition:none}
+    /* kill all polished motion for users who ask for less */
+    .advisor__step.anim-in,.advisor__step.anim-in .advisor__opt,.advisor__opt.is-active::after,.advisor__opt.is-off .advisor__opt-note,
+    .advisor__progress-dots span.is-current,.advisor__count.is-bumped b,.advisor__result.is-in .advisor__rec,
+    .advisor__result.is-in .advisor__rec.is-best::after{animation:none !important}
+    .advisor__forward svg,.advisor__back svg,.advisor__bar-cta svg,.advisor__rec-chev,.advisor__swatch::before,
+    .advisor__rec,.advisor__view,.advisor__forward--cta,.advisor__send,.advisor__opt:active{transition:none !important;transform:none !important}}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol></svg>
@@ -1530,14 +1584,14 @@
     });
   });
 
-  function optHTML(o,selected,stt){
+  function optHTML(o,selected,stt,idx){
     stt=stt||{};
     var sub = stt.off
       ? '<span class="advisor__opt-note">'+esc(stt.note||"")+(stt.swap?' · <span class="advisor__opt-switch" data-swap="1">wechseln?</span>':'')+'</span>'
       : (o.od?'<span class="advisor__opt-sub">'+esc(o.od)+'</span>':'');
     var badge = (!stt.off&&stt.count)?'<span class="advisor__opt-count">'+stt.count+(stt.count===1?' Modell':' Modelle')+'</span>':'';
     var body = '<span class="advisor__opt-label">'+esc(o.ol)+'</span>'+sub+badge;
-    return '<button type="button" class="advisor__opt'+(selected?' is-active':'')+(stt.off?' is-off':'')+(o.sw?' has-swatch':'')+'" data-v="'+o.v+'"'+(stt.off?' aria-disabled="true"':'')+' aria-pressed="'+(selected?'true':'false')+'">'
+    return '<button type="button" class="advisor__opt'+(selected?' is-active':'')+(stt.off?' is-off':'')+(o.sw?' has-swatch':'')+'" style="--i:'+(idx||0)+'" data-v="'+o.v+'"'+(stt.off?' aria-disabled="true"':'')+' aria-pressed="'+(selected?'true':'false')+'">'
       +(o.sw?'<span class="advisor__swatch" style="background:'+o.sw+'" aria-hidden="true"></span><span class="advisor__opt-body">'+body+'</span>':body)
       +'</button>';
   }
@@ -1576,7 +1630,7 @@
         if(!CAT.products.some(function(p){return matches(p,hb);})) return false;
       }
       return true;
-    }).map(function(o){
+    }).map(function(o,oi){
       var sel=multi?((av[id]||[]).indexOf(o.v)>-1):(cur===o.v);
       var stt=optState(id,o,av,sel);
       if(sel&&!o.solo&&stt.count==null&&!stt.off) stt.count=liveCount(applyAns(id,o,av)); /* selected option keeps its count too */
@@ -1593,7 +1647,7 @@
           if(CAT.products.some(function(p){return matches(p,b);})) avail.push(so.ol.replace(/\s*\(.*\)$/,"")); });
         if(avail.length){ oo={}; for(var ok in o)oo[ok]=o[ok]; oo.od=avail.length<=1?avail[0]:(avail.slice(0,-1).join(", ")+" & "+avail[avail.length-1]); }
       }
-      return optHTML(oo,sel,stt);
+      return optHTML(oo,sel,stt,oi);
     }).join("");
     var dots=""; for(var d=0;d<total;d++) dots+='<span class="'+(d<pos?"is-done":(d===pos?"is-current":""))+'"></span>';
     var isLast=pos===total-1;
@@ -1625,8 +1679,25 @@
       +'</div>';
     wireStep(id);
     var stepEl=quizEl.querySelector(".advisor__step");
-    requestAnimationFrame(function(){ stepEl.classList.add("is-in"); });
+    /* Entrance cascade fires only when ENTERING a step (fresh), never on an in-step re-render
+       (a click re-runs renderStep to reflect the choice) — so options don't re-stagger each tick. */
+    var fresh=state.lastRenderStep!==id; state.lastRenderStep=id;
+    if(fresh){ stepEl.classList.add("anim-in"); stepEl.classList.add(state.navDir==="back"?"dir-back":"dir-fwd"); }
+    /* Live-count: tween the number whenever it changes (choice or navigation), with a bump pulse. */
+    var cb=quizEl.querySelector(".advisor__count b");
+    if(cb && lc>0 && state.shownCount!=null && state.shownCount!==lc && !prefersReduce()) tweenCount(cb,state.shownCount,lc);
+    state.shownCount = lc>0?lc:null;
     animateCardHeight(__ph);
+  }
+  function prefersReduce(){ return !!(window.matchMedia && matchMedia("(prefers-reduced-motion:reduce)").matches); }
+  function tweenCount(el,from,to){
+    el.textContent=from;
+    var box=el.closest(".advisor__count");
+    if(box){ box.classList.remove("is-bumped"); void box.offsetWidth; box.classList.add("is-bumped"); }
+    var dur=440,t0=null;
+    function tick(ts){ if(t0==null)t0=ts; var p=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(from+(to-from)*e); if(p<1) requestAnimationFrame(tick); else el.textContent=to; }
+    requestAnimationFrame(tick);
   }
 
   function wireStep(id){
@@ -1657,11 +1728,12 @@
   }
 
   function advance(id){
+    state.navDir="fwd";
     if(state.edit){ var ve=visibleSteps(state.a),gap=null; for(var i=0;i<ve.length;i++){ if(!isAnswered(ve[i])){gap=ve[i];break;} } if(gap){goTo(gap);}else{renderResult();} return; }
     var vs=visibleSteps(state.a),pos=vs.indexOf(id);
     if(pos<0||pos+1>=vs.length) renderResult(); else goTo(vs[pos+1]);
   }
-  function goBack(id){ var vs=visibleSteps(state.a),pos=vs.indexOf(id); if(pos<=0){/*back to bar*/ collapse();} else goTo(vs[pos-1]); }
+  function goBack(id){ state.navDir="back"; var vs=visibleSteps(state.a),pos=vs.indexOf(id); if(pos<=0){/*back to bar*/ collapse();} else goTo(vs[pos-1]); }
   function advisorCard(){ return root.querySelector('.advisor__card'); }
   function cardH(){ var c=advisorCard(); return (c && root.classList.contains('is-open')) ? c.offsetHeight : 0; }
   /* Smoothly animate the card between short/tall steps (measure -> set -> transition to new height) */
@@ -1694,17 +1766,18 @@
     return '<div class="advisor__empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>'
       +'<div><strong>Mit dieser Kombination haben wir kein exaktes Modell gefunden.</strong><p>'+esc(hint)+'</p></div></div>';
   }
-  function recHTML(p,a,best,solo){
+  function recHTML(p,a,best,solo,idx){
+    var iv=' style="--i:'+(idx||0)+'"';
     var name='<span class="advisor__rec-name">'+esc(p.name)+'</span>';
     var price=p.priceNote?'<span class="advisor__rec-price">'+esc(p.priceNote)+'</span>':'<span class="advisor__rec-price">ab '+fmtPrice(p.price)+' € <small>inkl. MwSt.</small></span>';
     var chev='<span class="advisor__rec-chev" aria-hidden="true">'+CHEV+'</span>';
     var thumb='<span class="advisor__rec-thumb advisor__rec-thumb--img">'+thumbImg(p)+'</span>';
     if(solo){
-      return '<a class="advisor__rec advisor__rec--solo" href="'+BASE+p.url+'" target="_blank" rel="noopener">'
+      return '<a class="advisor__rec advisor__rec--solo"'+iv+' href="'+BASE+p.url+'" target="_blank" rel="noopener">'
         +'<span class="advisor__rec-solo-row">'+thumb+'<span class="advisor__rec-solo-body">'+name+price+'</span>'+chev+'</span>'
       +'</a>';
     }
-    return '<a class="advisor__rec'+(best?' is-best':'')+'" href="'+BASE+p.url+'" target="_blank" rel="noopener">'
+    return '<a class="advisor__rec'+(best?' is-best':'')+'"'+iv+' href="'+BASE+p.url+'" target="_blank" rel="noopener">'
       +'<div class="advisor__rec-top">'+thumb
         +'<span class="advisor__rec-head">'+name+price+'</span>'+chev+'</div>'
     +'</a>';
@@ -1726,7 +1799,7 @@
     var title = relaxed ? 'Am ehesten passend' : (exact>=2 ? '<strong>'+exact+'</strong> passende '+CAT.nounPl : 'Unsere Top-Empfehlung');
     var solo = false;
     var relaxNote = relaxed ? '<p class="advisor__hint">Kein Modell passt exakt zu allen Angaben – diese kommen Ihrer Auswahl am nächsten. Passen Sie einzelne Angaben an'+(CAT.support?' oder lassen Sie sich kostenlos beraten':'')+'.</p>' : '';
-    var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&!relaxed,solo);}).join("")+'</div>' : "";
+    var recs = list.length ? '<div class="advisor__recs'+(solo?' advisor__recs--solo':'')+'">'+list.map(function(p,i){return recHTML(p,a,i===0&&list.length>1&&!relaxed,solo,i);}).join("")+'</div>' : "";
     var note = list.length ? CAT.resultNote(a) : "";
     var body = list.length ? ('<h3 class="advisor__result-title">'+title+'</h3>'+relaxNote+recs+note) : emptyHTML(a);
     var sup=CAT.support;
@@ -1747,12 +1820,13 @@
       +'</div></div></div></div>'
     +'</div>';
     root.classList.add("is-result"); resEl.hidden=false;
+    state.lastRenderStep="__result__"; state.shownCount=null;
     wireResult();
     var r=resEl.querySelector(".advisor__result"); requestAnimationFrame(function(){ r.classList.add("is-in"); });
     animateCardHeight(__ph); focusAdvisor();
   }
   function wireResult(){
-    var rs=resEl.querySelector("[data-reset]"); if(rs) rs.addEventListener("click",function(){ state.a={}; state.id=null; state.edit=false; root.classList.remove("is-result"); resEl.hidden=true; goTo(visibleSteps(state.a)[0]); });
+    var rs=resEl.querySelector("[data-reset]"); if(rs) rs.addEventListener("click",function(){ state.a={}; state.id=null; state.edit=false; state.lastRenderStep=null; state.shownCount=null; state.navDir="fwd"; root.classList.remove("is-result"); resEl.hidden=true; goTo(visibleSteps(state.a)[0]); });
     var mt=resEl.querySelector("[data-more-toggle]"); if(mt) mt.addEventListener("click",function(){ var m=mt.closest(".advisor__more"); mt.setAttribute("aria-expanded", m.classList.toggle("is-open")?"true":"false"); });
     wireCapture();
   }
