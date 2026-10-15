@@ -75,8 +75,8 @@
   @media (hover:hover){.advisor__bar:hover .advisor__bar-cta svg{transform:rotate(90deg) translateX(3px)}}
 
   /* Smooth full-height expand/collapse of the whole box: bar row shrinks while the card row grows (grid 0fr↔1fr) */
-  .advisor__reveal-bar{grid-area:1/1;align-self:start;display:grid;grid-template-rows:1fr;grid-template-columns:minmax(0,1fr);transition:opacity .3s ease}
-  .advisor.is-open .advisor__reveal-bar{opacity:0;pointer-events:none}
+  .advisor__reveal-bar{grid-area:1/1;align-self:start;display:grid;grid-template-rows:1fr;grid-template-columns:minmax(0,1fr);transition:opacity .22s ease .16s}
+  .advisor.is-open .advisor__reveal-bar{opacity:0;pointer-events:none;transition:opacity .16s ease}
   .advisor__reveal-bar>.advisor__bar{overflow:hidden;min-height:0}
   /* Entry invitation: the collapsed bar eases in once when scrolled into view, then the chevron bobs once */
   .advisor--invite-armed .advisor__reveal-bar>.advisor__bar{opacity:0}
@@ -94,7 +94,7 @@
   .advisor__card{
     position:relative;padding:clamp(20px,2.4vw,28px);border-radius:var(--r-l);
     background:linear-gradient(135deg,var(--teal-5) 0%,#EDF3F3 100%);
-    box-shadow:inset 0 0 0 1px var(--teal-10),var(--shadow-card)}
+    box-shadow:inset 0 0 0 1px var(--teal-10),0 1px 3px rgba(26,23,27,.05)}
   .advisor__collapse{position:absolute;top:14px;right:14px;width:32px;height:32px;display:grid;place-items:center;
     background:none;border:0;color:var(--teal);border-radius:var(--r-m)}
   .advisor__collapse:hover{color:var(--teal-700)}
@@ -1606,7 +1606,7 @@
   Array.prototype.forEach.call(root.querySelectorAll("[data-ai-toggle]"),function(b){
     b.addEventListener("click",function(){
       var open=!root.classList.contains("is-open");
-      if(open && !state.id){ state.navDir="fwd"; goTo(visibleSteps(state.a)[0]); }
+      if(open && !state.id){ state.navDir="fwd"; state.opening=true; goTo(visibleSteps(state.a)[0]); state.opening=false; }
       root.classList.toggle("is-open");
       root.querySelector(".advisor__bar").setAttribute("aria-expanded",open?"true":"false");
     });
@@ -1712,7 +1712,8 @@
     /* Entrance cascade fires only when ENTERING a step (fresh), never on an in-step re-render
        (a click re-runs renderStep to reflect the choice) — so options don't re-stagger each tick. */
     var fresh=state.lastRenderStep!==id; state.lastRenderStep=id;
-    if(fresh){ stepEl.classList.add("anim-in"); stepEl.classList.add(state.navDir==="back"?"dir-back":"dir-fwd"); }
+    /* On the initial open, let the card-expand be the only motion (no option cascade fighting it); stagger on later step changes. */
+    if(fresh && !state.opening){ stepEl.classList.add("anim-in"); stepEl.classList.add(state.navDir==="back"?"dir-back":"dir-fwd"); }
     /* Live-count: tween the number whenever it changes (choice or navigation), with a bump pulse. */
     var cb=quizEl.querySelector(".advisor__count b");
     if(cb && lc>0 && state.shownCount!=null && state.shownCount!==lc && !prefersReduce()) tweenCount(cb,state.shownCount,lc);
