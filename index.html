@@ -16,6 +16,7 @@
     --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px;
     --r-m:4px; --r-l:8px; --r-pill:9999px;
     --shadow-md:0 4px 12px rgba(0,0,0,0.08); --shadow-lg:0 12px 32px rgba(0,0,0,0.12);
+    --shadow-lift:0 1px 2px rgba(26,23,27,.06),0 8px 18px -10px rgba(26,23,27,.22);
     --container:100rem;   /* 1600px — matches the PDP (pdp-b.css) which caps --container at 100rem for live-shop parity, overriding the design system's 1560/1760/2040 growth */
   }
   *{box-sizing:border-box}
@@ -73,6 +74,12 @@
   .advisor__reveal-bar{grid-area:1/1;align-self:start;display:grid;grid-template-rows:1fr;grid-template-columns:minmax(0,1fr);transition:opacity .3s ease}
   .advisor.is-open .advisor__reveal-bar{opacity:0;pointer-events:none}
   .advisor__reveal-bar>.advisor__bar{overflow:hidden;min-height:0}
+  /* Entry invitation: the collapsed bar eases in once when scrolled into view, then the chevron bobs once */
+  .advisor--invite-armed .advisor__reveal-bar>.advisor__bar{opacity:0}
+  .advisor__reveal-bar.is-invited>.advisor__bar{animation:barInvite .5s cubic-bezier(.4,0,.2,1) both}
+  .advisor__reveal-bar.is-invited .advisor__bar-cta svg{animation:chevBob .7s ease .5s 1}
+  @keyframes barInvite{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes chevBob{0%,100%{transform:rotate(90deg) translateX(0)}50%{transform:rotate(90deg) translateX(4px)}}
   .advisor__reveal{grid-area:1/1;display:grid;grid-template-rows:0fr;grid-template-columns:minmax(0,1fr);overflow:hidden;transition:grid-template-rows .38s cubic-bezier(.4,0,.2,1)}
   .advisor.is-open .advisor__reveal{grid-template-rows:1fr}
   .advisor:not(.is-open) .advisor__reveal{pointer-events:none}   /* collapsed: empty card must not overlay/block the bar */
@@ -118,7 +125,12 @@
   @keyframes stepIn{from{opacity:0}to{opacity:1}}
   @keyframes optInFwd{from{opacity:0;transform:translate(10px,6px)}to{opacity:1;transform:none}}
   @keyframes optInBack{from{opacity:0;transform:translate(-10px,6px)}to{opacity:1;transform:none}}
-  .advisor__q{margin:0 0 var(--sp-4);font-size:var(--text-h4);font-weight:700;line-height:1.375;color:var(--schwarz)}
+  /* brief exit so a step fades/slides out before the next slides in (set by goTo on step change) */
+  .advisor__step.is-out-fwd{animation:stepOutFwd .14s ease forwards}
+  .advisor__step.is-out-back{animation:stepOutBack .14s ease forwards}
+  @keyframes stepOutFwd{to{opacity:0;transform:translateX(-8px)}}
+  @keyframes stepOutBack{to{opacity:0;transform:translateX(8px)}}
+  .advisor__q{margin:0 0 var(--sp-4);font-size:var(--text-h4);font-weight:700;line-height:1.375;color:var(--schwarz);letter-spacing:-.01em}
   .advisor__q .en{display:block;font-size:var(--text-body-sm);font-weight:400;font-style:italic;color:var(--ink-60);margin-top:3px}
   .advisor__help{margin:-8px 0 var(--sp-4);font-size:var(--text-body-sm);color:var(--ink-60);max-width:60ch}
 
@@ -148,7 +160,7 @@
   @keyframes checkPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
   /* A lone option shouldn't stretch to full container width on desktop (caps at 32rem, left-aligned) */
   .advisor__opt:only-child{max-width:32rem}
-  @media (hover:hover){.advisor__opt:hover{border-color:var(--teal)}}
+  @media (hover:hover){.advisor__opt:not(.is-off):hover{border-color:var(--teal);transform:translateY(-1px);box-shadow:var(--shadow-lift)}}
   .advisor__opt:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal)}
   .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5)}
   .advisor__opt-label{font-size:var(--text-body-sm);font-weight:500;color:var(--schwarz)}
@@ -164,7 +176,7 @@
   .advisor__opt-switch{color:var(--teal);font-weight:600;text-decoration:underline;cursor:pointer}
   .advisor__opt-count{font-size:var(--text-caption);color:#6A6A6A;font-weight:600;font-variant-numeric:tabular-nums;margin-top:auto;padding-top:6px}
   .advisor__opt.has-swatch{flex-direction:row;align-items:stretch;gap:14px;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
-  @media (hover:hover){.advisor__opt.has-swatch:hover{transform:translateY(-2px);box-shadow:0 6px 14px -8px rgba(0,0,0,.18)}}
+  @media (hover:hover){.advisor__opt.has-swatch:hover{transform:translateY(-1px);box-shadow:var(--shadow-lift)}}
   .advisor__opt.has-swatch .advisor__opt-body{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
   .advisor__opt.has-swatch .advisor__opt-count{margin-top:auto}
   .advisor__opt.has-swatch .advisor__opt-sub{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -178,6 +190,10 @@
     background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
     transform:translateX(-120%);transition:transform .6s ease}
   @media (hover:hover){.advisor__opt.has-swatch:hover .advisor__swatch::before{transform:translateX(120%)}}
+  /* Edelstahl: a fine brushed-metal grain instead of a flat silver (brand detail) */
+  .advisor__swatch--steel{background:
+    repeating-linear-gradient(118deg,rgba(255,255,255,.16) 0 1px,rgba(0,0,0,.05) 1px 2.5px),
+    linear-gradient(145deg,#d2d5d0,#a7aba5 55%,#c0c3be)}
   .advisor__hint{margin:-4px 0 var(--sp-4);padding:var(--sp-2) var(--sp-3);font-size:var(--text-body-sm);color:var(--ink-60);
     background:var(--teal-5);border-left:3px solid var(--teal);border-radius:6px;max-width:72ch;line-height:1.45}
   .advisor__hint.advisor__flash{color:var(--status-warning);background:transparent;border-left-color:var(--status-warning)}
@@ -212,7 +228,7 @@
   .advisor__result{display:flex;flex-direction:column;gap:var(--sp-4);opacity:0;transform:translateY(10px);
     transition:opacity .4s ease,transform .4s ease}
   .advisor__result.is-in{opacity:1;transform:none}
-  .advisor__result-title{margin:0;font-size:var(--text-h4);font-weight:700;color:var(--schwarz)}
+  .advisor__result-title{margin:0;font-size:var(--text-h4);font-weight:700;color:var(--schwarz);letter-spacing:-.01em}
   .advisor__recs{display:flex;flex-wrap:wrap;gap:var(--sp-4);align-items:flex-start}
   .advisor__rec{flex:1 1 200px;max-width:50%;min-height:7.5rem;display:flex;flex-direction:column;gap:var(--sp-3);padding:var(--sp-4);border:1px solid var(--graphite-300);
     border-radius:var(--r-l);background:var(--white);text-decoration:none;color:inherit;transition:box-shadow .25s,border-color .25s,transform .25s ease}
@@ -253,7 +269,7 @@
     color:var(--teal);background:none;padding:2px 0}
   .advisor__rec-name{font-size:var(--text-body-sm);font-weight:700;line-height:1.375;color:var(--schwarz);
     display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
-  .advisor__rec-price{font-size:var(--text-body);font-weight:700;color:var(--schwarz);white-space:nowrap}
+  .advisor__rec-price{font-size:var(--text-body);font-weight:700;color:var(--schwarz);white-space:nowrap;font-variant-numeric:tabular-nums}
   .advisor__rec-price small{font-weight:400;color:var(--ink-60);font-size:var(--text-caption)}
   .advisor__rec-features{list-style:none;margin:0;padding:var(--sp-3) 0 0;border-top:1px solid var(--line);
     display:flex;flex-direction:column;gap:8px}
@@ -369,7 +385,10 @@
   .advisor__legal{margin:0;font-size:var(--text-body-sm);color:var(--ink-60)}
   .advisor__legal a{color:var(--teal)}
   .advisor__sent{margin:0;box-sizing:border-box;display:flex;align-items:center;gap:0.75rem;width:100%;background:rgb(240,253,244);box-shadow:rgb(0,153,81) 0.2rem 0px 0px 0px inset;border:0;border-radius:0.5rem;padding:0.5rem 0.875rem;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;position:relative}
-  .advisor__sent-ico{flex:0 0 auto;width:20px;height:20px;color:var(--green)}
+  .advisor__sent-ico{flex:0 0 auto;width:20px;height:20px;color:var(--green);animation:sentPop .3s ease both}
+  .advisor__sent-ico path{stroke-dasharray:24;stroke-dashoffset:24;animation:checkDraw .45s cubic-bezier(.65,0,.35,1) .12s forwards}
+  @keyframes sentPop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+  @keyframes checkDraw{to{stroke-dashoffset:0}}
   .advisor__sent-text{margin:0;font-size:var(--text-body-sm);color:var(--schwarz)}
   .advisor__sent-text strong{font-weight:700;color:var(--schwarz)}
   @media (max-width:760px){
@@ -400,7 +419,11 @@
     .advisor__progress-dots span.is-current,.advisor__count.is-bumped b,.advisor__result.is-in .advisor__rec,
     .advisor__result.is-in .advisor__rec.is-best::after{animation:none !important}
     .advisor__forward svg,.advisor__back svg,.advisor__bar-cta svg,.advisor__rec-chev,.advisor__swatch::before,
-    .advisor__rec,.advisor__view,.advisor__forward--cta,.advisor__send,.advisor__opt:active{transition:none !important;transform:none !important}}
+    .advisor__rec,.advisor__view,.advisor__forward--cta,.advisor__send,.advisor__opt:active{transition:none !important;transform:none !important}
+    .advisor__reveal-bar.is-invited>.advisor__bar,.advisor__reveal-bar.is-invited .advisor__bar-cta svg,
+    .advisor__step.is-out-fwd,.advisor__step.is-out-back,.advisor__sent-ico,.advisor__sent-ico path{animation:none !important}
+    .advisor--invite-armed .advisor__reveal-bar>.advisor__bar{opacity:1 !important}}
+  @media (prefers-contrast:more){:root{--ink-60:rgba(0,0,0,.74);--ink-72:rgba(0,0,0,.86);--graphite-500:#6a6a6a;--line:#b4b4b4}}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></symbol></svg>
@@ -1578,7 +1601,7 @@
   Array.prototype.forEach.call(root.querySelectorAll("[data-ai-toggle]"),function(b){
     b.addEventListener("click",function(){
       var open=!root.classList.contains("is-open");
-      if(open && !state.id){ goTo(visibleSteps(state.a)[0]); }
+      if(open && !state.id){ state.navDir="fwd"; goTo(visibleSteps(state.a)[0]); }
       root.classList.toggle("is-open");
       root.querySelector(".advisor__bar").setAttribute("aria-expanded",open?"true":"false");
     });
@@ -1591,8 +1614,10 @@
       : (o.od?'<span class="advisor__opt-sub">'+esc(o.od)+'</span>':'');
     var badge = (!stt.off&&stt.count)?'<span class="advisor__opt-count">'+stt.count+(stt.count===1?' Modell':' Modelle')+'</span>':'';
     var body = '<span class="advisor__opt-label">'+esc(o.ol)+'</span>'+sub+badge;
+    var isSteel=o.v==="edelstahl";
+    var swatch=o.sw?'<span class="advisor__swatch'+(isSteel?' advisor__swatch--steel':'')+'"'+(isSteel?'':' style="background:'+o.sw+'"')+' aria-hidden="true"></span>':'';
     return '<button type="button" class="advisor__opt'+(selected?' is-active':'')+(stt.off?' is-off':'')+(o.sw?' has-swatch':'')+'" style="--i:'+(idx||0)+'" data-v="'+o.v+'"'+(stt.off?' aria-disabled="true"':'')+' aria-pressed="'+(selected?'true':'false')+'">'
-      +(o.sw?'<span class="advisor__swatch" style="background:'+o.sw+'" aria-hidden="true"></span><span class="advisor__opt-body">'+body+'</span>':body)
+      +(o.sw?swatch+'<span class="advisor__opt-body">'+body+'</span>':body)
       +'</button>';
   }
 
@@ -1752,7 +1777,13 @@
     /* Only pull the box up when its top has scrolled above the header; never nudge when already in view (prevents desktop jump) */
     if(top < offset-2){ window.scrollTo({top:Math.max(0,top+window.pageYOffset-offset),behavior:'smooth'}); }
   }
-  function goTo(id){ state.id=id; renderStep(id); focusAdvisor(); }
+  function goTo(id){
+    var cur=quizEl.querySelector(".advisor__step");
+    if(cur && !prefersReduce()){
+      cur.classList.add(state.navDir==="back"?"is-out-back":"is-out-fwd");
+      setTimeout(function(){ state.id=id; renderStep(id); focusAdvisor(); },130);
+    } else { state.id=id; renderStep(id); focusAdvisor(); }
+  }
   function collapse(){ root.classList.remove("is-open"); root.querySelector(".advisor__bar").setAttribute("aria-expanded","false"); }
 
   /* ---------- result ---------- */
@@ -1903,6 +1934,26 @@
     sw.hidden=false;
     sw.innerHTML=Object.keys(CATS).map(function(k){return '<button type="button" data-cat="'+k+'"'+(k===CAT.key?' class="is-on"':'')+'>'+esc(CATS[k].tab)+'</button>';}).join("");
     Array.prototype.forEach.call(sw.querySelectorAll("button"),function(b){ b.addEventListener("click",function(){ var k=b.getAttribute("data-cat"); if(CAT&&k===CAT.key)return; setCat(k); }); });
+  })();
+  /* Entry invitation: ease the collapsed bar in once when it scrolls into view + a single chevron bob */
+  (function initInvite(){
+    var rb=root.querySelector(".advisor__reveal-bar"); if(!rb) return;
+    if(!("IntersectionObserver" in window)) return;
+    if(window.matchMedia && matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+    root.classList.add("advisor--invite-armed");
+    var done=false;
+    function reveal(animate){
+      if(done) return; done=true;
+      root.classList.remove("advisor--invite-armed");
+      if(animate && !root.classList.contains("is-open")) rb.classList.add("is-invited");
+      io.disconnect(); clearTimeout(safety);
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting) reveal(true); });
+    },{threshold:.35});
+    io.observe(rb);
+    /* safety: never leave the primary CTA hidden if IO is slow/never fires (e.g. background tab) */
+    var safety=setTimeout(function(){ reveal(false); },1400);
   })();
 })();
 </script>
