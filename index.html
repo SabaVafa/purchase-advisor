@@ -2,7 +2,7 @@
 <meta name="robots" content="noindex, nofollow" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Metzler Kaufberater</title>
+<title>Metzler Produktberater</title>
 <style>
   :root{
     --font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -445,7 +445,7 @@
         </span>
         <span class="advisor__bar-sub">Beantworten Sie ein paar kurze Fragen – der Berater empfiehlt Ihnen die passende Türsprechanlage.</span>
       </span>
-      <span class="advisor__bar-cta">Kaufberater<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></span>
+      <span class="advisor__bar-cta">Produktberater<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></span>
     </button>
     </div>
     <div class="advisor__reveal">
@@ -1842,7 +1842,7 @@
       +(CAT.belowResult?CAT.belowResult(a):"")
       +'<div class="advisor__actions">'
         +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
-        +'<button type="button" class="advisor__reset" data-reset>Kaufberater neu starten</button>'
+        +'<button type="button" class="advisor__reset" data-reset>Produktberater neu starten</button>'
       +'</div>'
       +'<div class="advisor__more"><button type="button" class="advisor__more-summary" data-more-toggle aria-expanded="false">Empfehlung per E-Mail'+(CAT.support?' &amp; Beratung':'')+'<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><div class="advisor__more-body"><div class="advisor__more-inner"><div class="advisor__more-pad">'
       +captureHTML()
@@ -1914,7 +1914,7 @@
     if(/klingel/.test(p))return"tuerklingel";
     return null; }
   function applyChrome(){
-    document.title="Metzler "+CAT.nounPl+"-Kaufberater";
+    document.title="Metzler "+CAT.nounPl+"-Produktberater";
     var ct=document.querySelector(".page-head .ct"); if(ct)ct.textContent=CAT.nounPl;
     var sub=document.querySelector(".advisor__bar-sub"); if(sub)sub.textContent=CAT.barSub;
   }
