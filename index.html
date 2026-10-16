@@ -328,9 +328,6 @@
   /* support */
   .advisor__support{display:flex;flex-wrap:wrap;gap:var(--sp-3) var(--sp-4);align-items:center;justify-content:space-between;
     margin-top:var(--sp-4);padding:var(--sp-4) var(--sp-5);border-radius:var(--r-l);background:var(--teal-5);color:var(--schwarz)}
-  .advisor__support-ico{flex:0 0 auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--teal);color:#fff}
-  .advisor__support-ico svg{width:24px;height:24px}
-  .advisor__support-txt{flex:1 1 auto;min-width:0}
   .advisor__support .st{font-weight:700;font-size:var(--text-body);line-height:1.25}
   .advisor__support .ss{font-size:var(--text-body-sm);color:var(--ink-60);margin-top:1px}
   .advisor__support-btns{display:flex;gap:8px;flex-wrap:wrap}
@@ -343,7 +340,6 @@
   .advisor__more-summary{display:flex;align-items:center;gap:var(--sp-3);width:100%;cursor:pointer;text-align:left;
     font-family:inherit;font-size:var(--text-body-sm);font-weight:700;color:var(--schwarz);
     padding:var(--sp-4);border:0;background:transparent}
-  .advisor__more-ico{width:18px;height:18px;flex:none;color:var(--teal)}
   .advisor__more-chev{width:20px;height:20px;margin-left:auto;flex:none;color:var(--teal);transform:rotate(90deg);transition:transform .2s ease}
   .advisor__more.is-open .advisor__more-chev{transform:rotate(270deg)}
   .advisor__more.is-open .advisor__more-summary{border-bottom:1px solid var(--graphite-300)}
@@ -1860,10 +1856,9 @@
         +(list.length?'<a class="advisor__view" href="'+BASE+CAT.catUrl+'" target="_blank" rel="noopener">Alle passenden Modelle ansehen</a>':'')
         +'<button type="button" class="advisor__reset" data-reset>Produktberater neu starten</button>'
       +'</div>'
-      +'<div class="advisor__more"><button type="button" class="advisor__more-summary" data-more-toggle aria-expanded="false"><svg class="advisor__more-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Empfehlung per E-Mail'+(CAT.support?' &amp; Beratung':'')+'<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><div class="advisor__more-body"><div class="advisor__more-inner"><div class="advisor__more-pad">'
+      +'<div class="advisor__more"><button type="button" class="advisor__more-summary" data-more-toggle aria-expanded="false">Empfehlung per E-Mail'+(CAT.support?' &amp; Beratung':'')+'<svg class="advisor__more-chev" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chevron-right"/></svg></button><div class="advisor__more-body"><div class="advisor__more-inner"><div class="advisor__more-pad">'
       +captureHTML()
-      +(sup?('<div class="advisor__support"><span class="advisor__support-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13v-1a8 8 0 0 1 16 0v1"/><rect x="3" y="13" width="3.4" height="6.4" rx="1.6"/><rect x="17.6" y="13" width="3.4" height="6.4" rx="1.6"/><path d="M20.3 19.4a3 3 0 0 1-3 2.6H15"/></svg></span>'
-        +'<div class="advisor__support-txt"><div class="st">'+esc(sup.title)+'</div><div class="ss">'+esc(sup.sub)+'</div></div>'
+      +(sup?('<div class="advisor__support"><div><div class="st">'+esc(sup.title)+'</div><div class="ss">'+esc(sup.sub)+'</div></div>'
         +'<div class="advisor__support-btns"><a class="solid" href="'+sup.primaryHref+'" target="_blank" rel="noopener">'+esc(sup.primaryLabel)+'</a>'
         +'<a href="'+sup.secondaryHref+'" target="_blank" rel="noopener">'+esc(sup.secondaryLabel)+'</a></div></div>'):'')
       +'</div></div></div></div>'
