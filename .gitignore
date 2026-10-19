@@ -20,3 +20,6 @@ Json Folder/
 *.zip
 
 .github/workflows/
+
+# local design review file (not for publishing)
+produktberater-varianten.html
