@@ -53,7 +53,8 @@
      .sheet/.cfgb-summary max-width:64rem, centered) so the quiz option cards,
      result cards and e-mail field don't stretch on wide screens. The option grid
      keeps the same auto-fit minmax pattern the PDP configurator uses inside it. */
-  .advisor{padding-block:var(--sp-4);display:grid;grid-template-columns:minmax(0,1fr);max-width:64rem;margin-inline:auto}
+  /* No top padding: the bar's top edge aligns with the filter column's top on the category page (bottom pad keeps it off the product grid). */
+  .advisor{padding-block:0 var(--sp-4);display:grid;grid-template-columns:minmax(0,1fr);max-width:64rem;margin-inline:auto}
   /* Collapsed entry = a bold brand-teal module so it stands out on the white category page */
   .advisor__bar{
     position:relative;overflow:hidden;width:100%;display:flex;align-items:center;gap:clamp(14px,2vw,20px);text-align:left;
