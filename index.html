@@ -55,27 +55,25 @@
      keeps the same auto-fit minmax pattern the PDP configurator uses inside it. */
   /* No top padding: the bar's top edge aligns with the filter column's top on the category page (bottom pad keeps it off the product grid). */
   .advisor{padding-block:0 var(--sp-4);display:grid;grid-template-columns:minmax(0,1fr);max-width:64rem;margin-inline:auto}
-  /* Collapsed entry = a bold brand-teal module so it stands out on the white category page */
+  /* Collapsed entry = a LIGHT module (faint teal tint + hairline ring) so the product cards keep the stage.
+     The deep brand teal is concentrated into the icon badge + CTA pill so it still reads premium and stands
+     out, without the heavy full-width teal slab. */
   .advisor__bar{
     position:relative;overflow:hidden;width:100%;display:flex;align-items:center;gap:clamp(14px,2vw,20px);text-align:left;
     padding:clamp(13px,1.7vw,16px) clamp(20px,2.4vw,28px);border:0;border-radius:var(--r-l);
-    background:linear-gradient(120deg,var(--teal) 0%,var(--teal-700) 100%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.08);transition:filter .2s ease}
-  /* soft decorative sheen in the top-right, purely premium polish */
-  .advisor__bar::after{content:"";position:absolute;top:-40%;right:-6%;width:260px;height:260px;border-radius:50%;pointer-events:none;
-    background:radial-gradient(closest-side,rgba(255,255,255,.10),rgba(255,255,255,0))}
-  @media (hover:hover){.advisor__bar:hover{filter:brightness(1.06)}}
-  .advisor__bar:focus-visible{outline:2px solid #fff;outline-offset:3px}
+    background:var(--teal-5);box-shadow:inset 0 0 0 1px var(--teal-10);transition:background .2s ease}
+  @media (hover:hover){.advisor__bar:hover{background:var(--teal-100)}}
+  .advisor__bar:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
   .advisor__bar-icon{position:relative;flex:0 0 auto;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
-    background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
-    -webkit-backdrop-filter:blur(7px) saturate(1.3);backdrop-filter:blur(7px) saturate(1.3)}
+    background:var(--teal);color:#fff}
   .advisor__bar-icon svg{width:23px;height:23px}
   .advisor__bar-txt{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
   .advisor__bar-head{display:flex;align-items:center;gap:var(--sp-3)}
-  .advisor__bar-title{font-size:1.0625rem;font-weight:700;color:#fff;line-height:1.3;letter-spacing:-.01em}
-  .advisor__bar-sub{font-size:var(--text-body-sm);color:rgba(255,255,255,.82);line-height:1.4}
+  .advisor__bar-title{font-size:1.0625rem;font-weight:700;color:var(--schwarz);line-height:1.3;letter-spacing:-.01em}
+  .advisor__bar-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4}
   .advisor__bar-cta{position:relative;margin-left:auto;display:inline-flex;align-items:center;gap:8px;flex:0 0 auto;
-    background:#fff;color:var(--teal);font-size:var(--text-body-sm);font-weight:700;padding:10px 16px;border-radius:var(--r-pill);line-height:1.2;white-space:nowrap}
+    background:var(--teal);color:#fff;font-size:var(--text-body-sm);font-weight:700;padding:10px 16px;border-radius:var(--r-pill);line-height:1.2;white-space:nowrap;transition:background .2s ease}
+  @media (hover:hover){.advisor__bar:hover .advisor__bar-cta{background:var(--teal-700)}}
   .advisor__bar-cta svg{width:18px;height:18px;transition:transform .2s ease}
   @media (hover:hover){.advisor__bar:hover .advisor__bar-cta svg{transform:translateX(3px)}}
 
