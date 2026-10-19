@@ -149,7 +149,7 @@
   .advisor__opts--swatch{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
   /* Mobile: 2-col options; a lone trailing (odd) option spans full width with looser text */
   @media (max-width:560px){
-    .advisor__opts{grid-template-columns:1fr 1fr}
+    .advisor__opts{grid-template-columns:repeat(2,minmax(0,1fr))}
     .advisor__opts--swatch{grid-template-columns:1fr}
     .advisor__opts:not(.advisor__opts--swatch)>.advisor__opt:last-child:nth-child(odd){grid-column:1 / -1;padding:var(--sp-4) var(--sp-5)}
     .advisor__support-btns{width:100%}
@@ -174,8 +174,8 @@
   @media (hover:hover){.advisor__opt:not(.is-off):hover{border-color:var(--teal)}}
   .advisor__opt:focus-visible{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal)}
   .advisor__opt.is-active{border-color:var(--teal);background:var(--teal-5)}
-  .advisor__opt-label{font-size:var(--text-body-sm);font-weight:600;color:var(--schwarz)}
-  .advisor__opt-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4}
+  .advisor__opt-label{font-size:var(--text-body-sm);font-weight:600;color:var(--schwarz);overflow-wrap:anywhere}
+  .advisor__opt-sub{font-size:var(--text-body-sm);color:var(--ink-60);line-height:1.4;overflow-wrap:anywhere}
   .advisor__opt.is-off{cursor:default;box-shadow:none;background:
     repeating-linear-gradient(135deg,var(--graphite-100),var(--graphite-100) 7px,rgba(0,0,0,.024) 7px,rgba(0,0,0,.024) 14px)}
   .advisor__opt.is-off::after{display:none}
@@ -448,7 +448,10 @@
   @media (max-width:760px){
     .advisor__bar{flex-wrap:wrap;align-items:center;gap:var(--sp-3) 14px;padding:var(--sp-4)}
     .advisor__bar-txt{flex:1 1 60%}
-    .advisor__bar-cta{margin-left:0;flex:1 0 100%;justify-content:center;padding:12px}
+    /* compact pill (not a full-width block) + lighter badge so the bar doesn't feel heavy on phones */
+    .advisor__bar-cta{margin-left:0;flex:0 0 auto;padding:10px 18px}
+    .advisor__bar-icon{width:36px;height:36px}
+    .advisor__bar-icon svg{width:20px;height:20px}
     .advisor__support{flex-direction:column;align-items:flex-start}
     .advisor__actions{justify-content:flex-end}
   }
