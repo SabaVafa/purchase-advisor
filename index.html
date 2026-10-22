@@ -1648,6 +1648,7 @@
       if(open && !state.id){ state.navDir="fwd"; state.opening=true; goTo(visibleSteps(state.a)[0]); state.opening=false; }
       root.classList.toggle("is-open");
       root.querySelector(".advisor__bar").setAttribute("aria-expanded",open?"true":"false");
+      updateBarCTA();
     });
   });
 
@@ -1829,7 +1830,12 @@
       setTimeout(function(){ state.id=id; renderStep(id); focusAdvisor(); },130);
     } else { state.id=id; renderStep(id); focusAdvisor(); }
   }
-  function collapse(){ root.classList.remove("is-open"); root.querySelector(".advisor__bar").setAttribute("aria-expanded","false"); }
+  function collapse(){ root.classList.remove("is-open"); root.querySelector(".advisor__bar").setAttribute("aria-expanded","false"); updateBarCTA(); }
+  /* Entry-bar CTA reflects progress: fresh -> start, mid-quiz -> resume, finished -> view result */
+  function updateBarCTA(){ var cta=root.querySelector(".advisor__bar-cta"); if(!cta) return;
+    var label = root.classList.contains("is-result") ? "Ergebnis ansehen"
+              : ((state.a && Object.keys(state.a).length) ? "Fortsetzen" : "Jetzt starten");
+    cta.innerHTML = label + CHEV; }
 
   /* ---------- result ---------- */
   /* Placeholder product images (local folder). Live integration swaps these for shop CDN images. */
