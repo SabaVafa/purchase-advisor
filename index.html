@@ -559,10 +559,10 @@
   /* ---------- SPRECHANLAGE QUIZ ---------- */
   var SP_STEPS={
     bau:{q:"Wie sieht die Verkabelung bei Ihnen aus?",en:"",help:"Die Verkabelung entscheidet, welche Serie passt.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"bus",ol:"Modernisierung und bestehende Verkabelung",od:"Nachrüstung ohne neue Kabel · 2-Draht-BUS"},
-      {v:"ip",ol:"Neubau und Neuverkabelung",od:"moderne Funktionen (App, Video, Gesicht) · IP-System"}]},
-    combo:{q:"Nur Sprechanlage – oder als Kombination?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
-      {v:"none",ol:"Nur Sprechanlage",od:"nur die Türstation"},
+      {v:"bus",ol:"Modernisierung im Bestand",od:"vorhandene Leitungen weiternutzen · 2-Draht-BUS"},
+      {v:"ip",ol:"Neubau oder Neuverkabelung",od:"neue Leitungen möglich · IP-System"}]},
+    combo:{q:"Sprechanlage einzeln oder als Kombination?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
+      {v:"none",ol:"Eigenständige Sprechanlage",od:"die klassische Türstation"},
       {v:"briefkasten",ol:"Mit Briefkasten",od:"integriert in eine Briefkastenanlage · IP-Video"},
       {v:"paketbox",ol:"Mit Paketbox",od:"Türstation mit integrierter Paketbox · IP-Video"}]},
     media:{q:"Möchten Sie sehen, wer klingelt?",en:"Video or audio only?",type:"single",req:true,vis:function(a){return a.bau!=="bus";},opts:[
@@ -1245,11 +1245,11 @@
     return {off:true,note:"derzeit kein passendes Modell"};
   }
   /* Upsell: leaving BUS for the IP series means proper/new cabling – send the user back to reconsider it. */
-  function switchToIP(){ state.flash="Für RFID, PIN, Fingerabdruck oder Gesichtserkennung ist das IP-System nötig – wählen Sie „Neubau und Neuverkabelung“. Dafür sind ggf. neue Leitungen erforderlich."; goTo("bau"); }
+  function switchToIP(){ state.flash="Für RFID, PIN, Fingerabdruck oder Gesichtserkennung ist das IP-System nötig – wählen Sie „Neubau oder Neuverkabelung“. Dafür sind ggf. neue Leitungen erforderlich."; goTo("bau"); }
   function spSummary(a){
     var out=[],sys=deriveSystem(a);
     if(sys)out.push(["System",{"ip-lan":"IP-System","ip-2draht":"IP-System","bus":"2-Draht-BUS"}[sys],"bau"]);
-    if(a.combo)out.push(["Ausführung",{none:"Nur Sprechanlage",briefkasten:"mit Briefkasten",paketbox:"mit Paketbox"}[a.combo],"combo"]);
+    if(a.combo)out.push(["Ausführung",{none:"Eigenständige Sprechanlage",briefkasten:"mit Briefkasten",paketbox:"mit Paketbox"}[a.combo],"combo"]);
     if(a.media)out.push(["Typ",a.media==="video"?"Video":"Audio","media"]);
     if(a.parties)out.push(["Parteien",a.parties==="many"?"flexibel":(a.parties==="4"?"4+":a.parties),"parties"]);
     if(a.bauform)out.push(["Bauform",{wand:"Aufputz",stand:"Standmontage"}[a.bauform],"bauform"]);
