@@ -711,7 +711,7 @@
     label:{q:"Wie soll der Name angezeigt werden?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"gravur",ol:"Lasergraviertes Namensschild",od:"jederzeit wechselbar"},
       {v:"schild",ol:"Namensschild mit Papiereinleger",od:"jederzeit wechselbar"},
-      {v:"symbol",ol:"Nur Klingelsymbol",od:"kein Name – beleuchtetes Symbol"}]},
+      {v:"symbol",ol:"Beleuchtetes Klingelsymbol",od:"Symbol statt Namensschild"}]},
     beleuchtung:{q:"Was soll beleuchtet sein?",type:"multi",gateOpts:true,vis:function(){return true;},opts:[
       {v:"led",ol:"Klingeltaster (LED-Ring)",od:"beleuchteter Taster, Farbe wählbar",attr:"ledbtn"},
       {v:"name",ol:"Beleuchtetes Namensschild",od:"LED-hinterleuchtet, nachts lesbar",attr:"ledname"},
@@ -865,8 +865,8 @@
       {v:"3",ol:"3 Parteien",od:"Dreifamilienhaus"},
       {v:"4",ol:"4–6 Parteien",od:"Mehrfamilienhaus (bis 6 Fächer)"},
       {v:"many",ol:"7–15 Parteien",od:"Großobjekt · Briefkastenanlage nach Maß"}]},
-    combo:{q:"Nur Briefkasten – oder mit Klingel/Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"none",ol:"Nur Briefkasten",od:"ohne Klingel/Sprechanlage"},
+    combo:{q:"Briefkasten einzeln oder mit Klingel/Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
+      {v:"none",ol:"Eigenständiger Briefkasten",od:"ohne Klingel oder Sprechanlage"},
       {v:"funk",ol:"Mit Funkklingel",od:"kabellos – kein Kabel nötig"},
       {v:"sprech",ol:"Mit Video-Türsprechanlage",od:"kabelgebunden · IP-Video & App"}]},
     zeitung:{q:"Mit Zeitungsfach?",type:"single",vis:function(){return true;},opts:[
@@ -979,7 +979,7 @@
       {v:"front",ol:"Von vorne",od:"Entnahme zur Vorderseite"},
       {v:"rear",ol:"Von hinten",od:"Entnahme zur Rückseite"}]},
     combo:{q:"Mit Klingel oder Sprechanlage?",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"none",ol:"Ohne Klingel/Sprechanlage",od:"keine zusätzliche Türtechnik"},
+      {v:"none",ol:"Eigenständige Paketbox",od:"ohne Klingel oder Sprechanlage"},
       {v:"funk",ol:"Mit Funkklingel",od:"kabellos – kein Kabel nötig"},
       {v:"sprech",ol:"Mit Video-Türsprechanlage",od:"kabelgebunden · IP-Video & App"}]},
     groesse:{q:"Welche Paketgröße?",type:"single",vis:function(){return true;},opts:[
@@ -1331,7 +1331,7 @@
     var out=[];
     if(a.bauform&&a.bauform!=="egal")out.push(["Bauform",{wand:"Aufputz",stand:"Standmontage",unterputz:"Unterputz",zaun:"Zaunmontage"}[a.bauform],"bauform"]);
     if(a.fach)out.push(["Parteien",({"4":"4–6",many:"7–15"}[a.fach])||a.fach,"fach"]);
-    if(a.combo)out.push(["Ausführung",{none:"Nur Briefkasten",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
+    if(a.combo)out.push(["Ausführung",{none:"Eigenständiger Briefkasten",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
     if(a.zeitung&&a.zeitung!=="egal")out.push(["Zeitungsfach",{ja:"mit",nein:"ohne"}[a.zeitung],"zeitung"]);
     if(a.schild&&a.schild!=="egal")out.push(["Namensschild",{laser:"Lasergraviert",paper:"Papiereinleger",ohne:"Ohne Gravur"}[a.schild],"schild"]);
     if(a.farbe&&a.farbe!=="egal")out.push(["Farbe",a.farbe==="andere"?({eisenglimmer:"Eisenglimmer",holz:"Holz",wunsch:"Wunschfarbe"}[a.farbeAndere]||"Andere"):{anthrazit:"Anthrazit",edelstahl:"Edelstahl",schwarz:"Schwarz",weiss:"Weiß",grau:"Grau"}[a.farbe],"farbe"]);
@@ -1339,8 +1339,8 @@
   }
   function bkEmpty(a){
     var hint="Passen Sie einzelne Angaben an.";
-    if(a.bauform==="unterputz"&&a.combo&&a.combo!=="none")hint="Unterputz-Briefkästen mit Klingel/Sprechanlage sind selten. Prüfen Sie Wand- oder Standmontage – oder wählen Sie „Nur Briefkasten“.";
-    else if(a.combo&&a.combo!=="none"&&a.fach&&(+a.fach>2))hint="Briefkästen mit Klingel/Sprechanlage bieten wir vor allem für 1–2 Parteien. Für mehr Parteien wählen Sie „Nur Briefkasten“ oder unsere Sprechanlagen.";
+    if(a.bauform==="unterputz"&&a.combo&&a.combo!=="none")hint="Unterputz-Briefkästen mit Klingel/Sprechanlage sind selten. Prüfen Sie Wand- oder Standmontage – oder wählen Sie „Eigenständiger Briefkasten“.";
+    else if(a.combo&&a.combo!=="none"&&a.fach&&(+a.fach>2))hint="Briefkästen mit Klingel/Sprechanlage bieten wir vor allem für 1–2 Parteien. Für mehr Parteien wählen Sie „Eigenständiger Briefkasten“ oder unsere Sprechanlagen.";
     return emptyCard(hint);
   }
   function bkResultNote(){ return ""; }
@@ -1361,7 +1361,7 @@
     var out=[];
     if(a.fach)out.push(["Briefkästen",a.fach==="0"?"ohne":(a.fach==="3"?"3+":a.fach),"fach"]);
     if(a.entnahme&&a.entnahme!=="egal")out.push(["Entnahme",{front:"vorne",rear:"hinten"}[a.entnahme],"entnahme"]);
-    if(a.combo)out.push(["Ausführung",{none:"ohne Klingel/Sprechanlage",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
+    if(a.combo)out.push(["Ausführung",{none:"Eigenständige Paketbox",funk:"mit Funkklingel",sprech:"mit Video-Sprechanlage"}[a.combo],"combo"]);
     if(a.groesse&&a.groesse!=="egal")out.push(["Größe",{standard:"Standard",xl:"XL"}[a.groesse],"groesse"]);
     if(a.beleuchtung&&a.beleuchtung!=="egal")out.push(["Beleuchtung",{led:"mit LED",ohne:"ohne"}[a.beleuchtung],"beleuchtung"]);
     if(a.schild&&a.schild.length)out.push(["Namensschild",a.schild.map(function(s){return {laser:"Lasergraviert",paper:"Papiereinleger",ohne:"Ohne Gravur"}[s];}).join(" + "),"schild"]);
@@ -1370,7 +1370,7 @@
   }
   function pbEmpty(a){
     var hint="Passen Sie einzelne Angaben an.";
-    if(a.combo&&a.combo!=="none"&&a.fach&&(+a.fach>2))hint="Paketboxen mit Klingel/Sprechanlage bieten wir für 1–2 Wohneinheiten. Für mehr Parteien wählen Sie „Ohne Klingel/Sprechanlage“ oder unsere Sprechanlagen.";
+    if(a.combo&&a.combo!=="none"&&a.fach&&(+a.fach>2))hint="Paketboxen mit Klingel/Sprechanlage bieten wir für 1–2 Wohneinheiten. Für mehr Parteien wählen Sie „Eigenständige Paketbox“ oder unsere Sprechanlagen.";
     else if(a.combo&&a.combo!=="none"&&a.beleuchtung==="led")hint="Die Paketbox-Kombis mit Klingel/Sprechanlage gibt es derzeit ohne LED-Beleuchtung.";
     return emptyCard(hint);
   }
