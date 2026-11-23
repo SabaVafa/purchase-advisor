@@ -17,6 +17,10 @@ kaufberater-montage*.md
 metzler-content-briefing.md
 vdm10-configurator-data.md
 
+# internal research skills w/ live API tokens + customer data — NEVER publish
+metzler-zammad-recherche/
+config.json
+
 # large category feed inputs for the feature-pills generator — kept locally
 feature-pills/feeds/
 
