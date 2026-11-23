@@ -10,6 +10,13 @@ Kaufberater-Playbook.md
 Sprechanlagen-Kaufberater.md
 sprechanlagen-kaufberater.html
 
+# internal briefings with Zammad/Wawi data — kept locally, never published
+kaufberater-montage*.md
+*-briefing.md
+*-briefing-*.md
+metzler-content-briefing.md
+vdm10-configurator-data.md
+
 # large category feed inputs for the feature-pills generator — kept locally
 feature-pills/feeds/
 
