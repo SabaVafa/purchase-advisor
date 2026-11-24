@@ -1578,6 +1578,16 @@
         h+='<div class="advisor__note">'+ICO+'<span>Ein <strong>Türöffner/E-Öffner</strong> lässt sich anschließen; je nach Modell ist ein zusätzliches Netzteil erforderlich.</span></div>';
         return h;
       };
+      /* Farb-Swatches an die Live-Darstellung (edelstahl-tuerklingel.de cc-bubble) angleichen:
+         Volltöne = exakte RAL/DB-Hex; Bronze & Wunschfarbe = die echten Live-Bilder. */
+      var GFX="https://edelstahl-tuerklingel.de/gfx/";
+      /* Wunschfarbe / Weitere Farben = das Live-RAL-Farbrad (gfx/ral-farbe.svg), zentriert
+         auf weißer Kachel (contain) — exakt wie die Live-Darstellung des Beraters. */
+      var WHEEL="url("+GFX+"ral-farbe.svg) center/contain no-repeat #fff";
+      var SW1={anthrazit:"#383E42",schwarz:"#000000",weiss:"#FFFFFF",grau:"#AFAFAF",andere:WHEEL};
+      if(sp.steps.farbe) sp.steps.farbe.opts.forEach(function(o){ if(SW1[o.v]) o.sw=SW1[o.v]; });
+      var SW2={eisenglimmer:"#4E4E4E",braun:"url("+GFX+"bronze.jpg) center/cover",wunsch:WHEEL};
+      if(sp.steps.farbeAndere) sp.steps.farbeAndere.opts.forEach(function(o){ if(SW2[o.v]) o.sw=SW2[o.v]; });
     }
     /* ===== Round 2 — Briefkasten: Abschließbar-Hinweis + Paketannahme-Brücke
        (Hinweistexte; Produktdaten belegen „immer abschließbar"). ===== */
