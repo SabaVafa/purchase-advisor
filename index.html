@@ -71,14 +71,18 @@
   .v2cat li .t{color:var(--schwarz)}
   .v2cat li.is-done .t{color:var(--ink-60)}
   .v2cat li .b{color:var(--ink-60);font-size:.7rem;white-space:nowrap;padding-top:1px}
-  .v2dot{width:18px;height:18px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px;font-weight:800;line-height:1;flex:none}
+  .v2dot{box-sizing:border-box;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;line-height:1;flex:none;vertical-align:middle}
   .v2dot.done{background:var(--teal);color:#fff}
   .v2dot.plan{background:#e4e4e1;color:#9a9a93}
   .v2dot.data{background:#d99a2b;color:#fff}
   .v2dot.content{background:#8ba6c4;color:#fff}
   .v2dot.watch{background:#fff;border:1.5px dashed var(--graphite-300)}
-  .v2legend{display:flex;flex-wrap:wrap;gap:7px 15px;margin-top:15px;font-size:.7rem;color:var(--ink-60)}
+  .v2legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:.7rem;color:var(--ink-60)}
   .v2legend span{display:inline-flex;align-items:center;gap:6px}
+  .v2txt{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .v2txt .t-en{font-size:.72rem;color:var(--ink-60);font-style:italic}
+  .v2cat__name .v2cat__en{font-weight:500;color:var(--ink-60);font-size:.8rem;font-style:italic}
+  .v2panel__intro .v2panel__intro-en{color:var(--ink-60);font-style:italic}
 
   /* ── Advisor (ported from Metzler PLP plp.css) ── */
   /* Cap the interactive module at the PDP's configurator measure (pdp-b.css
@@ -246,6 +250,9 @@
     font-size:var(--text-body-sm);line-height:1.55;color:var(--ink-72)}
   .advisor__note-ico{flex:0 0 auto;width:20px;height:20px;color:var(--teal);margin-top:1px}
   .advisor__note strong{color:var(--teal);font-weight:700}
+  .advisor__notelink{appearance:none;border:0;background:none;padding:0;margin:0;font:inherit;color:var(--teal);font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;text-underline-offset:2px}
+  .advisor__notelink svg{width:15px;height:15px}
+  @media (hover:hover){.advisor__notelink:hover{color:var(--teal-700)}}
 
   /* Nav */
   .advisor__nav{display:flex;align-items:center;justify-content:space-between;margin-top:var(--sp-5);gap:12px 16px;flex-wrap:wrap}
@@ -1572,6 +1579,24 @@
         return h;
       };
     }
+    /* ===== Round 2 — Briefkasten: Abschließbar-Hinweis + Paketannahme-Brücke
+       (Hinweistexte; Produktdaten belegen „immer abschließbar"). ===== */
+    var bk=reg.briefkasten; if(bk){
+      var bkBase=bk.resultNote;
+      var NICO='<svg class="advisor__note-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>';
+      var BOXICO='<svg class="advisor__note-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l9-4 9 4-9 4-9-4Z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg>';
+      bk.resultNote=function(a){
+        var h=bkBase?bkBase(a):"";
+        h+='<div class="advisor__note">'+NICO+'<span>Alle Metzler Briefkästen sind <strong>abschließbar</strong> – Ihre Post ist vor Diebstahl geschützt. Ersatzschlüssel jederzeit nachbestellbar.</span></div>';
+        h+='<div class="advisor__note">'+BOXICO+'<span>Sollen auch <strong>Pakete</strong> entgegengenommen werden? <button type="button" class="advisor__notelink" data-v2-goto="paketbox">Zum Paketbox-Berater'+CHEV+'</button></span></div>';
+        return h;
+      };
+    }
+    /* In-page bridge: a result-note button switches the advisor to another category (wired once). */
+    if(!applyV2Overrides._wired){ applyV2Overrides._wired=true;
+      document.addEventListener("click",function(ev){ var t=ev.target,b=(t&&t.closest)?t.closest("[data-v2-goto]"):null;
+        if(!b) return; ev.preventDefault(); var k=b.getAttribute("data-v2-goto"); if(typeof setCat==="function") setCat(k); });
+    }
   }
   applyV2Overrides(CATS_V2);
   /* V2 is a dev/prototype surface — only enabled on localhost/file or with ?v2 in the URL.
@@ -1590,24 +1615,29 @@
   /* ---- V2 prototype fix-list: roadmap shown only in V2 on localhost/file/?v2.
      The internal data lives in the gitignored local file advisor-v2-fixlist.local.js —
      this public file carries none of it. ---- */
-  var V2_DOT={done:"✓",plan:"",data:"⚙",content:"◆",watch:""};
-  var V2FIX={intro:"",items:[]};
+  var V2_DOT={done:"✓"};   /* other statuses are colour-only (legend explains them) */
+  var V2FIX={intro:"",introEn:"",items:[]};
+  function v2Card(c){
+    var rows=c.items.map(function(it){
+      return '<li class="'+(it.s==="done"?"is-done":"")+'"><span class="v2dot '+it.s+'" aria-hidden="true">'+(V2_DOT[it.s]||"")+'</span>'
+        +'<span class="v2txt"><span class="t">'+it.t+'</span>'+(it.tEn?'<span class="t-en">'+it.tEn+'</span>':'')+'</span>'
+        +'<span class="b">'+it.b+'</span></li>'; }).join("");
+    return '<div class="v2cat"><div class="v2cat__h"><span class="v2cat__name">'+c.cat+(c.catEn?' <span class="v2cat__en">'+c.catEn+'</span>':'')+'</span>'
+      +'<span class="v2cat__meta">'+c.meta+(c.metaEn?' · '+c.metaEn:'')+'</span></div><ul>'+rows+'</ul></div>'; }
   function renderV2FixList(){ var el=document.getElementById("v2FixList"); if(!el) return;
     if(!V2FIX.items.length){ el.innerHTML=""; return; }
-    var cards=V2FIX.items.map(function(c){
-      var rows=c.items.map(function(it){
-        return '<li class="'+(it.s==="done"?"is-done":"")+'"><span class="v2dot '+it.s+'" aria-hidden="true">'+(V2_DOT[it.s]||"")+'</span>'
-          +'<span class="t">'+it.t+'</span><span class="b">'+it.b+'</span></li>'; }).join("");
-      return '<div class="v2cat"><div class="v2cat__h"><span class="v2cat__name">'+c.cat+'</span><span class="v2cat__meta">'+c.meta+'</span></div><ul>'+rows+'</ul></div>'; }).join("");
+    var activeKey=(typeof CAT!=="undefined"&&CAT)?CAT.key:null, active=null, all=null;
+    V2FIX.items.forEach(function(c){ if(c.key==="_all")all=c; else if(c.key===activeKey)active=c; });
+    var body=(active?v2Card(active):"")+(all?v2Card(all):"");
     el.innerHTML='<div class="v2panel__head"><span class="v2panel__title">V2 · Fix-Liste</span><span class="v2panel__tag">Prototyp</span></div>'
-      +(V2FIX.intro?'<p class="v2panel__intro">'+V2FIX.intro+'</p>':'')
-      +'<div class="v2panel__grid">'+cards+'</div>'
+      +(V2FIX.intro?'<p class="v2panel__intro">'+V2FIX.intro+(V2FIX.introEn?'<br><span class="v2panel__intro-en">'+V2FIX.introEn+'</span>':'')+'</p>':'')
+      +'<div class="v2panel__grid">'+body+'</div>'
       +'<div class="v2legend">'
-        +'<span><span class="v2dot done" aria-hidden="true">✓</span> umgesetzt (V2)</span>'
-        +'<span><span class="v2dot plan" aria-hidden="true"></span> geplant</span>'
-        +'<span><span class="v2dot data" aria-hidden="true">⚙</span> Datenpflege</span>'
-        +'<span><span class="v2dot content" aria-hidden="true">◆</span> Content</span>'
-        +'<span><span class="v2dot watch" aria-hidden="true"></span> beobachten</span>'
+        +'<span><span class="v2dot done" aria-hidden="true">✓</span> umgesetzt / done (V2)</span>'
+        +'<span><span class="v2dot plan" aria-hidden="true"></span> geplant / planned</span>'
+        +'<span><span class="v2dot data" aria-hidden="true"></span> Datenpflege / data</span>'
+        +'<span><span class="v2dot content" aria-hidden="true"></span> Content</span>'
+        +'<span><span class="v2dot watch" aria-hidden="true"></span> beobachten / watch</span>'
       +'</div>'; }
   function syncV2Panel(){ var el=document.getElementById("v2FixList"); if(!el) return; el.hidden=!(V2_ENABLED&&VERSION==="v2"&&V2FIX.items.length); }
   (function loadV2Fix(){ if(!V2_ENABLED) return; var s=document.createElement("script"); s.src="advisor-v2-fixlist.local.js";
@@ -2100,6 +2130,7 @@
     applyChrome();
     var sw=document.getElementById("catSwitch");
     if(sw) Array.prototype.forEach.call(sw.querySelectorAll("button"),function(b){ b.classList.toggle("is-on",b.getAttribute("data-cat")===CAT.key); });
+    if(typeof renderV2FixList==="function"){ renderV2FixList(); syncV2Panel(); }   /* fix-list follows the active tab */
   }
   var detected=detectCat();
   setCat(detected||"sprechanlage");
