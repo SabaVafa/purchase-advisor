@@ -930,14 +930,14 @@
     farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer","holz","wunsch"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
-      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
-      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
-      {v:"andere",ol:"Weitere Farben",od:"Eisenglimmer, Holz & Wunschfarbe",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#4a4d4e,#a9754a,#b98db0,#8ba6c4,#4a4d4e)"}]},
+      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#000000"},
+      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#FFFFFF"},
+      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#AFAFAF"},
+      {v:"andere",ol:"Weitere Farben",od:"Eisenglimmer, Holz & Wunschfarbe",sub:"farbeAndere",sw:"url(https://edelstahl-tuerklingel.de/gfx/ral-farbe.svg) center/contain no-repeat transparent"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["eisenglimmer","holz","wunsch"]);},opts:[
-      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
+      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4E4E4E"},
       {v:"holz",ol:"Holz (Lärche)",od:"Echtholz / Holzoptik",sw:"linear-gradient(120deg,#b98a56,#d8b382,#916032)"},
-      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"conic-gradient(from 210deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]}
+      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"url(https://edelstahl-tuerklingel.de/gfx/ral-farbe.svg) center/contain no-repeat transparent"}]}
   };
   var BK_ORDER=["bauform","fach","combo","zeitung","schild","farbe","farbeAndere"];
 
