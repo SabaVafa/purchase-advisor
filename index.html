@@ -770,12 +770,12 @@
     farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
-      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
-      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau & Eisenglimmer",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#8d9092)"}]},
+      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#000000"},
+      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#FFFFFF"},
+      {v:"andere",ol:"Weitere Farben",od:"Grau & Eisenglimmer",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#AFAFAF,#4E4E4E,#AFAFAF)"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer"]);},opts:[
-      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
-      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"}]},
+      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#AFAFAF"},
+      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4E4E4E"}]},
     mounting:{q:"Wie soll montiert werden?",type:"single",req:true,vis:function(){return true;},opts:[
       {v:"aufputz",ol:"Aufputz",od:"an die Wand montiert"},
       {v:"unterputz",ol:"Unterputz",od:"bündig in Wand/Mauer integriert"}]}
@@ -1045,12 +1045,12 @@
       {v:"ohne",ol:"Ohne Gravur",od:"schlicht, ohne Namensschild",solo:true}]},
     farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","schwarz","weiss","grau","eisenglimmer"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
-      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
-      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau & Eisenglimmer",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#8d9092)"}]},
+      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#000000"},
+      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#FFFFFF"},
+      {v:"andere",ol:"Weitere Farben",od:"Grau & Eisenglimmer",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#AFAFAF,#4E4E4E,#AFAFAF)"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer"]);},opts:[
-      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
-      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"}]}
+      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#AFAFAF"},
+      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4E4E4E"}]}
   };
   var PB_ORDER=["fach","entnahme","combo","groesse","beleuchtung","schild","farbe","farbeAndere"];
 
@@ -1211,11 +1211,11 @@
   /* ---------- MÜLLTONNENBOX QUIZ ---------- */
   var MT_STEPS={
     tonnen:{q:"Für wie viele Mülltonnen?",help:"Für 240-Liter-Tonnen.",type:"single",req:true,vis:function(){return true;},opts:[
-      {v:"1",ol:"1 Mülltonne",od:""},
-      {v:"2",ol:"2 Mülltonnen",od:""},
-      {v:"3",ol:"3 Mülltonnen",od:""},
-      {v:"4",ol:"4 Mülltonnen",od:""},
-      {v:"5",ol:"5 Mülltonnen",od:""}]},
+      {v:"1",ol:"1 Mülltonne",od:"ca. 68 cm breit"},
+      {v:"2",ol:"2 Mülltonnen",od:"ca. 135 cm breit"},
+      {v:"3",ol:"3 Mülltonnen",od:"ca. 200 cm breit"},
+      {v:"4",ol:"4 Mülltonnen",od:"ca. 265 cm breit"},
+      {v:"5",ol:"5 Mülltonnen",od:"ca. 332 cm breit"}]},
     dach:{q:"Mit begrünbarem Pflanzdach?",type:"single",vis:function(){return true;},opts:[
       {v:"pflanz",ol:"Mit Pflanzdach",od:"begrünbares Dach"},
       {v:"ohne",ol:"Deckel",od:"flaches Dach, ohne Bepflanzung"}]},
@@ -1232,11 +1232,11 @@
     farbe:{q:"Welche Farbe?",type:"single",req:true,vis:function(){return true;},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","weiss","grau","eisenglimmer","beige"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
-      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer & Beige",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#8d9092,#4a4d4e,#cbb894,#8d9092)"}]},
+      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#FFFFFF"},
+      {v:"andere",ol:"Weitere Farben",od:"Grau, Eisenglimmer & Beige",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#AFAFAF,#4E4E4E,#cbb894,#AFAFAF)"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.farbe==="andere";},disc:function(a){return spFinishChoice(a,["grau","eisenglimmer","beige"]);},opts:[
-      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
-      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
+      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#AFAFAF"},
+      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4E4E4E"},
       {v:"beige",ol:"Beige",od:"",sw:"#cbb894"}]}
   };
   var MT_ORDER=["tonnen","dach","pedal","material","oberflaeche","farbe","farbeAndere"];
