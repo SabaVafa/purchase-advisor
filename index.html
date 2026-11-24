@@ -642,14 +642,14 @@
     farbe:{q:"Welche Farbe oder Oberfläche?",type:"single",req:true,vis:function(a){return a.bau!=="bus"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["anthrazit","edelstahl","schwarz","weiss","grau","eisenglimmer","braun","wunsch"]);},opts:[
       {v:"anthrazit",ol:"Anthrazit",od:"RAL 7016",sw:"#383E42"},
       {v:"edelstahl",ol:"Edelstahl",od:"gebürstet, natur",sw:"#b7bbb4"},
-      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#111114"},
-      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#f4f3ee"},
-      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#8d9092"},
-      {v:"andere",ol:"Weitere Farben",od:"Eisenglimmer, Bronze & Wunschfarbe",sub:"farbeAndere",sw:"conic-gradient(from 140deg,#4a4d4e,#9a7b4f,#b98db0,#8ba6c4,#4a4d4e)"}]},
+      {v:"schwarz",ol:"Schwarz",od:"RAL 9005",sw:"#000000"},
+      {v:"weiss",ol:"Weiß",od:"RAL 9016",sw:"#FFFFFF"},
+      {v:"grau",ol:"Grau",od:"RAL 9007",sw:"#AFAFAF"},
+      {v:"andere",ol:"Weitere Farben",od:"Eisenglimmer, Bronze & Wunschfarbe",sub:"farbeAndere",sw:"url(https://edelstahl-tuerklingel.de/gfx/ral-farbe.svg) center/contain no-repeat transparent"}]},
     farbeAndere:{q:"Welche Farbe genau?",type:"single",req:true,hideEmpty:true,vis:function(a){return a.bau!=="bus"&&a.farbe==="andere"&&!(a.combo==="briefkasten"||a.combo==="paketbox");},disc:function(a){return spFinishSplits(a,["eisenglimmer","braun","wunsch"]);},opts:[
-      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4a4d4e"},
-      {v:"braun",ol:"Bronze",od:"warmer Bronzeton",sw:"#9a7b4f"},
-      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"conic-gradient(from 210deg,#e24b4a,#ef9f27,#97c459,#1d9e75,#378add,#7f77dd,#d4537e,#e24b4a)"}]}
+      {v:"eisenglimmer",ol:"Eisenglimmer",od:"DB 703",sw:"#4E4E4E"},
+      {v:"braun",ol:"Bronze",od:"warmer Bronzeton",sw:"url(https://edelstahl-tuerklingel.de/gfx/bronze.jpg) center/cover"},
+      {v:"wunsch",ol:"Wunschfarbe (RAL)",od:"individuell nach RAL, pulverbeschichtet",sw:"url(https://edelstahl-tuerklingel.de/gfx/ral-farbe.svg) center/contain no-repeat transparent"}]}
   };
   var SP_ORDER=["bau","parties","combo","media","bauform","station","access","label","farbe","farbeAndere"];
 
@@ -1581,16 +1581,6 @@
         h+='<div class="advisor__note">'+ICO+'<span>Ein <strong>Türöffner/E-Öffner</strong> lässt sich anschließen; je nach Modell ist ein zusätzliches Netzteil erforderlich.</span></div>';
         return h;
       };
-      /* Farb-Swatches an die Live-Darstellung (edelstahl-tuerklingel.de cc-bubble) angleichen:
-         Volltöne = exakte RAL/DB-Hex; Bronze & Wunschfarbe = die echten Live-Bilder. */
-      var GFX="https://edelstahl-tuerklingel.de/gfx/";
-      /* Wunschfarbe / Weitere Farben = das Live-RAL-Farbrad (gfx/ral-farbe.svg), zentriert
-         auf weißer Kachel (contain) — exakt wie die Live-Darstellung des Beraters. */
-      var WHEEL="url("+GFX+"ral-farbe.svg) center/contain no-repeat #fff";
-      var SW1={anthrazit:"#383E42",schwarz:"#000000",weiss:"#FFFFFF",grau:"#AFAFAF",andere:WHEEL};
-      if(sp.steps.farbe) sp.steps.farbe.opts.forEach(function(o){ if(SW1[o.v]) o.sw=SW1[o.v]; });
-      var SW2={eisenglimmer:"#4E4E4E",braun:"url("+GFX+"bronze.jpg) center/cover",wunsch:WHEEL};
-      if(sp.steps.farbeAndere) sp.steps.farbeAndere.opts.forEach(function(o){ if(SW2[o.v]) o.sw=SW2[o.v]; });
     }
     /* ===== Round 2 — Briefkasten: Abschließbar-Hinweis + Paketannahme-Brücke
        (Hinweistexte; Produktdaten belegen „immer abschließbar"). ===== */
