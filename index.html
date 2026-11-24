@@ -47,6 +47,12 @@
   .cat-switch button{border:0;background:none;color:var(--ink-60);font-family:inherit;font-size:var(--text-body-sm);
     font-weight:600;padding:5px 14px;border-radius:var(--r-pill);line-height:1.2}
   .cat-switch button.is-on{background:var(--white);color:var(--teal);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  /* A/B version toggle (V1 = current advisor, V2 = independently-editable duplicate) */
+  .ver-switch{margin-left:auto;display:inline-flex;align-items:center;gap:4px;padding:3px 3px 3px 11px;background:var(--graphite-100);border-radius:var(--r-pill)}
+  .ver-switch__lab{font-size:var(--text-body-sm);color:var(--ink-60);font-weight:600;letter-spacing:.01em}
+  .ver-switch button{border:0;background:none;color:var(--ink-60);font-family:inherit;font-size:var(--text-body-sm);
+    font-weight:700;padding:5px 13px;border-radius:var(--r-pill);line-height:1.2;cursor:pointer}
+  .ver-switch button.is-on{background:var(--white);color:var(--teal);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 
   /* ── Advisor (ported from Metzler PLP plp.css) ── */
   /* Cap the interactive module at the PDP's configurator measure (pdp-b.css
@@ -482,6 +488,7 @@
     <svg viewBox="0 0 184.3 184.3" aria-hidden="true"><rect width="184.3" height="184.3" rx="5.75" fill="#D42924"/><path fill="#fff" d="M70.19,34.81l19.04,32.98-9.58,16.57-28.59-49.55h19.13ZM70.28,108.58h0l-23.45-40.64v85.89h-16.57V34.81h16.57l33.02,57.21L123.92,15.65h19.13l-63.22,109.52-9.58-16.57.02-.02ZM153.14,153.83h-16.57v-85.87l-33,57.14h-19.13l52.11-90.28h16.57v119.02l.02-.02Z"/></svg>
     <span class="wm">METZLER</span>
     <span class="ct">Türsprechanlagen</span>
+    <div class="ver-switch" id="verSwitch" role="group" aria-label="Berater-Version wählen"></div>
     <div class="cat-switch" id="catSwitch" role="group" aria-label="Kategorie wählen" hidden></div>
   </div>
 
@@ -1510,6 +1517,28 @@
     }
   };
 
+  /* ================= A/B VERSIONING =================
+     V2 is an independently-editable duplicate of the advisor. It starts IDENTICAL to V1.
+     steps/order are deep-copied so later edits to V2 never touch V1; the pure helper
+     functions (matches/score/resultNote/…) and the product arrays are shared by reference
+     until a V2 change needs to fork them. All future V2 content changes go in
+     applyV2Overrides() — keep V1 (CATS) untouched. Toggle in the header switches the live
+     registry; the choice is remembered per browser (localStorage). */
+  function cloneSteps(steps){ var out={}; for(var k in steps){ var s=steps[k],c={}; for(var p in s){
+    c[p]=(p==="opts"&&Array.isArray(s[p]))?s[p].map(function(o){ var oc={}; for(var q in o)oc[q]=o[q]; return oc; }):s[p]; } out[k]=c; } return out; }
+  function cloneCat(c){ var d={}; for(var p in c)d[p]=c[p]; d.steps=cloneSteps(c.steps); d.order=c.order.slice(); return d; }
+  var CATS_V2={}; Object.keys(CATS).forEach(function(k){ CATS_V2[k]=cloneCat(CATS[k]); });
+  /* ── V2 content changes land here (currently none → V2 === V1). ── */
+  function applyV2Overrides(reg){ /* intentionally empty for now */ }
+  applyV2Overrides(CATS_V2);
+  var VERSION=(function(){ try{ return localStorage.getItem("metzlerAdvisorVersion")==="v2"?"v2":"v1"; }catch(e){ return "v1"; } })();
+  function activeRegistry(){ return VERSION==="v2"?CATS_V2:CATS; }
+  function setVersion(v){ VERSION=(v==="v2")?"v2":"v1";
+    try{ localStorage.setItem("metzlerAdvisorVersion",VERSION); }catch(e){}
+    var vs=document.getElementById("verSwitch");
+    if(vs) Array.prototype.forEach.call(vs.querySelectorAll("button"),function(b){ b.classList.toggle("is-on",b.getAttribute("data-ver")===VERSION); });
+    if(typeof CAT!=="undefined"&&CAT) setCat(CAT.key); }
+
   /* ================= ENGINE (category-agnostic) ================= */
   var state={a:{},id:null,edit:false};
   var lead={email:"",news:false};
@@ -1987,7 +2016,7 @@
     var sub=document.querySelector(".advisor__bar-sub"); if(sub)sub.textContent=CAT.barSub;
   }
   function setCat(key){
-    CAT=CATS[key]||CATS.sprechanlage; TOTAL=liveCount({});
+    var REG=activeRegistry(); CAT=REG[key]||REG.sprechanlage; TOTAL=liveCount({});
     state={a:{},id:null,edit:false}; lead={email:"",news:false};
     root.classList.remove("is-open","is-result"); resEl.hidden=true; resEl.innerHTML=""; quizEl.innerHTML="";
     root.querySelector(".advisor__bar").setAttribute("aria-expanded","false");
@@ -2003,6 +2032,13 @@
     sw.hidden=false;
     sw.innerHTML=Object.keys(CATS).map(function(k){return '<button type="button" data-cat="'+k+'"'+(k===CAT.key?' class="is-on"':'')+'>'+esc(CATS[k].tab)+'</button>';}).join("");
     Array.prototype.forEach.call(sw.querySelectorAll("button"),function(b){ b.addEventListener("click",function(){ var k=b.getAttribute("data-cat"); if(CAT&&k===CAT.key)return; setCat(k); }); });
+  })();
+  (function initVerSwitch(){
+    var vs=document.getElementById("verSwitch"); if(!vs) return;
+    vs.innerHTML='<span class="ver-switch__lab">Version</span>'
+      +'<button type="button" data-ver="v1"'+(VERSION==="v1"?' class="is-on"':'')+'>V1</button>'
+      +'<button type="button" data-ver="v2"'+(VERSION==="v2"?' class="is-on"':'')+'>V2</button>';
+    Array.prototype.forEach.call(vs.querySelectorAll("button"),function(b){ b.addEventListener("click",function(){ var v=b.getAttribute("data-ver"); if(v!==VERSION) setVersion(v); }); });
   })();
   /* Entry invitation: ease the collapsed bar in once when it scrolls into view + a single chevron bob */
   (function initInvite(){
