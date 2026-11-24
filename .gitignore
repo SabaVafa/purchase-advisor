@@ -21,6 +21,10 @@ vdm10-configurator-data.md
 metzler-zammad-recherche/
 config.json
 
+# V2 prototype fix-list data — Zammad-derived ticket %s, NEVER publish
+advisor-v2-fixlist.local.js
+*.local.js
+
 # large category feed inputs for the feature-pills generator — kept locally
 feature-pills/feeds/
 
