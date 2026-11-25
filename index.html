@@ -194,7 +194,7 @@
   @keyframes stepOutBack{to{opacity:0;transform:translateX(8px)}}
   .advisor__q{margin:0 0 var(--sp-4);font-size:1.25rem;font-weight:700;line-height:1.3;color:var(--schwarz);letter-spacing:-.015em}
   .advisor__q .en{display:block;font-size:var(--text-body-sm);font-weight:400;font-style:italic;color:var(--ink-60);margin-top:3px}
-  .advisor__help{margin:-8px 0 var(--sp-4);font-size:var(--text-body-sm);color:var(--ink-60);max-width:60ch}
+  .advisor__help{margin:-8px 0 var(--sp-4);font-size:var(--text-body-sm);color:var(--ink-60)}
 
   .advisor__opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr));gap:var(--sp-3)}
   .advisor__opts--swatch{grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
@@ -1579,7 +1579,7 @@
   var V2_HINTS={
     sprechanlage:{ label:"Sprechanlage", items:[
       {trig:"Hilfetext · Verkabelungs-Schritt", trigEn:"Help · wiring step", place:"help",
-       text:"Modernisierung: vorhandene 2 Adern / Klingeldraht weiternutzen (2-Draht-BUS). Neubau: neue Netzwerkleitung (LAN/PoE) möglich (IP-System). Im Zweifel die vorhandene Verkabelung prüfen."},
+       text:"Modernisierung: vorhandene 2 Adern / Klingeldraht weiternutzen (2-Draht-BUS). Neubau: neue Netzwerkleitung (LAN/PoE) möglich (IP-System). Beide Varianten brauchen eine Stromversorgung – IP/LAN-Anlagen per PoE. Im Zweifel die vorhandene Verkabelung prüfen."},
       {trig:"Ergebnis · wenn nicht reines Audio", trigEn:"Result · unless audio-only", place:"result",
        text:"<strong>App-Steuerung braucht eine Innenstation</strong> – alternativ Fritz!Box mit Fritz!Fon. Die App selbst ist kostenlos."},
       {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
@@ -1587,7 +1587,7 @@
     ]},
     tuerklingel:{ label:"Türklingel", items:[
       {trig:"Ergebnis · nur bei Funk-Anschluss", trigEn:"Result · wireless only", place:"result",
-       text:"<strong>Empfänger (Steckdosen-Gong) nicht enthalten</strong> – bitte separat bestellen. Reichweite je nach Modell und Wänden."}
+       text:"<strong>Empfänger (Gong) nicht enthalten</strong> – separat bestellen (z. B. Steckdose oder Batterie). Über 50 Melodien wählbar; Reichweite je nach Modell und Wänden."}
     ]},
     briefkasten:{ label:"Briefkasten", items:[
       {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
@@ -1595,7 +1595,7 @@
     ]},
     paketbox:{ label:"Paketbox", items:[
       {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
-       text:"<strong>Paketgröße prüfen</strong> – das Maß steht (sofern angegeben) auf der Produktseite; mit Ihrem größten Paket vergleichen."},
+       text:"<strong>Diebstahlsicher</strong> – jeder Zusteller legt das Paket oben ein; die Entnahme ist nur mit Schlüssel durch die abschließbare Tür möglich."},
       {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
        text:"<strong>Freistehend möglich</strong> – Modelle mit Standfuß/Ständer, fest mit dem Boden verschraubt."}
     ]},
