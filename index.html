@@ -83,6 +83,21 @@
   .v2txt .t-en{font-size:.72rem;color:var(--ink-60);font-style:italic}
   .v2cat__name .v2cat__en{font-weight:500;color:var(--ink-60);font-size:.8rem;font-style:italic}
   .v2panel__intro .v2panel__intro-en{color:var(--ink-60);font-style:italic}
+  .hint-review-btn{appearance:none;border:1px solid var(--teal-10);background:var(--teal-5);color:var(--teal);font:inherit;font-size:.78rem;font-weight:700;padding:6px 13px;border-radius:var(--r-pill);cursor:pointer;margin-left:6px}
+  .hint-review-btn[hidden]{display:none}
+  .hint-review-btn:hover{background:var(--teal-10)}
+  .v2hintpage{position:fixed;inset:0;z-index:1000;background:#f7f8f8;overflow:auto;padding:26px 20px 60px}
+  .v2hintpage[hidden]{display:none}
+  .v2hintpage__inner{max-width:1040px;margin:0 auto}
+  .v2hintpage__head{display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+  .v2back{appearance:none;border:1px solid var(--line);background:var(--white);color:var(--schwarz);font:inherit;font-size:.82rem;font-weight:600;padding:7px 13px;border-radius:var(--r-pill);cursor:pointer}
+  .v2back:hover{background:var(--teal-5);border-color:var(--teal-10)}
+  .v2hintpage .v2panel__grid{margin-top:16px}
+  .v2hint{padding:11px 0;border-top:1px solid var(--line)}
+  .v2hint:first-child{border-top:0;padding-top:4px}
+  .v2hint__trig{font-size:.66rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+  .v2hint__trig-en{font-weight:500;color:var(--ink-60);text-transform:none;letter-spacing:0;font-style:italic}
+  .v2hint .advisor__note{margin-top:4px}
 
   /* ── Advisor (ported from Metzler PLP plp.css) ── */
   /* Cap the interactive module at the PDP's configurator measure (pdp-b.css
@@ -523,6 +538,7 @@
     <span class="ct">Türsprechanlagen</span>
     <div class="ver-switch" id="verSwitch" role="group" aria-label="Berater-Version wählen"></div>
     <div class="cat-switch" id="catSwitch" role="group" aria-label="Kategorie wählen" hidden></div>
+    <button type="button" class="hint-review-btn" id="hintReviewBtn" hidden>Hinweis-Übersicht</button>
   </div>
 
   <section class="advisor" id="advisor">
@@ -548,6 +564,8 @@
   </section>
 
   <section class="v2panel" id="v2FixList" hidden aria-label="V2 Fix-Liste"></section>
+
+  <section class="v2hintpage" id="v2HintPage" hidden aria-label="V2 Hinweis-Übersicht"><div class="v2hintpage__inner" id="v2HintPageInner"></div></section>
 
 </div>
 
@@ -1551,51 +1569,63 @@
     c[p]=(p==="opts"&&Array.isArray(s[p]))?s[p].map(function(o){ var oc={}; for(var q in o)oc[q]=o[q]; return oc; }):s[p]; } out[k]=c; } return out; }
   function cloneCat(c){ var d={}; for(var p in c)d[p]=c[p]; d.steps=cloneSteps(c.steps); d.order=c.order.slice(); return d; }
   var CATS_V2={}; Object.keys(CATS).forEach(function(k){ CATS_V2[k]=cloneCat(CATS[k]); });
-  /* ── V2 content changes land here. V1 (CATS) stays untouched. ── */
+  /* ── V2 content changes land here. V1 (CATS) stays untouched. ──
+     Single source of truth: every V2 hint lives in V2_HINTS below, so the notes the
+     customer sees AND the PO review page (#v2HintPage) render the exact same wording —
+     they can never drift. All texts verified against live product descriptions / FAQ /
+     PDFs (no invented claims). */
+  var V2_NOTE_ICO='<svg class="advisor__note-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>';
+  function v2note(txt){ return '<div class="advisor__note">'+V2_NOTE_ICO+'<span>'+txt+'</span></div>'; }
+  var V2_HINTS={
+    sprechanlage:{ label:"Sprechanlage", items:[
+      {trig:"Hilfetext · Verkabelungs-Schritt", trigEn:"Help · wiring step", place:"help",
+       text:"Modernisierung: vorhandene 2 Adern / Klingeldraht weiternutzen (2-Draht-BUS). Neubau: neue Netzwerkleitung (LAN/PoE) möglich (IP-System). Im Zweifel die vorhandene Verkabelung prüfen."},
+      {trig:"Ergebnis · wenn nicht reines Audio", trigEn:"Result · unless audio-only", place:"result",
+       text:"<strong>App-Steuerung braucht eine Innenstation</strong> – alternativ Fritz!Box mit Fritz!Fon. Die App selbst ist kostenlos."},
+      {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
+       text:"<strong>Türöffner anschließbar</strong> – je nach Modell mit zusätzlichem Netzteil."}
+    ]},
+    tuerklingel:{ label:"Türklingel", items:[
+      {trig:"Ergebnis · nur bei Funk-Anschluss", trigEn:"Result · wireless only", place:"result",
+       text:"<strong>Empfänger (Steckdosen-Gong) nicht enthalten</strong> – bitte separat bestellen. Reichweite je nach Modell und Wänden."}
+    ]},
+    briefkasten:{ label:"Briefkasten", items:[
+      {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
+       text:"<strong>Meist abschließbar</strong> – die genaue Schloss-Ausstattung steht je Modell auf der Produktseite. Ersatzschlüssel auf Anfrage."}
+    ]},
+    paketbox:{ label:"Paketbox", items:[
+      {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
+       text:"<strong>Paketgröße prüfen</strong> – das Maß steht (sofern angegeben) auf der Produktseite; mit Ihrem größten Paket vergleichen."},
+      {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
+       text:"<strong>Freistehend möglich</strong> – Modelle mit Standfuß/Ständer, fest mit dem Boden verschraubt."}
+    ]},
+    muell:{ label:"Mülltonnenbox", items:[
+      {trig:"Ergebnis · immer", trigEn:"Result · always", place:"result",
+       text:"<strong>Abschließbarer Türgriff</strong> (viele Modelle) – schützt die Tonnen vor fremdem Zugriff."}
+    ]}
+  };
+  var V2_HINT_ORDER=["sprechanlage","tuerklingel","briefkasten","paketbox","muell"];
   function applyV2Overrides(reg){
-    /* ===== Round 1 — Sprechanlage: Klarheit & Hinweise (nur Hilfe-/Hinweistexte,
-       keine Änderung der bestätigten Option-Labels). Aus Kundenanfragen abgeleitet. ===== */
+    /* Round 1 — Sprechanlage: Verkabelung-Hilfetext + App/Innenstation- & Türöffner-Hinweis. */
     var sp=reg.sprechanlage; if(sp){
-      /* 1) Verkabelung verständlicher machen (Top-Thema) — Hilfetext am bau-Schritt */
-      sp.steps.bau.help="Modernisierung: vorhandene 2 Adern / Klingeldraht weiternutzen (2-Draht-BUS). Neubau: neue Netzwerkleitung (LAN/PoE) möglich (IP-System). Im Zweifel die vorhandene Verkabelung prüfen.";
-      /* 2+3) Ergebnis-Hinweise: App/Innenstation + Türöffner */
-      var ICO='<svg class="advisor__note-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>';
-      sp.resultNote=function(a){
-        var h="";
-        if(a.media!=="audio") h+='<div class="advisor__note">'+ICO+'<span>Die Bedienung läuft per <strong>App</strong> (inklusive); eine <strong>Innenstation</strong> (Monitor) ist optional erhältlich.</span></div>';
-        h+='<div class="advisor__note">'+ICO+'<span>Ein <strong>Türöffner/E-Öffner</strong> lässt sich anschließen; je nach Modell ist ein zusätzliches Netzteil erforderlich.</span></div>';
-        return h;
-      };
+      sp.steps.bau.help=V2_HINTS.sprechanlage.items[0].text;
+      sp.resultNote=function(a){ var h="";
+        if(a.media!=="audio") h+=v2note(V2_HINTS.sprechanlage.items[1].text);
+        h+=v2note(V2_HINTS.sprechanlage.items[2].text);
+        return h; };
     }
-    /* ===== Round 2 — Briefkasten: Abschließbar-Hinweis (9 % der Fragen; Produktdaten
-       belegen „immer abschließbar"). Paketannahme-Brücke entfernt (nur 2,3 %). ===== */
-    var bk=reg.briefkasten; if(bk){
-      var bkBase=bk.resultNote;
-      var NICO='<svg class="advisor__note-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>';
-      bk.resultNote=function(a){
-        var h=bkBase?bkBase(a):"";
-        h+='<div class="advisor__note">'+NICO+'<span>Alle Metzler Briefkästen sind <strong>abschließbar</strong> – Ihre Post ist vor Diebstahl geschützt. Ersatzschlüssel jederzeit nachbestellbar.</span></div>';
-        return h;
-      };
-    }
-    /* ===== Round 3 — nur echte Vorkauf-Themen >=10 % (keine After-Sales/Sub-10%). ===== */
-    var ICO2='<svg class="advisor__note-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>';
-    /* Türklingel: Funk-Empfänger/Gong (14 %) — nur bei Funk-Anschluss. */
+    /* Round 2 — Briefkasten: „in der Regel abschließbar" (Oltmann undokumentiert; Bruecke entfernt). */
+    var bk=reg.briefkasten; if(bk){ var bkBase=bk.resultNote;
+      bk.resultNote=function(a){ var h=bkBase?bkBase(a):""; h+=v2note(V2_HINTS.briefkasten.items[0].text); return h; }; }
+    /* Round 3 — Vorkauf-Themen >=10 %. */
     if(reg.tuerklingel){ var tkB=reg.tuerklingel.resultNote;
       reg.tuerklingel.resultNote=function(a){ var h=tkB?tkB(a):"";
-        if(a.conn==="funk") h+='<div class="advisor__note">'+ICO2+'<span>Funk-Klingeln werden mit <strong>Funk-Empfänger</strong> (Steckdosen-Gong) geliefert; die Reichweite hängt von Modell und Wänden ab.</span></div>';
-        return h; }; }
-    /* Paketbox: Paketgröße (12 %) + Aufstellung/Standfuß (10 %). */
+        if(a.conn==="funk") h+=v2note(V2_HINTS.tuerklingel.items[0].text); return h; }; }
     if(reg.paketbox){ var pbB=reg.paketbox.resultNote;
       reg.paketbox.resultNote=function(a){ var h=pbB?pbB(a):"";
-        h+='<div class="advisor__note">'+ICO2+'<span>Die maximale <strong>Paketgröße</strong> ist je Modell angegeben – vergleichen Sie Ihr Paket mit dem Innenmaß auf der Produktseite.</span></div>';
-        h+='<div class="advisor__note">'+ICO2+'<span>Für die <strong>freistehende Aufstellung</strong> gibt es zu vielen Modellen passende Standfüße (auch zum Einbetonieren).</span></div>';
-        return h; }; }
-    /* Mülltonnenbox: Schloss/abschließbar (19 %) — echtes Vorkauf-Thema. */
+        h+=v2note(V2_HINTS.paketbox.items[0].text); h+=v2note(V2_HINTS.paketbox.items[1].text); return h; }; }
     if(reg.muell){ var mtB=reg.muell.resultNote;
-      reg.muell.resultNote=function(a){ var h=mtB?mtB(a):"";
-        h+='<div class="advisor__note">'+ICO2+'<span>Viele Modelle haben einen <strong>abschließbaren Türgriff</strong> – so sind die Tonnen vor fremdem Zugriff geschützt.</span></div>';
-        return h; }; }
+      reg.muell.resultNote=function(a){ var h=mtB?mtB(a):""; h+=v2note(V2_HINTS.muell.items[0].text); return h; }; }
   }
   applyV2Overrides(CATS_V2);
   /* V2 is a dev/prototype surface — only enabled on localhost/file or with ?v2 in the URL.
@@ -1608,6 +1638,7 @@
     try{ localStorage.setItem("metzlerAdvisorVersion",VERSION); }catch(e){}
     var vs=document.getElementById("verSwitch");
     if(vs) Array.prototype.forEach.call(vs.querySelectorAll("button"),function(b){ b.classList.toggle("is-on",b.getAttribute("data-ver")===VERSION); });
+    if(VERSION!=="v2") closeHintPage();
     syncV2Panel();
     if(typeof CAT!=="undefined"&&CAT) setCat(CAT.key); }
 
@@ -1638,11 +1669,26 @@
         +'<span><span class="v2dot content" aria-hidden="true"></span> Content</span>'
         +'<span><span class="v2dot watch" aria-hidden="true"></span> beobachten / watch</span>'
       +'</div>'; }
-  function syncV2Panel(){ var el=document.getElementById("v2FixList"); if(!el) return; el.hidden=!(V2_ENABLED&&VERSION==="v2"&&V2FIX.items.length); }
+  function syncV2Panel(){ var el=document.getElementById("v2FixList"); if(el) el.hidden=!(V2_ENABLED&&VERSION==="v2"&&V2FIX.items.length);
+    var hb=document.getElementById("hintReviewBtn"); if(hb) hb.hidden=!(V2_ENABLED&&VERSION==="v2"); }
+  /* ---- V2 Hinweis-Übersicht: dedicated review page listing every hint, grouped by
+     category, rendered from V2_HINTS (same source the result-notes use). Public text
+     only — carries no Zammad data. Opened via the V2-only header button. ---- */
+  function renderV2HintPage(){ var el=document.getElementById("v2HintPageInner"); if(!el) return;
+    var cards=V2_HINT_ORDER.map(function(k){ var c=V2_HINTS[k]; if(!c) return "";
+      var rows=c.items.map(function(it){ return '<div class="v2hint"><div class="v2hint__trig">'+it.trig+' <span class="v2hint__trig-en">'+it.trigEn+'</span></div>'+v2note(it.text)+'</div>'; }).join("");
+      return '<div class="v2cat"><div class="v2cat__h"><span class="v2cat__name">'+c.label+'</span><span class="v2cat__meta">'+c.items.length+(c.items.length>1?' Hinweise':' Hinweis')+'</span></div>'+rows+'</div>'; }).join("");
+    el.innerHTML='<div class="v2hintpage__head"><button type="button" class="v2back" id="hintBack">‹ Zurück zum Berater</button><span class="v2panel__title">Hinweis-Übersicht</span><span class="v2panel__tag">V2 · Prototyp</span></div>'
+      +'<p class="v2panel__intro">Alle im Berater ergänzten Produkt-Hinweise – zur Freigabe durch den Product Owner. Jeder Hinweis ist gegen Live-Produktdaten (Beschreibung · FAQ · PDF) geprüft; angezeigt wird exakt der Kunden-Text.<br><span class="v2panel__intro-en">All product hints added to the advisor – for Product-Owner sign-off; each verified against live product data and shown exactly as the customer sees it.</span></p>'
+      +'<div class="v2panel__grid">'+cards+'</div>';
+    var bb=document.getElementById("hintBack"); if(bb) bb.onclick=closeHintPage; }
+  function openHintPage(){ var hp=document.getElementById("v2HintPage"); if(hp){ hp.hidden=false; try{ hp.scrollTop=0; }catch(e){} } }
+  function closeHintPage(){ var hp=document.getElementById("v2HintPage"); if(hp) hp.hidden=true; }
   (function loadV2Fix(){ if(!V2_ENABLED) return; var s=document.createElement("script"); s.src="advisor-v2-fixlist.local.js";
     s.onload=function(){ if(window.__V2FIX){ V2FIX=window.__V2FIX; } renderV2FixList(); syncV2Panel(); };
     s.onerror=function(){ /* file absent (e.g. public host) -> no fix-list */ };
     (document.head||document.documentElement).appendChild(s); })();
+  renderV2HintPage(); var _hrb=document.getElementById("hintReviewBtn"); if(_hrb) _hrb.onclick=openHintPage;
   renderV2FixList(); syncV2Panel();
 
   /* ================= ENGINE (category-agnostic) ================= */
