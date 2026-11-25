@@ -59,13 +59,13 @@
   .v2panel[hidden]{display:none}
   .v2panel__head{display:flex;align-items:center;gap:10px;margin-bottom:3px}
   .v2panel__title{font-size:1rem;font-weight:800;color:var(--schwarz);letter-spacing:-.01em}
-  .v2panel__tag{font-size:.7rem;font-weight:700;color:var(--teal);background:var(--teal-100);padding:2px 9px;border-radius:var(--r-pill);text-transform:uppercase;letter-spacing:.04em}
+  .v2panel__tag{font-size:.75rem;font-weight:700;color:var(--teal);background:var(--teal-100);padding:3px 10px;border-radius:var(--r-pill);text-transform:uppercase;letter-spacing:.03em}
   .v2panel__intro{font-size:var(--text-body-sm);color:var(--ink-60);margin:0 0 14px}
   .v2panel__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:13px}
   .v2cat{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
   .v2cat__h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid var(--line)}
   .v2cat__name{font-weight:700;color:var(--schwarz);font-size:.92rem}
-  .v2cat__meta{font-size:.7rem;color:var(--ink-60);white-space:nowrap}
+  .v2cat__meta{font-size:.78rem;color:var(--ink-72);white-space:nowrap}
   .v2cat ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
   .v2cat li{display:grid;grid-template-columns:18px 1fr auto;align-items:start;gap:9px;font-size:var(--text-body-sm);line-height:1.35}
   .v2cat li .t{color:var(--schwarz)}
@@ -83,21 +83,57 @@
   .v2txt .t-en{font-size:.72rem;color:var(--ink-60);font-style:italic}
   .v2cat__name .v2cat__en{font-weight:500;color:var(--ink-60);font-size:.8rem;font-style:italic}
   .v2panel__intro .v2panel__intro-en{color:var(--ink-60);font-style:italic}
-  .hint-review-btn{appearance:none;border:1px solid var(--teal-10);background:var(--teal-5);color:var(--teal);font:inherit;font-size:.78rem;font-weight:700;padding:6px 13px;border-radius:var(--r-pill);cursor:pointer;margin-left:6px}
+  .review-bar{display:flex;justify-content:flex-end;margin:20px 0 -20px}
+  .review-bar[hidden]{display:none}
+  .hint-review-btn{display:inline-flex;align-items:center;gap:5px;appearance:none;border:1px solid var(--teal-10);background:var(--teal-5);color:var(--teal);font:inherit;font-size:.85rem;font-weight:700;padding:8px 15px;border-radius:var(--r-pill);cursor:pointer}
   .hint-review-btn[hidden]{display:none}
   .hint-review-btn:hover{background:var(--teal-10)}
+  .hint-review-btn__ico{width:14px;height:14px;flex:none}
   .v2hintpage{position:fixed;inset:0;z-index:1000;background:#f7f8f8;overflow:auto;padding:26px 20px 60px}
   .v2hintpage[hidden]{display:none}
   .v2hintpage__inner{max-width:1040px;margin:0 auto}
-  .v2hintpage__head{display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
-  .v2back{appearance:none;border:1px solid var(--line);background:var(--white);color:var(--schwarz);font:inherit;font-size:.82rem;font-weight:600;padding:7px 13px;border-radius:var(--r-pill);cursor:pointer}
+  .v2hintpage__head{display:flex;align-items:center;gap:12px;margin:0 0 18px;padding-bottom:15px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .v2hintpage__head .v2panel__title{font-size:1.18rem;letter-spacing:-.01em}
+  .v2detail-label{display:flex;align-items:baseline;gap:9px;margin:26px 0 13px;font-weight:800;color:var(--schwarz);font-size:.95rem}
+  .v2detail-label span{font-weight:500;color:var(--ink-72);font-size:.82rem;font-style:italic}
+  .v2back{display:inline-flex;align-items:center;gap:6px;appearance:none;border:1px solid var(--line);background:var(--white);color:var(--schwarz);font:inherit;font-size:.82rem;font-weight:600;padding:7px 14px 7px 11px;border-radius:var(--r-pill);cursor:pointer}
+  .v2back__ico{width:15px;height:15px;flex:none}
   .v2back:hover{background:var(--teal-5);border-color:var(--teal-10)}
   .v2hintpage .v2panel__grid{margin-top:16px}
   .v2hint{padding:11px 0;border-top:1px solid var(--line)}
   .v2hint:first-child{border-top:0;padding-top:4px}
-  .v2hint__trig{font-size:.66rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+  .v2hint__trig{font-size:.78rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+  .v2hintpage .v2panel__intro{font-size:.9rem;color:var(--ink-72)}
   .v2hint__trig-en{font-weight:500;color:var(--ink-60);text-transform:none;letter-spacing:0;font-style:italic}
   .v2hint .advisor__note{margin-top:4px}
+  .v2sum{margin:0 0 24px;border:1px solid var(--line);border-radius:12px;background:var(--white);overflow:hidden}
+  .v2sum__h{padding:12px 15px 11px}
+  .v2sum__title{font-weight:800;color:var(--schwarz);font-size:1rem}
+  .v2sum__title-en{font-weight:500;color:var(--ink-60);font-size:.8rem;font-style:italic}
+  .v2sum__note{margin:3px 16px 14px;font-size:.9rem;color:var(--ink-72)}
+  .v2sum__note-en{font-style:italic}
+  .v2sum__scroll{overflow-x:auto}
+  .v2sum table{width:100%;border-collapse:collapse;font-size:.875rem;min-width:660px}
+  .v2sum th,.v2sum td{text-align:left;padding:12px 16px;vertical-align:top;border-top:1px solid var(--line);line-height:1.5}
+  .v2sum th{font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-72);font-weight:800;background:var(--teal-5)}
+  .v2sum td.cat{font-weight:700;color:var(--schwarz);white-space:nowrap;width:1%}
+  .v2sum td.tix{color:var(--ink-72);white-space:nowrap;width:1%;font-variant-numeric:tabular-nums}
+  .v2sum tbody tr:nth-child(even){background:#f8f9fa}
+  .v2sum tbody tr:hover{background:var(--teal-5)}
+  .v2sum__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+  .v2sum__list li{position:relative;padding-left:22px}
+  .v2sum__list.done li{color:var(--schwarz)}
+  .v2sum__list.done li::before{content:"✓";position:absolute;left:0;top:0;color:var(--teal);font-weight:800}
+  .v2sum__list.skip li{color:var(--ink-72)}
+  .v2sum__list.skip li::before{content:"–";position:absolute;left:2px;top:0;color:var(--graphite-300);font-weight:700}
+  .v2needs{margin:0 0 22px;border:1px solid var(--line);border-radius:12px;background:var(--white);padding:14px 16px 15px}
+  .v2needs__h{font-weight:800;color:var(--schwarz);font-size:1rem;margin-bottom:11px}
+  .v2needs__h span{font-weight:500;color:var(--ink-60);font-size:.8rem;font-style:italic}
+  .v2needs ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px 24px}
+  .v2needs li{position:relative;padding-left:23px;font-size:.875rem;color:var(--ink-72);line-height:1.5}
+  .v2needs li::before{content:"✓";position:absolute;left:0;top:0;color:var(--teal);font-weight:800}
+  .v2needs li strong{color:var(--schwarz)}
+  .v2needs__cat{color:var(--teal);font-size:.82rem;font-weight:700;white-space:nowrap}
 
   /* ── Advisor (ported from Metzler PLP plp.css) ── */
   /* Cap the interactive module at the PDP's configurator measure (pdp-b.css
@@ -538,7 +574,6 @@
     <span class="ct">Türsprechanlagen</span>
     <div class="ver-switch" id="verSwitch" role="group" aria-label="Berater-Version wählen"></div>
     <div class="cat-switch" id="catSwitch" role="group" aria-label="Kategorie wählen" hidden></div>
-    <button type="button" class="hint-review-btn" id="hintReviewBtn" hidden>Hinweis-Übersicht</button>
   </div>
 
   <section class="advisor" id="advisor">
@@ -562,6 +597,8 @@
     </div>
     </div>
   </section>
+
+  <div class="review-bar" id="reviewBar" hidden><button type="button" class="hint-review-btn" id="hintReviewBtn">Hinweis-Übersicht<svg class="hint-review-btn__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
 
   <section class="v2panel" id="v2FixList" hidden aria-label="V2 Fix-Liste"></section>
 
@@ -1669,23 +1706,36 @@
         +'<span><span class="v2dot content" aria-hidden="true"></span> Content</span>'
         +'<span><span class="v2dot watch" aria-hidden="true"></span> beobachten / watch</span>'
       +'</div>'; }
-  function syncV2Panel(){ var el=document.getElementById("v2FixList"); if(el) el.hidden=!(V2_ENABLED&&VERSION==="v2"&&V2FIX.items.length);
-    var hb=document.getElementById("hintReviewBtn"); if(hb) hb.hidden=!(V2_ENABLED&&VERSION==="v2"); }
+  function syncV2Panel(){ var on=V2_ENABLED&&VERSION==="v2";
+    var el=document.getElementById("v2FixList"); if(el) el.hidden=!(on&&V2FIX.items.length);
+    var rb=document.getElementById("reviewBar"); if(rb) rb.hidden=!on; }
   /* ---- V2 Hinweis-Übersicht: dedicated review page listing every hint, grouped by
      category, rendered from V2_HINTS (same source the result-notes use). Public text
      only — carries no Zammad data. Opened via the V2-only header button. ---- */
+  function v2NeedsHTML(){ var n=(V2FIX&&V2FIX.summary&&V2FIX.summary.needs)?V2FIX.summary.needs:null; if(!n) return "";
+    var lis=(n.items||[]).map(function(it){ return '<li><strong>'+it.need+'</strong> – '+it.q+' <span class="v2needs__cat">'+it.cat+'</span></li>'; }).join("");
+    return '<div class="v2needs"><div class="v2needs__h">'+n.title+(n.titleEn?' <span>'+n.titleEn+'</span>':'')+'</div><ul>'+lis+'</ul></div>'; }
+  function v2SummaryHTML(){ var s=(V2FIX&&V2FIX.summary)?V2FIX.summary:null; if(!s) return "";
+    function cell(arr,cls){ if(!arr) return ""; if(!Array.isArray(arr)) arr=[arr]; return '<ul class="v2sum__list '+cls+'">'+arr.map(function(x){ return '<li>'+x+'</li>'; }).join("")+'</ul>'; }
+    var rows=(s.rows||[]).map(function(r){ return '<tr><td class="cat">'+r.cat+'</td><td class="tix">'+r.tickets+'</td><td class="done">'+cell(r.done,"done")+'</td><td class="skip">'+cell(r.skip,"skip")+'</td></tr>'; }).join("");
+    return '<div class="v2sum"><div class="v2sum__h"><span class="v2sum__title">'+s.title+'</span>'+(s.titleEn?' <span class="v2sum__title-en">'+s.titleEn+'</span>':'')+'</div>'
+      +(s.note?'<p class="v2sum__note">'+s.note+(s.noteEn?'<br><span class="v2sum__note-en">'+s.noteEn+'</span>':'')+'</p>':'')
+      +'<div class="v2sum__scroll"><table><thead><tr><th scope="col">Kategorie</th><th scope="col">Tickets</th><th scope="col">Umgesetzt</th><th scope="col">Bewusst ausgelassen</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'; }
   function renderV2HintPage(){ var el=document.getElementById("v2HintPageInner"); if(!el) return;
     var cards=V2_HINT_ORDER.map(function(k){ var c=V2_HINTS[k]; if(!c) return "";
       var rows=c.items.map(function(it){ return '<div class="v2hint"><div class="v2hint__trig">'+it.trig+' <span class="v2hint__trig-en">'+it.trigEn+'</span></div>'+v2note(it.text)+'</div>'; }).join("");
       return '<div class="v2cat"><div class="v2cat__h"><span class="v2cat__name">'+c.label+'</span><span class="v2cat__meta">'+c.items.length+(c.items.length>1?' Hinweise':' Hinweis')+'</span></div>'+rows+'</div>'; }).join("");
-    el.innerHTML='<div class="v2hintpage__head"><button type="button" class="v2back" id="hintBack">‹ Zurück zum Berater</button><span class="v2panel__title">Hinweis-Übersicht</span><span class="v2panel__tag">V2 · Prototyp</span></div>'
-      +'<p class="v2panel__intro">Alle im Berater ergänzten Produkt-Hinweise – zur Freigabe durch den Product Owner. Jeder Hinweis ist gegen Live-Produktdaten (Beschreibung · FAQ · PDF) geprüft; angezeigt wird exakt der Kunden-Text.<br><span class="v2panel__intro-en">All product hints added to the advisor – for Product-Owner sign-off; each verified against live product data and shown exactly as the customer sees it.</span></p>'
+    el.innerHTML='<div class="v2hintpage__head"><button type="button" class="v2back" id="hintBack"><svg class="v2back__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Zurück zum Berater</button><span class="v2panel__title">Hinweis-Übersicht</span><span class="v2panel__tag">V2 · Prototyp</span></div>'
+      +'<p class="v2panel__intro">Alle im Berater ergänzten Produkt-Hinweise – zur Freigabe durch den Product Owner.<br><span class="v2panel__intro-en">All product hints added to the advisor – for Product-Owner sign-off.</span></p>'
+      +v2NeedsHTML()
+      +v2SummaryHTML()
+      +'<div class="v2detail-label">Hinweise im Detail <span>Hints in detail</span></div>'
       +'<div class="v2panel__grid">'+cards+'</div>';
     var bb=document.getElementById("hintBack"); if(bb) bb.onclick=closeHintPage; }
   function openHintPage(){ var hp=document.getElementById("v2HintPage"); if(hp){ hp.hidden=false; try{ hp.scrollTop=0; }catch(e){} } }
   function closeHintPage(){ var hp=document.getElementById("v2HintPage"); if(hp) hp.hidden=true; }
   (function loadV2Fix(){ if(!V2_ENABLED) return; var s=document.createElement("script"); s.src="advisor-v2-fixlist.local.js";
-    s.onload=function(){ if(window.__V2FIX){ V2FIX=window.__V2FIX; } renderV2FixList(); syncV2Panel(); };
+    s.onload=function(){ if(window.__V2FIX){ V2FIX=window.__V2FIX; } renderV2FixList(); renderV2HintPage(); syncV2Panel(); };
     s.onerror=function(){ /* file absent (e.g. public host) -> no fix-list */ };
     (document.head||document.documentElement).appendChild(s); })();
   renderV2HintPage(); var _hrb=document.getElementById("hintReviewBtn"); if(_hrb) _hrb.onclick=openHintPage;
@@ -2189,8 +2239,7 @@
   (function initVerSwitch(){
     var vs=document.getElementById("verSwitch"); if(!vs) return;
     if(!V2_ENABLED){ vs.hidden=true; return; }   /* public site: no V2 toggle for visitors */
-    vs.innerHTML='<span class="ver-switch__lab">Version</span>'
-      +'<button type="button" data-ver="v1"'+(VERSION==="v1"?' class="is-on"':'')+'>V1</button>'
+    vs.innerHTML='<button type="button" data-ver="v1"'+(VERSION==="v1"?' class="is-on"':'')+'>V1</button>'
       +'<button type="button" data-ver="v2"'+(VERSION==="v2"?' class="is-on"':'')+'>V2</button>';
     Array.prototype.forEach.call(vs.querySelectorAll("button"),function(b){ b.addEventListener("click",function(){ var v=b.getAttribute("data-ver"); if(v!==VERSION) setVersion(v); }); });
   })();
